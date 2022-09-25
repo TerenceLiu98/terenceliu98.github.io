@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TerenceLiu&#39;s Blog</title>
+    <link>https://blog.cklau.cc/</link>
+    <description>Recent content on TerenceLiu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
+    <lastBuildDate>Mon, 26 Sep 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello World</title>
+      <link>https://blog.cklau.cc/about/</link>
+      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/about/</guid>
+      <description>Hi there 👋 My name is Terence Lau, AKA:
+ Terry Lau/Liu Terence Liu JunJie LIU  I may use TerenceCKLau as well, only if Terence Liu/Lau is registered.
+Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a Mphil student in Hong Kong Baptist Univeristy. One of the co-founders of @UICHCC (UIC Homebrew Computer Club) and Cyclododecene, a data analysis group(no long exists);
+🔭 I am now focusing on</description>
+    </item>
+    
+    <item>
+      <title>Hello World</title>
+      <link>https://blog.cklau.cc/post/hello-world/</link>
+      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/hello-world/</guid>
+      <description>Hello World :)</description>
+    </item>
+    
+  </channel>
+</rss>
