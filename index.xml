@@ -9,6 +9,19 @@
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Mon, 26 Sep 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>2018 进货记录</title>
+      <link>https://blog.cklau.cc/post/purchase/</link>
+      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/purchase/</guid>
+      <description>从上个学期期末就开始纠结：到底是买一个Chromebook 还是买一个好用的平板，鉴于自己本身已经拥有了一台 x86 平板，而且安卓平台上也发现了一个很好的终端 Termux 和一个很好的 Markdown 编辑器： MarkdownX ，所以还是决定用这笔预算去买一个蓝牙键盘和鼠标。
+鼠标 一直在使用罗技的鼠标，M280 可以说是非常的实在了，虽然偏小，但是回弹和手型比其他同价位的鼠标优秀。
+应该很多人都看过 Zealer 王自如的 办公室1.0 我十分的喜欢他那样的工业风（loft）设计，其中他的键盘和鼠标也是一直在我的购物车中；去年的下半年，罗技更新了一波，logi MX anywhere 2s 和 logi MX master 2s 都上架了， 同学中也有买了 anywhere 的，体验了一波，感觉还是偏小了。所以，过完年后直接在罗技的旗舰店入手了 MX master 2s 。可以说是非常的快了，第二天就到了。 到手的时候，吓了一跳，明明只是一个键盘和一个鼠标，但是却寄来了一个30＊50 的大盒子，里面充满了填充物，可以说是非常的良心了。在网上看到说在京东买的 MX master 2s 会有盒损的现象，我是毫不担心。第一次买“高端产品线”（不知道算不算高端）MX 的盒子可以说是吓到我了，巨大无比，还送了一个针织套。。。emmm 保护的非常好了。 使用起来的话，因为我的手大，所以感觉还是小….. 主要是托不住我的手掌部分（不知道我是怎么坚持使用 m280 的…..） 至于 这一代开始支持的 Flow 功能，要等到我回学校两台电脑联动的时候才能体验了（家贫，无从致多台设备已用）  鼠标就讲这么多了，下面看下这块键盘
+键盘 罗技的 k480 应该不用我多言，一个三系统都可以使用的蓝牙键盘（MacOS Windows Android iOS）现在还支持了 chrome OS 了，可以说非常的全面了。 这个键盘我在高三的时候就想买了，但感觉买回来用途不大，所以一直放在购物车里。后来，看到大学同学（对，就是那个用 anywhere 2s 的那个同学）在用 k780 感觉这样支持热切换的键盘实在太棒了，而且这个时候我已经买了这个破平板了，所以，就跟鼠标一起入手了。
+这篇文章就是用这个键盘敲的，可能是刚开始用的原因，敲击的感觉比较硬，但是键程比较合适，比我的 15 款 MacBook pro 长一些，也因为键程长了，所以敲击更加舒服，手感的话比较像黑轴，不会很吵，而且偏重（当然没有机械的手感好）在课堂上应该也不会太吵。 现在就有个问题，连接不上我的电脑&amp;hellip;&amp;hellip; 很奇怪，可能是和 Unifying 向冲突，后续我会继续尝试连接的。</description>
+    </item>
+    
+    <item>
       <title>Friends</title>
       <link>https://blog.cklau.cc/friends/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
@@ -28,15 +41,6 @@
  Terry Lau/Liu Terence Liu JunJie LIU  I may use TerenceCKLau as well, only if Terence Liu/Lau is registered.
 Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a Mphil student in Hong Kong Baptist Univeristy. One of the co-founders of @UICHCC (UIC Homebrew Computer Club) and Cyclododecene, a data analysis group(no long exists);
 🔭 I am now focusing on</description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>https://blog.cklau.cc/post/hello-world/</link>
-      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/post/hello-world/</guid>
-      <description>Hello World :)</description>
     </item>
     
   </channel>
