@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Set up a K3s Cluster with your VPS - TerenceLiu&#39;s Blog</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Set up a K3s Cluster with your VPS" />
+<meta property="og:description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/k3s-setup-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-09-26T00:11:21+08:00" />
+<meta property="article:modified_time" content="2022-09-26T00:11:21+08:00" />
+
+
+  
+  <meta itemprop="name" content="Set up a K3s Cluster with your VPS">
+<meta itemprop="description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="dateModified" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="wordCount" content="561">
+<meta itemprop="keywords" content="" />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Set up a K3s Cluster with your VPS"/>
+<meta name="twitter:description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >TerenceLiu&#39;s Blog</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/contact/"
+        >Contact</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-20">
+    <h1 class="!my-0 pb-2.5">Set up a K3s Cluster with your VPS</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      <time>Sep 26, 2022</time>
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h2 id="before">Before</h2>
+<p>K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.</p>
+<p>For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.  These OS-level virtualization is more convenient when we are trying to migrate our service, like blog migration, authentication migration, etc.</p>
+<h2 id="environment">Environment</h2>
+<p>Here is the list of my device:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Node Name</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Specification</th>
+<th style="text-align:center">OS</th>
+<th style="text-align:center">Network</th>
+<th style="text-align:center">IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">tx-mumbai-1</td>
+<td style="text-align:center">Tencent Cloud (Mumbai)</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">101.xx.xx.xx + 192.168.36.1</td>
+</tr>
+<tr>
+<td style="text-align:center">tx-mumbai-2</td>
+<td style="text-align:center">Tencent Cloud (Mumbai)</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">129.xx.xx.xx + 192.168.36.2</td>
+</tr>
+<tr>
+<td style="text-align:center">tx-hksar-1</td>
+<td style="text-align:center">Tencent Cloud (Hongkong SAR)</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">43.xx.xx.xx + 192.168.36.3</td>
+</tr>
+</tbody>
+</table>
+<p>The reason I would like to setup K3s over Wireguard is because of the expandability. Once over the wireguard, I could add other VPS/Server into the LAN and as a node of the K3s cluster easily even if the node does not has a networking problem and as the Wireguard is safe enough I do not have to consider the security issues of nodes' interconnection.</p>
+<h3 id="set-up-wireguard">Set up Wireguard</h3>
+<p>I write a <a href="https://github.com/TerenceLiu98/wgtools">tool</a> which can help me set up the Wireguard configuration (you can also try this tool, and any issue or pull request is welcomed)</p>
+<h2 id="k3s-server">K3s Server</h2>
+<p>To set up the Master/Server, I follow the instruction from <a href="https://k3s.io">K3s</a> with a little modification, since I want to customize the network and node name. Here is the command I used for server-installation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server --node-ip &lt;wg-node-ip&gt; \
+</span><span style="color:#e6db74">                                                        --advertise-address &lt;node-public-ip&gt; \
+</span><span style="color:#e6db74">                                                        --node-external-ip &lt;node-public-ip&gt; 
+</span><span style="color:#e6db74">                                                        --flannel-iface wg0 \
+</span><span style="color:#e6db74">                                                        --node-name &lt;node-name&gt;&#34;</span> sh -
+</code></pre></div><p>where you can see that <code>--node-ip</code> is the ip address to advertise for node; <code>--advertise-address</code> is the ip address that apiserver user to advertise to members of the cluster; <code>--node-external-ip</code> is the external ip address to advertise for node; <code>--flannel-iface</code> is to override the default flannel interface.</p>
+<p>Notice: if you meet any problem of starting the k3s after run the script, go check the systemd file: <code>/etc/systemd/system/k3s.service</code>, you may meet the &ldquo;quotation mark&rdquo; problem, where simply delete all the single quotation mark and reform the command like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ExecStart<span style="color:#f92672">=</span>/usr/local/bin/k3s <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    server <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--node-ip &lt;wg-node-ip&gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--advertise-address &lt;node-public-ip&gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--node-external-ip &lt;node-public-ip&gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--flannel-iface wg0 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--node-name mumbai-1
+</code></pre></div><h2 id="k3s-node">K3s node</h2>
+<p>For the K3s node, first we need the server&rsquo;s token: <code>sudo cat /var/lib/rancher/k3s/server/node-token</code>, then, put the token into the script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;agent --server https://&lt;wg-server-ip&gt;:6443 \
+</span><span style="color:#e6db74">                                                        --token &lt;server-token&gt; \
+</span><span style="color:#e6db74">                                                        --node-ip &lt;wg-node-ip&gt; \
+</span><span style="color:#e6db74">                                                        --node-external-ip &lt;wg-node-ip&gt; \
+</span><span style="color:#e6db74">                                                        --flannel-iface wg0 \
+</span><span style="color:#e6db74">                                                        --node-name &lt;node-name&gt;&#34;</span> sh -
+</code></pre></div><p>Again, you may reach the &ldquo;quotation mark&rdquo; problem.</p>
+<h2 id="after">After</h2>
+<p>After setting up both server and node, you may check whether the server can reach the node correctly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo kubectl get nodes -o wide
+
+<span style="color:#75715e"># NAME             STATUS   ROLES                  AGE    VERSION        INTERNAL-IP    EXTERNAL-IP     OS-IMAGE           KERNEL-VERSION      CONTAINER-RUNTIME</span>
+<span style="color:#75715e"># mumbai-1         Ready    control-plane,master   113m   v1.24.4+k3s1   192.168.36.1   xxx.xxx.xxx.xxx   Ubuntu 20.04 LTS   5.4.0-126-generic   containerd://1.6.6-k3s1</span>
+<span style="color:#75715e"># mumbai-2-agent   Ready    &lt;none&gt;                 112m   v1.24.4+k3s1   192.168.36.2   192.168.36.2    Ubuntu 20.04 LTS   5.4.0-126-generic   containerd://1.6.6-k3s1</span>
+
+sudo kubectl top nodes
+<span style="color:#75715e"># NAME             CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%</span>
+<span style="color:#75715e"># mumbai-1         83m          4%     1028Mi          51%</span>
+<span style="color:#75715e"># mumbai-2-agent   36m          1%     754Mi           38%</span>
+</code></pre></div><p>If you see this kind of result, congratulations, you have set up a K3s cluster!</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/desk-set-up/"
+      ><span>大二，我的桌面</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2022
+    <a class="link" href="https://blog.cklau.cc">TerenceLiu&#39;s Blog</a>
+  </div>
+  
+  
+</footer>
+
+  </body>
+</html>

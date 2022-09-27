@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 06 Apr 2018 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Sep 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Friends</title>
       <link>https://blog.cklau.cc/friends/</link>
@@ -28,6 +28,16 @@
  Terry Lau/Liu Terence Liu JunJie LIU  I may use TerenceCKLau as well, only if Terence Liu/Lau is registered.
 Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a Mphil student in Hong Kong Baptist Univeristy. One of the co-founders of @UICHCC (UIC Homebrew Computer Club) and Cyclododecene, a data analysis group(no long exists);
 🔭 I am now focusing on</description>
+    </item>
+    
+    <item>
+      <title>Set up a K3s Cluster with your VPS</title>
+      <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
+      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
+      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
     </item>
     
     <item>
