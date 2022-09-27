@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Set up a K3s Cluster with your VPS (2) - TerenceLiu&#39;s Blog</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="After generate a basic K3s cluster, now, let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Set up a K3s Cluster with your VPS (2)" />
+<meta property="og:description" content="After generate a basic K3s cluster, now, let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/k3s-setup-2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-09-26T00:11:21+08:00" />
+<meta property="article:modified_time" content="2022-09-26T00:11:21+08:00" />
+
+
+  
+  <meta itemprop="name" content="Set up a K3s Cluster with your VPS (2)">
+<meta itemprop="description" content="After generate a basic K3s cluster, now, let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="dateModified" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="wordCount" content="276">
+<meta itemprop="keywords" content="k3s,kubernetes," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Set up a K3s Cluster with your VPS (2)"/>
+<meta name="twitter:description" content="After generate a basic K3s cluster, now, let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >TerenceLiu&#39;s Blog</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/contact/"
+        >Contact</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-20">
+    <h1 class="!my-0 pb-2.5">Set up a K3s Cluster with your VPS (2)</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      <time>Sep 26, 2022</time>
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>After generate a basic K3s cluster, now, let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:</p>
+<ol>
+<li>High Availability with an External DB (for example, <a href="https://www.postgresql.org/">PostgreSQL</a>, <a href="https://www.mysql.com/">MySQL</a>,  <a href="https://mariadb.org/">MariaDB</a>)</li>
+<li>High Availability with Embedded DB (<a href="https://etcd.io/">etcd</a>)</li>
+</ol>
+<p>I chose the second one - with Embedded DB.</p>
+<h2 id="enviornment">Enviornment</h2>
+<p>Here is the list of my device:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Node Name</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Specification</th>
+<th style="text-align:center">OS</th>
+<th style="text-align:center">Network</th>
+<th style="text-align:center">IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">hilbert(master)</td>
+<td style="text-align:center">Tencent Cloud (SH-CN)</td>
+<td style="text-align:center">4C8G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">1.xx.xx.xx + 192.168.36.1</td>
+</tr>
+<tr>
+<td style="text-align:center">cantor(master)</td>
+<td style="text-align:center">Tencent Cloud (SH-CN)</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">110.xx.xx.xx + 192.168.36.2</td>
+</tr>
+<tr>
+<td style="text-align:center">newton(agent)</td>
+<td style="text-align:center">Tencent Cloud (GZ-CN)</td>
+<td style="text-align:center">1C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">119.xx.xx.xx + 192.168.36.3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration">Configuration</h2>
+<p>Here is the confiugration of server:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://get.k3s.io | K3S_TOKEN<span style="color:#f92672">=</span>&lt;token&gt;  INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server \
+</span><span style="color:#e6db74">                            --node-ip &lt;wg-node-ip&gt; \
+</span><span style="color:#e6db74">                            --advertise-address &lt;node-public-ip&gt; \
+</span><span style="color:#e6db74">                            --node-external-ip &lt;node-public-ip&gt; \
+</span><span style="color:#e6db74">                            --flannel-iface wg0   \
+</span><span style="color:#e6db74">                            --node-name &lt;node-name&gt; \ 
+</span><span style="color:#e6db74">                            --cluster-init &#34;</span> sh -
+</code></pre></div><p>For whom can not access Google and GitHub fluently, you may try:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>                            K3S_TOKEN<span style="color:#f92672">=</span>&lt;token&gt;  INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server \
+</span><span style="color:#e6db74">                            --node-ip &lt;wg-node-ip&gt; \
+</span><span style="color:#e6db74">                            --advertise-address &lt;node-public-ip&gt; \
+</span><span style="color:#e6db74">                            --node-external-ip &lt;node-public-ip&gt; \
+</span><span style="color:#e6db74">                            --flannel-iface wg0   \
+</span><span style="color:#e6db74">                            --node-name &lt;node-name&gt; \ 
+</span><span style="color:#e6db74">                            --cluster-init &#34;</span> sh -
+
+</code></pre></div><p>To generate the token, I used <code>openssl rand --hex 16</code>.</p>
+<p>Similarly, for the second server, you can use the same configuration above with IPs' substitution.</p>
+<p>For the agent, you can use the configuration from <a href="https://blog.cklau.cc/post/k3s-setup-1/">k3s-setup-1</a> with self-generated <code>K3S_TOKEN</code>.</p>
+<h2 id="trouble-shooting">Trouble-shooting</h2>
+<p>After the installation, I met the metric-server crashing and I found the solution in here: <a href="https://github.com/kubernetes-sigs/metrics-server/issues/812#issuecomment-907586608">metrics-server issues 812</a>. Simply go to <code>/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-deployment.yaml</code> and add <code>- --kubelet-insecure-tls</code></p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/k3s"
+      >k3s</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/kubernetes"
+      >kubernetes</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://blog.cklau.cc/post/k3s-setup-1/"
+      ><span class="mr-1.5">←</span><span>Set up a K3s Cluster with your VPS (1)</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/desk-set-up/"
+      ><span>大二，我的桌面</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2022
+    <a class="link" href="https://blog.cklau.cc">TerenceLiu&#39;s Blog</a>
+  </div>
+  
+  
+</footer>
+
+  </body>
+</html>

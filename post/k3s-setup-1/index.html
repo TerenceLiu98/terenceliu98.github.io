@@ -42,7 +42,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   
-  <title>Set up a K3s Cluster with your VPS - TerenceLiu&#39;s Blog</title>
+  <title>Set up a K3s Cluster with your VPS (1) - TerenceLiu&#39;s Blog</title>
 
   
   <meta name="theme-color" />
@@ -107,7 +107,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
   
   
   
-  <meta property="og:title" content="Set up a K3s Cluster with your VPS" />
+  <meta property="og:title" content="Set up a K3s Cluster with your VPS (1)" />
 <meta property="og:description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
 For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers." />
 <meta property="og:type" content="article" />
@@ -117,15 +117,15 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 
 
   
-  <meta itemprop="name" content="Set up a K3s Cluster with your VPS">
+  <meta itemprop="name" content="Set up a K3s Cluster with your VPS (1)">
 <meta itemprop="description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
 For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
 <meta itemprop="dateModified" content="2022-09-26T00:11:21+08:00" />
-<meta itemprop="wordCount" content="561">
-<meta itemprop="keywords" content="" />
+<meta itemprop="wordCount" content="560">
+<meta itemprop="keywords" content="k3s,kubernetes," />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Set up a K3s Cluster with your VPS"/>
+<meta name="twitter:title" content="Set up a K3s Cluster with your VPS (1)"/>
 <meta name="twitter:description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
 For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers."/>
 
@@ -241,7 +241,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 
 <article>
   <header class="mb-20">
-    <h1 class="!my-0 pb-2.5">Set up a K3s Cluster with your VPS</h1>
+    <h1 class="!my-0 pb-2.5">Set up a K3s Cluster with your VPS (1)</h1>
 
     
     <div class="text-sm opacity-60">
@@ -302,14 +302,13 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 <h2 id="k3s-server">K3s Server</h2>
 <p>To set up the Master/Server, I follow the instruction from <a href="https://k3s.io">K3s</a> with a little modification, since I want to customize the network and node name. Here is the command I used for server-installation:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server --node-ip &lt;wg-node-ip&gt; \
-</span><span style="color:#e6db74">                                                        --advertise-address &lt;node-public-ip&gt; \
-</span><span style="color:#e6db74">                                                        --node-external-ip &lt;node-public-ip&gt; 
-</span><span style="color:#e6db74">                                                        --flannel-iface wg0 \
-</span><span style="color:#e6db74">                                                        --node-name &lt;node-name&gt;&#34;</span> sh -
+</span><span style="color:#e6db74">                                --advertise-address &lt;node-public-ip&gt; \
+</span><span style="color:#e6db74">                                --node-external-ip &lt;node-public-ip&gt; 
+</span><span style="color:#e6db74">                                --flannel-iface wg0 \
+</span><span style="color:#e6db74">                                --node-name &lt;node-name&gt;&#34;</span> sh -
 </code></pre></div><p>where you can see that <code>--node-ip</code> is the ip address to advertise for node; <code>--advertise-address</code> is the ip address that apiserver user to advertise to members of the cluster; <code>--node-external-ip</code> is the external ip address to advertise for node; <code>--flannel-iface</code> is to override the default flannel interface.</p>
 <p>Notice: if you meet any problem of starting the k3s after run the script, go check the systemd file: <code>/etc/systemd/system/k3s.service</code>, you may meet the &ldquo;quotation mark&rdquo; problem, where simply delete all the single quotation mark and reform the command like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ExecStart<span style="color:#f92672">=</span>/usr/local/bin/k3s <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    server <span style="color:#ae81ff">\
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ExecStart<span style="color:#f92672">=</span>/usr/local/bin/k3s server <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	--node-ip &lt;wg-node-ip&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	--advertise-address &lt;node-public-ip&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	--node-external-ip &lt;node-public-ip&gt; <span style="color:#ae81ff">\
@@ -318,11 +317,11 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 </code></pre></div><h2 id="k3s-node">K3s node</h2>
 <p>For the K3s node, first we need the server&rsquo;s token: <code>sudo cat /var/lib/rancher/k3s/server/node-token</code>, then, put the token into the script:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;agent --server https://&lt;wg-server-ip&gt;:6443 \
-</span><span style="color:#e6db74">                                                        --token &lt;server-token&gt; \
-</span><span style="color:#e6db74">                                                        --node-ip &lt;wg-node-ip&gt; \
-</span><span style="color:#e6db74">                                                        --node-external-ip &lt;wg-node-ip&gt; \
-</span><span style="color:#e6db74">                                                        --flannel-iface wg0 \
-</span><span style="color:#e6db74">                                                        --node-name &lt;node-name&gt;&#34;</span> sh -
+</span><span style="color:#e6db74">                                --token &lt;server-token&gt; \
+</span><span style="color:#e6db74">                                --node-ip &lt;wg-node-ip&gt; \
+</span><span style="color:#e6db74">                                --node-external-ip &lt;wg-node-ip&gt; \
+</span><span style="color:#e6db74">                                --flannel-iface wg0 \
+</span><span style="color:#e6db74">                                --node-name &lt;node-name&gt;&#34;</span> sh -
 </code></pre></div><p>Again, you may reach the &ldquo;quotation mark&rdquo; problem.</p>
 <h2 id="after">After</h2>
 <p>After setting up both server and node, you may check whether the server can reach the node correctly:</p>
@@ -341,6 +340,22 @@ sudo kubectl top nodes
 
   
   
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/k3s"
+      >k3s</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/kubernetes"
+      >kubernetes</a
+    >
+    
+  </footer>
+  
 
   
   
@@ -350,8 +365,8 @@ sudo kubectl top nodes
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
-      href="https://blog.cklau.cc/post/desk-set-up/"
-      ><span>大二，我的桌面</span><span class="ml-1.5">→</span></a
+      href="https://blog.cklau.cc/post/k3s-setup-2/"
+      ><span>Set up a K3s Cluster with your VPS (2)</span><span class="ml-1.5">→</span></a
     >
     
   </nav>
