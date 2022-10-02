@@ -31,6 +31,10 @@
 
 
 
+
+
+
+
 <html
   class="not-ready text-sm lg:text-base"
   style="--bg: #faf6f1"
@@ -78,7 +82,11 @@
   
 
   
+  <link rel="preload" as="image" href="https://blog.cklau.cc/twitter.svg" />
+  
   <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/rss.svg" />
   
 
   
@@ -195,12 +203,6 @@
       
       <a
         class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
-        href="/contact/"
-        >Contact</a
-      >
-      
-      <a
-        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
         href="/friends/"
         >Friends</a
       >
@@ -215,8 +217,22 @@
       
       <a
         class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href=" https://twitter.com/TerenceLau_ST "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
         style="--url: url(./github.svg)"
         href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./rss.svg)"
+        href=" https://blog.cklau.cc/index.xml "
         target="_blank"
       ></a>
       
@@ -287,8 +303,9 @@
     <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
   <div class="mr-auto">
     &copy; 2022
-    <a class="link" href="https://blog.cklau.cc">TerenceLiu&#39;s Blog</a>
+    <a class="link" href="https://blog.cklau.cc">TerenceLiu&#39;s Blog all rights reserved.</a>
   </div>
+  <a class="link mx-6" href="/cn/"> 不使用 CloudFlare CDN 请点击 </a>
   
   
 </footer>
