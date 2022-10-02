@@ -121,7 +121,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 <meta itemprop="description" content="Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
 For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
 <meta itemprop="dateModified" content="2022-09-26T00:11:21+08:00" />
-<meta itemprop="wordCount" content="246">
+<meta itemprop="wordCount" content="382">
 <meta itemprop="keywords" content="k3s,kubernetes," />
   
   <meta name="twitter:card" content="summary"/>
@@ -271,7 +271,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">hilbert(master)</td>
+<td style="text-align:center">hilbert(server)</td>
 <td style="text-align:center">Tencent Cloud (SH-CN)</td>
 <td style="text-align:center">4C8G</td>
 <td style="text-align:center">Ubuntu 20.04 LTS</td>
@@ -279,7 +279,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 <td style="text-align:center">1.xx.xx.xx + 192.168.36.1</td>
 </tr>
 <tr>
-<td style="text-align:center">cantor(master)</td>
+<td style="text-align:center">cantor(server)</td>
 <td style="text-align:center">Tencent Cloud (SH-CN)</td>
 <td style="text-align:center">2C4G</td>
 <td style="text-align:center">Ubuntu 20.04 LTS</td>
@@ -287,7 +287,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 <td style="text-align:center">110.xx.xx.xx + 192.168.36.2</td>
 </tr>
 <tr>
-<td style="text-align:center">newton(agent)</td>
+<td style="text-align:center">newton(worker)</td>
 <td style="text-align:center">Tencent Cloud (GZ-CN)</td>
 <td style="text-align:center">1C2G</td>
 <td style="text-align:center">Ubuntu 20.04 LTS</td>
@@ -297,9 +297,26 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
 </tbody>
 </table>
 <p>The reason I would like to setup K3s over Wireguard is because of the expandability. Once over the wireguard, I could add other VPS/Server into the LAN and as a node of the K3s cluster easily even if the node does not has a networking problem and as the Wireguard is safe enough I do not have to consider the security issues of nodes' interconnection.</p>
-<h3 id="set-up-wireguard">Set up Wireguard</h3>
+<p>Change servers' name:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo hostnamectl --static set-hostname node1 <span style="color:#f92672">&amp;&amp;</span> sudo hostnamectl  set-hostname node1
+sudo hostnamectl --static set-hostname node2 <span style="color:#f92672">&amp;&amp;</span> sudo hostnamectl  set-hostname node2
+sudo hostnamectl --static set-hostname node3 <span style="color:#f92672">&amp;&amp;</span> sudo hostnamectl  set-hostname node3
+</code></pre></div><h3 id="set-up-wireguard">Set up Wireguard</h3>
 <p>I write a <a href="https://github.com/TerenceLiu98/wgtools">tool</a> which can help me set up the Wireguard configuration (you can also try this tool, and any issue or pull request is welcomed)</p>
-</section>
+<ol>
+<li>Generate a network interface: <code>python add.py network wg0</code></li>
+<li>Add peers: <code>python add.py node wg0 node1</code> &amp; <code>python add.py node wg0 node2</code> &amp; <code>python ad.py node wg0 node3</code></li>
+<li>Modify the endpoint: <code>python modify wg0 node1 Endpoint 1.xxx.xxx.xxx</code> &amp; <code>python modify wg0 node2 Endpoint 110.xxx.xxx.xxx</code> <code>python modify wg0 node3 Endpoint 119.xxx.xxx.xxx</code></li>
+<li>Generata Wireguard configuration: <code>python generate.py wg0 node1</code> &amp; <code>python generate.py wg0 node2</code> &amp; <code>python generate.py wg0 node3</code></li>
+<li>Copy the Wireguard config to each node: <code>scp node1.conf user_name@node1:~/wg0.conf</code> &amp; <code>scp node2.conf user_name@node2:~/wg0.conf</code> &amp; <code>scp node2.conf user_name@node2:~/wg0.conf</code></li>
+</ol>
+<p>Add static entry to the hosts file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo cat &gt; /etc/hosts <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">192.168.1.1 node1
+</span><span style="color:#e6db74">192.168.1.2 node2
+</span><span style="color:#e6db74">192.168.1.3 node3
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div></section>
 
   
   
