@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>wireguard on TerenceLiu&#39;s Blog</title>
+    <link>https://blog.cklau.cc/tags/wireguard/</link>
+    <description>Recent content in wireguard on TerenceLiu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
+    <lastBuildDate>Mon, 26 Sep 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Set up a K3s Cluster with your VPS (1)</title>
+      <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
+      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
+      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
+    </item>
+    
+  </channel>
+</rss>
