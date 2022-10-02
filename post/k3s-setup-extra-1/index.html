@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Set up a K3s Cluster with your VPS (Extra Story 1) - TerenceLiu&#39;s Blog</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="As I have mentioned in [k3s-setup-2]({{ &lt;ref &ldquo;/post/k3s-setup-2&rdquo; &gt;}}), usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
+Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
+Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Set up a K3s Cluster with your VPS (Extra Story 1)" />
+<meta property="og:description" content="As I have mentioned in [k3s-setup-2]({{ &lt;ref &ldquo;/post/k3s-setup-2&rdquo; &gt;}}), usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
+Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
+Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/k3s-setup-extra-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-10-02T10:00:00+08:00" />
+<meta property="article:modified_time" content="2022-10-02T10:00:00+08:00" />
+
+
+  
+  <meta itemprop="name" content="Set up a K3s Cluster with your VPS (Extra Story 1)">
+<meta itemprop="description" content="As I have mentioned in [k3s-setup-2]({{ &lt;ref &ldquo;/post/k3s-setup-2&rdquo; &gt;}}), usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
+Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
+Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm."><meta itemprop="datePublished" content="2022-10-02T10:00:00+08:00" />
+<meta itemprop="dateModified" content="2022-10-02T10:00:00+08:00" />
+<meta itemprop="wordCount" content="501">
+<meta itemprop="keywords" content="k3s,kubernetes,mirrors,docker," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Set up a K3s Cluster with your VPS (Extra Story 1)"/>
+<meta name="twitter:description" content="As I have mentioned in [k3s-setup-2]({{ &lt;ref &ldquo;/post/k3s-setup-2&rdquo; &gt;}}), usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
+Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
+Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >TerenceLiu&#39;s Blog</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/contact/"
+        >Contact</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-20">
+    <h1 class="!my-0 pb-2.5">Set up a K3s Cluster with your VPS (Extra Story 1)</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      <time>Oct 2, 2022</time>
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>As I have mentioned in [k3s-setup-2]({{ &lt;ref &ldquo;/post/k3s-setup-2&rdquo; &gt;}}), usually, it is not easy for the China&rsquo;s user to access <code>https://gcr.io</code>, <code>https://k8s.gcr.io</code> or <code>https://ghcr.io</code>. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.</p>
+<h2 id="some-options">Some options</h2>
+<p>DockerHub provide a &ldquo;offical&rdquo; package called <a href="https://docs.docker.com/registry/">Docker Registry</a> where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.</p>
+<p>Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</p>
+<p>Harbor, provided by VMWare,  is an opensource registry that secure artifacts with policies and role-based access control, ensures images are scanned and free from vulnerabilities, and signs images as trusted.</p>
+<h2 id="nexus-as-registry-proxy">Nexus as registry proxy</h2>
+<p>It is easy for us to build the Nexus repositry, simply with the <code>docker-compose.yml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.7&#34;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">nexus</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">sonatype/nexus3:latest</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">INSTALL4J_ADD_VM_PARAMS</span>: -<span style="color:#ae81ff">Xms128m -Xmx512m -XX:MaxDirectMemorySize=512m</span> <span style="color:#75715e"># decrease the occupancy rate of nexus</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nexus3</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">8081</span>:<span style="color:#ae81ff">8081</span>   <span style="color:#75715e"># port of frontend of the nexus repo</span>
+      - <span style="color:#ae81ff">8082</span>:<span style="color:#ae81ff">8082</span>   <span style="color:#75715e"># port of the docker proxy</span>
+    <span style="color:#f92672">volumes</span>:
+      -  <span style="color:#ae81ff">./data:/nexus-data</span>
+</code></pre></div><p>With <code>sudo docker compose up -d</code>, we can easily run the nexus. <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>For the reverse proxy, I use nginx and here is the configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">server <span style="color:#f92672">{</span>
+    listen 80;
+    server_name nexus.exmaple.com;
+
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> https://$server_name$request_uri;
+<span style="color:#f92672">}</span>
+
+server <span style="color:#f92672">{</span>
+    listen 80;
+    server_name registry.example.com;
+
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> https://$server_name$request_uri;
+<span style="color:#f92672">}</span>
+
+server <span style="color:#f92672">{</span>
+    listen <span style="color:#ae81ff">443</span> ssl;
+    server_name nexus-hub.cklau.cc;  <span style="color:#75715e"># nexus frontend</span>
+
+    ssl_certificate &lt;path-of-certificate&gt;;
+    ssl_certificate_key &lt;path-of-certificate-key&gt;;
+    ssl_session_timeout  5m;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers   on;
+
+    location / <span style="color:#f92672">{</span>
+        proxy_pass http://127.0.0.1:8081;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Via <span style="color:#e6db74">&#34;nginx&#34;</span>;
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+
+server <span style="color:#f92672">{</span>
+    listen <span style="color:#ae81ff">443</span> ssl;
+    server_name registry.exmaple.com; <span style="color:#75715e"># docker proxy</span>
+
+    ssl_certificate &lt;path-of-certificate&gt;;
+    ssl_certificate_key &lt;path-of-certificate-key&gt;;
+    ssl_session_timeout  5m;;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers   on;
+
+    location / <span style="color:#f92672">{</span>
+        proxy_pass http://127.0.0.1:8082;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Via <span style="color:#e6db74">&#34;nginx&#34;</span>;
+        client_max_body_size 1024M;
+    <span style="color:#f92672">}</span>
+
+    location /v2/ <span style="color:#f92672">{</span>
+        proxy_pass http://127.0.0.1:8082;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Via <span style="color:#e6db74">&#34;nginx&#34;</span>;
+        client_max_body_size 1024M;
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>After setting up the nexus and nginx, we can go to <code>https://nexus.example.com</code> to set up the proxy rules.</p>
+<ol>
+<li>For Docker: <code>Creat Repository</code> -&gt; Choose <code>docker(proxy)</code> -&gt;  <code>Remote storage = https://registry-1.docker.io</code> and <code>Docker Index = Use Docker Hub</code></li>
+<li>For <a href="https://ghcr.io">ghcr.io</a>:  Creat Repository<code>-&gt; Choose</code>docker(proxy)<code>-&gt; </code>Remote storage = <a href="https://ghcr.io">https://ghcr.io</a>`</li>
+<li>For <a href="https://gcr.io">gcr.io</a>:  Creat Repository<code>-&gt; Choose</code>docker(proxy)<code>-&gt; </code>Remote storage = <a href="https://gcr.io">https://gcr.io</a>`</li>
+<li>For <a href="https://k8s.gcr.io">k8s.gcr.io</a>:  Creat Repository<code>-&gt; Choose</code>docker(proxy)<code>-&gt; </code>Remote storage = <a href="https://k8s.gcr.io">https://k8s.gcr.io</a>`</li>
+<li><strong>Create a group</strong>:  Creat Repository<code>-&gt; Choose</code>docker(group)<code>-&gt; </code>HTTP: 8082<code>-&gt;</code>Allow anaymous docker pull<code>(to allow </code>docker pull` without authentication) -&gt; select members into the group</li>
+<li>Go to <code>Security-Realms</code> and activate <code>Docker Bearer Token Realm</code></li>
+</ol>
+<p>Then, you may try pulling image in you server:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo docker pull registry.example.com/library/nginx:alpine                                <span style="color:#75715e"># from Docker Hub</span>
+sudo docker pull registry.example.com/zvonimirsun/yourls                                  <span style="color:#75715e"># from ghcr.io</span>
+sudo docker pull registry.example.com/google-containers/kubernetes-dashboard-amd64:v1.8.3 <span style="color:#75715e"># from gcr.io</span>
+sudo docker pull registry.example.com/coreos/kube-state-metrics:v1.5.0                    <span style="color:#75715e"># from quay.io</span>
+</code></pre></div><section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>Before you up the yaml, create the folder first and give the proper permission, for me: <code>mkdir data &amp;&amp; chown -R 200 data</code> is good enough. The default password is stored in <code>data/admin.password</code>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/k3s"
+      >k3s</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/kubernetes"
+      >kubernetes</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/mirrors"
+      >mirrors</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/docker"
+      >docker</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/k3s-setup-1/"
+      ><span>Set up a K3s Cluster with your VPS (1)</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2022
+    <a class="link" href="https://blog.cklau.cc">TerenceLiu&#39;s Blog</a>
+  </div>
+  
+  
+</footer>
+
+  </body>
+</html>
