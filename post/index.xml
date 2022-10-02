@@ -35,7 +35,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k3s-setup-2/</guid>
-      <description>After generate a basic K3s cluster, now, let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
+      <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
     </item>
     
