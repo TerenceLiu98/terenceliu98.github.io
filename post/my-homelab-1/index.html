@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Homelab: My Devices - Lau&#39;s Blog</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
+Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/twitter.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/rss.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Homelab: My Devices" />
+<meta property="og:description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
+Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-07-20T00:11:21+08:00" />
+<meta property="article:modified_time" content="2022-07-20T00:11:21+08:00" />
+
+
+  
+  <meta itemprop="name" content="Homelab: My Devices">
+<meta itemprop="description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
+Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster."><meta itemprop="datePublished" content="2022-07-20T00:11:21+08:00" />
+<meta itemprop="dateModified" content="2022-07-20T00:11:21+08:00" />
+<meta itemprop="wordCount" content="538">
+<meta itemprop="keywords" content="homelab,networking,hardware," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Homelab: My Devices"/>
+<meta name="twitter:description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
+Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >Lau&#39;s Blog</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/projects/"
+        >Projects</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href=" https://twitter.com/TerenceLau_ST "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./rss.svg)"
+        href=" https://blog.cklau.cc/index.xml "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-20">
+    <h1 class="!my-0 pb-2.5">Homelab: My Devices</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      <time>Jul 20, 2022</time>
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.</p>
+<h2 id="why-distributed">Why Distributed</h2>
+<p>Since I am wandering around the <a href="https://en.wikipedia.org/wiki/Guangdong%E2%80%93Hong_Kong%E2%80%93Macao_Greater_Bay_Area">big bay area</a>, multiple different devices are scattered.  Thus, I have to build a distributed cluster.</p>
+<p>Here is the list of my bare metal device:</p>
+<ol>
+<li>A Server - DELL EMC R730 (Zhuhai) : E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP with 500Mbps</li>
+<li>A Workstation - DELL Precision T1700 (Zhuhai) + i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti with 500Mbps</li>
+<li>A PC in my dormitory (Zhongshan): i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP with 500Mbps</li>
+<li>A home-made NAS (Shenzhen)： AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD with 1Gbps</li>
+<li>A ARM Router (Shenzhen)： rk3568 + 2GB Mem + 8GB EMMC with 1Gbps</li>
+<li>A ARM Router (Shenzhen)：rk3399 + 1GB Mem + 1GB + 16GB EMMC with 1Gbps</li>
+</ol>
+<p>Not only the bare metal, I also own a bunch of VPS/VPC/VM/<a href="https://www.tencentcloud.com/products/lighthouse">Lighthouse</a>, here is the list</p>
+<ol>
+<li>A Lighthouse server (Tencent Cloud - Guangzhou): 1C2G</li>
+<li>A Lighthouse server (Tencent Cloud - Shuanghai): 2C4G</li>
+<li>A Lighthouse server (Tencent Cloud - Shuanghai): 4C8G</li>
+<li>A Lighthouse server (Tencent Cloud - Shuanghai): 2C2G</li>
+<li>A Lighthouse server (Tencent Cloud - HKSAR): 2C4G</li>
+<li>A Lighthouse server (Tencent Cloud - HKSAR): 2C4G</li>
+<li>A Lighthouse server (Tencent Cloud - Singapore): 2C2G</li>
+<li>A VM server (Oracle Cloud - Japan): 1C1G</li>
+<li>A VM server (Oracle Cloud - Japan): 1C1G</li>
+<li>A VM server (CubeCloud - HKSAR): 1C512M</li>
+</ol>
+<p>After the listing, you may know why I need a distributed solution.</p>
+<h2 id="possible-solution">Possible solution</h2>
+<ol>
+<li>Docker Swarm</li>
+<li>Kubernetes</li>
+</ol>
+<p>Docker Swarm refers to a container orchestration tool that allows user to manage multiple containers within multiple nodes (a cluster). The document can be found in <a href="https://docs.docker.com/engine/swarm/">here</a></p>
+<p>Kubernetes, a.k. K8s, is an open-source system for automating deployment, scaling and managerment of containerized applications. The introduction can be found in <a href="https://kubernetes.io/docs/home/">here</a></p>
+<p>In general, Kubernetes is more suitable for those complex applications within the complex development/production environment, and the Docker Swarm is designed for ease of use. Based on the introduction and comparison, I design to use them simultaneously, parts of the device will be used in Docker Swarm (Dhe DS cluster) and others will be used in K8s, those who need persistance will be deployed in DS cluster and the K8s cluster is used for studying.</p>
+<p>After the platform architecture, we need a networking solution for putting up these devices into a LAN. Intuitively, I need a VPN(Virtual Private Network) software as these device can be accessed via the WAN. Based on the VPN software, I may develop my own <a href="https://en.wikipedia.org/wiki/Software-defined_networking">SD-WAN</a>. Here are some SDN solutions:</p>
+<ol>
+<li><a href="https://www.zerotier.com/">Zerotier</a></li>
+<li><a href="http://tailscale.com/">Tailscale</a>: based on Wireguard</li>
+<li><a href="https://github.com/slackhq/nebula">Nebula</a>: A scalable overlay networking tool by Slack</li>
+<li><a href="https://github.com/ntop/n2n">n2n</a>: peer-to-peer VPN</li>
+</ol>
+<p>After the comparison, for my home devices, I will choose Tailscale as its performance in my experiment, and for those two cluster, I will use Wireguard as I don&rsquo;t need to pay any fee for occupation.</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/homelab"
+      >homelab</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/networking"
+      >networking</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/hardware"
+      >hardware</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://blog.cklau.cc/post/k3s-setup-2/"
+      ><span class="mr-1.5">←</span><span>Set up a K3s Cluster with your VPS (2)</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/desk-set-up/"
+      ><span>大二，我的桌面</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2022
+    <a class="link" href="https://blog.cklau.cc">Lau&#39;s Blog all rights reserved.</a>
+  </div>
+  <a class="link mx-6" href="/cn/"> 不使用 CloudFlare CDN 请点击 </a>
+  
+  
+</footer>
+
+  </body>
+</html>

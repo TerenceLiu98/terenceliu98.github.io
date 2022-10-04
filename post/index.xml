@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on TerenceLiu&#39;s Blog</title>
+    <title>Posts on Lau&#39;s Blog</title>
     <link>https://blog.cklau.cc/post/</link>
-    <description>Recent content in Posts on TerenceLiu&#39;s Blog</description>
+    <description>Recent content in Posts on Lau&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
@@ -37,6 +37,16 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
       <guid>https://blog.cklau.cc/post/k3s-setup-2/</guid>
       <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
+    </item>
+    
+    <item>
+      <title>Homelab: My Devices</title>
+      <link>https://blog.cklau.cc/post/my-homelab-1/</link>
+      <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/my-homelab-1/</guid>
+      <description>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
+Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.</description>
     </item>
     
     <item>
