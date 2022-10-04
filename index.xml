@@ -9,6 +9,16 @@
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Projects</title>
+      <link>https://blog.cklau.cc/projects/</link>
+      <pubDate>Tue, 04 Oct 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/projects/</guid>
+      <description>Personal Project: My HomeLab These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
+ My Devices - Coming soon My Distributed Homelab - Coming soon My Network setup - Coming soon Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control - Coming soon K3s/Kubernetes - a quick setup for single machine - Coming soon K3s/Kubernetes - a quick setup for HA - Coming soon K3s/Kubernetes - How GitOps works - Coming soon  </description>
+    </item>
+    
+    <item>
       <title>Set up a K3s Cluster with your VPS (Extra Story 1)</title>
       <link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
@@ -25,7 +35,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/friends/</guid>
-      <description>Junde Yhi： Linux expert and IoT practitioner ECWU: A full stack developer, and now focusing on NLP(Natrual Language Processing) &amp;amp; Medical imaging research Renjie Deng: full stack developer Junru Zhong: MRI expert, transportation enthusiast, PhD candidate in Computer vision (CUHK) Laurence Luo: developer, geek  Propose New Link If you want me to append you to the friend page, just comment below!</description>
+      <description>Junde Yhi： Linux expert and IoT practitioner ECWU: A full-stack developer, and now focusing on NLP(Natrual Language Processing) &amp;amp; Medical imaging research Renjie Deng: A full-stack developer Junru Zhong: MRI expert, transportation enthusiast, PhD candidate in Computer vision (CUHK) Laurence Luo: developer, geek  Propose New Link If you want me to append you to the friend page, just comment below!</description>
     </item>
     
     <item>
