@@ -15,7 +15,7 @@
       
       <guid>https://blog.cklau.cc/projects/</guid>
       <description>Personal Project: My HomeLab These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
- My Devices My Distributed Homelab - Coming soon My Network setup - Coming soon Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control - Coming soon K3s/Kubernetes - a quick setup for single machine - Coming soon K3s/Kubernetes - a quick setup for HA - Coming soon K3s/Kubernetes - How GitOps works - Coming soon  </description>
+ My Devices My Distributed Homelab My Network setup - Coming soon Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control - Coming soon K3s/Kubernetes - a quick setup for single machine - Coming soon K3s/Kubernetes - a quick setup for HA - Coming soon K3s/Kubernetes - How GitOps works - Coming soon  </description>
     </item>
     
     <item>
@@ -72,10 +72,10 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
     
     <item>
       <title>Homelab: My Distributed Homelab</title>
-      <link>https://blog.cklau.cc/my-homelab-2/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-2/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/my-homelab-2/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-2/</guid>
       <description>Networking For the homelab, I would like to choose a commerical company&amp;rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&amp;rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
 Service For the homelab, I would like to docker as it is very covinence and can set up easily.</description>
     </item>
