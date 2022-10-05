@@ -129,7 +129,7 @@ Why Distributed Since I am wandering around the big bay area, multiple different
 <meta itemprop="description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
 Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster."><meta itemprop="datePublished" content="2022-07-20T00:11:21+08:00" />
 <meta itemprop="dateModified" content="2022-07-20T00:11:21+08:00" />
-<meta itemprop="wordCount" content="561">
+<meta itemprop="wordCount" content="613">
 <meta itemprop="keywords" content="homelab,networking,hardware," />
   
   <meta name="twitter:card" content="summary"/>
@@ -285,6 +285,7 @@ Why Distributed Since I am wandering around the big bay area, multiple different
 <th style="text-align:center">Device</th>
 <th style="text-align:center">Location</th>
 <th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
 <th style="text-align:center">Network</th>
 </tr>
 </thead>
@@ -293,42 +294,49 @@ Why Distributed Since I am wandering around the big bay area, multiple different
 <td style="text-align:center">DELL EMC R730</td>
 <td style="text-align:center">Zhuhai, China</td>
 <td style="text-align:center">E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">DELL Precision T1700</td>
 <td style="text-align:center">Zhuhai, China</td>
 <td style="text-align:center">i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti</td>
+<td style="text-align:center">Arch Linux</td>
 <td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">Homebuilt PC</td>
 <td style="text-align:center">Zhongshan, China</td>
 <td style="text-align:center">i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Arch Linux</td>
 <td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">Homebuilt NAS</td>
 <td style="text-align:center">Shenzhen, China</td>
 <td style="text-align:center">AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">1Gbps</td>
 </tr>
 <tr>
 <td style="text-align:center">ARM Router</td>
 <td style="text-align:center">Shenzhen, China</td>
 <td style="text-align:center">rk3568 + 2GB Mem + 8GB EMMC</td>
+<td style="text-align:center">iStoreOS (based on OpenWrt)</td>
 <td style="text-align:center">1Gbps</td>
 </tr>
 <tr>
 <td style="text-align:center">ARM Router</td>
 <td style="text-align:center">Shenzhen, China</td>
 <td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">1Gbps</td>
 </tr>
 <tr>
 <td style="text-align:center">ARM Router (In future)</td>
 <td style="text-align:center">Guangzhou, China</td>
 <td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">100Mbps</td>
 </tr>
 </tbody>
@@ -340,6 +348,7 @@ Why Distributed Since I am wandering around the big bay area, multiple different
 <th style="text-align:center">Device</th>
 <th style="text-align:center">Location</th>
 <th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
 <th style="text-align:center">Network</th>
 </tr>
 </thead>
@@ -348,60 +357,70 @@ Why Distributed Since I am wandering around the big bay area, multiple different
 <td style="text-align:center">A Lighthouse server</td>
 <td style="text-align:center">Tencent Cloud - Guangzhou</td>
 <td style="text-align:center">1C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">3Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A Lighthouse server</td>
 <td style="text-align:center">Tencent Cloud - Shuanghai</td>
 <td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">3Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A Lighthouse server</td>
 <td style="text-align:center">Tencent Cloud - Shuanghai</td>
 <td style="text-align:center">4C8G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">3Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A Lighthouse server</td>
 <td style="text-align:center">Tencent Cloud - Shuanghai</td>
 <td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">3Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A Lighthouse server</td>
 <td style="text-align:center">Tencent Cloud - HKSAR</td>
 <td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">30Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A Lighthouse server</td>
 <td style="text-align:center">Tencent Cloud - HKSAR</td>
 <td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">30Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A Lighthouse server</td>
 <td style="text-align:center">Tencent Cloud - Singapore</td>
 <td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">30Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A VM server</td>
 <td style="text-align:center">Oracle Cloud - Japan</td>
 <td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A VM server</td>
 <td style="text-align:center">Oracle Cloud - Japan</td>
 <td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
 <td style="text-align:center">A VM server</td>
 <td style="text-align:center">CubeCloud - HKSAR</td>
 <td style="text-align:center">1C512M</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
 <td style="text-align:center">1Gbps</td>
 </tr>
 </tbody>
