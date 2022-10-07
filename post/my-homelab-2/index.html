@@ -129,7 +129,7 @@ Service For the homelab, I would like to docker as it is very covinence and can 
 <meta itemprop="description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
 Service For the homelab, I would like to docker as it is very covinence and can set up easily."><meta itemprop="datePublished" content="2022-07-21T00:11:21+08:00" />
 <meta itemprop="dateModified" content="2022-07-21T00:11:21+08:00" />
-<meta itemprop="wordCount" content="1284">
+<meta itemprop="wordCount" content="1478">
 <meta itemprop="keywords" content="homelab,networking,hardware," />
   
   <meta name="twitter:card" content="summary"/>
@@ -332,7 +332,7 @@ sudo docker version
 <span style="color:#75715e">#   Version:          0.19.0</span>
 <span style="color:#75715e">#   GitCommit:        de40ad0</span>
 </code></pre></div><h3 id="multimedia">MultiMedia</h3>
-<p>I use Jellyfin as my multimedia server and install it via the <code>docker-compose.yml</code>:</p>
+<p>There are multiple multimedia software, for istance, <a href="https://www.plex.tv/">Plex</a>, <a href="https://emby.media">Emby</a>, <a href="https://jellyfin.org">Jellyfin</a>, and <a href="https://kodi.tv/">KODI</a>. For some reason, I did not want to pay too much money of the media service as I just want a place that can show the poster and brief introduction of the video, and I don&rsquo;t need too much &ldquo;fancy&rdquo; features. By comparison, I choose Jellyfin, the &ldquo;open-source version of Emby&rdquo;, as me multimedia server and I install it via the <code>docker-compose.yml</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;2.1&#34;</span>
 <span style="color:#f92672">services</span>:
   <span style="color:#f92672">jellyfin</span>:
@@ -350,7 +350,7 @@ sudo docker version
       - <span style="color:#ae81ff">8096</span>:<span style="color:#ae81ff">8096</span>
     <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span> <span style="color:#75715e"># when docker restart, the docker image will auto restart</span>
 </code></pre></div><h3 id="authentication">Authentication</h3>
-<p>I use Authentik and Keycloak for the Authentication. The Authentik is for my self-hosted service, and the KeyCloak is for the other serive that I need to provide to other users. Similarly, I use <code>docker-compose.yml</code> to set up these services:</p>
+<p>There are many authentication software that support Oauth, for instance, <a href="https://goauthentik.io/">Authentik</a>, <a href="https://www.okta.com/">Okta</a>, <a href="https://auth0.com/">auth0</a>, <a href="https://github.com/ory/hydra">Ory Hydra</a>, <a href="https://www.keycloak.org/">KeyCloak</a>, an there are some authentication cloud services, like <a href="https://authing.cn">authing.com</a>. By comparsion, I choose Authentik and KeyCloak, authentik has a good-looking interface, and KeyCloak is a widely used software, which mean there are more example and solution on the interest. The authentik is used for my self-hosted services, and the KeyCloak is for the other serive that I need to provide to other users. Similarly, I use <code>docker-compose.yml</code> to set up these services:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Authentik</span>
 <span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://goauthentik.io/docs/installation/docker-compose for the detail</span>
 <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.4&#39;</span>
@@ -465,7 +465,7 @@ sudo docker version
       <span style="color:#f92672">depends_on</span>:
         - <span style="color:#ae81ff">postgres</span>
 </code></pre></div><h3 id="working-and-coding">Working and Coding</h3>
-<p>Most of the time, I just use the local environment for the documentation and coding, however, sometimes I will re-build the computer and to avoid the data loss. Thus, I choose <a href="https://github.com/outline/outline">outline</a> for the documentation, <a href="https://www.dokuwiki.org/dokuwiki">dokuwiki</a> for building the wiki system, [Nexcloud] as my personal Net storage,  and <a href="https://gitea.io">Gitea</a> as my self-hosted code repository:</p>
+<p>Most of the time, I just use the local environment for the documentation and coding, however, sometimes I will re-build the computer and to avoid the data loss. Thus, I choose <a href="https://github.com/outline/outline">outline</a> for the documentation, <a href="https://www.dokuwiki.org/dokuwiki">dokuwiki</a> for building the wiki system, [Nexcloud] as my personal Net storage,  and <a href="https://gitea.io">Gitea</a> as my self-hosted code repository. Outline is a Nation-alternative software which also provide a beatiful, realtime knowledge base, where I can easily store my throught and idea wia the web. Dokuwiki is a well-known wiki system without a database backend, which means I can easily migrate it to any place. Between Gitea and Gitlab, I choose Gitea at last because GitLab&rsquo;s hardware requirement is too high that I don&rsquo;t have enough resources to run a GitLab and I just need a place to store my code, not those extra features.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># outline </span>
 <span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://app.getoutline.com/s/770a97da-13e5-401e-9f8a-37949c19f97e/doc/docker-7pfeLP5a8t for the detail</span>
 <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
