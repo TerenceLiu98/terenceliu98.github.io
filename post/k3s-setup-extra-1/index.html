@@ -132,8 +132,8 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
 Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
 Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm."><meta itemprop="datePublished" content="2022-10-02T10:00:00+08:00" />
 <meta itemprop="dateModified" content="2022-10-02T10:00:00+08:00" />
-<meta itemprop="wordCount" content="500">
-<meta itemprop="keywords" content="k3s,kubernetes,mirrors,docker," />
+<meta itemprop="wordCount" content="615">
+<meta itemprop="keywords" content="k3s,kubernetes,docker,registry," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Set up a K3s Cluster with your VPS (Extra Story 1)"/>
@@ -380,11 +380,35 @@ server <span style="color:#f92672">{</span>
 sudo docker pull registry.example.com/zvonimirsun/yourls                                  <span style="color:#75715e"># from ghcr.io</span>
 sudo docker pull registry.example.com/google-containers/kubernetes-dashboard-amd64:v1.8.3 <span style="color:#75715e"># from gcr.io</span>
 sudo docker pull registry.example.com/coreos/kube-state-metrics:v1.5.0                    <span style="color:#75715e"># from quay.io</span>
+</code></pre></div><p>For the system&rsquo;s <code>containerd</code>, you can simply go to <code>/etc/containerd/containerd/config.toml</code> and modify the configuration and restart <code>sudo systemctl restart containered</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>plugins.cri.registry.mirrors<span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;docker.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;quay.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;ghcr.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;gcr.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;k8s.gcr.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+</code></pre></div><p>For the rancher&rsquo;s <code>containerd</code>, k3s will generate config.toml for containerd in <code>/var/lib/rancher/k3s/agent/etc/containerd/config.toml</code>, for advanced customization for this file you can create another file called <code>config.toml.tmpl</code> in the same directory and it will be used instead. Then, modify the configuration into the file and restart the <code>sudo systemctl restart k3s</code> or <code>sudo systemctl restart k3s-agent</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>plugins.cri.registry.mirrors<span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;docker.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;quay.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;ghcr.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;gcr.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;k8s.gcr.io&#34;</span><span style="color:#f92672">]</span>
+    endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
 </code></pre></div><section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p>Before you up the yaml, create the folder first and give the proper permission, for me: <code>mkdir data &amp;&amp; chown -R 200 data</code> is good enough. The default password is stored in <code>data/admin.password</code>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Before you up the yaml, create the folder first and give the proper permission, for me: <code>mkdir data &amp;&amp; chmod 777 data</code> is good enough. The default password is stored in <code>data/admin.password</code>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -408,14 +432,14 @@ sudo docker pull registry.example.com/coreos/kube-state-metrics:v1.5.0          
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
-      href="https://blog.cklau.cc/tags/mirrors"
-      >mirrors</a
+      href="https://blog.cklau.cc/tags/docker"
+      >docker</a
     >
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
-      href="https://blog.cklau.cc/tags/docker"
-      >docker</a
+      href="https://blog.cklau.cc/tags/registry"
+      >registry</a
     >
     
   </footer>
