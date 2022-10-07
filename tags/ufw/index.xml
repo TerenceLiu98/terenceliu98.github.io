@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker on Lau&#39;s Blog</title>
-    <link>https://blog.cklau.cc/tags/docker/</link>
-    <description>Recent content in docker on Lau&#39;s Blog</description>
+    <title>ufw on Lau&#39;s Blog</title>
+    <link>https://blog.cklau.cc/tags/ufw/</link>
+    <description>Recent content in ufw on Lau&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/docker/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Set up a K3s Cluster with your VPS (Extra Story 1)</title>
-      <link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link>
-      <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid>
-      <description>As I have mentioned in K3s Setup 2, usually, it is not easy for the China&amp;rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</description>
-    </item>
-    
+    <lastBuildDate>Thu, 21 Jul 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/ufw/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Homelab: My Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
       <link>https://blog.cklau.cc/post/my-homelab-4/</link>
