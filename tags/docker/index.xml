@@ -9,7 +9,7 @@
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Set up a K3s Cluster with your VPS (Extra Story 1)</title>
+      <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title>
       <link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
@@ -20,7 +20,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
     </item>
     
     <item>
-      <title>Homelab: My Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
+      <title>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
       <link>https://blog.cklau.cc/post/my-homelab-4/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       

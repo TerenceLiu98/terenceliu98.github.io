@@ -9,7 +9,7 @@
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Set up a K3s Cluster with your VPS (Extra Story 1)</title>
+      <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title>
       <link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
@@ -20,23 +20,23 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
     </item>
     
     <item>
-      <title>Set up a K3s Cluster with your VPS (1)</title>
-      <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
-      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
-      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
-For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
-    </item>
-    
-    <item>
-      <title>Set up a K3s Cluster with your VPS (2)</title>
+      <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</title>
       <link>https://blog.cklau.cc/post/k3s-setup-2/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k3s-setup-2/</guid>
       <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
+    </item>
+    
+    <item>
+      <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</title>
+      <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
+      <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
+      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
     </item>
     
   </channel>
