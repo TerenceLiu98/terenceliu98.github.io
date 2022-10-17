@@ -266,7 +266,7 @@ ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 
       
 
 <article>
-  <header class="mb-20">
+  <header class="mb-10">
     <h1 class="!my-0 pb-2.5">Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</h1>
 
     
@@ -287,31 +287,27 @@ ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 
   
      
     <a
-      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
       href="https://blog.cklau.cc/tags/homelab"
-      >homelab
-    </a>
+      >homelab</a>
      
     <a
-      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
       href="https://blog.cklau.cc/tags/networking"
-      >networking
-    </a>
+      >networking</a>
      
     <a
-      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
       href="https://blog.cklau.cc/tags/docker"
-      >docker
-    </a>
+      >docker</a>
      
     <a
-      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
       href="https://blog.cklau.cc/tags/ufw"
-      >ufw
-    </a>
+      >ufw</a>
     
   
-
+  <hr>
   <section><p>&ldquo;Uncomplicated firewall&rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &ldquo;uncomplicated&rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.</p>
 <p>Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ubuntu@myserver:~$ sudo ufw status
@@ -374,7 +370,7 @@ sudo systemctl daemon-reload <span style="color:#f92672">&amp;&amp;</span> sudo 
 </span><span style="color:#e6db74">COMMIT
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div></section>
-  
+
   
   
 
@@ -413,13 +409,12 @@ sudo systemctl daemon-reload <span style="color:#f92672">&amp;&amp;</span> sudo 
 
     </main>
 
-    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-80">
   <div class="mr-auto">
-    &copy; 2016 - 2022
-    <a class="link" href="https://blog.cklau.cc">Lau&#39;s Blog all rights reserved.</a>
+    2016 - 2022 <a class="link" href="https://blog.cklau.cc">Lau&#39;s Blog all rights reserved.</a>
   </div>
-  本站由<a class="link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/upyun.png" align="absmiddle" width="60px" height="30px"></a> 提供 CDN 云存储服务
-  
+  The Object Storage Service is provided by <a class="link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/upyun.png" align="absmiddle" width="60px" height="30px"/></a>
+
   
 </footer>
 
