@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 24 Sep 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Personal Experimental Network: LNet</title>
+      <link>https://blog.cklau.cc/post/lnet-1/</link>
+      <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/lnet-1/</guid>
+      <description>Before In the previous project: Homelab, I listed all my device and VPS on a table, where all the VPS own a specifi public IP and I tride to use the Wireguard to connect them into a Full-mesh intranet.
+However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not effect the current usage. What&amp;rsquo;s more, if I can federate these isolated network, then I don&amp;rsquo;t need to build seperate services in different cluster.</description>
+    </item>
+    
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</title>
       <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
