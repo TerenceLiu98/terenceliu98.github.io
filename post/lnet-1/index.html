@@ -129,7 +129,7 @@ However, to investigate deeper into the network performance, I started to learn 
 <meta itemprop="description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
 However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters."><meta itemprop="datePublished" content="2022-10-18T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="484">
+<meta itemprop="wordCount" content="946">
 <meta itemprop="keywords" content="networking,wireguard,experimental network," />
   
   <meta name="twitter:card" content="summary"/>
@@ -306,7 +306,7 @@ However, to investigate deeper into the network performance, I started to learn 
 <p>We are using the <code>Wireguard</code> to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: <code>a1</code> is the router of the cluster <code>A</code> and <code>b</code> is the central router of the whole L-Net and <code>A</code>’s IP address is <code>172.12.1.0/24</code> , then we need an extra IP address(an extra Wireguard tunnel) for <code>a → b</code>.</p>
 <p>Under this circumstance, we can connect the nodes inside the <code>A (a2, a3, …)</code>  to <code>b</code>, and other nodes  from <code>C (c1, c2, c3, …)</code> can also connect to <code>A</code>.</p>
 <p>Here is the topology of my design:</p>
-<p><img src="/api/attachments.redirect?id=86a5c454-3316-4d2f-839d-11c58cc21db9" alt=""></p>
+<p><img src="https://bucket.cklau.cc/outline-bucket/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/dc88ca70-d652-4d2b-9360-931c852ea1b3/LNet.drawio.png" alt="toppology"></p>
 <p>Those bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.</p>
 <h2 id="network-configuration">Network Configuration</h2>
 <h3 id="loc-1---mainland-china">Loc 1 - Mainland, China</h3>
@@ -528,7 +528,58 @@ However, to investigate deeper into the network performance, I started to learn 
 </tr>
 </tbody>
 </table>
-<p>(To-be continued)</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="backbone-network">“Backbone Network”</h3>
+<p>As usual, I use the tool I wrote <a href="https://github.com/TerenceLiu98/wgtools">wgtools</a> to generate Wireguard configuration. However, the tool is built for the full-mesh configuration, thus, for the “backbone” network, we need to modify the config, here is an example: in the  <code>sgcn</code>  interface, I put the following settings in <code>bayes</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+Address <span style="color:#f92672">=</span> 192.168.141.1/24
+ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51821</span>
+PrivateKey <span style="color:#f92672">=</span> &lt;interface-prikey&gt;
+
+Table <span style="color:#f92672">=</span> off
+
+<span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+<span style="color:#75715e"># Name = cn-router</span>
+PublicKey <span style="color:#f92672">=</span> &lt;peer-pubkey&gt;
+AllowedIPs <span style="color:#f92672">=</span> 0.0.0.0/0
+PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51821
+</code></pre></div><p>The reason why we need to set the Address of the Interface to <code>/24</code> is that if we want the subnet of <code>newton</code> are accessible, which means that <code>192.168.141.2/32</code> need to be accessible from both sides as it is the bridge between <code>sgcn</code> and <code>cn</code> as the <code>sgcn</code> the interface is the bridge between the “external” to the “internal”. Here is the setting in <code>newton</code>:</p>
+<pre tabindex="0"><code class="language-mermaidjs" data-lang="mermaidjs">nterface]
+Address = 192.168.141.2/24 # the same reason, this interface is the &quot;bridge&quot; 
+ListenPort = 51821
+PrivateKey = cJgoIHnDfCl+p8D7KE0jCBkRipEwe3K6Jq7FG8OTzlo=
+
+Table = off
+
+[Peer]
+# Name = bayes
+PublicKey = FF85tV+bkTWA3rNHpn+sapA/08JV7HO92y/I1P+xsRE=
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 25
+Endpoint = xxx.xxx.xxx.xxx:51821
+</code></pre><p>Similarly, you can modify the Address and Endpoint for <code>sgjp</code> and <code>sghk</code> .</p>
+<h3 id="intranetinternet">“Intranet/Internet”</h3>
+<p>It is easy to generate the configuration with my tools, or maybe you can generate them manually, which is not the key for the configuration. The important part is that for each node of the “intranet“, you can control which other subnet can access to you. Take <code>gauss</code> and <code>einstein</code> as an example, if you want <code>gauss</code> can access from the <code>einstein</code> then you need to add the address of <code>einstein</code> in the <code>newton</code>’s <code>AllowedIPs</code>:</p>
+<pre tabindex="0"><code class="language-mermaidjs" data-lang="mermaidjs"># configuration of gauss
+[Interface]
+Address = 192.168.10.2/32,fd0b:76a0:952b:0:afa3:e03c:fe6d:2e55/128
+ListenPort = 51820
+PrivateKey = &lt;gauss-privkey&gt;
+
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+[Peer]
+# Name = newton
+PublicKey = &lt;newton-pubkey&gt;
+AllowedIPs = 192.168.20.1/32,192.168.248.1/32,fd0b:76a0:952b:0:e96f:2dae:80a8:b578/128
+PersistentKeepalive = 25
+Endpoint = xxx.xxx.xxx.xxx:51820
+</code></pre><p>This is because <code>newton</code> is the bridge between <code>cn</code> and <code>jp</code> , or more specifically, the <code>einstein</code> ‘s traffic needs to go through the <code>jp → sgjp → sgcn → cn</code> , and for <code>sgcn → cn</code> you need to add the <code>192.168.20.1/32</code> in the <code>AllowedIPs</code> and <code>cn</code> will know that this traffic can be accepted by the <code>cn</code> and it’s routed via the <code>192.168.248.1/32</code>.</p>
+<h3 id="wireguard-site-to-site-configuration">Wireguard Site-to-Site Configuration</h3>
+<p>For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose <code>OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP)</code> and <code>iBGP(Interior Border Gateway Protocol)</code> to resolve the routing problem.
+(To-be continued)</p>
 </section>
 
   
