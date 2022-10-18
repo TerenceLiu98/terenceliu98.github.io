@@ -46,13 +46,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   
-  <title>My Personal Experimental Network: LNet - Lau&#39;s Blog</title>
+  <title>👨‍💻 My Personal Experimental Network: L-Net - Lau&#39;s Blog</title>
 
   
   <meta name="theme-color" />
   
-  <meta name="description" content="Before In the previous project: Homelab, I listed all my device and VPS on a table, where all the VPS own a specifi public IP and I tride to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not effect the current usage. What&rsquo;s more, if I can federate these isolated network, then I don&rsquo;t need to build seperate services in different cluster." />
+  <meta name="description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
+However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters." />
   <meta name="author" content="" />
   
 
@@ -115,9 +115,9 @@ However, to investigate deeper into the network performance, I started to learn 
   
   
   
-  <meta property="og:title" content="My Personal Experimental Network: LNet" />
-<meta property="og:description" content="Before In the previous project: Homelab, I listed all my device and VPS on a table, where all the VPS own a specifi public IP and I tride to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not effect the current usage. What&rsquo;s more, if I can federate these isolated network, then I don&rsquo;t need to build seperate services in different cluster." />
+  <meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net" />
+<meta property="og:description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
+However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/lnet-1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-10-18T00:11:21+08:00" />
@@ -125,17 +125,17 @@ However, to investigate deeper into the network performance, I started to learn 
 
 
   
-  <meta itemprop="name" content="My Personal Experimental Network: LNet">
-<meta itemprop="description" content="Before In the previous project: Homelab, I listed all my device and VPS on a table, where all the VPS own a specifi public IP and I tride to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not effect the current usage. What&rsquo;s more, if I can federate these isolated network, then I don&rsquo;t need to build seperate services in different cluster."><meta itemprop="datePublished" content="2022-10-18T00:11:21+08:00" />
+  <meta itemprop="name" content="👨‍💻 My Personal Experimental Network: L-Net">
+<meta itemprop="description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
+However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters."><meta itemprop="datePublished" content="2022-10-18T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="105">
+<meta itemprop="wordCount" content="484">
 <meta itemprop="keywords" content="networking,wireguard,experimental network," />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="My Personal Experimental Network: LNet"/>
-<meta name="twitter:description" content="Before In the previous project: Homelab, I listed all my device and VPS on a table, where all the VPS own a specifi public IP and I tride to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not effect the current usage. What&rsquo;s more, if I can federate these isolated network, then I don&rsquo;t need to build seperate services in different cluster."/>
+<meta name="twitter:title" content="👨‍💻 My Personal Experimental Network: L-Net"/>
+<meta name="twitter:description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
+However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters."/>
 
   
   
@@ -263,7 +263,7 @@ However, to investigate deeper into the network performance, I started to learn 
 
 <article>
   <header class="mb-10">
-    <h1 class="!my-0 pb-2.5">My Personal Experimental Network: LNet</h1>
+    <h1 class="!my-0 pb-2.5">👨‍💻 My Personal Experimental Network: L-Net</h1>
 
     
     <div class="text-sm opacity-60">
@@ -300,8 +300,234 @@ However, to investigate deeper into the network performance, I started to learn 
   
   <hr>
   <section><h2 id="before">Before</h2>
-<p>In the previous project: <a href="https://blog.cklau.cc/post/my-homelab-1/" title="My Homelab 2">Homelab</a>, I listed all my device and VPS on a table, where all the VPS own a specifi public IP and I tride to use the Wireguard to connect them into a Full-mesh intranet.</p>
-<p>However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not effect the current usage. What&rsquo;s more, if I can federate these isolated network, then I don&rsquo;t need to build seperate services in different cluster. For instance, I can use a single <a href="https://prometheus.io/">Prometheus</a> to monitor all the devices and no more millions of virtual interfaces :)</p>
+<p>In the previous project: <a href="https://blog.cklau.cc/post/my-homelab-1/" title="My Homelab 2">Homelab</a>, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.</p>
+<p>However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters. For instance, I can use a single <a href="https://prometheus.io/">Prometheus</a> to monitor all the devices and no more millions of virtual interfaces :rofl:</p>
+<h2 id="design">Design</h2>
+<p>We are using the <code>Wireguard</code> to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: <code>a1</code> is the router of the cluster <code>A</code> and <code>b</code> is the central router of the whole L-Net and <code>A</code>’s IP address is <code>172.12.1.0/24</code> , then we need an extra IP address(an extra Wireguard tunnel) for <code>a → b</code>.</p>
+<p>Under this circumstance, we can connect the nodes inside the <code>A (a2, a3, …)</code>  to <code>b</code>, and other nodes  from <code>C (c1, c2, c3, …)</code> can also connect to <code>A</code>.</p>
+<p>Here is the topology of my design:</p>
+<p><img src="/api/attachments.redirect?id=86a5c454-3316-4d2f-839d-11c58cc21db9" alt=""></p>
+<p>Those bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.</p>
+<h2 id="network-configuration">Network Configuration</h2>
+<h3 id="loc-1---mainland-china">Loc 1 - Mainland, China</h3>
+<ol>
+<li>
+<p>Network Interface: <code>cn</code></p>
+<ol>
+<li>IP address: <code>192.168.10.0/24</code></li>
+<li>Allowed IP: <code>192.168.141.x/32, 192.168.{20,30}.0/24</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface (Router): <code>sgcn</code></p>
+<ol>
+<li>IP address: <code>192.168.141.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tencent Cloud</td>
+<td>GZ</td>
+<td>newton</td>
+<td>(secret)</td>
+<td>192.168.10.1 / 192.168.141.2</td>
+<td>Router</td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>SH</td>
+<td>gauss</td>
+<td>(secret)</td>
+<td>192.168.10.2</td>
+<td></td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>SH</td>
+<td>cantor</td>
+<td>(secret)</td>
+<td>192.168.10.3</td>
+<td></td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>SH</td>
+<td>hilbert</td>
+<td>(secret)</td>
+<td>192.168.10.4</td>
+<td></td>
+</tr>
+<tr>
+<td>China Telecom Cloud</td>
+<td>GZ</td>
+<td>NA</td>
+<td>(secret)</td>
+<td>192.168.10.5</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="loc-2---japan">Loc 2 - Japan</h3>
+<ol>
+<li>
+<p>Network Interface: <code>jp</code></p>
+<ol>
+<li>IP address: <code>192.168.20.0/24</code></li>
+<li>Allowed IP: <code>192.168.142.0/32, 192.168.{10, 30}.0/24</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface (Router): <code>sgjp</code></p>
+<ol>
+<li>IP address: <code>192.168.142.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oracle Cloud</td>
+<td>JP</td>
+<td>einstein</td>
+<td>(secret)</td>
+<td>192.168.20.1 / 192.168.142.2</td>
+<td>Router</td>
+</tr>
+<tr>
+<td>Oracle Cloud</td>
+<td>JP</td>
+<td>bohr</td>
+<td>(secret)</td>
+<td>192.168.20.2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="loc-3---hksar-china">Loc 3 - HKSAR, China</h3>
+<ol>
+<li>
+<p>Network Interface: <code>hk</code></p>
+<ol>
+<li>IP address: <code>192.168.30.0/24</code></li>
+<li>Allowed IP: <code>192.168.143.0/32, 192.168.{20, 30}.0/24</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface (Router): <code>sghk</code></p>
+<ol>
+<li>IP address: <code>192.168.143.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cube Cloud</td>
+<td>HK</td>
+<td>turing</td>
+<td>(secret)</td>
+<td>192.168.30.3 / 192.168.143.2</td>
+<td>Router</td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>HK</td>
+<td>neumann</td>
+<td>(secret)</td>
+<td>192.168.30.1</td>
+<td></td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>HK</td>
+<td>hinton</td>
+<td>(secret)</td>
+<td>192.168.30.2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="loc-4---singapore">Loc 4 - Singapore</h3>
+<ol>
+<li>
+<p>Network Interface: <code>sgcn</code></p>
+<ol>
+<li>IP address: <code>192.168.141.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface: <code>sgjp</code></p>
+<ol>
+<li>IP address: <code>192.168.142.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface: <code>sghk</code></p>
+<ol>
+<li>IP address: <code>192.168.143.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tencent Cloud</td>
+<td>SG</td>
+<td>bayes</td>
+<td>(secret)</td>
+<td>192.168.141.1 / 192.168.142.1 / 192.168.143.1</td>
+<td>Central Router</td>
+</tr>
+</tbody>
+</table>
 <p>(To-be continued)</p>
 </section>
 

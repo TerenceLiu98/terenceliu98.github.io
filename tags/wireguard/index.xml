@@ -9,13 +9,13 @@
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Tue, 18 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My Personal Experimental Network: LNet</title>
+      <title>👨‍💻 My Personal Experimental Network: L-Net</title>
       <link>https://blog.cklau.cc/post/lnet-1/</link>
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/lnet-1/</guid>
-      <description>Before In the previous project: Homelab, I listed all my device and VPS on a table, where all the VPS own a specifi public IP and I tride to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not effect the current usage. What&amp;rsquo;s more, if I can federate these isolated network, then I don&amp;rsquo;t need to build seperate services in different cluster.</description>
+      <description>Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
+However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters.</description>
     </item>
     
     <item>
