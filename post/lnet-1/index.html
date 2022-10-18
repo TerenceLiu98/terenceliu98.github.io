@@ -545,38 +545,38 @@ AllowedIPs <span style="color:#f92672">=</span> 0.0.0.0/0
 PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
 Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51821
 </code></pre></div><p>The reason why we need to set the Address of the Interface to <code>/24</code> is that if we want the subnet of <code>newton</code> are accessible, which means that <code>192.168.141.2/32</code> need to be accessible from both sides as it is the bridge between <code>sgcn</code> and <code>cn</code> as the <code>sgcn</code> the interface is the bridge between the “external” to the “internal”. Here is the setting in <code>newton</code>:</p>
-<pre tabindex="0"><code class="language-mermaidjs" data-lang="mermaidjs">nterface]
-Address = 192.168.141.2/24 # the same reason, this interface is the &quot;bridge&quot; 
-ListenPort = 51821
-PrivateKey = cJgoIHnDfCl+p8D7KE0jCBkRipEwe3K6Jq7FG8OTzlo=
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+Address <span style="color:#f92672">=</span> 192.168.141.2/24 <span style="color:#75715e"># the same reason, this interface is the &#34;bridge&#34; </span>
+ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51821</span>
+PrivateKey <span style="color:#f92672">=</span> cJgoIHnDfCl+p8D7KE0jCBkRipEwe3K6Jq7FG8OTzlo<span style="color:#f92672">=</span>
 
-Table = off
+Table <span style="color:#f92672">=</span> off
 
-[Peer]
-# Name = bayes
-PublicKey = FF85tV+bkTWA3rNHpn+sapA/08JV7HO92y/I1P+xsRE=
-AllowedIPs = 0.0.0.0/0
-PersistentKeepalive = 25
-Endpoint = xxx.xxx.xxx.xxx:51821
-</code></pre><p>Similarly, you can modify the Address and Endpoint for <code>sgjp</code> and <code>sghk</code> .</p>
+<span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+<span style="color:#75715e"># Name = bayes</span>
+PublicKey <span style="color:#f92672">=</span> FF85tV+bkTWA3rNHpn+sapA/08JV7HO92y/I1P+xsRE<span style="color:#f92672">=</span>
+AllowedIPs <span style="color:#f92672">=</span> 0.0.0.0/0
+PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51821
+</code></pre></div><p>Similarly, you can modify the Address and Endpoint for <code>sgjp</code> and <code>sghk</code> .</p>
 <h3 id="intranetinternet">“Intranet/Internet”</h3>
 <p>It is easy to generate the configuration with my tools, or maybe you can generate them manually, which is not the key for the configuration. The important part is that for each node of the “intranet“, you can control which other subnet can access to you. Take <code>gauss</code> and <code>einstein</code> as an example, if you want <code>gauss</code> can access from the <code>einstein</code> then you need to add the address of <code>einstein</code> in the <code>newton</code>’s <code>AllowedIPs</code>:</p>
-<pre tabindex="0"><code class="language-mermaidjs" data-lang="mermaidjs"># configuration of gauss
-[Interface]
-Address = 192.168.10.2/32,fd0b:76a0:952b:0:afa3:e03c:fe6d:2e55/128
-ListenPort = 51820
-PrivateKey = &lt;gauss-privkey&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># configuration of gauss</span>
+<span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+Address <span style="color:#f92672">=</span> 192.168.10.2/32,fd0b:76a0:952b:0:afa3:e03c:fe6d:2e55/128
+ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51820</span>
+PrivateKey <span style="color:#f92672">=</span> &lt;gauss-privkey&gt;
 
-PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostUp <span style="color:#f92672">=</span> iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown <span style="color:#f92672">=</span> iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
-[Peer]
-# Name = newton
-PublicKey = &lt;newton-pubkey&gt;
-AllowedIPs = 192.168.20.1/32,192.168.248.1/32,fd0b:76a0:952b:0:e96f:2dae:80a8:b578/128
-PersistentKeepalive = 25
-Endpoint = xxx.xxx.xxx.xxx:51820
-</code></pre><p>This is because <code>newton</code> is the bridge between <code>cn</code> and <code>jp</code> , or more specifically, the <code>einstein</code> ‘s traffic needs to go through the <code>jp → sgjp → sgcn → cn</code> , and for <code>sgcn → cn</code> you need to add the <code>192.168.20.1/32</code> in the <code>AllowedIPs</code> and <code>cn</code> will know that this traffic can be accepted by the <code>cn</code> and it’s routed via the <code>192.168.248.1/32</code>.</p>
+<span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+<span style="color:#75715e"># Name = newton</span>
+PublicKey <span style="color:#f92672">=</span> &lt;newton-pubkey&gt;
+AllowedIPs <span style="color:#f92672">=</span> 192.168.20.1/32,192.168.248.1/32,fd0b:76a0:952b:0:e96f:2dae:80a8:b578/128
+PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51820
+</code></pre></div><p>This is because <code>newton</code> is the bridge between <code>cn</code> and <code>jp</code> , or more specifically, the <code>einstein</code> ‘s traffic needs to go through the <code>jp → sgjp → sgcn → cn</code> , and for <code>sgcn → cn</code> you need to add the <code>192.168.20.1/32</code> in the <code>AllowedIPs</code> and <code>cn</code> will know that this traffic can be accepted by the <code>cn</code> and it’s routed via the <code>192.168.248.1/32</code>.</p>
 <h3 id="wireguard-site-to-site-configuration">Wireguard Site-to-Site Configuration</h3>
 <p>For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose <code>OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP)</code> and <code>iBGP(Interior Border Gateway Protocol)</code> to resolve the routing problem.
 (To-be continued)</p>
