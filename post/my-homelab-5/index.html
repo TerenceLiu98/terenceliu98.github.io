@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Homelab: How to build a AIO home-server - Lau&#39;s Blog</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/twitter.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/rss.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Homelab: How to build a AIO home-server" />
+<meta property="og:description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-5/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-10-24T00:11:21+08:00" />
+
+
+
+  
+  <meta itemprop="name" content="Homelab: How to build a AIO home-server">
+<meta itemprop="description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine."><meta itemprop="datePublished" content="2022-10-24T00:11:21+08:00" />
+
+<meta itemprop="wordCount" content="826">
+<meta itemprop="keywords" content="homelab,hardware," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Homelab: How to build a AIO home-server"/>
+<meta name="twitter:description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >Lau&#39;s Blog</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/projects/"
+        >Projects</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href=" https://twitter.com/TerenceLau_ST "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./rss.svg)"
+        href=" https://blog.cklau.cc/index.xml "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-10">
+    <h1 class="!my-0 pb-2.5">Homelab: How to build a AIO home-server</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      
+      
+      
+      Published Oct 23, 2022
+      
+      
+      
+    </div>
+    
+  </header>
+
+
+  
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/homelab"
+      >homelab</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/hardware"
+      >hardware</a>
+    
+  
+  <hr>
+  <section><h2 id="before">Before</h2>
+<p>I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</p>
+<h2 id="hardware">Hardware</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Series</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU + Motherboard</td>
+<td>Intel Xeon D-1581 + <a href="https://www.huoshen99.com/">HSGM D1581-R3</a></td>
+<td>¥498</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>second-hand ECC DDR3 1600 16GB $\times$ 4</td>
+<td>¥79</td>
+</tr>
+<tr>
+<td>Graphic card</td>
+<td>Old NVIDIA RTX 2060</td>
+<td>¥0</td>
+</tr>
+<tr>
+<td>Storage-SSD</td>
+<td>DAHUA C900 512GB</td>
+<td>¥245</td>
+</tr>
+<tr>
+<td>Storage-HDD</td>
+<td>TOSHIBA MG04ACA400N 4T $\times$ 4</td>
+<td>¥1340</td>
+</tr>
+<tr>
+<td>Case</td>
+<td>not named</td>
+<td>¥399</td>
+</tr>
+<tr>
+<td>｜Total</td>
+<td></td>
+<td>¥2561</td>
+</tr>
+</tbody>
+</table>
+<p>The reason I chose Xeon D-1581 is that I do not expect playing games or running some programs that expect high performance of single-core on this machine, instead, I need multiple cores for virtural machine for some experiment, where I don&rsquo;t need to spend money on the VPS. This is also explain why I need 64GB for RAM. For the storage part, I split the 4 hard disk into two group and each group has 2 disk, the group 1 I create a raid 1 for the important file storage, like photos, documentation and my code; the group 2 I create a LVM volume for daily storage, for example, the movie, music, and etc..</p>
+<h2 id="software">Software</h2>
+<p>I use Ubuntu 22.04 LTS as my base system, there is no reason/explanation, I familiar with ubuntu and I trust it can do a great job in the long-time task. Here is the configuration I have done on this machine:</p>
+<h3 id="nvidia-driver-and-cuda">NVIDIA DRIVER and CUDA</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># check PCI </span>
+sudo lspci -v | grep -i nvidia
+<span style="color:#75715e"># update </span>
+sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get upgrade -y
+<span style="color:#75715e"># install nv driver</span>
+sudo apt-get install nvidia-driver-510 <span style="color:#75715e"># for some reason I use 510 as I found it is the most stable in my system</span>
+<span style="color:#75715e"># install nv cuda toolkit</span>
+sudo apt-get install nvidia-cuda-toolkit
+<span style="color:#75715e"># install nvidia-container-toolkit</span>
+curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | sudo apt-key add -
+echo <span style="color:#e6db74">&#39;deb https://nvidia.github.io/libnvidia-container/stable/ubuntu20.04/$(ARCH) /&#39;</span> | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install nvidia-container-toolkit
+sudo reboot
+
+<span style="color:#75715e"># after rebooting, verify that the GPU is working or not:</span>
+nvidia-smi <span style="color:#f92672">&amp;&amp;</span> nvcc -V
+</code></pre></div><h3 id="container-lxc-and-lxd">Container: LXC and LXD</h3>
+<p>LXC stands for Linux Containers, I choose using the LXC as it can be easily used in PCI passthrough by just follow the above instruction and install the <code>nvidia-container-toolkit</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># install lxd</span>
+sudo snap install lxd
+<span style="color:#75715e"># create a zfs storage pool</span>
+sudo apt install zfsutils-linux
+sudo zpool create -f &lt;pool-name&gt; &lt;your disk&gt;
+<span style="color:#75715e">## if you need raid 1:</span>
+sudo zpool create -f &lt;pool-name&gt; /dev/&lt;disk-1&gt; /dev/&lt;disk-2&gt;
+
+<span style="color:#75715e"># lxd initilization</span>
+sudo lxd init
+<span style="color:#75715e"># specify the storage pool to the pool that just create before</span>
+
+<span style="color:#75715e"># create a template profile check the meaning of the command before you use it</span>
+lxc profile create &lt;template-name&gt;                      <span style="color:#75715e"># create a template </span>
+lxc profile device add pgu-template gpu gpu             <span style="color:#75715e"># add the gpu device      </span>
+lx profile set &lt;template-name&gt; nvidia.runtime<span style="color:#f92672">=</span>true      <span style="color:#75715e"># use nvidia-runtime</span>
+lx profile set &lt;template-name&gt; security.nesting<span style="color:#f92672">=</span>true    <span style="color:#75715e"># allow nesting runtime (running ctr inside)</span>
+
+<span style="color:#75715e"># launch a container</span>
+lxc launch ubuntu:22.04 &lt;ctr-name&gt; -p &lt;profile-name&gt; -s &lt;lxc-storage-name&gt;
+
+<span style="color:#75715e"># run nvidia-smi inside the container</span>
+lxc exec &lt;ctr-name&gt; -- nvidia-smi
+</code></pre></div><p>With the above setting, the container will simply use the same <code>nvidia-driver</code>, if you want to use the different driver, you can <code>set &lt;template-name&gt; nvidia.runtime=false</code> and install the driver inside the container.</p>
+<h2 id="storage-raid1-and-lvm-volume">Storage: Raid1 and LVM volume</h2>
+<p>Assume that we have <code>/dev/sda</code>, <code>/dev/sdb</code>, <code>/dev/sdc</code>, and <code>/dev/sdd</code>, we can simply use <code>mdadm</code> to create a Raid1:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># create raid 1</span>
+sudo mdadm --create --verbose /dev/md0 --level<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> --raid-devices<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> /dev/sda /dev/sdb
+<span style="color:#75715e"># check the process of creation</span>
+sudo cat /proc/mdstat
+<span style="color:#75715e"># creaet file system</span>
+sudo mkfs.ext4 -F /dev/md0
+<span style="color:#75715e"># create a mount point</span>
+sudo mkdir -p /mnt/storage
+<span style="color:#75715e"># mount the storage (temporary)</span>
+sudo mount /dev/md0 /mnt/storage
+<span style="color:#75715e"># mount the storage (persistent)</span>
+echo <span style="color:#e6db74">&#39;/dev/md0 /mnt/storage ext4 defaults,nofail,discard 0 0&#39;</span> | sudo tee -a /etc/fstab
+</code></pre></div><p>For the LVM volume:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># create a physical volumes on the top of the remaining dick</span>
+sudo pvcreate /dev/sdc /dev/sdd <span style="color:#f92672">&amp;&amp;</span> sudo pvs
+<span style="color:#75715e"># create a volume group named as `lv-storage`</span>
+sudo vgcreate vg-storage /dev/sdc /dev/sdd <span style="color:#f92672">&amp;&amp;</span> sudo vgdisplay vg-storage
+<span style="color:#75715e"># create two logical volumes </span>
+<span style="color:#75715e">## the first one is for the lxd and the remains are for daily storage</span>
+sudo lvcreate -n lxd-tool -L 120G vg-storage <span style="color:#f92672">&amp;&amp;</span> lvs
+sudo lvcreate -n daily-storage -l 100%FREE vg-storage <span style="color:#f92672">&amp;&amp;</span> lvs
+<span style="color:#75715e"># create zfs pool &amp; ext4 </span>
+sudo zpool create lxdPool /dev/vg-storage/lxd-pool
+sudo mkfs.ext4 -F /dev/vg-storage/daily-storage
+<span style="color:#75715e"># create a mount point</span>
+sudo mkdir -p /mnt/daily-storage
+<span style="color:#75715e"># mount the storage (temporary)</span>
+sudo mount /dev/vg-storage/daily-storage /mnt/daily-storage
+<span style="color:#75715e"># mount the storage (persistent)</span>
+echo <span style="color:#e6db74">&#39;/dev/vg-storage/daily-storage /mnt/daily-storage ext4 defaults,nofail,discard 0 0&#39;</span> | sudo tee -a /etc/fstab
+
+<span style="color:#75715e"># create the storage status</span>
+df -h
+</code></pre></div><p>For the mounting, you can also use the <code>uuid</code> to mount the storage. Simply use <code>blkid</code> and you can find the disk&rsquo;s uuid.</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/lnet-1/"
+      ><span>👨‍💻 My Personal Experimental Network: L-Net</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-80">
+  <div class="mr-auto">
+    2016 - 2022 <a class="link" href="https://blog.cklau.cc">Lau&#39;s Blog all rights reserved.</a>
+  </div>
+  The Object Storage Service is provided by <a class="link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/upyun.png" align="absmiddle" width="60px" height="30px"/></a>
+
+  
+</footer>
+
+  </body>
+</html>
