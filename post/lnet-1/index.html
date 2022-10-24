@@ -129,7 +129,7 @@ However, to investigate deeper into the network performance, I started to learn 
 <meta itemprop="description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
 However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters."><meta itemprop="datePublished" content="2022-10-18T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="946">
+<meta itemprop="wordCount" content="1543">
 <meta itemprop="keywords" content="networking,wireguard,experimental network," />
   
   <meta name="twitter:card" content="summary"/>
@@ -578,8 +578,70 @@ PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae8
 Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51820
 </code></pre></div><p>This is because <code>newton</code> is the bridge between <code>cn</code> and <code>jp</code> , or more specifically, the <code>einstein</code> ‘s traffic needs to go through the <code>jp → sgjp → sgcn → cn</code> , and for <code>sgcn → cn</code> you need to add the <code>192.168.20.1/32</code> in the <code>AllowedIPs</code> and <code>cn</code> will know that this traffic can be accepted by the <code>cn</code> and it’s routed via the <code>192.168.248.1/32</code>.</p>
 <h3 id="wireguard-site-to-site-configuration">Wireguard Site-to-Site Configuration</h3>
-<p>For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose <code>OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP)</code> and <code>iBGP(Interior Border Gateway Protocol)</code> to resolve the routing problem.
-(To-be continued)</p>
+<p>For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose <code>OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP)</code> and <code>iBGP(Interior Border Gateway Protocol)</code> to resolve the routing problem.</p>
+<p>There are multiple different tools we can use: <code>bird2</code>, <code>quagga</code>, and etc.. I use <code>bird2</code> in here.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt-get install bird2 <span style="color:#f92672">&amp;&amp;</span> sudo systemctl stop bird2
+</code></pre></div><p>The reason why I stop the process at first is that I don&rsquo;t want the &ldquo;bad&rdquo; configuration to influence the network.</p>
+<h4 id="ospf---open-shortest-path-frist">OSPF - Open Shortest Path Frist</h4>
+<p>OSPF is an interior gateway protocol (IGP) that routes packets within a single autonomous system (AS). OSPF uses link-state information to make routing decisions, making route calculations using the shortest-path-first (SPF) algorithm (also referred to as the Dijkstra algorithm). Each router running OSPF floods link-state advertisements throughout the AS or area that contain information about that router’s attached interfaces and routing metrics. Each router uses the information in these link-state advertisements to calculate the least cost path to each network and create a routing table for the protocol.</p>
+<p>First, let&rsquo;s try OSPF first.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">## cn-router</span>
+router id 192.168.199.1;
+
+protocol device <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+protocol kernel <span style="color:#f92672">{</span>
+    ipv4 <span style="color:#f92672">{</span>
+        export where proto <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wg&#34;</span>;
+    <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>
+
+protocol ospf v2 sgcn <span style="color:#f92672">{</span>
+    ipv4 <span style="color:#f92672">{</span>
+        import where net !~ 192.168.141.0/24;
+        export all;
+    <span style="color:#f92672">}</span>;
+    area 192.168.141.0 <span style="color:#f92672">{</span>
+        interface <span style="color:#e6db74">&#34;sgcn&#34;</span>;
+    <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>
+
+protocol ospf v2 cn <span style="color:#f92672">{</span>
+    ipv4 <span style="color:#f92672">{</span>
+        export all;
+    <span style="color:#f92672">}</span>;
+    area 192.168.10.0 <span style="color:#f92672">{</span>
+        interface <span style="color:#e6db74">&#34;cn&#34;</span>;
+    <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>
+</code></pre></div><p>where <code>router id</code> is the specific id for the router, it looks like a IP address, however, it actually just arbitrary 32-bit numbers that are by convection written in dotted-quad notation.</p>
+<ul>
+<li><code>protocol deive</code> help use to get information about netowkr interfaces from the kernel</li>
+<li><code>protocol kernel</code> performs synchronization of BIRD&rsquo;s routing tables with the OS kernel and here we export the <code>wg</code> protocol&rsquo;s routing</li>
+<li><code>protocol ospf v2 sgcn</code> sets up the the OSPFv2 instance we&rsquo;ll use for the wireguard connection. Note that the <code>sgcn</code> is the id I give to this instance, it can be arbitrary id; we import all the routes it receives over OSPF into its routing table and <code>export all;</code>.
+<ul>
+<li>The <code>import where net !~ 192.168.141.0/24;</code> line configures BIRD to avoid pulling in any routes to the <code>192.168.141.0/24</code> subnet from OSPF — this is the subnet we’re using for the WireGuard connection between <code>cn-router</code> and <code>sg-router</code>. This route is already set up in the <code>/etc/wireguard/sgcn.conf</code>.</li>
+<li>The <code>area 192.168.141.0</code> block configures BIRD to use the area with an ID of <code>192.168.141.0</code> for OSPF on the specified interface. This ID is also an arbitrary 32-bit number. The <code>interface &quot;sgcn&quot;</code> specifies that the <code>sgcn</code> interface we set up is included in the area definition.</li>
+</ul>
+</li>
+</ul>
+<p>With this setting, the router will listen for and setd out OSPF broadcasts on the <code>sgcn</code> interface, importing the routes learned from OSPF into the table, and exporting the other routes in its table to share over OSPF. As you can se <code>protocol ospf v2 cn</code> is the OSPF for the <code>cn</code> LAN.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># start bird</span>
+sudo systemctl start bird
+<span style="color:#75715e"># check birdc status</span>
+sudo birdc 
+<span style="color:#75715e"># reload configuration</span>
+sudo birdc configurate
+<span style="color:#75715e"># check ospf </span>
+sudo birdc show ospf
+<span style="color:#75715e"># check route table</span>
+sudo birdc show route
+</code></pre></div><p>With the above configuration, <code>cn-router</code> and <code>sg-router</code> can communicate and exchange routing table, the next step is to propagate <code>cn</code> and to <code>sg</code>&rsquo;s node. We can still use <code>OSPF</code> for routing.</p>
+<p><img src="https://bucket.cklau.cc/outline-bucket/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/18362fae-26e4-403b-9c54-79b1fe7539e9/ospf-lnet.png" alt="ospf routing"></p>
+<p>As you can see, two LAN OSPF can sharing the local routing table to each other via the <code>sgcn</code> and <code>sgjp</code>.</p>
+<h4 id="ibgp---interior-border-gateway-protocol">iBGP - Interior Border Gateway Protocol</h4>
+<p>IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.</p>
+<p>(to be continued)</p>
 </section>
 
   
