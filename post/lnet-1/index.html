@@ -129,7 +129,7 @@ However, to investigate deeper into the network performance, I started to learn 
 <meta itemprop="description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
 However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters."><meta itemprop="datePublished" content="2022-10-18T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="1543">
+<meta itemprop="wordCount" content="1845">
 <meta itemprop="keywords" content="networking,wireguard,experimental network," />
   
   <meta name="twitter:card" content="summary"/>
@@ -641,7 +641,52 @@ sudo birdc show route
 <p>As you can see, two LAN OSPF can sharing the local routing table to each other via the <code>sgcn</code> and <code>sgjp</code>.</p>
 <h4 id="ibgp---interior-border-gateway-protocol">iBGP - Interior Border Gateway Protocol</h4>
 <p>IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.</p>
-<p>(to be continued)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># configuration of cn-router</span>
+router id 192.168.199.1;
+define LOCAL_ASN <span style="color:#f92672">=</span> 4242420100;
+
+protocol device <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+protocol kernel <span style="color:#f92672">{</span>
+    ipv4 <span style="color:#f92672">{</span>
+        export where proto <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wg&#34;</span>;
+    <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>
+
+protocol ospf v2 wg <span style="color:#f92672">{</span>
+    ipv4 <span style="color:#f92672">{</span>
+        import where net !~ 192.168.141.0/24;
+        export all;
+    <span style="color:#f92672">}</span>;
+    area 192.168.141.0 <span style="color:#f92672">{</span>
+        interface <span style="color:#e6db74">&#34;sgcn&#34;</span>;
+    <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>
+
+protocol direct <span style="color:#f92672">{</span>
+    ipv4;
+    interface <span style="color:#e6db74">&#34;cn&#34;</span>;
+<span style="color:#f92672">}</span>
+
+protocol bgp lnet_sgcn <span style="color:#f92672">{</span>
+    local 192.168.141.2 as 4242420100;
+    neighbor 192.168.141.1 as 4242420100;
+    multihop 1;
+    graceful restart on;
+    rr client;
+
+    ipv4 <span style="color:#f92672">{</span>
+        import all;
+        export all;
+    <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li><code>protocal direct</code> block with the actual name of the roter&rsquo;s LAN interface, for here, my router&rsquo;s LAN interface is <code>cn</code>. The <code>protocal direct</code> is required as it is used to import the direct interface routes for the LAN interface into BIRD&rsquo;s routing table, so that it can add the correct next hop to the routes from the other site that it will share via BGP.</li>
+<li><code>protocal bgp lnet</code> is used to define the BGP section, again, the <code>lnet_sgnn</code> is just arbitrary ID for the protocal, you can use any word/number you want.</li>
+<li><code>export all</code> directs BIRD to share all the rotes in the routing table with the other iBGP server. <code>next hop self</code> directs it to adjust those roures to make the Wireguard router itself the next hop in all those routes. This will share the rotes the Wireguard roter learned from the other site, using the Wireguard router it elf as the link to the site.</li>
+<li><code>local 192.168.141.2 as 424220100</code> and <code>neighbor 192.168.141.1 as 424220100</code> is defining the AS number of local machine and the neighbor. If these two ASN are the same, we are defining a <code>iBGP</code> and if there are different we are defining a <code>eBGP</code>.</li>
+</ul>
+<p>For now, I have tried <code>OSPF</code> and <code>iBGP</code>. But I just simply follow the instruction and did not dig into the high-level setting.</p>
 </section>
 
   
