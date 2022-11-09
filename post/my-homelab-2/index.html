@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Homelab: My Distributed Homelab - Terence Lau</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
+Service For the homelab, I would like to docker as it is very covinence and can set up easily." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://gravatar.xingez.me/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/rss.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Homelab: My Distributed Homelab" />
+<meta property="og:description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
+Service For the homelab, I would like to docker as it is very covinence and can set up easily." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-07-21T00:11:21+08:00" />
+
+
+
+  
+  <meta itemprop="name" content="Homelab: My Distributed Homelab">
+<meta itemprop="description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
+Service For the homelab, I would like to docker as it is very covinence and can set up easily."><meta itemprop="datePublished" content="2022-07-21T00:11:21+08:00" />
+
+<meta itemprop="wordCount" content="1478">
+<meta itemprop="keywords" content="homelab,networking,hardware," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Homelab: My Distributed Homelab"/>
+<meta name="twitter:description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
+Service For the homelab, I would like to docker as it is very covinence and can set up easily."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >Terence Lau</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/projects/"
+        >Projects</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./rss.svg)"
+        href=" https://blog.cklau.cc/index.xml "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-10">
+    <h1 class="!my-0 pb-2.5">Homelab: My Distributed Homelab</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      
+      
+      
+      Published Jul 20, 2022
+      
+      
+      
+    </div>
+    
+  </header>
+
+
+  
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/homelab"
+      >homelab</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/networking"
+      >networking</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/hardware"
+      >hardware</a>
+    
+  
+  <hr>
+  <section><h2 id="networking">Networking</h2>
+<p>For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose <a href="https://tailscale.com/">Tailscale</a> as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.</p>
+<h2 id="service">Service</h2>
+<p>For the homelab, I would like to docker as it is very covinence and can set up easily.</p>
+<p>To install the docker, I just follow the intrduction from the <a href="https://docs.docker.com/engine/install/ubuntu/">document</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># uninstall old versions (if installed) </span>
+sudo apt-get install remove docker docker-engine docker.io containere runc
+
+<span style="color:#75715e"># install using the repository</span>
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg lsb-release <span style="color:#75715e"># some preliminary</span>
+sudo mkdir -p /etc/apt/keyrings <span style="color:#75715e"># add gpg key</span>
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+<span style="color:#75715e">## add key</span>
+echo <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+</span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+<span style="color:#75715e"># OPTIONAL: for China&#39;s user you may use mirrors.bfsu.edu.cn for a smooth download experience</span>
+echo <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.bfsu.edu.cn/docker-ce/linux/ubuntu \
+</span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+<span style="color:#75715e"># update apt repository and install docker and related packages</span>
+sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+
+<span style="color:#75715e"># check docker verion</span>
+sudo docker version
+<span style="color:#75715e"># Client: Docker Engine - Community</span>
+<span style="color:#75715e">#  Version:           20.10.18</span>
+<span style="color:#75715e">#  API version:       1.41</span>
+<span style="color:#75715e">#  Go version:        go1.18.6</span>
+<span style="color:#75715e">#  Git commit:        b40c2f6</span>
+<span style="color:#75715e">#  Built:             Thu Sep  8 23:11:43 2022</span>
+<span style="color:#75715e">#  OS/Arch:           linux/amd64</span>
+<span style="color:#75715e">#  Context:           default</span>
+<span style="color:#75715e">#  Experimental:      true</span>
+
+<span style="color:#75715e"># Server: Docker Engine - Community</span>
+<span style="color:#75715e">#  Engine:</span>
+<span style="color:#75715e">#   Version:          20.10.18</span>
+<span style="color:#75715e">#   API version:      1.41 (minimum version 1.12)</span>
+<span style="color:#75715e">#   Go version:       go1.18.6</span>
+<span style="color:#75715e">#   Git commit:       e42327a</span>
+<span style="color:#75715e">#   Built:            Thu Sep  8 23:09:30 2022</span>
+<span style="color:#75715e">#   OS/Arch:          linux/amd64</span>
+<span style="color:#75715e">#   Experimental:     false</span>
+<span style="color:#75715e">#  containerd:</span>
+<span style="color:#75715e">#   Version:          1.6.8</span>
+<span style="color:#75715e">#   GitCommit:        9cd3357b7fd7218e4aec3eae239db1f68a5a6ec6</span>
+<span style="color:#75715e">#  runc:</span>
+<span style="color:#75715e">#   Version:          1.1.4</span>
+<span style="color:#75715e">#   GitCommit:        v1.1.4-0-g5fd4c4d</span>
+<span style="color:#75715e">#  docker-init:</span>
+<span style="color:#75715e">#   Version:          0.19.0</span>
+<span style="color:#75715e">#   GitCommit:        de40ad0</span>
+</code></pre></div><h3 id="multimedia">MultiMedia</h3>
+<p>There are multiple multimedia software, for istance, <a href="https://www.plex.tv/">Plex</a>, <a href="https://emby.media">Emby</a>, <a href="https://jellyfin.org">Jellyfin</a>, and <a href="https://kodi.tv/">KODI</a>. For some reason, I did not want to pay too much money of the media service as I just want a place that can show the poster and brief introduction of the video, and I don&rsquo;t need too much &ldquo;fancy&rdquo; features. By comparison, I choose Jellyfin, the &ldquo;open-source version of Emby&rdquo;, as me multimedia server and I install it via the <code>docker-compose.yml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;2.1&#34;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">jellyfin</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">lscr.io/linuxserver/jellyfin:latest</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">jellyfin</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">PUID=1000</span>
+      - <span style="color:#ae81ff">PGID=1000</span>
+      - <span style="color:#ae81ff">TZ=Asia/Shanghai</span>
+    <span style="color:#f92672">volumes</span>: <span style="color:#75715e"># map the physical volume to the container</span>
+      - <span style="color:#ae81ff">/path/to/library:/config       </span>
+      - <span style="color:#ae81ff">/path/to/tvseries:/data/tvshows</span>
+      - <span style="color:#ae81ff">/path/to/movies:/data/movies</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">8096</span>:<span style="color:#ae81ff">8096</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span> <span style="color:#75715e"># when docker restart, the docker image will auto restart</span>
+</code></pre></div><h3 id="authentication">Authentication</h3>
+<p>There are many authentication software that support Oauth, for instance, <a href="https://goauthentik.io/">Authentik</a>, <a href="https://www.okta.com/">Okta</a>, <a href="https://auth0.com/">auth0</a>, <a href="https://github.com/ory/hydra">Ory Hydra</a>, <a href="https://www.keycloak.org/">KeyCloak</a>, an there are some authentication cloud services, like <a href="https://authing.cn">authing.com</a>. By comparsion, I choose Authentik and KeyCloak, authentik has a good-looking interface, and KeyCloak is a widely used software, which mean there are more example and solution on the interest. The authentik is used for my self-hosted services, and the KeyCloak is for the other serive that I need to provide to other users. Similarly, I use <code>docker-compose.yml</code> to set up these services:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Authentik</span>
+<span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://goauthentik.io/docs/installation/docker-compose for the detail</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.4&#39;</span>
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">postgresql</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/library/postgres:12-alpine</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD-SHELL&#34;</span>, <span style="color:#e6db74">&#34;pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}&#34;</span>]
+      <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">5</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">5s</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">database:/var/lib/postgresql/data</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">POSTGRES_PASSWORD=${PG_PASS:?database password required}</span>
+      - <span style="color:#ae81ff">POSTGRES_USER=${PG_USER:-authentik}</span>
+      - <span style="color:#ae81ff">POSTGRES_DB=${PG_DB:-authentik}</span>
+    <span style="color:#f92672">env_file</span>:
+      - <span style="color:#ae81ff">.env</span>
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/library/redis:alpine</span>
+    <span style="color:#f92672">command</span>: --<span style="color:#ae81ff">save 60 1 --loglevel warning</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD-SHELL&#34;</span>, <span style="color:#e6db74">&#34;redis-cli ping | grep PONG&#34;</span>]
+      <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">5</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">3s</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">redis:/data</span>
+  <span style="color:#f92672">server</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2022.9.0}</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">server</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">AUTHENTIK_REDIS__HOST</span>: <span style="color:#ae81ff">redis</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__HOST</span>: <span style="color:#ae81ff">postgresql</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__USER</span>: <span style="color:#ae81ff">${PG_USER:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__NAME</span>: <span style="color:#ae81ff">${PG_DB:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__PASSWORD</span>: <span style="color:#ae81ff">${PG_PASS}</span>
+      <span style="color:#75715e"># AUTHENTIK_ERROR_REPORTING__ENABLED: &#34;true&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./media:/media</span>
+      - <span style="color:#ae81ff">./custom-templates:/templates</span>
+      - <span style="color:#ae81ff">geoip:/geoip</span>
+    <span style="color:#f92672">env_file</span>:
+      - <span style="color:#ae81ff">.env</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;0.0.0.0:${AUTHENTIK_PORT_HTTP:-9000}:9000&#34;</span>
+      - <span style="color:#e6db74">&#34;0.0.0.0:${AUTHENTIK_PORT_HTTPS:-9443}:9443&#34;</span>
+  <span style="color:#f92672">worker</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2022.9.0}</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">worker</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">AUTHENTIK_REDIS__HOST</span>: <span style="color:#ae81ff">redis</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__HOST</span>: <span style="color:#ae81ff">postgresql</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__USER</span>: <span style="color:#ae81ff">${PG_USER:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__NAME</span>: <span style="color:#ae81ff">${PG_DB:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__PASSWORD</span>: <span style="color:#ae81ff">${PG_PASS}</span>
+      <span style="color:#75715e"># AUTHENTIK_ERROR_REPORTING__ENABLED: &#34;true&#34;</span>
+    <span style="color:#75715e"># This is optional, and can be removed. If you remove this, the following will happen</span>
+    <span style="color:#75715e"># - The permissions for the /media folders aren&#39;t fixed, so make sure they are 1000:1000</span>
+    <span style="color:#75715e"># - The docker socket can&#39;t be accessed anymore</span>
+    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">root</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./media:/media</span>
+      - <span style="color:#ae81ff">./certs:/certs</span>
+      - <span style="color:#ae81ff">/var/run/docker.sock:/var/run/docker.sock</span>
+      - <span style="color:#ae81ff">./custom-templates:/templates</span>
+      - <span style="color:#ae81ff">geoip:/geoip</span>
+    <span style="color:#f92672">env_file</span>:
+      - <span style="color:#ae81ff">.env</span>
+
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">database</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">local</span>
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">local</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># KeyClock</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">postgres</span>:
+      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres</span>
+      <span style="color:#f92672">volumes</span>:
+        - <span style="color:#ae81ff">./data:/var/lib/postgresql/data</span>
+      <span style="color:#f92672">environment</span>:
+        <span style="color:#f92672">POSTGRES_DB</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">POSTGRES_USER</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">POSTGRES_PASSWORD</span>: <span style="color:#ae81ff">password</span>
+
+  <span style="color:#f92672">keycloak</span>:
+      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">keycloak/keycloak:latest</span>
+      <span style="color:#f92672">environment</span>:
+        <span style="color:#f92672">DB_VENDOR</span>: <span style="color:#ae81ff">POSTGRES</span>
+        <span style="color:#f92672">DB_ADDR</span>: <span style="color:#ae81ff">postgres</span>
+        <span style="color:#f92672">DB_DATABASE</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">DB_USER</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">DB_SCHEMA</span>: <span style="color:#ae81ff">public</span>
+        <span style="color:#f92672">DB_PASSWORD</span>: <span style="color:#ae81ff">password      </span> <span style="color:#75715e"># change it if you want</span>
+        <span style="color:#f92672">KEYCLOAK_USER</span>: <span style="color:#ae81ff">admin</span>
+        <span style="color:#f92672">KEYCLOAK_PASSWORD</span>: <span style="color:#ae81ff">Pa55w0rd</span> <span style="color:#75715e"># change it if you want </span>
+        <span style="color:#f92672">PROXY_ADDRESS_FORWARDING</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+        <span style="color:#f92672">REDIRECT_SOCKET</span>: <span style="color:#e6db74">&#34;proxy-https&#34;</span>
+      <span style="color:#f92672">ports</span>:
+        - <span style="color:#ae81ff">8080</span>:<span style="color:#ae81ff">8080</span>
+      <span style="color:#f92672">depends_on</span>:
+        - <span style="color:#ae81ff">postgres</span>
+</code></pre></div><h3 id="working-and-coding">Working and Coding</h3>
+<p>Most of the time, I just use the local environment for the documentation and coding, however, sometimes I will re-build the computer and to avoid the data loss. Thus, I choose <a href="https://github.com/outline/outline">outline</a> for the documentation, <a href="https://www.dokuwiki.org/dokuwiki">dokuwiki</a> for building the wiki system, [Nexcloud] as my personal Net storage,  and <a href="https://gitea.io">Gitea</a> as my self-hosted code repository. Outline is a Nation-alternative software which also provide a beatiful, realtime knowledge base, where I can easily store my throught and idea wia the web. Dokuwiki is a well-known wiki system without a database backend, which means I can easily migrate it to any place. Between Gitea and Gitlab, I choose Gitea at last because GitLab&rsquo;s hardware requirement is too high that I don&rsquo;t have enough resources to run a GitLab and I just need a place to store my code, not those extra features.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># outline </span>
+<span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://app.getoutline.com/s/770a97da-13e5-401e-9f8a-37949c19f97e/doc/docker-7pfeLP5a8t for the detail</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+<span style="color:#f92672">services</span>:
+
+  <span style="color:#f92672">outline</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">outlinewiki/outline</span>
+    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">./docker.env</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">sh -c &#34;yarn sequelize:migrate --env=production-ssl-disabled &amp;&amp; yarn start --env=production-ssl-disabled&#34;</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;3000&#34;</span><span style="color:#ae81ff">3000</span><span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">    depends_on:
+</span><span style="color:#e6db74">      - postgres
+</span><span style="color:#e6db74">      - redis
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">  redis:
+</span><span style="color:#e6db74">    image: redis
+</span><span style="color:#e6db74">    env_file: ./docker.env
+</span><span style="color:#e6db74">    ports:
+</span><span style="color:#e6db74">      - &#34;</span><span style="color:#ae81ff">6379</span>:<span style="color:#ae81ff">6379</span><span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">    volumes:
+</span><span style="color:#e6db74">      - ./redis.conf:/redis.conf
+</span><span style="color:#e6db74">    command: [&#34;</span><span style="color:#ae81ff">redis-server&#34;, &#34;/redis.conf&#34;]</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;redis-cli&#34;</span>, <span style="color:#e6db74">&#34;ping&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">10s</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">3</span>
+
+  <span style="color:#f92672">postgres</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres</span>
+    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">./docker.env</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;5432:5432&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">database-data:/var/lib/postgresql/data</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;pg_isready -U user&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">3</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">POSTGRES_USER</span>: <span style="color:#ae81ff">user      </span> <span style="color:#75715e"># change it if you want</span>
+      <span style="color:#f92672">POSTGRES_PASSWORD</span>: <span style="color:#ae81ff">pass  </span> <span style="color:#75715e"># change it if you want</span>
+      <span style="color:#f92672">POSTGRES_DB</span>: <span style="color:#ae81ff">outline</span>
+
+  <span style="color:#f92672">storage</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">minio/minio:latest</span>
+    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">./docker.env</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;9000:9000&#34;</span>
+      - <span style="color:#e6db74">&#34;9001:9001&#34;</span>
+    <span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">sh</span>
+    <span style="color:#f92672">command</span>: -<span style="color:#ae81ff">c &#39;minio server /data --console-address &#34;:9001&#34;&#39;</span>
+    <span style="color:#f92672">deploy</span>:
+      <span style="color:#f92672">restart_policy</span>:
+        <span style="color:#f92672">condition</span>: <span style="color:#66d9ef">on</span>-<span style="color:#ae81ff">failure</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/mnt/minio/data:/data</span>
+      - <span style="color:#ae81ff">/mnt/minio/config:/root/.minio</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;curl&#34;</span>, <span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;http://storage:9000/minio/health/live&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">3</span>
+
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">storage-data</span>:
+  <span style="color:#ae81ff">database-data</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># dokuwiki</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">dokuwiki</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/bitnami/dokuwiki</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#39;8089:8080&#39;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./dokuwiki:/bitnami/dokuwiki&#39;</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Nextcloud</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">app</span>:
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_app</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nextcloud</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">10000</span>:<span style="color:#ae81ff">80</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">DATABASE_URL=mysql+pymysql://nextcloud:nextcloud@db/nextcloud</span>
+      - <span style="color:#ae81ff">REDIS_URL=redis://redis:6379</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/nextcloud/www:/var/www/html</span>
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">db</span>
+      - <span style="color:#ae81ff">redis</span>
+    <span style="color:#f92672">networks</span>:
+        <span style="color:#f92672">default</span>:
+        <span style="color:#f92672">internal</span>:
+
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_db</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mariadb:10.5</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">MYSQL_ROOT_PASSWORD=nextcloud  </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">MYSQL_USER=nextcloud           </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">MYSQL_PASSWORD=nextcloud       </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">MYSQL_DATABASE=nextcloud       </span> <span style="color:#75715e"># change it if you want</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/nextcloud/db:/var/lib/mysql</span>
+    <span style="color:#f92672">networks</span>:
+        <span style="color:#f92672">internal</span>:
+    <span style="color:#f92672">command</span>: --<span style="color:#ae81ff">transaction-isolation=READ-COMMITTED --binlog-format=ROW</span>
+
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_redis</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/nextcloud/redis/data:/data</span>
+      - <span style="color:#ae81ff">/opt/nextcloud/redis/redis.conf:/etc/redis/redis.conf</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">networks</span>:
+        <span style="color:#f92672">internal</span>:
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">redis-server /etc/redis/redis.conf --appendonly yes</span>
+
+<span style="color:#f92672">networks</span>:
+    <span style="color:#f92672">default</span>:
+    <span style="color:#f92672">internal</span>:
+        <span style="color:#f92672">internal</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Gitea</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">gitea</span>:
+    <span style="color:#f92672">external</span>: <span style="color:#66d9ef">false</span>
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">server</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">gitea/gitea:latest</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">gitea</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">USER_UID=1000</span>
+      - <span style="color:#ae81ff">USER_GID=1000</span>
+      - <span style="color:#ae81ff">GITEA__database__DB_TYPE=postgres</span>
+      - <span style="color:#ae81ff">GITEA__database__HOST=db:5432  </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">GITEA__database__NAME=gitea    </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">GITEA__database__USER=gitea    </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">GITEA__database__PASSWD=gitea  </span> <span style="color:#75715e"># change it if you want</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">gitea</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./gitea:/data</span>
+      - <span style="color:#ae81ff">/etc/timezone:/etc/timezone:ro</span>
+      - <span style="color:#ae81ff">/etc/localtime:/etc/localtime:ro</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;3000:3000&#34;</span>
+      - <span style="color:#e6db74">&#34;1022:22&#34;</span>
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">db</span>
+
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres:14</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">POSTGRES_USER=gitea</span>
+      - <span style="color:#ae81ff">POSTGRES_PASSWORD=gitea</span>
+      - <span style="color:#ae81ff">POSTGRES_DB=gitea</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">gitea</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./postgres:/var/lib/postgresql/data</span>
+</code></pre></div><h3 id="rss-feed-reader">RSS Feed Reader</h3>
+<p>I use Miniflux as my RSS Feed Reader, the reason why I give Tiny Tiny RSS is that Miniflux V2 is written by Go-lang and I don&rsquo;t like PHP.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.4&#39;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">miniflux</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">miniflux/miniflux:latest</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;8080:8080&#34;</span>
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">db</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable</span>
+      - <span style="color:#ae81ff">RUN_MIGRATIONS=1</span>
+      - <span style="color:#ae81ff">CREATE_ADMIN=1</span>
+      - <span style="color:#ae81ff">ADMIN_USERNAME=admin</span>
+      - <span style="color:#ae81ff">ADMIN_PASSWORD=Pa55word</span>
+      - <span style="color:#ae81ff">OAUTH2_USER_CREATION=true</span>
+      - <span style="color:#ae81ff">OAUTH2_PROVIDER=oidc</span>
+      - <span style="color:#ae81ff">OAUTH2_CLIENT_ID=&lt;oauth-client-id&gt;</span>
+      - <span style="color:#ae81ff">OAUTH2_CLIENT_SECRET=&lt;oauth-client-secret&gt;</span>
+      - <span style="color:#ae81ff">OAUTH2_REDIRECT_URL=&lt;miniflux-url&gt;oauth2/oidc/callback</span>
+      - <span style="color:#ae81ff">OAUTH2_OIDC_DISCOVERY_ENDPOINT=&lt;oidc-endpoint&gt;</span>
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres:latest</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">POSTGRES_USER=miniflux</span>
+      - <span style="color:#ae81ff">POSTGRES_PASSWORD=secret</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">miniflux-db:/var/lib/postgresql/data</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;pg_isready&#34;</span>, <span style="color:#e6db74">&#34;-U&#34;</span>, <span style="color:#e6db74">&#34;miniflux&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">10s</span>
+      <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">30s</span>
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">miniflux-db</span>:
+</code></pre></div><h2 id="key-and-password-management">Key and Password Management</h2>
+<p>There are multiple different password manager, Google Password Manager, 1Password, LastPass, etc.. But I choose Bitwarden as I can self-host the software on my own machine and I don&rsquo;t need to worry about the data leakage.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">bitwarden</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">bitwardenrs/server</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">bitwardenrs</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">ports</span>:
+        - <span style="color:#e6db74">&#34;127.0.0.1:8000:80&#34;</span>
+        - <span style="color:#e6db74">&#34;127.0.0.1:3012:3012&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./bw-data:/data</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">WEBSOCKET_ENABLED</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#f92672">SIGNUPS_ALLOWED</span>: <span style="color:#e6db74">&#34;false&#34;</span>
+      <span style="color:#f92672">WEB_VAULT_ENABLED</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#f92672">ADMIN_TOKEN</span>: <span style="color:#e6db74">&#34;&lt;admin-token&gt;&#34;</span> <span style="color:#75715e"># you can generate the token by using openssl: `openssl rand -hex 32`</span>
+</code></pre></div></section>
+
+  
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://blog.cklau.cc/post/my-homelab-4/"
+      ><span class="mr-1.5">←</span><span>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/my-homelab-3/"
+      ><span>Homelab: My Network setup</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-80">
+  <div class="mr-auto">
+    
+    <a href="https://beian.miit.gov.cn">粤ICP备2022102668号</a>
+  </div>
+  The Object Storage Service is provided by <a class="link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/upyun.png" align="absmiddle" width="60px" height="30px"/></a>
+
+  
+</footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844674035384472"
+     crossorigin="anonymous"></script>
+  </body>
+</html>

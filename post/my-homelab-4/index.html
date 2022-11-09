@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control - Terence Lau</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="&ldquo;Uncomplicated firewall&rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &ldquo;uncomplicated&rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
+Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
+ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://gravatar.xingez.me/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/rss.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control" />
+<meta property="og:description" content="&ldquo;Uncomplicated firewall&rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &ldquo;uncomplicated&rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
+Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
+ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-4/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-07-21T00:11:21+08:00" />
+
+
+
+  
+  <meta itemprop="name" content="Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control">
+<meta itemprop="description" content="&ldquo;Uncomplicated firewall&rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &ldquo;uncomplicated&rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
+Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
+ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports."><meta itemprop="datePublished" content="2022-07-21T00:11:21+08:00" />
+
+<meta itemprop="wordCount" content="377">
+<meta itemprop="keywords" content="homelab,networking,docker,ufw," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control"/>
+<meta name="twitter:description" content="&ldquo;Uncomplicated firewall&rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &ldquo;uncomplicated&rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
+Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
+ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >Terence Lau</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/projects/"
+        >Projects</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./rss.svg)"
+        href=" https://blog.cklau.cc/index.xml "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-10">
+    <h1 class="!my-0 pb-2.5">Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      
+      
+      
+      Published Jul 20, 2022
+      
+      
+      
+    </div>
+    
+  </header>
+
+
+  
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/homelab"
+      >homelab</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/networking"
+      >networking</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/docker"
+      >docker</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/ufw"
+      >ufw</a>
+    
+  
+  <hr>
+  <section><p>&ldquo;Uncomplicated firewall&rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &ldquo;uncomplicated&rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.</p>
+<p>Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ubuntu@myserver:~$ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----                 
+<span style="color:#ae81ff">80</span>                         ALLOW       Anywhere                  
+<span style="color:#ae81ff">443</span>                        ALLOW       Anywhere                                 
+<span style="color:#ae81ff">22</span>                         ALLOW       Anywhere                           
+<span style="color:#ae81ff">80</span> <span style="color:#f92672">(</span>v6<span style="color:#f92672">)</span>                    ALLOW       Anywhere <span style="color:#f92672">(</span>v6<span style="color:#f92672">)</span>             
+<span style="color:#ae81ff">443</span> <span style="color:#f92672">(</span>v6<span style="color:#f92672">)</span>                   ALLOW       Anywhere <span style="color:#f92672">(</span>v6<span style="color:#f92672">)</span>                          
+<span style="color:#ae81ff">22</span> <span style="color:#f92672">(</span>v6<span style="color:#f92672">)</span>                    ALLOW       Anywhere <span style="color:#f92672">(</span>v6<span style="color:#f92672">)</span>
+</code></pre></div><p>In ufw list, I only allow the SSH port and HTTP/HTTPS ports. However, in <code>IPTABLES</code>, we can see that:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ubuntu@bayes:~$ sudo iptables -L DOCKER
+Chain DOCKER <span style="color:#f92672">(</span><span style="color:#ae81ff">7</span> references<span style="color:#f92672">)</span>
+target     prot opt source               destination         
+ACCEPT     tcp  --  anywhere             172.21.0.2           tcp dpt:http
+ACCEPT     tcp  --  anywhere             172.21.0.2           tcp dpt:3012
+ACCEPT     tcp  --  anywhere             172.28.0.2           tcp dpt:9000
+ACCEPT     tcp  --  anywhere             172.19.0.3           tcp dpt:postgresql
+ACCEPT     tcp  --  anywhere             172.19.0.2           tcp dpt:6379
+ACCEPT     tcp  --  anywhere             172.19.0.4           tcp dpt:9001
+ACCEPT     tcp  --  anywhere             172.19.0.4           tcp dpt:9000
+ACCEPT     tcp  --  anywhere             172.18.0.5           tcp dpt:9443
+ACCEPT     tcp  --  anywhere             172.18.0.5           tcp dpt:9000
+ACCEPT     tcp  --  anywhere             172.20.0.2           tcp dpt:8082
+ACCEPT     tcp  --  anywhere             172.20.0.2           tcp dpt:tproxy
+</code></pre></div><p>The Docker turn only multiple ports which does not show in the UFW list.</p>
+<h2 id="how-to-avoid-this">How to avoid this</h2>
+<p>First, make sure that the SSH port is allowed in UFW, and each container can be reached:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo ufw allow ssh              <span style="color:#75715e"># or ssh ufw allow &lt;ssh-port&gt;</span>
+ufw allow from 172.17.0.0/16    <span style="color:#75715e"># allow containers communication</span>
+ufw default deny incoming
+ufw default allow outgoing
+ufw default allow routed
+ufw disable <span style="color:#f92672">&amp;&amp;</span> ufw enable
+</code></pre></div><p>Then, we need to go the Docker&rsquo;s daemon to modify the configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo mkdir -p /lib/systemd/system/docker.service.d
+sudo cat <span style="color:#e6db74">&lt;&lt; EOF &gt; /lib/systemd/system/docker.service.d/override.conf
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">ExecStart=
+</span><span style="color:#e6db74">ExecStart=/usr/bin/dockerd
+</span><span style="color:#e6db74">EOF</span>
+
+sudo cat <span style="color:#e6db74">&lt;&lt; EOF &gt; /etc/docker/daemon.json
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">  &#34;hosts&#34;: [&#34;fd://&#34;],
+</span><span style="color:#e6db74">  &#34;dns&#34;: [&#34;8.8.8.8&#34;, &#34;8.8.4.4&#34;],
+</span><span style="color:#e6db74">  &#34;iptables&#34;: false
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+sudo systemctl daemon-reload <span style="color:#f92672">&amp;&amp;</span> sudo systemctl restart docker
+</code></pre></div><p>Last, we need to configura the Docker&rsquo;s NAT to make sure that all the containers can route via the <code>docker0</code> interface:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo cat <span style="color:#e6db74">&lt;&lt; EOF &gt;&gt; /etc/ufw/before.rules
+</span><span style="color:#e6db74">*nat
+</span><span style="color:#e6db74">:POSTROUTING ACCEPT [0:0]
+</span><span style="color:#e6db74">-A POSTROUTING ! -o docker0 -s 172.17.0.0/16 -j MASQUERADE
+</span><span style="color:#e6db74">COMMIT
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div></section>
+
+  
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://blog.cklau.cc/post/k3s-setup-1/"
+      ><span class="mr-1.5">←</span><span>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/my-homelab-2/"
+      ><span>Homelab: My Distributed Homelab</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-80">
+  <div class="mr-auto">
+    
+    <a href="https://beian.miit.gov.cn">粤ICP备2022102668号</a>
+  </div>
+  The Object Storage Service is provided by <a class="link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/upyun.png" align="absmiddle" width="60px" height="30px"/></a>
+
+  
+</footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844674035384472"
+     crossorigin="anonymous"></script>
+  </body>
+</html>
