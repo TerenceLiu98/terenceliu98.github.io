@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>registry on Terence Lau</title>
-    <link>https://blog.cklau.cc/tags/registry/</link>
+    <link>https://www.rho.ac.cn/tags/registry/</link>
     <description>Recent content in registry on Terence Lau</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/registry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/registry/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title>
-      <link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link>
+      <link>https://www.rho.ac.cn/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid>
+      <guid>https://www.rho.ac.cn/post/k3s-setup-extra-1/</guid>
       <description>As I have mentioned in K3s Setup 2, usually, it is not easy for the China&amp;rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
 Some options DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
 Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</description>

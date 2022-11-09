@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Terence Lau</title>
-    <link>https://blog.cklau.cc/tags/</link>
+    <link>https://www.rho.ac.cn/tags/</link>
     <description>Recent content in Tags on Terence Lau</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

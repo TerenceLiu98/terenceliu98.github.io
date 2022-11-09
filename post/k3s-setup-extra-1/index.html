@@ -61,12 +61,12 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://www.rho.ac.cn/main.min.css" />
 
   
   <script
     defer
-    src="https://blog.cklau.cc/highlight.min.js"
+    src="https://www.rho.ac.cn/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -77,7 +77,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
   <link
     rel="preload"
     as="image"
-    href="https://blog.cklau.cc/theme.png"
+    href="https://www.rho.ac.cn/theme.png"
   />
 
   
@@ -88,14 +88,14 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
   
 
   
-  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  <link rel="preload" as="image" href="https://www.rho.ac.cn/github.svg" />
   
-  <link rel="preload" as="image" href="https://blog.cklau.cc/rss.svg" />
+  <link rel="preload" as="image" href="https://www.rho.ac.cn/rss.svg" />
   
 
   
-  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+  <link rel="icon" href="https://www.rho.ac.cn/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://www.rho.ac.cn/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.89.4" />
@@ -117,7 +117,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
 Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
 Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.cklau.cc/post/k3s-setup-extra-1/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://www.rho.ac.cn/post/k3s-setup-extra-1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-10-02T10:00:00+08:00" />
 
 
@@ -144,7 +144,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
   <body class="text-black duration-200 ease-out dark:text-white">
     <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
   <div class="relative z-50 mr-auto flex items-center">
-    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://www.rho.ac.cn"
       >Terence Lau</a
     >
     <a
@@ -239,7 +239,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <a
         class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
         style="--url: url(./rss.svg)"
-        href=" https://blog.cklau.cc/index.xml "
+        href=" https://www.rho.ac.cn/index.xml "
         target="_blank"
       ></a>
       
@@ -277,27 +277,27 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
-      href="https://blog.cklau.cc/tags/k3s"
+      href="https://www.rho.ac.cn/tags/k3s"
       >k3s</a>
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
-      href="https://blog.cklau.cc/tags/kubernetes"
+      href="https://www.rho.ac.cn/tags/kubernetes"
       >kubernetes</a>
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
-      href="https://blog.cklau.cc/tags/docker"
+      href="https://www.rho.ac.cn/tags/docker"
       >docker</a>
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
-      href="https://blog.cklau.cc/tags/registry"
+      href="https://www.rho.ac.cn/tags/registry"
       >registry</a>
     
   
   <hr>
-  <section><p>As I have mentioned in <a href="https://blog.cklau.cc/post/k3s-setup-2/" title="K3s Setup 2">K3s Setup 2</a>, usually, it is not easy for the China&rsquo;s user to access <code>https://gcr.io</code>, <code>https://k8s.gcr.io</code> or <code>https://ghcr.io</code>. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.</p>
+  <section><p>As I have mentioned in <a href="https://www.rho.ac.cn/post/k3s-setup-2/" title="K3s Setup 2">K3s Setup 2</a>, usually, it is not easy for the China&rsquo;s user to access <code>https://gcr.io</code>, <code>https://k8s.gcr.io</code> or <code>https://ghcr.io</code>. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.</p>
 <h2 id="some-options">Some options</h2>
 <p>DockerHub provide a &ldquo;offical&rdquo; package called <a href="https://docs.docker.com/registry/">Docker Registry</a> where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.</p>
 <p>Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</p>
@@ -440,14 +440,14 @@ sudo docker pull registry.example.com/coreos/kube-state-metrics:v1.5.0          
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
-    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://blog.cklau.cc/post/lnet-1/"
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://www.rho.ac.cn/post/lnet-1/"
       ><span class="mr-1.5">←</span><span>👨‍💻 My Personal Experimental Network: L-Net</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
-      href="https://blog.cklau.cc/post/k3s-setup-2/"
+      href="https://www.rho.ac.cn/post/k3s-setup-2/"
       ><span>K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</span><span class="ml-1.5">→</span></a
     >
     

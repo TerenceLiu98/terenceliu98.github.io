@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Terence Lau</title>
-    <link>https://blog.cklau.cc/categories/</link>
+    <link>https://www.rho.ac.cn/categories/</link>
     <description>Recent content in Categories on Terence Lau</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright><atom:link href="https://blog.cklau.cc/categories/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright><atom:link href="https://www.rho.ac.cn/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

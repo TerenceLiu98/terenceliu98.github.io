@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Terence Lau</title>
-    <link>https://blog.cklau.cc/post/</link>
+    <link>https://www.rho.ac.cn/post/</link>
     <description>Recent content in Posts on Terence Lau</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Homelab: How to build a AIO home-server</title>
-      <link>https://blog.cklau.cc/post/my-homelab-5/</link>
+      <link>https://www.rho.ac.cn/post/my-homelab-5/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/my-homelab-5/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-5/</guid>
       <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
     </item>
     
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net</title>
-      <link>https://blog.cklau.cc/post/lnet-1/</link>
+      <link>https://www.rho.ac.cn/post/lnet-1/</link>
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/lnet-1/</guid>
+      <guid>https://www.rho.ac.cn/post/lnet-1/</guid>
       <description>Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
 However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters.</description>
     </item>
     
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title>
-      <link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link>
+      <link>https://www.rho.ac.cn/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid>
+      <guid>https://www.rho.ac.cn/post/k3s-setup-extra-1/</guid>
       <description>As I have mentioned in K3s Setup 2, usually, it is not easy for the China&amp;rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
 Some options DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
 Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</description>
@@ -40,30 +40,30 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
     
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</title>
-      <link>https://blog.cklau.cc/post/k3s-setup-2/</link>
+      <link>https://www.rho.ac.cn/post/k3s-setup-2/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/k3s-setup-2/</guid>
+      <guid>https://www.rho.ac.cn/post/k3s-setup-2/</guid>
       <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
     </item>
     
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</title>
-      <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
+      <link>https://www.rho.ac.cn/post/k3s-setup-1/</link>
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
+      <guid>https://www.rho.ac.cn/post/k3s-setup-1/</guid>
       <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
 For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
     </item>
     
     <item>
       <title>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
-      <link>https://blog.cklau.cc/post/my-homelab-4/</link>
+      <link>https://www.rho.ac.cn/post/my-homelab-4/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/my-homelab-4/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-4/</guid>
       <description>&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
 Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
 ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports.</description>
@@ -71,39 +71,39 @@ ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 
     
     <item>
       <title>Homelab: My Distributed Homelab</title>
-      <link>https://blog.cklau.cc/post/my-homelab-2/</link>
+      <link>https://www.rho.ac.cn/post/my-homelab-2/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/my-homelab-2/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
       <description>Networking For the homelab, I would like to choose a commerical company&amp;rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&amp;rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
 Service For the homelab, I would like to docker as it is very covinence and can set up easily.</description>
     </item>
     
     <item>
       <title>Homelab: My Network setup</title>
-      <link>https://blog.cklau.cc/post/my-homelab-3/</link>
+      <link>https://www.rho.ac.cn/post/my-homelab-3/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/my-homelab-3/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-3/</guid>
       <description>In General Tools I use I choose Wireguard since it’s fast because of its light design, and it’s secure because it uses the best cryptographic tools available. However, for each time, the user may need to consider a SUBNET for the wireguard and a IP for each node, for me, it is every annoyed, as I have too many subnet need to be configured. Thus, I build a little tool: wgtools</description>
     </item>
     
     <item>
       <title>Homelab: My Devices</title>
-      <link>https://blog.cklau.cc/post/my-homelab-1/</link>
+      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/my-homelab-1/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
       <description>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
 Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.</description>
     </item>
     
     <item>
       <title>大二，我的桌面</title>
-      <link>https://blog.cklau.cc/post/desk-set-up/</link>
+      <link>https://www.rho.ac.cn/post/desk-set-up/</link>
       <pubDate>Fri, 06 Apr 2018 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/desk-set-up/</guid>
+      <guid>https://www.rho.ac.cn/post/desk-set-up/</guid>
       <description>昨天晚上，骑完车回来，坐在凳子上休息，突然萌生了要重新收拾桌面的想法，于是乎，说干就干。
 介绍一下，这几个屏幕：最左边的是一个戴尔家 P2317h 为什么没有上 U 系列，当然是因为没有钱啦。而且，我对色彩的要求不太高，这样的话， P 系列自然有着更高的性价比；往右边走，是一台 MacBook pro 15-inch Mid-2015 这是我在高三上学期买的电脑，到目前为止，依旧流畅。但是还是希望暑假的时候可以配一台主机以用来跑深（绝）度（地）学（求）习（生）；现在它是一台半主机的状态，因为我买了一台 chormebook （HP chromebook 1 4）作为日常使用；中间有一个小小个的时钟，其实这是个平板： Nokia N1 这个歌板子除了屏幕质量不错以外，别的一无是处，所以除了带上床看剧以外，就放在这里当个时钟用了（刚好我也缺一个钟）；
 倒数第二个屏幕，只有背光没有显示，是因为，树莓派正处于休眠状态。我也是这个学期才开始玩树莓派，利用 samba 服务做一个简易的 nas 。最右边的就是前几天米粉节买的小米电视 4A 32-inch。为什么会买它？主要是因为 xbox one 卖不出去，而且自己也想玩，就入手了这台电视。虽然分辨率不高，应用商店东西不多，但是这都难不倒我们 “机佬” 嘛。利用 Xbox 中的 Kodi 还是可以做很多事情滴。
@@ -116,10 +116,10 @@ Why Distributed Since I am wandering around the big bay area, multiple different
     
     <item>
       <title>2018 进货记录</title>
-      <link>https://blog.cklau.cc/post/purchase/</link>
+      <link>https://www.rho.ac.cn/post/purchase/</link>
       <pubDate>Thu, 01 Feb 2018 00:11:21 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/purchase/</guid>
+      <guid>https://www.rho.ac.cn/post/purchase/</guid>
       <description>从上个学期期末就开始纠结：到底是买一个Chromebook 还是买一个好用的平板，鉴于自己本身已经拥有了一台 x86 平板，而且安卓平台上也发现了一个很好的终端 Termux 和一个很好的 Markdown 编辑器： MarkdownX ，所以还是决定用这笔预算去买一个蓝牙键盘和鼠标。
 鼠标 一直在使用罗技的鼠标，M280 可以说是非常的实在了，虽然偏小，但是回弹和手型比其他同价位的鼠标优秀。
 应该很多人都看过 Zealer 王自如的 办公室1.0 我十分的喜欢他那样的工业风（loft）设计，其中他的键盘和鼠标也是一直在我的购物车中；去年的下半年，罗技更新了一波，logi MX anywhere 2s 和 logi MX master 2s 都上架了， 同学中也有买了 anywhere 的，体验了一波，感觉还是偏小了。所以，过完年后直接在罗技的旗舰店入手了 MX master 2s 。可以说是非常的快了，第二天就到了。 到手的时候，吓了一跳，明明只是一个键盘和一个鼠标，但是却寄来了一个30＊50 的大盒子，里面充满了填充物，可以说是非常的良心了。在网上看到说在京东买的 MX master 2s 会有盒损的现象，我是毫不担心。第一次买“高端产品线”（不知道算不算高端）MX 的盒子可以说是吓到我了，巨大无比，还送了一个针织套。。。emmm 保护的非常好了。 使用起来的话，因为我的手大，所以感觉还是小….. 主要是托不住我的手掌部分（不知道我是怎么坚持使用 m280 的…..） 至于 这一代开始支持的 Flow 功能，要等到我回学校两台电脑联动的时候才能体验了（家贫，无从致多台设备已用）  鼠标就讲这么多了，下面看下这块键盘
