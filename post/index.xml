@@ -49,6 +49,16 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
     </item>
     
     <item>
+      <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell (1)</title>
+      <link>https://blog.cklau.cc/post/k8s-setup-1/</link>
+      <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/k8s-setup-1/</guid>
+      <description>Before What is Kuberntes Kubernetes, is an open-source system for automating deployment, scaling, and management of containerized applications. Usually, we call it K8s as there are 8 characters between K and s :).
+Basically, all the application are containerized, and we can easily the reason why we use K8s is that the use of microservices increasing, away from traditional monolithic-type applications. As a result, containers provide the perfeet host form these individual microservices as containers manage dependencies, are indipendent, OS-agnostic and ephemaral, amongst other benefits, which is very powerful and suitable for users as we want users to run their application isolated and donot be influenced by others.</description>
+    </item>
+    
+    <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</title>
       <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>

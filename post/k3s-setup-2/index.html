@@ -129,7 +129,7 @@
 <meta itemprop="description" content="Generating a basic K3s cluster is quite easy by following the K3s&rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="1170">
+<meta itemprop="wordCount" content="1232">
 <meta itemprop="keywords" content="k3s,kubernetes," />
   
   <meta name="twitter:card" content="summary"/>
@@ -344,35 +344,34 @@
 <h3 id="k3s-server-node">K3s Server Node</h3>
 <p>To set up the Server, I follow the instruction from <a href="https://k3s.io">K3s</a> with a little modification, since I want to customize the network and node name. Here is the command I used for server-installation:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://get.k3s.io | K3S_TOKEN<span style="color:#f92672">=</span>&lt;token&gt;  INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server \
-</span><span style="color:#e6db74">                            --node-ip &lt;wg-node-ip&gt; \
-</span><span style="color:#e6db74">                            --advertise-address &lt;node-public-ip&gt; \
-</span><span style="color:#e6db74">                            --node-external-ip &lt;node-public-ip&gt; \
-</span><span style="color:#e6db74">                            --flannel-iface wg0   \
-</span><span style="color:#e6db74">                            --node-name &lt;node-name&gt; \ 
-</span><span style="color:#e6db74">                            --cluster-init &#34;</span> sh -
-
-<span style="color:#75715e"># for whom can not access Google and Github fluently, you may try:</span>
-curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>                            K3S_TOKEN<span style="color:#f92672">=</span>&lt;token&gt;  INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34; \
-</span><span style="color:#e6db74">                            server https://&lt;server-1-external-ip&gt;:6443\
-</span><span style="color:#e6db74">                            --node-ip &lt;wg-node-ip&gt; \
-</span><span style="color:#e6db74">                            --advertise-address &lt;node-public-ip&gt; \
-</span><span style="color:#e6db74">                            --node-external-ip &lt;node-public-ip&gt; \
-</span><span style="color:#e6db74">                            --flannel-iface wg0   \
-</span><span style="color:#e6db74">                            --node-name &lt;node-name&gt; \ 
-</span><span style="color:#e6db74">                            --cluster-init &#34;</span> sh -
+</span><span style="color:#e6db74">        --node-ip </span><span style="color:#66d9ef">$(</span>ip addr show eth0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --token </span><span style="color:#66d9ef">$(</span>openssl rand --hex 16<span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --advertise-address </span><span style="color:#66d9ef">$(</span>ip addr show eth0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --node-external-ip </span><span style="color:#66d9ef">$(</span>ip addr show eth0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">  \
+</span><span style="color:#e6db74">        --flannel-iface eth0   \
+</span><span style="color:#e6db74">        --node-name </span>$HOSTNAME<span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --cluster-init&#34;</span> sh -
 </code></pre></div><p>where you can see that <code>--node-ip</code> is the ip address to advertise for node; <code>--advertise-address</code> is the ip address that apiserver user to advertise to members of the cluster; <code>--node-external-ip</code> is the external ip address to advertise for node; <code>--flannel-iface</code> is to override the default flannel interface.</p>
 <p>For whom can not access Google and GitHub fluently, you may try:</p>
-<p>To generate the token, I used <code>openssl rand --hex 16</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># for whom can not access Google and Github fluently, you may try:</span>
+curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server \
+</span><span style="color:#e6db74">        --node-ip </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --token </span><span style="color:#66d9ef">$(</span>openssl rand --hex 16<span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --advertise-address </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --node-external-ip </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">  \
+</span><span style="color:#e6db74">        --flannel-iface wg0   \
+</span><span style="color:#e6db74">        --node-name </span>$HOSTNAME<span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --cluster-init&#34;</span> sh -
+</code></pre></div><p>To generate the token, I used <code>openssl rand --hex 16</code>.</p>
 <p>Similarly, for the second server, you can use the same configuration above with IPs' substitution.</p>
 <h3 id="k3s-node">K3s node</h3>
 <p>For the K3s node, you can simply reuse the above command with a modification: change <code>server</code> to <code>agent</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn K3S_TOKEN<span style="color:#f92672">=</span>&lt;TOKEN&gt; INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;agent 
-</span><span style="color:#e6db74">                    --server https://&lt;server-ip&gt;:6443 
-</span><span style="color:#e6db74">                    --node-ip &lt;node-wg-ip&gt; 
-</span><span style="color:#e6db74">                    --node-external-ip &lt;node-wg-ip&gt; 
-</span><span style="color:#e6db74">                    --flannel-iface wg0 
-</span><span style="color:#e6db74">                    --node-name &lt;node-name&gt;&#34;</span> sh -
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;agent \
+</span><span style="color:#e6db74">        --server https://&lt;server-ip&gt;:6443 \
+</span><span style="color:#e6db74">        --token &lt;token&gt; \
+</span><span style="color:#e6db74">        --node-ip </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">        --flannel-iface wg0 \
+</span><span style="color:#e6db74">        --node-name </span>$HOSTNAME<span style="color:#e6db74">&#34;</span> sh -
 </code></pre></div><p>After the installation of the server and node, you may check whether the server can reach the node correctly:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo kubectl get nodes -o wide
 <span style="color:#75715e"># NAME      STATUS   ROLES                       AGE   VERSION        INTERNAL-IP    EXTERNAL-IP     OS-IMAGE           KERNEL-VERSION      CONTAINER-RUNTIME</span>
@@ -498,7 +497,7 @@ sudo helm install rancher rancher-latest/rancher --namespace cattle-system --cre
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p>For some reason, I met some problems with helm but they all correlated to the <code>KUBECONFIG</code>. Thus, you may copy the <code>KUBECONFIG</code> to <code>~/.kube/config</code> and this may solve your problem: <code>sudo cat /etc/rancher/k3s/k3s.ymal &gt; ~/.kube/config</code>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>For some reason, I met some problems with helm but they all correlated to the <code>KUBECONFIG</code>. Thus, you may copy the <code>KUBECONFIG</code> to <code>~/.kube/config</code> and this may solve your problem: <code>sudo cat /etc/rancher/k3s/k3s.yaml &gt; ~/.kube/config</code>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -519,8 +518,8 @@ sudo helm install rancher rancher-latest/rancher --namespace cattle-system --cre
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
-      href="https://blog.cklau.cc/post/k3s-setup-1/"
-      ><span>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</span><span class="ml-1.5">→</span></a
+      href="https://blog.cklau.cc/post/k8s-setup-1/"
+      ><span>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell (1)</span><span class="ml-1.5">→</span></a
     >
     
   </nav>
