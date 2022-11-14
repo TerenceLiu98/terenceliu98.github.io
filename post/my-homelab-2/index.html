@@ -44,13 +44,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   
-  <title>Homelab: My Distributed Homelab - Terence Lau</title>
+  <title>家庭实验室: 设备篇 - Terence Lau</title>
 
   
   <meta name="theme-color" />
   
-  <meta name="description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
-Service For the homelab, I would like to docker as it is very covinence and can set up easily." />
+  <meta name="description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20." />
   <meta name="author" content="" />
   
 
@@ -111,27 +113,33 @@ Service For the homelab, I would like to docker as it is very covinence and can 
   
   
   
-  <meta property="og:title" content="Homelab: My Distributed Homelab" />
-<meta property="og:description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
-Service For the homelab, I would like to docker as it is very covinence and can set up easily." />
+  <meta property="og:title" content="家庭实验室: 设备篇" />
+<meta property="og:description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/my-homelab-2/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-07-21T00:11:21+08:00" />
+<meta property="article:published_time" content="2022-07-20T00:11:21+08:00" />
 
 
 
   
-  <meta itemprop="name" content="Homelab: My Distributed Homelab">
-<meta itemprop="description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
-Service For the homelab, I would like to docker as it is very covinence and can set up easily."><meta itemprop="datePublished" content="2022-07-21T00:11:21+08:00" />
+  <meta itemprop="name" content="家庭实验室: 设备篇">
+<meta itemprop="description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20."><meta itemprop="datePublished" content="2022-07-20T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="1478">
+<meta itemprop="wordCount" content="1557">
 <meta itemprop="keywords" content="homelab,networking,hardware," />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Homelab: My Distributed Homelab"/>
-<meta name="twitter:description" content="Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
-Service For the homelab, I would like to docker as it is very covinence and can set up easily."/>
+<meta name="twitter:title" content="家庭实验室: 设备篇"/>
+<meta name="twitter:description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20."/>
 
   
   
@@ -252,7 +260,7 @@ Service For the homelab, I would like to docker as it is very covinence and can 
 
 <article>
   <header class="mb-10">
-    <h1 class="!my-0 pb-2.5">Homelab: My Distributed Homelab</h1>
+    <h1 class="!my-0 pb-2.5">家庭实验室: 设备篇</h1>
 
     
     <div class="text-sm opacity-60">
@@ -260,7 +268,7 @@ Service For the homelab, I would like to docker as it is very covinence and can 
       
       
       
-      Published Jul 20, 2022
+      Published Jul 19, 2022
       
       
       
@@ -288,11 +296,227 @@ Service For the homelab, I would like to docker as it is very covinence and can 
     
   
   <hr>
-  <section><h2 id="networking">Networking</h2>
-<p>For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose <a href="https://tailscale.com/">Tailscale</a> as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.</p>
-<h2 id="service">Service</h2>
-<p>For the homelab, I would like to docker as it is very covinence and can set up easily.</p>
-<p>To install the docker, I just follow the intrduction from the <a href="https://docs.docker.com/engine/install/ubuntu/">document</a>:</p>
+  <section><p>长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。</p>
+<h2 id="为什么是分布式的">为什么是分布式的</h2>
+<p>笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。</p>
+<p>这是我的设备列表</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Device</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
+<th style="text-align:center">Network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DELL EMC R730</td>
+<td style="text-align:center">Zhuhai, China</td>
+<td style="text-align:center">E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">DELL Precision T1700</td>
+<td style="text-align:center">Zhuhai, China</td>
+<td style="text-align:center">i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti</td>
+<td style="text-align:center">Arch Linux</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">Homebuilt PC</td>
+<td style="text-align:center">Zhongshan, China</td>
+<td style="text-align:center">i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Arch Linux</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">Homebuilt NAS</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+<tr>
+<td style="text-align:center">ARM Router</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">rk3568 + 2GB Mem + 8GB EMMC</td>
+<td style="text-align:center">iStoreOS (based on OpenWrt)</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+<tr>
+<td style="text-align:center">ARM Router</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+<tr>
+<td style="text-align:center">ARM Router (In future)</td>
+<td style="text-align:center">Guangzhou, China</td>
+<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">100Mbps</td>
+</tr>
+</tbody>
+</table>
+<p>不仅有各种物理形态的机器，还有较多的 VM/VPC/VPS/轻量服务器：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Device</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
+<th style="text-align:center">Network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Guangzhou</td>
+<td style="text-align:center">1C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">4C8G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - HKSAR</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - HKSAR</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Singapore</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">Oracle Cloud - Japan</td>
+<td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">Oracle Cloud - Japan</td>
+<td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">CubeCloud - HKSAR</td>
+<td style="text-align:center">1C512M</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+</tbody>
+</table>
+<p>列出这部分设备后，你可能知道我为什么需要分布式解决方案了。</p>
+<h2 id="可能可行的解决方案">可能可行的解决方案</h2>
+<p>目前，经过我的「调研」，可行的方案大概有如下两种，</p>
+<ol>
+<li>Docker Swarm</li>
+<li>Kubernetes</li>
+</ol>
+<p>【Docker Swarm](<a href="https://docs.docker.com/engine/swarm/">https://docs.docker.com/engine/swarm/</a>) Docker 出的是容器的集群管理工具。它拥有如下主要特性：</p>
+<ol>
+<li>集成于Docker Engine的集群管理工具。</li>
+<li>分布式设计：从一个image生成整个集群。一个docker swarm下的不同node，可以分布于同一，或不同的物理设备上。</li>
+<li>灵活调度：按需启动或关闭容器。</li>
+<li>高可用性：支持监控容器状态，如果容器崩溃，可以自动重启容器。</li>
+<li>支持多样的网络配置：支持overlay、macvlan、bridge、host等网络形式。</li>
+<li>服务发现</li>
+<li>负载均衡</li>
+<li>加密传输：默认基于TLS实现容器间的交互，实现加密传输。</li>
+<li>升级回退：支持动态升级容器，如果升级后的容器运行不正常，可自动回退到上一版本。</li>
+</ol>
+<p>但 <a href="https://github.com/docker-archive/classicswarm">Docker Swarm</a> 已经被 Docker 抛弃了，但是，我们依旧可以用时 Docker swarm mode 来组建一个个人容器云。</p>
+<p><a href="(https://kubernetes.io/docs/home/)">Kubernetes</a> 也被称为 K8S, 以容器为中心的管理软件 Kubernetes 已成为部署和操作容器化应用的通行标准。Kubernetes 最初在 Google 开发，然后在 2014 年开源发布。它是基于云的容器编排技术，旨在实现高效资源管理、完全自动化和资源利用率最大化。Kubernetes 具有如下优点：</p>
+<ol>
+<li>自动化运营： Kubernetes 具有许多内置命令，可用于处理应用管理中繁重的工作，从而自动化日常操作，帮助您确保应用始终按照预期的方式运行。</li>
+<li>基础架构抽象：安装 Kubernetes 后，它将代表您的工作负载处理计算、网络和存储。这使开发者可以专注于应用，而不必担心底层环境。</li>
+<li>服务运行状况监控：Kubernetes 会对服务不间断地执行健康检查，重新启动有故障或停滞的容器，且只会在确认服务正常运行时向用户提供服务。</li>
+</ol>
+<p>一般来说，Kubernetes 更适合那些复杂的开发/生产环境中的复杂应用，而 Docker Swarm 的设计目的是为了易于使用。 根据介绍和比较，我准备同时部署 K8s 和 Docker swarm，一部分设备在 Docker Swarm（The DS集群）中使用，而其他在K8s中使用，常用的个人服务，如 Git 等会部署在 DS 中，而 K8s 则主要是用来学习。</p>
+<p>同时，对于分布式集群，除了框架以外，网络环境也十分重要，如何通过互联网构建属于自己的私人网络呢，如下有几种公开的方案：</p>
+<ol>
+<li><a href="https://www.zerotier.com/">Zerotier</a></li>
+<li><a href="http://tailscale.com/">Tailscale</a>: based on Wireguard</li>
+<li><a href="https://github.com/slackhq/nebula">Nebula</a>: A scalable overlay networking tool by Slack</li>
+<li><a href="https://github.com/ntop/n2n">n2n</a>: peer-to-peer VPN</li>
+</ol>
+<p>对比之后，对于我的家用设备，我会选择 Tailscale 作为我的实验性能，而对于这两个集群内部，我会使用 Wireguard，因为我不需要支付任何费用。</p>
+<h2 id="部署网络">部署：网络</h2>
+<p>我之所以选择 Wireguard，是因为它设计轻巧，速度快，而且安全，因为它使用了最好的加密工具。然而，对于每一次，用户可能需要考虑一个 SUBNET 用于wireguard 和一个 IP 用于每个节点，对我来说，这很烦人，因为我有太多的子网需要配置。因此，我构建了一个小工具：<a href="https://github.com/TerenceLiu98/wgtools">wgtools</a></p>
+<h3 id="如何使用">如何使用</h3>
+<ul>
+<li>
+<p>prerequest:</p>
+<ul>
+<li>clone the code into local directory: <code>git clone  https://github.com/TerenceLiu98/wgtools.git</code></li>
+<li>install the requirement: <code>python -m pip install -r requirements.txt</code></li>
+<li>install the wireguard before using the tool</li>
+</ul>
+</li>
+<li>
+<p>configuration:</p>
+<ul>
+<li>new a ipv4 pool: <code>python add.py network wg0</code></li>
+<li>new (a) peer(s): <code>python add.py node wg0 node1</code> + <code>python add.py node wg0 node2</code> + <code>python add.py node wg0 node3</code></li>
+<li>check the information: <code>cat wg0.conf</code></li>
+<li>modify the endpoint: <code>python modify.py wg0 node1 Endpoint 1.1.1.1</code></li>
+<li>generate configuration for each node: <code>python generate.py wg0 node1</code> + <code>python genenrate.py wg0 node2</code> + <code>python generate wg0 node3</code></li>
+</ul>
+</li>
+<li>
+<p>script</p>
+<ul>
+<li>copy the configuration to the machine</li>
+<li>use <code>wg-quick</code> to quick start the wireguard</li>
+<li>check the connectivity via `ping</li>
+</ul>
+</li>
+</ul>
+<h3 id="为什么不使用广域网">为什么不使用广域网</h3>
+<p>是的，使用公网 IP 很方便，但可能会遇到一些安全问题，因为节点之间的通信需要暴露多个端口（Kubernetes 和 Docker Swarm）。为了避免这种情况，我可以使用 Wireguard 轻松避免这个问题，因此，为什么不呢。</p>
+<h2 id="部署服务">部署：服务</h2>
+<h3 id="安装-docker">安装 Docker</h3>
+<p>对于homelab，我想使用docker，因为它非常方便并且可以轻松设置。要安装 docker，只需按照步骤操作即可：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># uninstall old versions (if installed) </span>
 sudo apt-get install remove docker docker-engine docker.io containere runc
 
@@ -344,8 +568,8 @@ sudo docker version
 <span style="color:#75715e">#  docker-init:</span>
 <span style="color:#75715e">#   Version:          0.19.0</span>
 <span style="color:#75715e">#   GitCommit:        de40ad0</span>
-</code></pre></div><h3 id="multimedia">MultiMedia</h3>
-<p>There are multiple multimedia software, for istance, <a href="https://www.plex.tv/">Plex</a>, <a href="https://emby.media">Emby</a>, <a href="https://jellyfin.org">Jellyfin</a>, and <a href="https://kodi.tv/">KODI</a>. For some reason, I did not want to pay too much money of the media service as I just want a place that can show the poster and brief introduction of the video, and I don&rsquo;t need too much &ldquo;fancy&rdquo; features. By comparison, I choose Jellyfin, the &ldquo;open-source version of Emby&rdquo;, as me multimedia server and I install it via the <code>docker-compose.yml</code>:</p>
+</code></pre></div><h3 id="多媒体娱乐">多媒体娱乐</h3>
+<p>有多种多媒体软件，例如，<a href="https://www.plex.tv/">Plex</a>、<a href="https://emby.media">Emby</a>、<a href="https://jellyfin.org">Jellyfin</a> , 和 <a href="https://kodi.tv/">KODI</a>。 出于某种原因，我不想为媒体服务支付太多钱，因为我只是想要一个可以展示海报和视频简介的地方，我不需要太多“花哨”的功能。 相比之下，我选择 Jellyfin，“Emby 的开源版本”，作为我的多媒体服务器，我通过 <code>docker-compose.yml</code> 安装它：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;2.1&#34;</span>
 <span style="color:#f92672">services</span>:
   <span style="color:#f92672">jellyfin</span>:
@@ -362,8 +586,8 @@ sudo docker version
     <span style="color:#f92672">ports</span>:
       - <span style="color:#ae81ff">8096</span>:<span style="color:#ae81ff">8096</span>
     <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span> <span style="color:#75715e"># when docker restart, the docker image will auto restart</span>
-</code></pre></div><h3 id="authentication">Authentication</h3>
-<p>There are many authentication software that support Oauth, for instance, <a href="https://goauthentik.io/">Authentik</a>, <a href="https://www.okta.com/">Okta</a>, <a href="https://auth0.com/">auth0</a>, <a href="https://github.com/ory/hydra">Ory Hydra</a>, <a href="https://www.keycloak.org/">KeyCloak</a>, an there are some authentication cloud services, like <a href="https://authing.cn">authing.com</a>. By comparsion, I choose Authentik and KeyCloak, authentik has a good-looking interface, and KeyCloak is a widely used software, which mean there are more example and solution on the interest. The authentik is used for my self-hosted services, and the KeyCloak is for the other serive that I need to provide to other users. Similarly, I use <code>docker-compose.yml</code> to set up these services:</p>
+</code></pre></div><h3 id="单点认证">单点认证</h3>
+<p>支持Oauth的认证软件有很多，例如<a href="https://goauthentik.io/">Authentik</a>、<a href="https://www.okta.com/">Okta</a>、[auth0](https:// auth0.com/)、<a href="https://github.com/ory/hydra">Ory Hydra</a>、<a href="https://www.keycloak.org/">KeyCloak</a>，还有一些认证云服务，比如<a href="https://authing.cn"> authing.com</a>。 相比之下，我选择了Authentik和KeyCloak，authentik界面好看，而且KeyCloak是一个应用广泛的软件，这意味着在兴趣上的例子和解决方案更多。 authentik 用于我的自托管服务，而 KeyCloak 用于我需要提供给内网用户的其他服务。 同样，我使用 <code>docker-compose.yml</code> 来设置这些服务：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Authentik</span>
 <span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://goauthentik.io/docs/installation/docker-compose for the detail</span>
 <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.4&#39;</span>
@@ -477,8 +701,8 @@ sudo docker version
         - <span style="color:#ae81ff">8080</span>:<span style="color:#ae81ff">8080</span>
       <span style="color:#f92672">depends_on</span>:
         - <span style="color:#ae81ff">postgres</span>
-</code></pre></div><h3 id="working-and-coding">Working and Coding</h3>
-<p>Most of the time, I just use the local environment for the documentation and coding, however, sometimes I will re-build the computer and to avoid the data loss. Thus, I choose <a href="https://github.com/outline/outline">outline</a> for the documentation, <a href="https://www.dokuwiki.org/dokuwiki">dokuwiki</a> for building the wiki system, [Nexcloud] as my personal Net storage,  and <a href="https://gitea.io">Gitea</a> as my self-hosted code repository. Outline is a Nation-alternative software which also provide a beatiful, realtime knowledge base, where I can easily store my throught and idea wia the web. Dokuwiki is a well-known wiki system without a database backend, which means I can easily migrate it to any place. Between Gitea and Gitlab, I choose Gitea at last because GitLab&rsquo;s hardware requirement is too high that I don&rsquo;t have enough resources to run a GitLab and I just need a place to store my code, not those extra features.</p>
+</code></pre></div><h3 id="工作相关">工作相关</h3>
+<p>大多数时候，我只是使用本地环境进行文档和编码，但有时我会重新构建计算机以避免数据丢失。 因此，我选择 <a href="https://github.com/outline/outline">outline</a> 作为文档，<a href="https://www.dokuwiki.org/dokuwiki">dokuwiki</a> 用于构建 wiki 系统，[Nexcloud] 为 我的个人网络存储，以及 <a href="https://gitea.io">Gitea</a> 作为我的自托管代码存储库。 Outline 是一个国家替代软件，它还提供了一个漂亮的实时知识库，我可以通过网络轻松地存储我的想法和想法。 Dokuwiki 是一个著名的 wiki 系统，没有数据库后端，这意味着我可以轻松地将它迁移到任何地方。 在 Gitea 和 Gitlab 之间，我最后选择了 Gitea，因为 GitLab 的硬件要求太高，我没有足够的资源来运行 GitLab，我只需要一个地方来存储我的代码，而不是那些额外的功能。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># outline </span>
 <span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://app.getoutline.com/s/770a97da-13e5-401e-9f8a-37949c19f97e/doc/docker-7pfeLP5a8t for the detail</span>
 <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
@@ -652,8 +876,7 @@ sudo docker version
       - <span style="color:#ae81ff">gitea</span>
     <span style="color:#f92672">volumes</span>:
       - <span style="color:#ae81ff">./postgres:/var/lib/postgresql/data</span>
-</code></pre></div><h3 id="rss-feed-reader">RSS Feed Reader</h3>
-<p>I use Miniflux as my RSS Feed Reader, the reason why I give Tiny Tiny RSS is that Miniflux V2 is written by Go-lang and I don&rsquo;t like PHP.</p>
+</code></pre></div><h3 id="rss-阅读器">RSS 阅读器</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.4&#39;</span>
 <span style="color:#f92672">services</span>:
   <span style="color:#f92672">miniflux</span>:
@@ -687,8 +910,8 @@ sudo docker version
       <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">30s</span>
 <span style="color:#f92672">volumes</span>:
   <span style="color:#f92672">miniflux-db</span>:
-</code></pre></div><h2 id="key-and-password-management">Key and Password Management</h2>
-<p>There are multiple different password manager, Google Password Manager, 1Password, LastPass, etc.. But I choose Bitwarden as I can self-host the software on my own machine and I don&rsquo;t need to worry about the data leakage.</p>
+</code></pre></div><h2 id="密钥和密码管理">密钥和密码管理</h2>
+<p>有多种不同的密码管理器，谷歌密码管理器，1Password，LastPass等。但我选择了Bitwarden，因为我可以在自己的机器上自行托管软件，我不需要担心数据泄露。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
 <span style="color:#f92672">services</span>:
   <span style="color:#f92672">bitwarden</span>:
@@ -715,15 +938,15 @@ sudo docker version
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
-    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://www.rho.ac.cn/post/my-homelab-4/"
-      ><span class="mr-1.5">←</span><span>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</span></a
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://www.rho.ac.cn/post/k3s-setup-1/"
+      ><span class="mr-1.5">←</span><span>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
-      href="https://www.rho.ac.cn/post/my-homelab-3/"
-      ><span>Homelab: My Network setup</span><span class="ml-1.5">→</span></a
+      href="https://www.rho.ac.cn/post/desk-set-up/"
+      ><span>大二，我的桌面</span><span class="ml-1.5">→</span></a
     >
     
   </nav>

@@ -10,31 +10,23 @@
     <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/hardware/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Homelab: How to build a AIO home-server</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-5/</link>
+      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-5/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
       <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
     </item>
     
     <item>
-      <title>Homelab: My Distributed Homelab</title>
+      <title>家庭实验室: 设备篇</title>
       <link>https://www.rho.ac.cn/post/my-homelab-2/</link>
-      <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
-      <description>Networking For the homelab, I would like to choose a commerical company&amp;rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&amp;rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
-Service For the homelab, I would like to docker as it is very covinence and can set up easily.</description>
-    </item>
-    
-    <item>
-      <title>Homelab: My Devices</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
-      <description>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
-Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.</description>
+      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
+      <description>长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD Ubuntu 20.</description>
     </item>
     
   </channel>

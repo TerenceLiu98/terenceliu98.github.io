@@ -28,14 +28,5 @@ However, to investigate deeper into the network performance, I started to learn 
 For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
     </item>
     
-    <item>
-      <title>Homelab: My Network setup</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-3/</link>
-      <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/my-homelab-3/</guid>
-      <description>In General Tools I use I choose Wireguard since it’s fast because of its light design, and it’s secure because it uses the best cryptographic tools available. However, for each time, the user may need to consider a SUBNET for the wireguard and a IP for each node, for me, it is every annoyed, as I have too many subnet need to be configured. Thus, I build a little tool: wgtools</description>
-    </item>
-    
   </channel>
 </rss>

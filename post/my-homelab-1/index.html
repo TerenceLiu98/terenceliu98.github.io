@@ -44,13 +44,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   
-  <title>Homelab: My Devices - Terence Lau</title>
+  <title>Homelab: How to build a AIO home-server - Terence Lau</title>
 
   
   <meta name="theme-color" />
   
-  <meta name="description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
-Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster." />
+  <meta name="description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine." />
   <meta name="author" content="" />
   
 
@@ -111,27 +110,24 @@ Why Distributed Since I am wandering around the big bay area, multiple different
   
   
   
-  <meta property="og:title" content="Homelab: My Devices" />
-<meta property="og:description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
-Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster." />
+  <meta property="og:title" content="Homelab: How to build a AIO home-server" />
+<meta property="og:description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/my-homelab-1/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-07-20T00:11:21+08:00" />
+<meta property="article:published_time" content="2022-10-24T00:11:21+08:00" />
 
 
 
   
-  <meta itemprop="name" content="Homelab: My Devices">
-<meta itemprop="description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
-Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster."><meta itemprop="datePublished" content="2022-07-20T00:11:21+08:00" />
+  <meta itemprop="name" content="Homelab: How to build a AIO home-server">
+<meta itemprop="description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine."><meta itemprop="datePublished" content="2022-10-24T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="613">
-<meta itemprop="keywords" content="homelab,networking,hardware," />
+<meta itemprop="wordCount" content="826">
+<meta itemprop="keywords" content="homelab,hardware," />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Homelab: My Devices"/>
-<meta name="twitter:description" content="For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
-Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster."/>
+<meta name="twitter:title" content="Homelab: How to build a AIO home-server"/>
+<meta name="twitter:description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine."/>
 
   
   
@@ -252,7 +248,7 @@ Why Distributed Since I am wandering around the big bay area, multiple different
 
 <article>
   <header class="mb-10">
-    <h1 class="!my-0 pb-2.5">Homelab: My Devices</h1>
+    <h1 class="!my-0 pb-2.5">Homelab: How to build a AIO home-server</h1>
 
     
     <div class="text-sm opacity-60">
@@ -260,7 +256,7 @@ Why Distributed Since I am wandering around the big bay area, multiple different
       
       
       
-      Published Jul 19, 2022
+      Published Oct 23, 2022
       
       
       
@@ -278,183 +274,142 @@ Why Distributed Since I am wandering around the big bay area, multiple different
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
-      href="https://www.rho.ac.cn/tags/networking"
-      >networking</a>
-     
-    <a
-      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
       href="https://www.rho.ac.cn/tags/hardware"
       >hardware</a>
     
   
   <hr>
-  <section><p>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.</p>
-<h2 id="why-distributed">Why Distributed</h2>
-<p>Since I am wandering around the <a href="https://en.wikipedia.org/wiki/Guangdong%E2%80%93Hong_Kong%E2%80%93Macao_Greater_Bay_Area">big bay area</a>, multiple different devices are scattered.  Thus, I have to build a distributed cluster.</p>
-<p>Here is the list of my bare metal device:</p>
+  <section><h2 id="before">Before</h2>
+<p>I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</p>
+<h2 id="hardware">Hardware</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align:center">Device</th>
-<th style="text-align:center">Location</th>
-<th style="text-align:center">Configuration</th>
-<th style="text-align:center">System</th>
-<th style="text-align:center">Network</th>
+<th>Module</th>
+<th>Series</th>
+<th>Price</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">DELL EMC R730</td>
-<td style="text-align:center">Zhuhai, China</td>
-<td style="text-align:center">E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">500Mbps</td>
+<td>CPU + Motherboard</td>
+<td>Intel Xeon D-1581 + <a href="https://www.huoshen99.com/">HSGM D1581-R3</a></td>
+<td>¥498</td>
 </tr>
 <tr>
-<td style="text-align:center">DELL Precision T1700</td>
-<td style="text-align:center">Zhuhai, China</td>
-<td style="text-align:center">i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti</td>
-<td style="text-align:center">Arch Linux</td>
-<td style="text-align:center">500Mbps</td>
+<td>Memory</td>
+<td>second-hand ECC DDR3 1600 16GB $\times$ 4</td>
+<td>¥79</td>
 </tr>
 <tr>
-<td style="text-align:center">Homebuilt PC</td>
-<td style="text-align:center">Zhongshan, China</td>
-<td style="text-align:center">i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP</td>
-<td style="text-align:center">Arch Linux</td>
-<td style="text-align:center">500Mbps</td>
+<td>Graphic card</td>
+<td>Old NVIDIA RTX 2060</td>
+<td>¥0</td>
 </tr>
 <tr>
-<td style="text-align:center">Homebuilt NAS</td>
-<td style="text-align:center">Shenzhen, China</td>
-<td style="text-align:center">AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">1Gbps</td>
+<td>Storage-SSD</td>
+<td>DAHUA C900 512GB</td>
+<td>¥245</td>
 </tr>
 <tr>
-<td style="text-align:center">ARM Router</td>
-<td style="text-align:center">Shenzhen, China</td>
-<td style="text-align:center">rk3568 + 2GB Mem + 8GB EMMC</td>
-<td style="text-align:center">iStoreOS (based on OpenWrt)</td>
-<td style="text-align:center">1Gbps</td>
+<td>Storage-HDD</td>
+<td>TOSHIBA MG04ACA400N 4T $\times$ 4</td>
+<td>¥1340</td>
 </tr>
 <tr>
-<td style="text-align:center">ARM Router</td>
-<td style="text-align:center">Shenzhen, China</td>
-<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">1Gbps</td>
+<td>Case</td>
+<td>not named</td>
+<td>¥399</td>
 </tr>
 <tr>
-<td style="text-align:center">ARM Router (In future)</td>
-<td style="text-align:center">Guangzhou, China</td>
-<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">100Mbps</td>
+<td>｜Total</td>
+<td></td>
+<td>¥2561</td>
 </tr>
 </tbody>
 </table>
-<p>Not only the bare metal, I also own a bunch of VPS/VPC/VM/<a href="https://www.tencentcloud.com/products/lighthouse">Lighthouse</a>, here is the list</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Device</th>
-<th style="text-align:center">Location</th>
-<th style="text-align:center">Configuration</th>
-<th style="text-align:center">System</th>
-<th style="text-align:center">Network</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">A Lighthouse server</td>
-<td style="text-align:center">Tencent Cloud - Guangzhou</td>
-<td style="text-align:center">1C2G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">3Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A Lighthouse server</td>
-<td style="text-align:center">Tencent Cloud - Shuanghai</td>
-<td style="text-align:center">2C4G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">3Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A Lighthouse server</td>
-<td style="text-align:center">Tencent Cloud - Shuanghai</td>
-<td style="text-align:center">4C8G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">3Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A Lighthouse server</td>
-<td style="text-align:center">Tencent Cloud - Shuanghai</td>
-<td style="text-align:center">2C2G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">3Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A Lighthouse server</td>
-<td style="text-align:center">Tencent Cloud - HKSAR</td>
-<td style="text-align:center">2C4G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">30Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A Lighthouse server</td>
-<td style="text-align:center">Tencent Cloud - HKSAR</td>
-<td style="text-align:center">2C4G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">30Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A Lighthouse server</td>
-<td style="text-align:center">Tencent Cloud - Singapore</td>
-<td style="text-align:center">2C2G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">30Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A VM server</td>
-<td style="text-align:center">Oracle Cloud - Japan</td>
-<td style="text-align:center">1C1G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">500Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A VM server</td>
-<td style="text-align:center">Oracle Cloud - Japan</td>
-<td style="text-align:center">1C1G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">500Mbps</td>
-</tr>
-<tr>
-<td style="text-align:center">A VM server</td>
-<td style="text-align:center">CubeCloud - HKSAR</td>
-<td style="text-align:center">1C512M</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">1Gbps</td>
-</tr>
-</tbody>
-</table>
-<p>After the listing, you may know why I need a distributed solution.</p>
-<h2 id="possible-solution">Possible solution</h2>
-<ol>
-<li>Docker Swarm</li>
-<li>Kubernetes</li>
-</ol>
-<p>Docker Swarm refers to a container orchestration tool that allows user to manage multiple containers within multiple nodes (a cluster). The document can be found in <a href="https://docs.docker.com/engine/swarm/">here</a></p>
-<p>Kubernetes, a.k. K8s, is an open-source system for automating deployment, scaling and managerment of containerized applications. The introduction can be found in <a href="https://kubernetes.io/docs/home/">here</a></p>
-<p>In general, Kubernetes is more suitable for those complex applications within the complex development/production environment, and the Docker Swarm is designed for ease of use. Based on the introduction and comparison, I design to use them simultaneously, parts of the device will be used in Docker Swarm (Dhe DS cluster) and others will be used in K8s, those who need persistance will be deployed in DS cluster and the K8s cluster is used for studying.</p>
-<p>After the platform architecture, we need a networking solution for putting up these devices into a LAN. Intuitively, I need a VPN(Virtual Private Network) software as these device can be accessed via the WAN. Based on the VPN software, I may develop my own <a href="https://en.wikipedia.org/wiki/Software-defined_networking">SD-WAN</a>. Here are some SDN (Sofware-Defined Networking) solutions:</p>
-<ol>
-<li><a href="https://www.zerotier.com/">Zerotier</a></li>
-<li><a href="http://tailscale.com/">Tailscale</a>: based on Wireguard</li>
-<li><a href="https://github.com/slackhq/nebula">Nebula</a>: A scalable overlay networking tool by Slack</li>
-<li><a href="https://github.com/ntop/n2n">n2n</a>: peer-to-peer VPN</li>
-</ol>
-<p>After the comparison, for my home devices, I will choose Tailscale as its performance in my experiment, and for those two cluster, I will use Wireguard as I don&rsquo;t need to pay any fee for occupation.</p>
+<p>The reason I chose Xeon D-1581 is that I do not expect playing games or running some programs that expect high performance of single-core on this machine, instead, I need multiple cores for virtural machine for some experiment, where I don&rsquo;t need to spend money on the VPS. This is also explain why I need 64GB for RAM. For the storage part, I split the 4 hard disk into two group and each group has 2 disk, the group 1 I create a raid 1 for the important file storage, like photos, documentation and my code; the group 2 I create a LVM volume for daily storage, for example, the movie, music, and etc..</p>
+<h2 id="software">Software</h2>
+<p>I use Ubuntu 22.04 LTS as my base system, there is no reason/explanation, I familiar with ubuntu and I trust it can do a great job in the long-time task. Here is the configuration I have done on this machine:</p>
+<h3 id="nvidia-driver-and-cuda">NVIDIA DRIVER and CUDA</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># check PCI </span>
+sudo lspci -v | grep -i nvidia
+<span style="color:#75715e"># update </span>
+sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get upgrade -y
+<span style="color:#75715e"># install nv driver</span>
+sudo apt-get install nvidia-driver-510 <span style="color:#75715e"># for some reason I use 510 as I found it is the most stable in my system</span>
+<span style="color:#75715e"># install nv cuda toolkit</span>
+sudo apt-get install nvidia-cuda-toolkit
+<span style="color:#75715e"># install nvidia-container-toolkit</span>
+curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | sudo apt-key add -
+echo <span style="color:#e6db74">&#39;deb https://nvidia.github.io/libnvidia-container/stable/ubuntu20.04/$(ARCH) /&#39;</span> | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install nvidia-container-toolkit
+sudo reboot
+
+<span style="color:#75715e"># after rebooting, verify that the GPU is working or not:</span>
+nvidia-smi <span style="color:#f92672">&amp;&amp;</span> nvcc -V
+</code></pre></div><h3 id="container-lxc-and-lxd">Container: LXC and LXD</h3>
+<p>LXC stands for Linux Containers, I choose using the LXC as it can be easily used in PCI passthrough by just follow the above instruction and install the <code>nvidia-container-toolkit</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># install lxd</span>
+sudo snap install lxd
+<span style="color:#75715e"># create a zfs storage pool</span>
+sudo apt install zfsutils-linux
+sudo zpool create -f &lt;pool-name&gt; &lt;your disk&gt;
+<span style="color:#75715e">## if you need raid 1:</span>
+sudo zpool create -f &lt;pool-name&gt; /dev/&lt;disk-1&gt; /dev/&lt;disk-2&gt;
+
+<span style="color:#75715e"># lxd initilization</span>
+sudo lxd init
+<span style="color:#75715e"># specify the storage pool to the pool that just create before</span>
+
+<span style="color:#75715e"># create a template profile check the meaning of the command before you use it</span>
+lxc profile create &lt;template-name&gt;                      <span style="color:#75715e"># create a template </span>
+lxc profile device add pgu-template gpu gpu             <span style="color:#75715e"># add the gpu device      </span>
+lx profile set &lt;template-name&gt; nvidia.runtime<span style="color:#f92672">=</span>true      <span style="color:#75715e"># use nvidia-runtime</span>
+lx profile set &lt;template-name&gt; security.nesting<span style="color:#f92672">=</span>true    <span style="color:#75715e"># allow nesting runtime (running ctr inside)</span>
+
+<span style="color:#75715e"># launch a container</span>
+lxc launch ubuntu:22.04 &lt;ctr-name&gt; -p &lt;profile-name&gt; -s &lt;lxc-storage-name&gt;
+
+<span style="color:#75715e"># run nvidia-smi inside the container</span>
+lxc exec &lt;ctr-name&gt; -- nvidia-smi
+</code></pre></div><p>With the above setting, the container will simply use the same <code>nvidia-driver</code>, if you want to use the different driver, you can <code>set &lt;template-name&gt; nvidia.runtime=false</code> and install the driver inside the container.</p>
+<h2 id="storage-raid1-and-lvm-volume">Storage: Raid1 and LVM volume</h2>
+<p>Assume that we have <code>/dev/sda</code>, <code>/dev/sdb</code>, <code>/dev/sdc</code>, and <code>/dev/sdd</code>, we can simply use <code>mdadm</code> to create a Raid1:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># create raid 1</span>
+sudo mdadm --create --verbose /dev/md0 --level<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> --raid-devices<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> /dev/sda /dev/sdb
+<span style="color:#75715e"># check the process of creation</span>
+sudo cat /proc/mdstat
+<span style="color:#75715e"># creaet file system</span>
+sudo mkfs.ext4 -F /dev/md0
+<span style="color:#75715e"># create a mount point</span>
+sudo mkdir -p /mnt/storage
+<span style="color:#75715e"># mount the storage (temporary)</span>
+sudo mount /dev/md0 /mnt/storage
+<span style="color:#75715e"># mount the storage (persistent)</span>
+echo <span style="color:#e6db74">&#39;/dev/md0 /mnt/storage ext4 defaults,nofail,discard 0 0&#39;</span> | sudo tee -a /etc/fstab
+</code></pre></div><p>For the LVM volume:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># create a physical volumes on the top of the remaining dick</span>
+sudo pvcreate /dev/sdc /dev/sdd <span style="color:#f92672">&amp;&amp;</span> sudo pvs
+<span style="color:#75715e"># create a volume group named as `lv-storage`</span>
+sudo vgcreate vg-storage /dev/sdc /dev/sdd <span style="color:#f92672">&amp;&amp;</span> sudo vgdisplay vg-storage
+<span style="color:#75715e"># create two logical volumes </span>
+<span style="color:#75715e">## the first one is for the lxd and the remains are for daily storage</span>
+sudo lvcreate -n lxd-tool -L 120G vg-storage <span style="color:#f92672">&amp;&amp;</span> lvs
+sudo lvcreate -n daily-storage -l 100%FREE vg-storage <span style="color:#f92672">&amp;&amp;</span> lvs
+<span style="color:#75715e"># create zfs pool &amp; ext4 </span>
+sudo zpool create lxdPool /dev/vg-storage/lxd-pool
+sudo mkfs.ext4 -F /dev/vg-storage/daily-storage
+<span style="color:#75715e"># create a mount point</span>
+sudo mkdir -p /mnt/daily-storage
+<span style="color:#75715e"># mount the storage (temporary)</span>
+sudo mount /dev/vg-storage/daily-storage /mnt/daily-storage
+<span style="color:#75715e"># mount the storage (persistent)</span>
+echo <span style="color:#e6db74">&#39;/dev/vg-storage/daily-storage /mnt/daily-storage ext4 defaults,nofail,discard 0 0&#39;</span> | sudo tee -a /etc/fstab
+
+<span style="color:#75715e"># create the storage status</span>
+df -h
+</code></pre></div><p>For the mounting, you can also use the <code>uuid</code> to mount the storage. Simply use <code>blkid</code> and you can find the disk&rsquo;s uuid.</p>
 </section>
 
   
@@ -465,15 +420,11 @@ Why Distributed Since I am wandering around the big bay area, multiple different
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
-    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://www.rho.ac.cn/post/my-homelab-3/"
-      ><span class="mr-1.5">←</span><span>Homelab: My Network setup</span></a
-    >
-    
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
-      href="https://www.rho.ac.cn/post/desk-set-up/"
-      ><span>大二，我的桌面</span><span class="ml-1.5">→</span></a
+      href="https://www.rho.ac.cn/post/lnet-1/"
+      ><span>👨‍💻 My Personal Experimental Network: L-Net</span><span class="ml-1.5">→</span></a
     >
     
   </nav>

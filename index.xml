@@ -10,10 +10,10 @@
     <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Homelab: How to build a AIO home-server</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-5/</link>
+      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-5/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
       <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
     </item>
     
@@ -33,8 +33,9 @@ However, to investigate deeper into the network performance, I started to learn 
       <pubDate>Tue, 04 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/projects/</guid>
-      <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
- Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon  Personal Project: Personal Experimental Network: L-Net These areticles are inside my projects: Build a Experimental Network with your VPS</description>
+      <description>个人项目：我的 HomeLab 和我的集群 主要内容：分布式 HomeLab，高可用 K3s 集群，从零搭建一个 Kubernetes 集群
+ Homelab: 打造一套 Homelab Homelab: 打造一台 AIO 家用服务器 K3s/Kubernetes - 快速启动 K3s 服务 K3s/Kubernetes - 配置高可用 K3s 集群 K3s/Kubernetes - 自建 Docker 镜像站 K3s/Kubernetes - GitOps 如何帮助你实现快速部署 - Coming soon  个人项目：个人实验性网络构建 主要内容：Build a Experimental Network with your VPS
+ L-Net: 个人实验性网络 1.0  </description>
     </item>
     
     <item>
@@ -54,7 +55,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/friends/</guid>
-      <description>Junde Yhi： Linux expert and IoT practitioner ECWU: A full-stack developer, and now focusing on NLP(Natrual Language Processing) &amp;amp; Medical imaging research Renjie Deng: A full-stack developer Junru Zhong: MRI expert, transportation enthusiast, PhD candidate in Computer vision (CUHK) Laurence Luo: developer, geek  Propose New Link If you want me to append you to the friend page, just comment below!</description>
+      <description>Junde Yhi： UICHCC 置顶人士，Linux 专家， IoT 从业人员 ECWU: 全栈开发者，会同 Cloud-Native 社区创始成员/ 管理员，长期从事计算机教育；医疗图像，XAI，NLP 等领域领路人。 Renjie Deng: 全栈开发者 Junru Zhong: MRI 医疗图像顶级研究人员，公共交通狂热爱好者，CUHK Computer vision PhD 候选人MRI expert Laurence Luo: 开发者，极客  Propose New Link If you want me to append you to the friend page, just comment below!</description>
     </item>
     
     <item>
@@ -63,10 +64,12 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/about/</guid>
-      <description>Hi there 👋 My name is Terence Lau, AKA:
- Terry Lau/Liu Terence Liu JunJie LIU  I may use TerenceCKLau as well, only if Terence Liu/Lau is registered.
-Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a Mphil student in Hong Kong Baptist Univeristy. One of the co-founders of @UICHCC (UIC Homebrew Computer Club) and Cyclododecene, a data analysis group(no long exists);
-🔭 I am now focusing on</description>
+      <description>你好 👋 通常我会说我的名字是 Terence Lau, 阿卡啊:
+ Terry Lau/Liu Terence Liu JunJie LIU  我可能也会用 TerenceCKLau，这是因为别的名字都被用了。
+BNU-HKBU UIC统计系获得学士学位，并将成为香港浸会大学的Mphil学生。 @UICHCC (UIC Homebrew Computer Club) 和 Cyclododecene 的联合创始人之一，数据分析小组（已不存在）；
+🔭 我现在专注于
+ 金融、经济数据分析，包括但不限于微/宏观市场、加密货币与区块链 医疗数据分析，包括但不限于药物实验、基因转录 复杂网络与社交网络，包括但不限于信息传播模型、影响力分析 非对称密码算法，主要包括 pre-quantum 和 post-quantum UIC-STAT 第一代计算集群（USBC）的维护； 更多信息请查看：USBC-WIKI &amp;amp; @Bayes-Cluster；  云原生技术 超融合架构    研究兴趣:
+ 🚩 Statistical Inference (Bayesian) 🚩 Computational Statistics 🚩 Stochastic Process, Markov-related 🚩 High Performance Computing (including CPU &amp;amp; GPU Parallel Algorithm) 🚩 HPC Cluster/Hybrid Cloud maintenance   📫 我的邮箱: bWVAY2tsYXUuY2M= 📃 获取更多信息，可以查看我的 CV  </description>
     </item>
     
     <item>
@@ -90,43 +93,15 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
     </item>
     
     <item>
-      <title>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-4/</link>
-      <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/my-homelab-4/</guid>
-      <description>&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
-Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
-ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports.</description>
-    </item>
-    
-    <item>
-      <title>Homelab: My Distributed Homelab</title>
+      <title>家庭实验室: 设备篇</title>
       <link>https://www.rho.ac.cn/post/my-homelab-2/</link>
-      <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
-      <description>Networking For the homelab, I would like to choose a commerical company&amp;rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&amp;rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
-Service For the homelab, I would like to docker as it is very covinence and can set up easily.</description>
-    </item>
-    
-    <item>
-      <title>Homelab: My Network setup</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-3/</link>
-      <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/my-homelab-3/</guid>
-      <description>In General Tools I use I choose Wireguard since it’s fast because of its light design, and it’s secure because it uses the best cryptographic tools available. However, for each time, the user may need to consider a SUBNET for the wireguard and a IP for each node, for me, it is every annoyed, as I have too many subnet need to be configured. Thus, I build a little tool: wgtools</description>
-    </item>
-    
-    <item>
-      <title>Homelab: My Devices</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
-      <description>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
-Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.</description>
+      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
+      <description>长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD Ubuntu 20.</description>
     </item>
     
     <item>
