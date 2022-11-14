@@ -9,20 +9,20 @@
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/hardware/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Homelab: How to build a AIO home-server</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
+      <title>Homelab: 打造一台 AIO 家用服务器</title>
+      <link>https://www.rho.ac.cn/post/my-homelab-2/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
       <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
     </item>
     
     <item>
-      <title>家庭实验室: 设备篇</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-2/</link>
+      <title>家庭实验室: 打造一套家庭赛博实验室</title>
+      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
+      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
       <description>长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
 为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
 这是我的设备列表

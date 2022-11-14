@@ -44,12 +44,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   
-  <title>Homelab: How to build a AIO home-server - Terence Lau</title>
+  <title>家庭实验室: 打造一套家庭赛博实验室 - Terence Lau</title>
 
   
   <meta name="theme-color" />
   
-  <meta name="description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine." />
+  <meta name="description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20." />
   <meta name="author" content="" />
   
 
@@ -110,24 +113,33 @@
   
   
   
-  <meta property="og:title" content="Homelab: How to build a AIO home-server" />
-<meta property="og:description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine." />
+  <meta property="og:title" content="家庭实验室: 打造一套家庭赛博实验室" />
+<meta property="og:description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/my-homelab-1/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-10-24T00:11:21+08:00" />
+<meta property="article:published_time" content="2022-07-20T00:11:21+08:00" />
 
 
 
   
-  <meta itemprop="name" content="Homelab: How to build a AIO home-server">
-<meta itemprop="description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine."><meta itemprop="datePublished" content="2022-10-24T00:11:21+08:00" />
+  <meta itemprop="name" content="家庭实验室: 打造一套家庭赛博实验室">
+<meta itemprop="description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20."><meta itemprop="datePublished" content="2022-07-20T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="826">
-<meta itemprop="keywords" content="homelab,hardware," />
+<meta itemprop="wordCount" content="1557">
+<meta itemprop="keywords" content="homelab,networking,hardware," />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Homelab: How to build a AIO home-server"/>
-<meta name="twitter:description" content="Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine."/>
+<meta name="twitter:title" content="家庭实验室: 打造一套家庭赛博实验室"/>
+<meta name="twitter:description" content="长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
+为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
+这是我的设备列表
+   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 &#43; 128GB &#43; 240GB SSD &#43; 600GB HDD &#43; NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 &#43; 16GB &#43; 256GB SSD &#43; 1T SATA HDD &#43; NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f &#43; 16GB &#43; 256GB SSD &#43; 256GB SSD &#43; 2T SATA HDD &#43; NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M &#43; 6G DDR3 &#43; 128G SSD &#43; 3T SATA HDD Ubuntu 20."/>
 
   
   
@@ -248,7 +260,7 @@
 
 <article>
   <header class="mb-10">
-    <h1 class="!my-0 pb-2.5">Homelab: How to build a AIO home-server</h1>
+    <h1 class="!my-0 pb-2.5">家庭实验室: 打造一套家庭赛博实验室</h1>
 
     
     <div class="text-sm opacity-60">
@@ -256,7 +268,7 @@
       
       
       
-      Published Oct 23, 2022
+      Published Jul 19, 2022
       
       
       
@@ -274,143 +286,649 @@
      
     <a
       class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://www.rho.ac.cn/tags/networking"
+      >networking</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
       href="https://www.rho.ac.cn/tags/hardware"
       >hardware</a>
     
   
   <hr>
-  <section><h2 id="before">Before</h2>
-<p>I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &ldquo;second-hand&rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</p>
-<h2 id="hardware">Hardware</h2>
+  <section><p>长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。</p>
+<h2 id="为什么是分布式的">为什么是分布式的</h2>
+<p>笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。</p>
+<p>这是我的设备列表</p>
 <table>
 <thead>
 <tr>
-<th>Module</th>
-<th>Series</th>
-<th>Price</th>
+<th style="text-align:center">Device</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
+<th style="text-align:center">Network</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>CPU + Motherboard</td>
-<td>Intel Xeon D-1581 + <a href="https://www.huoshen99.com/">HSGM D1581-R3</a></td>
-<td>¥498</td>
+<td style="text-align:center">DELL EMC R730</td>
+<td style="text-align:center">Zhuhai, China</td>
+<td style="text-align:center">E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
-<td>Memory</td>
-<td>second-hand ECC DDR3 1600 16GB $\times$ 4</td>
-<td>¥79</td>
+<td style="text-align:center">DELL Precision T1700</td>
+<td style="text-align:center">Zhuhai, China</td>
+<td style="text-align:center">i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti</td>
+<td style="text-align:center">Arch Linux</td>
+<td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
-<td>Graphic card</td>
-<td>Old NVIDIA RTX 2060</td>
-<td>¥0</td>
+<td style="text-align:center">Homebuilt PC</td>
+<td style="text-align:center">Zhongshan, China</td>
+<td style="text-align:center">i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Arch Linux</td>
+<td style="text-align:center">500Mbps</td>
 </tr>
 <tr>
-<td>Storage-SSD</td>
-<td>DAHUA C900 512GB</td>
-<td>¥245</td>
+<td style="text-align:center">Homebuilt NAS</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
 </tr>
 <tr>
-<td>Storage-HDD</td>
-<td>TOSHIBA MG04ACA400N 4T $\times$ 4</td>
-<td>¥1340</td>
+<td style="text-align:center">ARM Router</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">rk3568 + 2GB Mem + 8GB EMMC</td>
+<td style="text-align:center">iStoreOS (based on OpenWrt)</td>
+<td style="text-align:center">1Gbps</td>
 </tr>
 <tr>
-<td>Case</td>
-<td>not named</td>
-<td>¥399</td>
+<td style="text-align:center">ARM Router</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
 </tr>
 <tr>
-<td>｜Total</td>
-<td></td>
-<td>¥2561</td>
+<td style="text-align:center">ARM Router (In future)</td>
+<td style="text-align:center">Guangzhou, China</td>
+<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">100Mbps</td>
 </tr>
 </tbody>
 </table>
-<p>The reason I chose Xeon D-1581 is that I do not expect playing games or running some programs that expect high performance of single-core on this machine, instead, I need multiple cores for virtural machine for some experiment, where I don&rsquo;t need to spend money on the VPS. This is also explain why I need 64GB for RAM. For the storage part, I split the 4 hard disk into two group and each group has 2 disk, the group 1 I create a raid 1 for the important file storage, like photos, documentation and my code; the group 2 I create a LVM volume for daily storage, for example, the movie, music, and etc..</p>
-<h2 id="software">Software</h2>
-<p>I use Ubuntu 22.04 LTS as my base system, there is no reason/explanation, I familiar with ubuntu and I trust it can do a great job in the long-time task. Here is the configuration I have done on this machine:</p>
-<h3 id="nvidia-driver-and-cuda">NVIDIA DRIVER and CUDA</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># check PCI </span>
-sudo lspci -v | grep -i nvidia
-<span style="color:#75715e"># update </span>
-sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get upgrade -y
-<span style="color:#75715e"># install nv driver</span>
-sudo apt-get install nvidia-driver-510 <span style="color:#75715e"># for some reason I use 510 as I found it is the most stable in my system</span>
-<span style="color:#75715e"># install nv cuda toolkit</span>
-sudo apt-get install nvidia-cuda-toolkit
-<span style="color:#75715e"># install nvidia-container-toolkit</span>
-curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | sudo apt-key add -
-echo <span style="color:#e6db74">&#39;deb https://nvidia.github.io/libnvidia-container/stable/ubuntu20.04/$(ARCH) /&#39;</span> | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install nvidia-container-toolkit
-sudo reboot
+<p>不仅有各种物理形态的机器，还有较多的 VM/VPC/VPS/轻量服务器：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Device</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
+<th style="text-align:center">Network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Guangzhou</td>
+<td style="text-align:center">1C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">4C8G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - HKSAR</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - HKSAR</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Singapore</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">Oracle Cloud - Japan</td>
+<td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">Oracle Cloud - Japan</td>
+<td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">CubeCloud - HKSAR</td>
+<td style="text-align:center">1C512M</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+</tbody>
+</table>
+<p>列出这部分设备后，你可能知道我为什么需要分布式解决方案了。</p>
+<h2 id="可能可行的解决方案">可能可行的解决方案</h2>
+<p>目前，经过我的「调研」，可行的方案大概有如下两种，</p>
+<ol>
+<li>Docker Swarm</li>
+<li>Kubernetes</li>
+</ol>
+<p>【Docker Swarm](<a href="https://docs.docker.com/engine/swarm/">https://docs.docker.com/engine/swarm/</a>) Docker 出的是容器的集群管理工具。它拥有如下主要特性：</p>
+<ol>
+<li>集成于Docker Engine的集群管理工具。</li>
+<li>分布式设计：从一个image生成整个集群。一个docker swarm下的不同node，可以分布于同一，或不同的物理设备上。</li>
+<li>灵活调度：按需启动或关闭容器。</li>
+<li>高可用性：支持监控容器状态，如果容器崩溃，可以自动重启容器。</li>
+<li>支持多样的网络配置：支持overlay、macvlan、bridge、host等网络形式。</li>
+<li>服务发现</li>
+<li>负载均衡</li>
+<li>加密传输：默认基于TLS实现容器间的交互，实现加密传输。</li>
+<li>升级回退：支持动态升级容器，如果升级后的容器运行不正常，可自动回退到上一版本。</li>
+</ol>
+<p>但 <a href="https://github.com/docker-archive/classicswarm">Docker Swarm</a> 已经被 Docker 抛弃了，但是，我们依旧可以用时 Docker swarm mode 来组建一个个人容器云。</p>
+<p><a href="(https://kubernetes.io/docs/home/)">Kubernetes</a> 也被称为 K8S, 以容器为中心的管理软件 Kubernetes 已成为部署和操作容器化应用的通行标准。Kubernetes 最初在 Google 开发，然后在 2014 年开源发布。它是基于云的容器编排技术，旨在实现高效资源管理、完全自动化和资源利用率最大化。Kubernetes 具有如下优点：</p>
+<ol>
+<li>自动化运营： Kubernetes 具有许多内置命令，可用于处理应用管理中繁重的工作，从而自动化日常操作，帮助您确保应用始终按照预期的方式运行。</li>
+<li>基础架构抽象：安装 Kubernetes 后，它将代表您的工作负载处理计算、网络和存储。这使开发者可以专注于应用，而不必担心底层环境。</li>
+<li>服务运行状况监控：Kubernetes 会对服务不间断地执行健康检查，重新启动有故障或停滞的容器，且只会在确认服务正常运行时向用户提供服务。</li>
+</ol>
+<p>一般来说，Kubernetes 更适合那些复杂的开发/生产环境中的复杂应用，而 Docker Swarm 的设计目的是为了易于使用。 根据介绍和比较，我准备同时部署 K8s 和 Docker swarm，一部分设备在 Docker Swarm（The DS集群）中使用，而其他在K8s中使用，常用的个人服务，如 Git 等会部署在 DS 中，而 K8s 则主要是用来学习。</p>
+<p>同时，对于分布式集群，除了框架以外，网络环境也十分重要，如何通过互联网构建属于自己的私人网络呢，如下有几种公开的方案：</p>
+<ol>
+<li><a href="https://www.zerotier.com/">Zerotier</a></li>
+<li><a href="http://tailscale.com/">Tailscale</a>: based on Wireguard</li>
+<li><a href="https://github.com/slackhq/nebula">Nebula</a>: A scalable overlay networking tool by Slack</li>
+<li><a href="https://github.com/ntop/n2n">n2n</a>: peer-to-peer VPN</li>
+</ol>
+<p>对比之后，对于我的家用设备，我会选择 Tailscale 作为我的实验性能，而对于这两个集群内部，我会使用 Wireguard，因为我不需要支付任何费用。</p>
+<h2 id="部署网络">部署：网络</h2>
+<p>我之所以选择 Wireguard，是因为它设计轻巧，速度快，而且安全，因为它使用了最好的加密工具。然而，对于每一次，用户可能需要考虑一个 SUBNET 用于wireguard 和一个 IP 用于每个节点，对我来说，这很烦人，因为我有太多的子网需要配置。因此，我构建了一个小工具：<a href="https://github.com/TerenceLiu98/wgtools">wgtools</a></p>
+<h3 id="如何使用">如何使用</h3>
+<ul>
+<li>
+<p>prerequest:</p>
+<ul>
+<li>clone the code into local directory: <code>git clone  https://github.com/TerenceLiu98/wgtools.git</code></li>
+<li>install the requirement: <code>python -m pip install -r requirements.txt</code></li>
+<li>install the wireguard before using the tool</li>
+</ul>
+</li>
+<li>
+<p>configuration:</p>
+<ul>
+<li>new a ipv4 pool: <code>python add.py network wg0</code></li>
+<li>new (a) peer(s): <code>python add.py node wg0 node1</code> + <code>python add.py node wg0 node2</code> + <code>python add.py node wg0 node3</code></li>
+<li>check the information: <code>cat wg0.conf</code></li>
+<li>modify the endpoint: <code>python modify.py wg0 node1 Endpoint 1.1.1.1</code></li>
+<li>generate configuration for each node: <code>python generate.py wg0 node1</code> + <code>python genenrate.py wg0 node2</code> + <code>python generate wg0 node3</code></li>
+</ul>
+</li>
+<li>
+<p>script</p>
+<ul>
+<li>copy the configuration to the machine</li>
+<li>use <code>wg-quick</code> to quick start the wireguard</li>
+<li>check the connectivity via `ping</li>
+</ul>
+</li>
+</ul>
+<h3 id="为什么不使用广域网">为什么不使用广域网</h3>
+<p>是的，使用公网 IP 很方便，但可能会遇到一些安全问题，因为节点之间的通信需要暴露多个端口（Kubernetes 和 Docker Swarm）。为了避免这种情况，我可以使用 Wireguard 轻松避免这个问题，因此，为什么不呢。</p>
+<h2 id="部署服务">部署：服务</h2>
+<h3 id="安装-docker">安装 Docker</h3>
+<p>对于homelab，我想使用docker，因为它非常方便并且可以轻松设置。要安装 docker，只需按照步骤操作即可：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># uninstall old versions (if installed) </span>
+sudo apt-get install remove docker docker-engine docker.io containere runc
 
-<span style="color:#75715e"># after rebooting, verify that the GPU is working or not:</span>
-nvidia-smi <span style="color:#f92672">&amp;&amp;</span> nvcc -V
-</code></pre></div><h3 id="container-lxc-and-lxd">Container: LXC and LXD</h3>
-<p>LXC stands for Linux Containers, I choose using the LXC as it can be easily used in PCI passthrough by just follow the above instruction and install the <code>nvidia-container-toolkit</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># install lxd</span>
-sudo snap install lxd
-<span style="color:#75715e"># create a zfs storage pool</span>
-sudo apt install zfsutils-linux
-sudo zpool create -f &lt;pool-name&gt; &lt;your disk&gt;
-<span style="color:#75715e">## if you need raid 1:</span>
-sudo zpool create -f &lt;pool-name&gt; /dev/&lt;disk-1&gt; /dev/&lt;disk-2&gt;
+<span style="color:#75715e"># install using the repository</span>
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg lsb-release <span style="color:#75715e"># some preliminary</span>
+sudo mkdir -p /etc/apt/keyrings <span style="color:#75715e"># add gpg key</span>
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+<span style="color:#75715e">## add key</span>
+echo <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+</span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
 
-<span style="color:#75715e"># lxd initilization</span>
-sudo lxd init
-<span style="color:#75715e"># specify the storage pool to the pool that just create before</span>
+<span style="color:#75715e"># OPTIONAL: for China&#39;s user you may use mirrors.bfsu.edu.cn for a smooth download experience</span>
+echo <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.bfsu.edu.cn/docker-ce/linux/ubuntu \
+</span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
 
-<span style="color:#75715e"># create a template profile check the meaning of the command before you use it</span>
-lxc profile create &lt;template-name&gt;                      <span style="color:#75715e"># create a template </span>
-lxc profile device add pgu-template gpu gpu             <span style="color:#75715e"># add the gpu device      </span>
-lx profile set &lt;template-name&gt; nvidia.runtime<span style="color:#f92672">=</span>true      <span style="color:#75715e"># use nvidia-runtime</span>
-lx profile set &lt;template-name&gt; security.nesting<span style="color:#f92672">=</span>true    <span style="color:#75715e"># allow nesting runtime (running ctr inside)</span>
+<span style="color:#75715e"># update apt repository and install docker and related packages</span>
+sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
-<span style="color:#75715e"># launch a container</span>
-lxc launch ubuntu:22.04 &lt;ctr-name&gt; -p &lt;profile-name&gt; -s &lt;lxc-storage-name&gt;
+<span style="color:#75715e"># check docker verion</span>
+sudo docker version
+<span style="color:#75715e"># Client: Docker Engine - Community</span>
+<span style="color:#75715e">#  Version:           20.10.18</span>
+<span style="color:#75715e">#  API version:       1.41</span>
+<span style="color:#75715e">#  Go version:        go1.18.6</span>
+<span style="color:#75715e">#  Git commit:        b40c2f6</span>
+<span style="color:#75715e">#  Built:             Thu Sep  8 23:11:43 2022</span>
+<span style="color:#75715e">#  OS/Arch:           linux/amd64</span>
+<span style="color:#75715e">#  Context:           default</span>
+<span style="color:#75715e">#  Experimental:      true</span>
 
-<span style="color:#75715e"># run nvidia-smi inside the container</span>
-lxc exec &lt;ctr-name&gt; -- nvidia-smi
-</code></pre></div><p>With the above setting, the container will simply use the same <code>nvidia-driver</code>, if you want to use the different driver, you can <code>set &lt;template-name&gt; nvidia.runtime=false</code> and install the driver inside the container.</p>
-<h2 id="storage-raid1-and-lvm-volume">Storage: Raid1 and LVM volume</h2>
-<p>Assume that we have <code>/dev/sda</code>, <code>/dev/sdb</code>, <code>/dev/sdc</code>, and <code>/dev/sdd</code>, we can simply use <code>mdadm</code> to create a Raid1:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># create raid 1</span>
-sudo mdadm --create --verbose /dev/md0 --level<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> --raid-devices<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> /dev/sda /dev/sdb
-<span style="color:#75715e"># check the process of creation</span>
-sudo cat /proc/mdstat
-<span style="color:#75715e"># creaet file system</span>
-sudo mkfs.ext4 -F /dev/md0
-<span style="color:#75715e"># create a mount point</span>
-sudo mkdir -p /mnt/storage
-<span style="color:#75715e"># mount the storage (temporary)</span>
-sudo mount /dev/md0 /mnt/storage
-<span style="color:#75715e"># mount the storage (persistent)</span>
-echo <span style="color:#e6db74">&#39;/dev/md0 /mnt/storage ext4 defaults,nofail,discard 0 0&#39;</span> | sudo tee -a /etc/fstab
-</code></pre></div><p>For the LVM volume:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># create a physical volumes on the top of the remaining dick</span>
-sudo pvcreate /dev/sdc /dev/sdd <span style="color:#f92672">&amp;&amp;</span> sudo pvs
-<span style="color:#75715e"># create a volume group named as `lv-storage`</span>
-sudo vgcreate vg-storage /dev/sdc /dev/sdd <span style="color:#f92672">&amp;&amp;</span> sudo vgdisplay vg-storage
-<span style="color:#75715e"># create two logical volumes </span>
-<span style="color:#75715e">## the first one is for the lxd and the remains are for daily storage</span>
-sudo lvcreate -n lxd-tool -L 120G vg-storage <span style="color:#f92672">&amp;&amp;</span> lvs
-sudo lvcreate -n daily-storage -l 100%FREE vg-storage <span style="color:#f92672">&amp;&amp;</span> lvs
-<span style="color:#75715e"># create zfs pool &amp; ext4 </span>
-sudo zpool create lxdPool /dev/vg-storage/lxd-pool
-sudo mkfs.ext4 -F /dev/vg-storage/daily-storage
-<span style="color:#75715e"># create a mount point</span>
-sudo mkdir -p /mnt/daily-storage
-<span style="color:#75715e"># mount the storage (temporary)</span>
-sudo mount /dev/vg-storage/daily-storage /mnt/daily-storage
-<span style="color:#75715e"># mount the storage (persistent)</span>
-echo <span style="color:#e6db74">&#39;/dev/vg-storage/daily-storage /mnt/daily-storage ext4 defaults,nofail,discard 0 0&#39;</span> | sudo tee -a /etc/fstab
+<span style="color:#75715e"># Server: Docker Engine - Community</span>
+<span style="color:#75715e">#  Engine:</span>
+<span style="color:#75715e">#   Version:          20.10.18</span>
+<span style="color:#75715e">#   API version:      1.41 (minimum version 1.12)</span>
+<span style="color:#75715e">#   Go version:       go1.18.6</span>
+<span style="color:#75715e">#   Git commit:       e42327a</span>
+<span style="color:#75715e">#   Built:            Thu Sep  8 23:09:30 2022</span>
+<span style="color:#75715e">#   OS/Arch:          linux/amd64</span>
+<span style="color:#75715e">#   Experimental:     false</span>
+<span style="color:#75715e">#  containerd:</span>
+<span style="color:#75715e">#   Version:          1.6.8</span>
+<span style="color:#75715e">#   GitCommit:        9cd3357b7fd7218e4aec3eae239db1f68a5a6ec6</span>
+<span style="color:#75715e">#  runc:</span>
+<span style="color:#75715e">#   Version:          1.1.4</span>
+<span style="color:#75715e">#   GitCommit:        v1.1.4-0-g5fd4c4d</span>
+<span style="color:#75715e">#  docker-init:</span>
+<span style="color:#75715e">#   Version:          0.19.0</span>
+<span style="color:#75715e">#   GitCommit:        de40ad0</span>
+</code></pre></div><h3 id="多媒体娱乐">多媒体娱乐</h3>
+<p>有多种多媒体软件，例如，<a href="https://www.plex.tv/">Plex</a>、<a href="https://emby.media">Emby</a>、<a href="https://jellyfin.org">Jellyfin</a> , 和 <a href="https://kodi.tv/">KODI</a>。 出于某种原因，我不想为媒体服务支付太多钱，因为我只是想要一个可以展示海报和视频简介的地方，我不需要太多“花哨”的功能。 相比之下，我选择 Jellyfin，“Emby 的开源版本”，作为我的多媒体服务器，我通过 <code>docker-compose.yml</code> 安装它：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;2.1&#34;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">jellyfin</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">lscr.io/linuxserver/jellyfin:latest</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">jellyfin</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">PUID=1000</span>
+      - <span style="color:#ae81ff">PGID=1000</span>
+      - <span style="color:#ae81ff">TZ=Asia/Shanghai</span>
+    <span style="color:#f92672">volumes</span>: <span style="color:#75715e"># map the physical volume to the container</span>
+      - <span style="color:#ae81ff">/path/to/library:/config       </span>
+      - <span style="color:#ae81ff">/path/to/tvseries:/data/tvshows</span>
+      - <span style="color:#ae81ff">/path/to/movies:/data/movies</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">8096</span>:<span style="color:#ae81ff">8096</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span> <span style="color:#75715e"># when docker restart, the docker image will auto restart</span>
+</code></pre></div><h3 id="单点认证">单点认证</h3>
+<p>支持Oauth的认证软件有很多，例如<a href="https://goauthentik.io/">Authentik</a>、<a href="https://www.okta.com/">Okta</a>、[auth0](https:// auth0.com/)、<a href="https://github.com/ory/hydra">Ory Hydra</a>、<a href="https://www.keycloak.org/">KeyCloak</a>，还有一些认证云服务，比如<a href="https://authing.cn"> authing.com</a>。 相比之下，我选择了Authentik和KeyCloak，authentik界面好看，而且KeyCloak是一个应用广泛的软件，这意味着在兴趣上的例子和解决方案更多。 authentik 用于我的自托管服务，而 KeyCloak 用于我需要提供给内网用户的其他服务。 同样，我使用 <code>docker-compose.yml</code> 来设置这些服务：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Authentik</span>
+<span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://goauthentik.io/docs/installation/docker-compose for the detail</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.4&#39;</span>
 
-<span style="color:#75715e"># create the storage status</span>
-df -h
-</code></pre></div><p>For the mounting, you can also use the <code>uuid</code> to mount the storage. Simply use <code>blkid</code> and you can find the disk&rsquo;s uuid.</p>
-</section>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">postgresql</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/library/postgres:12-alpine</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD-SHELL&#34;</span>, <span style="color:#e6db74">&#34;pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}&#34;</span>]
+      <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">5</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">5s</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">database:/var/lib/postgresql/data</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">POSTGRES_PASSWORD=${PG_PASS:?database password required}</span>
+      - <span style="color:#ae81ff">POSTGRES_USER=${PG_USER:-authentik}</span>
+      - <span style="color:#ae81ff">POSTGRES_DB=${PG_DB:-authentik}</span>
+    <span style="color:#f92672">env_file</span>:
+      - <span style="color:#ae81ff">.env</span>
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/library/redis:alpine</span>
+    <span style="color:#f92672">command</span>: --<span style="color:#ae81ff">save 60 1 --loglevel warning</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD-SHELL&#34;</span>, <span style="color:#e6db74">&#34;redis-cli ping | grep PONG&#34;</span>]
+      <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">5</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">3s</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">redis:/data</span>
+  <span style="color:#f92672">server</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2022.9.0}</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">server</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">AUTHENTIK_REDIS__HOST</span>: <span style="color:#ae81ff">redis</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__HOST</span>: <span style="color:#ae81ff">postgresql</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__USER</span>: <span style="color:#ae81ff">${PG_USER:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__NAME</span>: <span style="color:#ae81ff">${PG_DB:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__PASSWORD</span>: <span style="color:#ae81ff">${PG_PASS}</span>
+      <span style="color:#75715e"># AUTHENTIK_ERROR_REPORTING__ENABLED: &#34;true&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./media:/media</span>
+      - <span style="color:#ae81ff">./custom-templates:/templates</span>
+      - <span style="color:#ae81ff">geoip:/geoip</span>
+    <span style="color:#f92672">env_file</span>:
+      - <span style="color:#ae81ff">.env</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;0.0.0.0:${AUTHENTIK_PORT_HTTP:-9000}:9000&#34;</span>
+      - <span style="color:#e6db74">&#34;0.0.0.0:${AUTHENTIK_PORT_HTTPS:-9443}:9443&#34;</span>
+  <span style="color:#f92672">worker</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2022.9.0}</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">worker</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">AUTHENTIK_REDIS__HOST</span>: <span style="color:#ae81ff">redis</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__HOST</span>: <span style="color:#ae81ff">postgresql</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__USER</span>: <span style="color:#ae81ff">${PG_USER:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__NAME</span>: <span style="color:#ae81ff">${PG_DB:-authentik}</span>
+      <span style="color:#f92672">AUTHENTIK_POSTGRESQL__PASSWORD</span>: <span style="color:#ae81ff">${PG_PASS}</span>
+      <span style="color:#75715e"># AUTHENTIK_ERROR_REPORTING__ENABLED: &#34;true&#34;</span>
+    <span style="color:#75715e"># This is optional, and can be removed. If you remove this, the following will happen</span>
+    <span style="color:#75715e"># - The permissions for the /media folders aren&#39;t fixed, so make sure they are 1000:1000</span>
+    <span style="color:#75715e"># - The docker socket can&#39;t be accessed anymore</span>
+    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">root</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./media:/media</span>
+      - <span style="color:#ae81ff">./certs:/certs</span>
+      - <span style="color:#ae81ff">/var/run/docker.sock:/var/run/docker.sock</span>
+      - <span style="color:#ae81ff">./custom-templates:/templates</span>
+      - <span style="color:#ae81ff">geoip:/geoip</span>
+    <span style="color:#f92672">env_file</span>:
+      - <span style="color:#ae81ff">.env</span>
+
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">database</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">local</span>
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">local</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># KeyClock</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">postgres</span>:
+      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres</span>
+      <span style="color:#f92672">volumes</span>:
+        - <span style="color:#ae81ff">./data:/var/lib/postgresql/data</span>
+      <span style="color:#f92672">environment</span>:
+        <span style="color:#f92672">POSTGRES_DB</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">POSTGRES_USER</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">POSTGRES_PASSWORD</span>: <span style="color:#ae81ff">password</span>
+
+  <span style="color:#f92672">keycloak</span>:
+      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">keycloak/keycloak:latest</span>
+      <span style="color:#f92672">environment</span>:
+        <span style="color:#f92672">DB_VENDOR</span>: <span style="color:#ae81ff">POSTGRES</span>
+        <span style="color:#f92672">DB_ADDR</span>: <span style="color:#ae81ff">postgres</span>
+        <span style="color:#f92672">DB_DATABASE</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">DB_USER</span>: <span style="color:#ae81ff">keycloak</span>
+        <span style="color:#f92672">DB_SCHEMA</span>: <span style="color:#ae81ff">public</span>
+        <span style="color:#f92672">DB_PASSWORD</span>: <span style="color:#ae81ff">password      </span> <span style="color:#75715e"># change it if you want</span>
+        <span style="color:#f92672">KEYCLOAK_USER</span>: <span style="color:#ae81ff">admin</span>
+        <span style="color:#f92672">KEYCLOAK_PASSWORD</span>: <span style="color:#ae81ff">Pa55w0rd</span> <span style="color:#75715e"># change it if you want </span>
+        <span style="color:#f92672">PROXY_ADDRESS_FORWARDING</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+        <span style="color:#f92672">REDIRECT_SOCKET</span>: <span style="color:#e6db74">&#34;proxy-https&#34;</span>
+      <span style="color:#f92672">ports</span>:
+        - <span style="color:#ae81ff">8080</span>:<span style="color:#ae81ff">8080</span>
+      <span style="color:#f92672">depends_on</span>:
+        - <span style="color:#ae81ff">postgres</span>
+</code></pre></div><h3 id="工作相关">工作相关</h3>
+<p>大多数时候，我只是使用本地环境进行文档和编码，但有时我会重新构建计算机以避免数据丢失。 因此，我选择 <a href="https://github.com/outline/outline">outline</a> 作为文档，<a href="https://www.dokuwiki.org/dokuwiki">dokuwiki</a> 用于构建 wiki 系统，[Nexcloud] 为 我的个人网络存储，以及 <a href="https://gitea.io">Gitea</a> 作为我的自托管代码存储库。 Outline 是一个国家替代软件，它还提供了一个漂亮的实时知识库，我可以通过网络轻松地存储我的想法和想法。 Dokuwiki 是一个著名的 wiki 系统，没有数据库后端，这意味着我可以轻松地将它迁移到任何地方。 在 Gitea 和 Gitlab 之间，我最后选择了 Gitea，因为 GitLab 的硬件要求太高，我没有足够的资源来运行 GitLab，我只需要一个地方来存储我的代码，而不是那些额外的功能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># outline </span>
+<span style="color:#75715e"># you need to set up the ENV parameters on other file call `.env`, check https://app.getoutline.com/s/770a97da-13e5-401e-9f8a-37949c19f97e/doc/docker-7pfeLP5a8t for the detail</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+<span style="color:#f92672">services</span>:
+
+  <span style="color:#f92672">outline</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">outlinewiki/outline</span>
+    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">./docker.env</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">sh -c &#34;yarn sequelize:migrate --env=production-ssl-disabled &amp;&amp; yarn start --env=production-ssl-disabled&#34;</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;3000&#34;</span><span style="color:#ae81ff">3000</span><span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">    depends_on:
+</span><span style="color:#e6db74">      - postgres
+</span><span style="color:#e6db74">      - redis
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">  redis:
+</span><span style="color:#e6db74">    image: redis
+</span><span style="color:#e6db74">    env_file: ./docker.env
+</span><span style="color:#e6db74">    ports:
+</span><span style="color:#e6db74">      - &#34;</span><span style="color:#ae81ff">6379</span>:<span style="color:#ae81ff">6379</span><span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">    volumes:
+</span><span style="color:#e6db74">      - ./redis.conf:/redis.conf
+</span><span style="color:#e6db74">    command: [&#34;</span><span style="color:#ae81ff">redis-server&#34;, &#34;/redis.conf&#34;]</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;redis-cli&#34;</span>, <span style="color:#e6db74">&#34;ping&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">10s</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">3</span>
+
+  <span style="color:#f92672">postgres</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres</span>
+    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">./docker.env</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;5432:5432&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">database-data:/var/lib/postgresql/data</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;pg_isready -U user&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">3</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">POSTGRES_USER</span>: <span style="color:#ae81ff">user      </span> <span style="color:#75715e"># change it if you want</span>
+      <span style="color:#f92672">POSTGRES_PASSWORD</span>: <span style="color:#ae81ff">pass  </span> <span style="color:#75715e"># change it if you want</span>
+      <span style="color:#f92672">POSTGRES_DB</span>: <span style="color:#ae81ff">outline</span>
+
+  <span style="color:#f92672">storage</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">minio/minio:latest</span>
+    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">./docker.env</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;9000:9000&#34;</span>
+      - <span style="color:#e6db74">&#34;9001:9001&#34;</span>
+    <span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">sh</span>
+    <span style="color:#f92672">command</span>: -<span style="color:#ae81ff">c &#39;minio server /data --console-address &#34;:9001&#34;&#39;</span>
+    <span style="color:#f92672">deploy</span>:
+      <span style="color:#f92672">restart_policy</span>:
+        <span style="color:#f92672">condition</span>: <span style="color:#66d9ef">on</span>-<span style="color:#ae81ff">failure</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/mnt/minio/data:/data</span>
+      - <span style="color:#ae81ff">/mnt/minio/config:/root/.minio</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;curl&#34;</span>, <span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;http://storage:9000/minio/health/live&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">20s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">3</span>
+
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">storage-data</span>:
+  <span style="color:#ae81ff">database-data</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># dokuwiki</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">dokuwiki</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/bitnami/dokuwiki</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#39;8089:8080&#39;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./dokuwiki:/bitnami/dokuwiki&#39;</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Nextcloud</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">app</span>:
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_app</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nextcloud</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">10000</span>:<span style="color:#ae81ff">80</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">DATABASE_URL=mysql+pymysql://nextcloud:nextcloud@db/nextcloud</span>
+      - <span style="color:#ae81ff">REDIS_URL=redis://redis:6379</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/nextcloud/www:/var/www/html</span>
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">db</span>
+      - <span style="color:#ae81ff">redis</span>
+    <span style="color:#f92672">networks</span>:
+        <span style="color:#f92672">default</span>:
+        <span style="color:#f92672">internal</span>:
+
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_db</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mariadb:10.5</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">MYSQL_ROOT_PASSWORD=nextcloud  </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">MYSQL_USER=nextcloud           </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">MYSQL_PASSWORD=nextcloud       </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">MYSQL_DATABASE=nextcloud       </span> <span style="color:#75715e"># change it if you want</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/nextcloud/db:/var/lib/mysql</span>
+    <span style="color:#f92672">networks</span>:
+        <span style="color:#f92672">internal</span>:
+    <span style="color:#f92672">command</span>: --<span style="color:#ae81ff">transaction-isolation=READ-COMMITTED --binlog-format=ROW</span>
+
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_redis</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/nextcloud/redis/data:/data</span>
+      - <span style="color:#ae81ff">/opt/nextcloud/redis/redis.conf:/etc/redis/redis.conf</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">networks</span>:
+        <span style="color:#f92672">internal</span>:
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">redis-server /etc/redis/redis.conf --appendonly yes</span>
+
+<span style="color:#f92672">networks</span>:
+    <span style="color:#f92672">default</span>:
+    <span style="color:#f92672">internal</span>:
+        <span style="color:#f92672">internal</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Gitea</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">gitea</span>:
+    <span style="color:#f92672">external</span>: <span style="color:#66d9ef">false</span>
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">server</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">gitea/gitea:latest</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">gitea</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">USER_UID=1000</span>
+      - <span style="color:#ae81ff">USER_GID=1000</span>
+      - <span style="color:#ae81ff">GITEA__database__DB_TYPE=postgres</span>
+      - <span style="color:#ae81ff">GITEA__database__HOST=db:5432  </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">GITEA__database__NAME=gitea    </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">GITEA__database__USER=gitea    </span> <span style="color:#75715e"># change it if you want</span>
+      - <span style="color:#ae81ff">GITEA__database__PASSWD=gitea  </span> <span style="color:#75715e"># change it if you want</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">gitea</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./gitea:/data</span>
+      - <span style="color:#ae81ff">/etc/timezone:/etc/timezone:ro</span>
+      - <span style="color:#ae81ff">/etc/localtime:/etc/localtime:ro</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;3000:3000&#34;</span>
+      - <span style="color:#e6db74">&#34;1022:22&#34;</span>
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">db</span>
+
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres:14</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">POSTGRES_USER=gitea</span>
+      - <span style="color:#ae81ff">POSTGRES_PASSWORD=gitea</span>
+      - <span style="color:#ae81ff">POSTGRES_DB=gitea</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">gitea</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./postgres:/var/lib/postgresql/data</span>
+</code></pre></div><h3 id="rss-阅读器">RSS 阅读器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.4&#39;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">miniflux</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">miniflux/miniflux:latest</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;8080:8080&#34;</span>
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">db</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable</span>
+      - <span style="color:#ae81ff">RUN_MIGRATIONS=1</span>
+      - <span style="color:#ae81ff">CREATE_ADMIN=1</span>
+      - <span style="color:#ae81ff">ADMIN_USERNAME=admin</span>
+      - <span style="color:#ae81ff">ADMIN_PASSWORD=Pa55word</span>
+      - <span style="color:#ae81ff">OAUTH2_USER_CREATION=true</span>
+      - <span style="color:#ae81ff">OAUTH2_PROVIDER=oidc</span>
+      - <span style="color:#ae81ff">OAUTH2_CLIENT_ID=&lt;oauth-client-id&gt;</span>
+      - <span style="color:#ae81ff">OAUTH2_CLIENT_SECRET=&lt;oauth-client-secret&gt;</span>
+      - <span style="color:#ae81ff">OAUTH2_REDIRECT_URL=&lt;miniflux-url&gt;oauth2/oidc/callback</span>
+      - <span style="color:#ae81ff">OAUTH2_OIDC_DISCOVERY_ENDPOINT=&lt;oidc-endpoint&gt;</span>
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres:latest</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">POSTGRES_USER=miniflux</span>
+      - <span style="color:#ae81ff">POSTGRES_PASSWORD=secret</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">miniflux-db:/var/lib/postgresql/data</span>
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;pg_isready&#34;</span>, <span style="color:#e6db74">&#34;-U&#34;</span>, <span style="color:#e6db74">&#34;miniflux&#34;</span>]
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">10s</span>
+      <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">30s</span>
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">miniflux-db</span>:
+</code></pre></div><h2 id="密钥和密码管理">密钥和密码管理</h2>
+<p>有多种不同的密码管理器，谷歌密码管理器，1Password，LastPass等。但我选择了Bitwarden，因为我可以在自己的机器上自行托管软件，我不需要担心数据泄露。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">bitwarden</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">bitwardenrs/server</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">bitwardenrs</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">ports</span>:
+        - <span style="color:#e6db74">&#34;127.0.0.1:8000:80&#34;</span>
+        - <span style="color:#e6db74">&#34;127.0.0.1:3012:3012&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./bw-data:/data</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">WEBSOCKET_ENABLED</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#f92672">SIGNUPS_ALLOWED</span>: <span style="color:#e6db74">&#34;false&#34;</span>
+      <span style="color:#f92672">WEB_VAULT_ENABLED</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#f92672">ADMIN_TOKEN</span>: <span style="color:#e6db74">&#34;&lt;admin-token&gt;&#34;</span> <span style="color:#75715e"># you can generate the token by using openssl: `openssl rand -hex 32`</span>
+</code></pre></div></section>
 
   
   
@@ -420,11 +938,15 @@ df -h
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://www.rho.ac.cn/post/k3s-setup-1/"
+      ><span class="mr-1.5">←</span><span>K3s/Kubernetes - 快速启动 K3s 服务</span></a
+    >
+    
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
-      href="https://www.rho.ac.cn/post/lnet-1/"
-      ><span>👨‍💻 My Personal Experimental Network: L-Net</span><span class="ml-1.5">→</span></a
+      href="https://www.rho.ac.cn/post/desk-set-up/"
+      ><span>大二，我的桌面</span><span class="ml-1.5">→</span></a
     >
     
   </nav>
