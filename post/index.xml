@@ -28,7 +28,7 @@ However, to investigate deeper into the network performance, I started to learn 
     </item>
     
     <item>
-      <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title>
+      <title>K3s/Kubernetes - 番外：自建 Docker 镜像站</title>
       <link>https://www.rho.ac.cn/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
@@ -39,7 +39,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
     </item>
     
     <item>
-      <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</title>
+      <title>K3s/Kubernetes - 配置高可用 K3s 集群</title>
       <link>https://www.rho.ac.cn/post/k3s-setup-2/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
@@ -49,7 +49,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
     </item>
     
     <item>
-      <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</title>
+      <title>K3s/Kubernetes - 快速启动 K3s 服务</title>
       <link>https://www.rho.ac.cn/post/k3s-setup-1/</link>
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
