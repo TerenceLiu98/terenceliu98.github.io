@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Dec 2022 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
+      <link>https://blog.cklau.cc/post/lnet-2/</link>
+      <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/lnet-2/</guid>
+      <description>Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
+Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192.</description>
+    </item>
+    
     <item>
       <title>Homelab: How to build a AIO home-server</title>
       <link>https://blog.cklau.cc/post/my-homelab-5/</link>
@@ -15,6 +25,16 @@
       
       <guid>https://blog.cklau.cc/post/my-homelab-5/</guid>
       <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
+    </item>
+    
+    <item>
+      <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell (1)</title>
+      <link>https://blog.cklau.cc/post/k8s-setup-1/</link>
+      <pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/k8s-setup-1/</guid>
+      <description>Before What is Kuberntes Kubernetes, is an open-source system for automating deployment, scaling, and management of containerized applications. Usually, we call it K8s as there are 8 characters between K and s :).
+Basically, all the application are containerized, and we can easily the reason why we use K8s is that the use of microservices increasing, away from traditional monolithic-type applications. As a result, containers provide the perfeet host form these individual microservices as containers manage dependencies, are indipendent, OS-agnostic and ephemaral, amongst other benefits, which is very powerful and suitable for users as we want users to run their application isolated and donot be influenced by others.</description>
     </item>
     
     <item>
@@ -34,7 +54,7 @@ However, to investigate deeper into the network performance, I started to learn 
       
       <guid>https://blog.cklau.cc/projects/</guid>
       <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
- Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell - Coming soon  Personal Project: Personal Experimental Network: L-Net These areticles are inside my projects: Build a Experimental Network with your VPS</description>
+ Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes - Build a High availability Kubernetes Cluster with Kubeadm &amp;ndash; Coming soon  Personal Project: Personal Experimental Network: L-Net These areticles are inside my projects: Build a Experimental Network with your VPS</description>
     </item>
     
     <item>
@@ -77,16 +97,6 @@ Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a 
       <guid>https://blog.cklau.cc/post/k3s-setup-2/</guid>
       <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
-    </item>
-    
-    <item>
-      <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell (1)</title>
-      <link>https://blog.cklau.cc/post/k8s-setup-1/</link>
-      <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/post/k8s-setup-1/</guid>
-      <description>Before What is Kuberntes Kubernetes, is an open-source system for automating deployment, scaling, and management of containerized applications. Usually, we call it K8s as there are 8 characters between K and s :).
-Basically, all the application are containerized, and we can easily the reason why we use K8s is that the use of microservices increasing, away from traditional monolithic-type applications. As a result, containers provide the perfeet host form these individual microservices as containers manage dependencies, are indipendent, OS-agnostic and ephemaral, amongst other benefits, which is very powerful and suitable for users as we want users to run their application isolated and donot be influenced by others.</description>
     </item>
     
     <item>

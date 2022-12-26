@@ -129,7 +129,7 @@ However, to investigate deeper into the network performance, I started to learn 
 <meta itemprop="description" content="Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
 However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters."><meta itemprop="datePublished" content="2022-10-18T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="1845">
+<meta itemprop="wordCount" content="1848">
 <meta itemprop="keywords" content="networking,wireguard,experimental network," />
   
   <meta name="twitter:card" content="summary"/>
@@ -139,6 +139,29 @@ However, to investigate deeper into the network performance, I started to learn 
 
   
   
+
+  
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [["$", "$"]],
+    },
+    displayMath: [
+      ["$$", "$$"],
+      ["\[\[", "\]\]"],
+    ],
+    svg: {
+      fontCache: "global",
+    },
+  };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+></script>
+
 </head>
 
   <body class="text-black duration-200 ease-out dark:text-white">
@@ -306,7 +329,7 @@ However, to investigate deeper into the network performance, I started to learn 
 <p>We are using the <code>Wireguard</code> to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: <code>a1</code> is the router of the cluster <code>A</code> and <code>b</code> is the central router of the whole L-Net and <code>A</code>’s IP address is <code>172.12.1.0/24</code> , then we need an extra IP address(an extra Wireguard tunnel) for <code>a → b</code>.</p>
 <p>Under this circumstance, we can connect the nodes inside the <code>A (a2, a3, …)</code>  to <code>b</code>, and other nodes  from <code>C (c1, c2, c3, …)</code> can also connect to <code>A</code>.</p>
 <p>Here is the topology of my design:</p>
-<p><img src="https://bucket.cklau.cc/outline-bucket/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/dc88ca70-d652-4d2b-9360-931c852ea1b3/LNet.drawio.png" alt="toppology"></p>
+<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/dc88ca70-d652-4d2b-9360-931c852ea1b3/LNet.drawio.png" alt="topology"></p>
 <p>Those bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.</p>
 <h2 id="network-configuration">Network Configuration</h2>
 <h3 id="loc-1---mainland-china">Loc 1 - Mainland, China</h3>
@@ -637,7 +660,7 @@ sudo birdc show ospf
 <span style="color:#75715e"># check route table</span>
 sudo birdc show route
 </code></pre></div><p>With the above configuration, <code>cn-router</code> and <code>sg-router</code> can communicate and exchange routing table, the next step is to propagate <code>cn</code> and to <code>sg</code>&rsquo;s node. We can still use <code>OSPF</code> for routing.</p>
-<p><img src="https://bucket.cklau.cc/outline-bucket/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/18362fae-26e4-403b-9c54-79b1fe7539e9/ospf-lnet.png" alt="ospf routing"></p>
+<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/18362fae-26e4-403b-9c54-79b1fe7539e9/ospf-lnet.png" alt="ospf routing"></p>
 <p>As you can see, two LAN OSPF can sharing the local routing table to each other via the <code>sgcn</code> and <code>sgjp</code>.</p>
 <h4 id="ibgp---interior-border-gateway-protocol">iBGP - Interior Border Gateway Protocol</h4>
 <p>IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.</p>
@@ -687,6 +710,7 @@ protocol bgp lnet_sgcn <span style="color:#f92672">{</span>
 <li><code>local 192.168.141.2 as 424220100</code> and <code>neighbor 192.168.141.1 as 424220100</code> is defining the AS number of local machine and the neighbor. If these two ASN are the same, we are defining a <code>iBGP</code> and if there are different we are defining a <code>eBGP</code>.</li>
 </ul>
 <p>For now, I have tried <code>OSPF</code> and <code>iBGP</code>. But I just simply follow the instruction and did not dig into the high-level setting.</p>
+<p>is supported $\frac{1}{2}$</p>
 </section>
 
   
@@ -697,8 +721,8 @@ protocol bgp lnet_sgcn <span style="color:#f92672">{</span>
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
-    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://blog.cklau.cc/post/my-homelab-5/"
-      ><span class="mr-1.5">←</span><span>Homelab: How to build a AIO home-server</span></a
+    <a class="flex w-1/2 items-center p-6 pr-3 no-underline" href="https://blog.cklau.cc/post/k8s-setup-1/"
+      ><span class="mr-1.5">←</span><span>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell (1)</span></a
     >
     
     

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>👨‍💻 My Personal Experimental Network: L-Net 1.1 - Terence Lau</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
+Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://blog.cklau.cc/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://blog.cklau.cc/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+    rel="preload"
+    as="image"
+    href="https://blog.cklau.cc/theme.png"
+  />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/805f51891ad1a60cd19e3e4e7539f319?s=160&amp;d=identicon" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/twitter.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/github.svg" />
+  
+  <link rel="preload" as="image" href="https://blog.cklau.cc/rss.svg" />
+  
+
+  
+  <link rel="icon" href="https://blog.cklau.cc/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://blog.cklau.cc/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.89.4" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.1" />
+<meta property="og:description" content="Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
+Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/lnet-2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-12-26T00:16:21+08:00" />
+
+
+
+  
+  <meta itemprop="name" content="👨‍💻 My Personal Experimental Network: L-Net 1.1">
+<meta itemprop="description" content="Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
+Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192."><meta itemprop="datePublished" content="2022-12-26T00:16:21+08:00" />
+
+<meta itemprop="wordCount" content="1028">
+<meta itemprop="keywords" content="networking,wireguard,BGP,experimental network," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.1"/>
+<meta name="twitter:description" content="Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
+Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192."/>
+
+  
+  
+
+  
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [["$", "$"]],
+    },
+    displayMath: [
+      ["$$", "$$"],
+      ["\[\[", "\]\]"],
+    ],
+    svg: {
+      fontCache: "global",
+    },
+  };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+></script>
+
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://blog.cklau.cc"
+      >Terence Lau</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkVal = localStorage.getItem('dark');
+    setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/friends/"
+        >Friends</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/projects/"
+        >Projects</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href=" https://twitter.com/TerenceLau_ST "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/TerenceLiu98 "
+        target="_blank"
+      ></a>
+      
+      <a
+        class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./rss.svg)"
+        href=" https://blog.cklau.cc/index.xml "
+        target="_blank"
+      ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-10">
+    <h1 class="!my-0 pb-2.5">👨‍💻 My Personal Experimental Network: L-Net 1.1</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      
+      
+      
+      Published Dec 25, 2022
+      
+      
+      
+    </div>
+    
+  </header>
+
+
+  
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/networking"
+      >networking</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/wireguard"
+      >wireguard</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/bgp"
+      >BGP</a>
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-2 py-1 no-underline dark:bg-white/[8%]"
+      href="https://blog.cklau.cc/tags/experimental-network"
+      >experimental network</a>
+    
+  
+  <hr>
+  <section><h2 id="before">Before</h2>
+<p>In the previous project: <a href="https://blog.cklau.cc/post/lnet-1/" title="My Personal Experimental Network">Homelab</a>, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth,  route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:</p>
+<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/fee27882-b91c-4a86-b6fa-cb4f2e779982/lnet.png" alt="L-Net 1.1"></p>
+<p>Here, as usual, I made three network areas, “East-Asia-CN” is <code>192.168.101.0/24</code> , “Southeast-Asia-HKSAR“ is <code>192.168.102.0/24</code>, and “East-Aisa-JP“ is <code>192.168.103.0/24</code>.  As you can see, I draw three routers in the diagram, but it is four, and I will explain why. For the backbone network, For Mainland China $\Leftrightarrow$ HKSAR is <code>10.255.101.0/24</code>,  Mainland China $\Leftrightarrow$ Japan is <code>10.255.102.0/24</code> and Japan $\Leftrightarrow$ HKSAR  is <code>10.255.103.0/24</code>. One more thing, I combine my Singapore server into the “Southeast-Asia-HK“ network as I only have one server in South Asia, and the combination can reduce multiple configurations.</p>
+<h2 id="howto">HOWTO</h2>
+<h2 id="wireguard">Wireguard</h2>
+<p>Yes, I still use my script wgtools to generate the Wireguard configuration. However, if we try to use iBGP inside the network area, we need to create a star-shaped network and disable changing the routing table. Here is an example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#################################</span>
+<span style="color:#75715e">#### Configuration of router ####</span>
+<span style="color:#75715e">#################################</span>
+<span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+Address <span style="color:#f92672">=</span> 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128
+ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51820</span>
+PrivateKey <span style="color:#f92672">=</span> &lt;router-private-key&gt;
+
+Table <span style="color:#f92672">=</span> off
+
+<span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+<span style="color:#75715e"># Name = node-1</span>
+PublicKey <span style="color:#f92672">=</span> &lt;node-1-public-key&gt;
+AllowedIPs <span style="color:#f92672">=</span> 192.168.101.2/32,fd4f:3f1f:d743:0:f8e3:c5be:c0fa:dd2f/128
+PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+Endpoint <span style="color:#f92672">=</span> &lt;node-1-ip-address&gt;:51820
+
+<span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+<span style="color:#75715e"># Name = node-2</span>
+PublicKey <span style="color:#f92672">=</span> &lt;node-3-public-key&gt;
+AllowedIPs <span style="color:#f92672">=</span> 192.168.101.3/32,fd4f:3f1f:d743:0:8174:fd0f:3627:4c50/128
+PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+Endpoint <span style="color:#f92672">=</span> &lt;node-2-ip-address&gt;:51820
+
+<span style="color:#75715e">#################################</span>
+<span style="color:#75715e">#### Configuration of node-1 ####</span>
+<span style="color:#75715e">#################################</span>
+<span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+Address <span style="color:#f92672">=</span> 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128
+ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51820</span>
+PrivateKey <span style="color:#f92672">=</span> &lt;node-1-private-key&gt;
+
+Table <span style="color:#f92672">=</span> off
+
+<span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+<span style="color:#75715e"># Name = router</span>
+PublicKey <span style="color:#f92672">=</span> &lt;router-public-key&gt;
+AllowedIPs <span style="color:#f92672">=</span> 0.0.0.0/0,::/0
+PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+Endpoint <span style="color:#f92672">=</span> &lt;rnode-1-ip-address&gt;:51820
+</code></pre></div><p>As you can see that we set <code>Table = off</code>  For routers, we need to set the connection to other nodes; for other nodes, we need to set the <code>AllowedIPs = 0.0.0.0/0, ::/0</code> to allow routing based on the iBGP.</p>
+<h3 id="ebgp-and-ibgp">eBGP and iBGP</h3>
+<p>After setting up the Wirewuard, we need to set up the eBGP and iBGP. Let&rsquo;s set up the iBGP first:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt-get install bird2 <span style="color:#75715e"># install bird2 in both routers and nodes</span>
+</code></pre></div><p>Create template <code>sudo vim /etc/bird/template.conf</code>, by creating a template we can import the template for duplicated setting:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># https://bird.network.cz/?get_doc</span>
+define LOCAL_ASN <span style="color:#f92672">=</span> &lt;net-area-ASN&gt;;
+
+define NET <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span> <span style="color:#75715e"># mark down all the ip in all the net area</span>
+
+template bgp tpl_ibgp <span style="color:#f92672">{</span>
+    local as LOCAL_ASN; <span style="color:#75715e"># </span>
+    med metric on;
+    path metric on;
+    error wait time 5, 10; <span style="color:#75715e"># Minimum and maximum delay in seconds between a protocol failure (either local or reported by the peer) and automatic restart. Doesn not apply when disable after error is configured. If consecutive errors happen, the delay is increased exponentially until it reaches the maximum. Default: 60, 300.</span>
+    error forget time 20; <span style="color:#75715e"># Maximum time in seconds between two protocol failures to treat them as a error sequence which makes error wait time increase exponentially.</span>
+    multihop 1;
+    graceful restart on;
+
+    ipv4 <span style="color:#f92672">{</span>
+        import filter <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> net ~ NET <span style="color:#66d9ef">then</span> accept;
+            reject;
+        <span style="color:#f92672">}</span>;
+        export filter <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> net ~ NET <span style="color:#66d9ef">then</span> accept;
+            reject;
+        <span style="color:#f92672">}</span>;
+        next hop self;
+        gateway recursive; <span style="color:#75715e"># since we are using multihop we cannot use gateway direct</span>
+    <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Set up the <code>/etc/bird/bird.conf</code>:</p>
+<pre tabindex="0"><code>#############
+# for router:
+router id &lt;router-id&gt;;
+
+include &quot;/etc/bird/template.conf&quot;;
+
+protocol device {
+    scan time 5;
+}
+
+protocol kernel {
+    ipv4 {
+        import all;
+        export all;
+    };
+    merge paths on;
+}
+
+protocol direct {
+    ipv4;
+    interface &quot;&lt;wg-interface-name&gt;&quot;;
+}
+
+protocol static cn {
+    ipv4;
+    route &lt;node-1-ip&gt; via &quot;&lt;wg-interface-name&gt;&quot;;
+    route &lt;node-2-ip&gt; via &quot;&lt;wg-interface-name&gt;&quot;;
+}
+
+protocol bgp cantor from tpl_ibgp {
+    neighbor &lt;node-2-ip&gt; internal;
+    rr client;
+}
+
+
+#############
+# for node 1:
+router id &lt;node-1-id&gt;;
+
+include &quot;/etc/bird/template.conf&quot;;
+
+protocol device {
+    scan time 5;
+}
+
+protocol kernel {
+    ipv4 {
+        import all;
+        export all;
+    };
+    merge paths on;
+}
+
+protocol direct {
+    ipv4;
+    interface &quot;&lt;wg-interface-name&gt;&quot;;
+}
+
+protocol static cn {
+    ipv4;
+    route &lt;router-ip&gt; via &quot;&lt;wg-interface-name&gt;&quot;;
+}
+
+protocol bgp cantor from tpl_ibgp {
+    neighbor &lt;router-ip&gt; internal;
+    rr client;
+}
+</code></pre><p>Here you can see that we create a static route between the router and node-1, and this could be seen as the <code>PostUp = ip addr add &lt;local-ip&gt; peer &lt;remote-ip&gt; dev %i</code>  in Wireguard configuration.  After the configuration of bird we can simply use <code>sudo birdc c &amp;&amp; sudo birc show protocols</code> to check whether the iBGP is established.</p>
+<p>For the eBGP part, it is similar to the iBGP part, we need a template and settings:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">### At Template in Both router-1 and router-2</span>
+<span style="color:#75715e"># https://bird.network.cz/?get_doc</span>
+define LOCAL_ASN <span style="color:#f92672">=</span> &lt;net-area-ASN&gt;;
+
+define NET <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span> <span style="color:#75715e"># mark down all the ip in all the net area</span>
+
+template bgp tpl_ebgp <span style="color:#f92672">{</span>
+    local as LOCAL_ASN;
+    path metric 1;
+    direct;
+    graceful restart on;
+
+    ipv4 <span style="color:#f92672">{</span>
+        import filter <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> net ~ NET <span style="color:#66d9ef">then</span> accept;
+            reject;
+        <span style="color:#f92672">}</span>;
+        export filter <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> net ~ NET <span style="color:#66d9ef">then</span> accept;
+            reject;
+        <span style="color:#f92672">}</span>;
+        next hop self;
+        gateway direct;
+    <span style="color:#f92672">}</span>;
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>For the settings:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">############# /etc/bird/bird.conf</span>
+<span style="color:#75715e"># for router-1:</span>
+<span style="color:#75715e"># ... add a new protocol bgp </span>
+
+protocol bgp area1_area_2 from tpl_ebgp <span style="color:#f92672">{</span>
+    neighbor &lt;router2-ip&gt; as router2_ASN;
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">############# /etc/bird/bird.conf</span>
+<span style="color:#75715e"># for router-2:</span>
+<span style="color:#75715e"># ... add a new protocol bgp </span>
+
+protocol bgp area_2_area_1 from tpl_ebgp <span style="color:#f92672">{</span>
+    neighbor &lt;router1-ip&gt; as router1_ASN;
+<span style="color:#f92672">}</span>
+</code></pre></div><p>After the configuration, we can easily build a link-local and pseudo-link-global network by using the BGP protocol. In these configurations, I use IP address as the filter, you may try ASN as the filter, here is an example,</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">filter FILTER_ASN
+int set accept_asn; <span style="color:#f92672">{</span>
+    accept_asn <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>area1_ASN, area2_ASN, area3_ASN<span style="color:#f92672">]</span>;
+    <span style="color:#66d9ef">if</span> bgp_path.last ~ accept_asn <span style="color:#66d9ef">then</span> <span style="color:#f92672">{</span>
+        accept;
+    <span style="color:#f92672">}</span>
+    reject;
+<span style="color:#f92672">}</span>
+
+template bgp tpl_ebgp <span style="color:#f92672">{</span>
+    local as LOCAL_ASN;
+    path metric 1;
+    direct;
+    graceful restart on;
+
+    ipv4 <span style="color:#f92672">{</span>
+        import filter FILTER_ASN;
+        export filter FILTER_ASN;
+        next hop self;
+        gateway direct;
+    <span style="color:#f92672">}</span>;
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Here are some points you may concern about:</p>
+<ol>
+<li>If your router is needed to be attached, the backbone network’s CIDR needs to be accepted by the BGP, I try multiple times but I did not fix this issue.</li>
+<li>Inside a network area, all nodes are in a  star topology network and the router is the root node. This means if the router is down, the connections between nodes are also down. You may use wgsd to establish a direct connection inside the network area.</li>
+</ol>
+</section>
+
+  
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end p-6 pl-3 no-underline"
+      href="https://blog.cklau.cc/post/my-homelab-5/"
+      ><span>Homelab: How to build a AIO home-server</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blog-cklau-cc';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+
+    </main>
+
+    <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-80">
+  <div class="mr-auto">
+    <a href="https://beian.miit.gov.cn">粤ICP备2022102668号</a>
+  </div>
+  The Object Storage Service is provided by <a class="link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/upyun.png" align="absmiddle" width="60px" height="30px"/></a>
+
+  
+</footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844674035384472"
+     crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 18 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Dec 2022 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
+      <link>https://blog.cklau.cc/post/lnet-2/</link>
+      <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/lnet-2/</guid>
+      <description>Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
+Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192.</description>
+    </item>
+    
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net</title>
       <link>https://blog.cklau.cc/post/lnet-1/</link>
