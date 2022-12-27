@@ -129,7 +129,7 @@ Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/
 <meta itemprop="description" content="Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
 Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192."><meta itemprop="datePublished" content="2022-12-26T00:16:21+08:00" />
 
-<meta itemprop="wordCount" content="1028">
+<meta itemprop="wordCount" content="1156">
 <meta itemprop="keywords" content="networking,wireguard,BGP,experimental network," />
   
   <meta name="twitter:card" content="summary"/>
@@ -333,7 +333,7 @@ Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/
 <p>Here, as usual, I made three network areas, “East-Asia-CN” is <code>192.168.101.0/24</code> , “Southeast-Asia-HKSAR“ is <code>192.168.102.0/24</code>, and “East-Aisa-JP“ is <code>192.168.103.0/24</code>.  As you can see, I draw three routers in the diagram, but it is four, and I will explain why. For the backbone network, For Mainland China $\Leftrightarrow$ HKSAR is <code>10.255.101.0/24</code>,  Mainland China $\Leftrightarrow$ Japan is <code>10.255.102.0/24</code> and Japan $\Leftrightarrow$ HKSAR  is <code>10.255.103.0/24</code>. One more thing, I combine my Singapore server into the “Southeast-Asia-HK“ network as I only have one server in South Asia, and the combination can reduce multiple configurations.</p>
 <h2 id="howto">HOWTO</h2>
 <h2 id="wireguard">Wireguard</h2>
-<p>Yes, I still use my script wgtools to generate the Wireguard configuration. However, if we try to use iBGP inside the network area, we need to create a star-shaped network and disable changing the routing table. Here is an example:</p>
+<p>Yes, I still use my script <a href="https://github.com/TerenceLiu98/wgtools">wgtools</a> to generate the Wireguard configuration. However, if we try to use iBGP inside the network area, we need to create a star-shaped network and disable changing the routing table. Here is an example:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#################################</span>
 <span style="color:#75715e">#### Configuration of router ####</span>
 <span style="color:#75715e">#################################</span>
@@ -547,6 +547,41 @@ template bgp tpl_ebgp <span style="color:#f92672">{</span>
 <li>If your router is needed to be attached, the backbone network’s CIDR needs to be accepted by the BGP, I try multiple times but I did not fix this issue.</li>
 <li>Inside a network area, all nodes are in a  star topology network and the router is the root node. This means if the router is down, the connections between nodes are also down. You may use wgsd to establish a direct connection inside the network area.</li>
 </ol>
+<h2 id="wireguard-multiplexing">Wireguard multiplexing?</h2>
+<p>In the standard Wireguard, each interface corresponds to one port and if we have multiple different settings configuration we may lost in the port selection or just do not remember the which port percisely link to the interface. Under this circumstance, I use <a href="https://github.com/ginuerzh/gost">gost</a> to aggregate the interfaces' ports into one port.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># download the latest version from github</span>
+wget https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz
+gzip -d gost-linux-amd64-2.11.4.gz
+sudo mv gost-linux-amd64-2.11.4 /usr/local/bin/gost <span style="color:#f92672">&amp;&amp;</span> sudo chmow +x /usr/local/bin/gost
+
+sudo cat &gt; /etc/systemd/system/gost.service <span style="color:#e6db74">&lt;&lt; EOF
+</span><span style="color:#e6db74">[Unit]
+</span><span style="color:#e6db74">Description=Gost Proxy
+</span><span style="color:#e6db74">After=network.target
+</span><span style="color:#e6db74">Wants=network.target
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">Type=simple
+</span><span style="color:#e6db74">ExecStart=/usr/local/bin/gost -C /etc/gost/config.json
+</span><span style="color:#e6db74">Restart=always
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Install]
+</span><span style="color:#e6db74">WantedBy=multi-user.target
+</span><span style="color:#e6db74">EOF</span>
+
+mkdir /etc/gost
+cat &gt; /etc/gost/config.json <span style="color:#e6db74">&lt;&lt; EOF
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">    &#34;Debug&#34;: true,
+</span><span style="color:#e6db74">    &#34;Retries&#34;: 0,
+</span><span style="color:#e6db74">    &#34;ServeNodes&#34;: [
+</span><span style="color:#e6db74">        &#34;udp://:51820/127.0.0.1:51821,127.0.0.1:51822,127.0.0.1:21823&#34;
+</span><span style="color:#e6db74">    ]
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+sudo systemctl enable --now gost
+</code></pre></div><p>Then, we can use <code>51820</code> for all three interface&rsquo;s connection.</p>
 </section>
 
   
