@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 26 Dec 2022 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/experimental-network/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/experimental-network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
+      <link>https://blog.cklau.cc/post/lnet-3/</link>
+      <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/lnet-3/</guid>
+      <description>Before In the previous project: Homelab, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.
+However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.
+VXLAN  VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments.</description>
+    </item>
+    
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
       <link>https://blog.cklau.cc/post/lnet-2/</link>
