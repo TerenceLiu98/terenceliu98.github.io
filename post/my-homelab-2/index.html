@@ -49,7 +49,7 @@
   
   <meta name="theme-color" />
   
-  <meta name="description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE机器。
+  <meta name="description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE 机器。
 硬件    Module Series Price     CPU &#43; 主板 Intel Xeon D-1581 &#43; HSGM D1581-R3 ¥498   内存 二手 ECC DDR3 1600 16GB $\times$ 4 ¥79   显卡 自用 NVIDIA RTX 2060 ¥0   SSD 存储 DAHUA C900 512GB ¥245   HDD 存储 TOSHIBA MG04ACA400N 4T $\times$ 4 ¥1340   机箱 not named ¥399   ｜总价  ¥2561    我选择 Xeon D-1581 这个芯片组的原因是我不希望在这台机器上玩游戏或运行一些期望单核高性能的程序，而是我需要多核用于虚拟机进行一些实验，这样，我就可以省去一些在 VPS 上的花费。 这也解释了为什么我需要 64GB 的内存。 对于存储部分，我将 4个硬盘分成两组，每组 2 个磁盘，第 1 组我创建一个 raid 1 用于重要文件存储，如照片，文档和我的代码； 第 2 组我创建一个LVM卷用于日常存储，例如电影，音乐等。" />
   <meta name="author" content="" />
 <meta content="" name="keywords">
@@ -113,7 +113,7 @@
   
   
   <meta property="og:title" content="Homelab: 打造一台 AIO 家用服务器" />
-<meta property="og:description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE机器。
+<meta property="og:description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE 机器。
 硬件    Module Series Price     CPU &#43; 主板 Intel Xeon D-1581 &#43; HSGM D1581-R3 ¥498   内存 二手 ECC DDR3 1600 16GB $\times$ 4 ¥79   显卡 自用 NVIDIA RTX 2060 ¥0   SSD 存储 DAHUA C900 512GB ¥245   HDD 存储 TOSHIBA MG04ACA400N 4T $\times$ 4 ¥1340   机箱 not named ¥399   ｜总价  ¥2561    我选择 Xeon D-1581 这个芯片组的原因是我不希望在这台机器上玩游戏或运行一些期望单核高性能的程序，而是我需要多核用于虚拟机进行一些实验，这样，我就可以省去一些在 VPS 上的花费。 这也解释了为什么我需要 64GB 的内存。 对于存储部分，我将 4个硬盘分成两组，每组 2 个磁盘，第 1 组我创建一个 raid 1 用于重要文件存储，如照片，文档和我的代码； 第 2 组我创建一个LVM卷用于日常存储，例如电影，音乐等。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/my-homelab-2/" /><meta property="article:section" content="post" />
@@ -123,15 +123,15 @@
 
   
   <meta itemprop="name" content="Homelab: 打造一台 AIO 家用服务器">
-<meta itemprop="description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE机器。
+<meta itemprop="description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE 机器。
 硬件    Module Series Price     CPU &#43; 主板 Intel Xeon D-1581 &#43; HSGM D1581-R3 ¥498   内存 二手 ECC DDR3 1600 16GB $\times$ 4 ¥79   显卡 自用 NVIDIA RTX 2060 ¥0   SSD 存储 DAHUA C900 512GB ¥245   HDD 存储 TOSHIBA MG04ACA400N 4T $\times$ 4 ¥1340   机箱 not named ¥399   ｜总价  ¥2561    我选择 Xeon D-1581 这个芯片组的原因是我不希望在这台机器上玩游戏或运行一些期望单核高性能的程序，而是我需要多核用于虚拟机进行一些实验，这样，我就可以省去一些在 VPS 上的花费。 这也解释了为什么我需要 64GB 的内存。 对于存储部分，我将 4个硬盘分成两组，每组 2 个磁盘，第 1 组我创建一个 raid 1 用于重要文件存储，如照片，文档和我的代码； 第 2 组我创建一个LVM卷用于日常存储，例如电影，音乐等。"><meta itemprop="datePublished" content="2022-10-24T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="593">
+<meta itemprop="wordCount" content="594">
 <meta itemprop="keywords" content="homelab,hardware," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Homelab: 打造一台 AIO 家用服务器"/>
-<meta name="twitter:description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE机器。
+<meta name="twitter:description" content="在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE 机器。
 硬件    Module Series Price     CPU &#43; 主板 Intel Xeon D-1581 &#43; HSGM D1581-R3 ¥498   内存 二手 ECC DDR3 1600 16GB $\times$ 4 ¥79   显卡 自用 NVIDIA RTX 2060 ¥0   SSD 存储 DAHUA C900 512GB ¥245   HDD 存储 TOSHIBA MG04ACA400N 4T $\times$ 4 ¥1340   机箱 not named ¥399   ｜总价  ¥2561    我选择 Xeon D-1581 这个芯片组的原因是我不希望在这台机器上玩游戏或运行一些期望单核高性能的程序，而是我需要多核用于虚拟机进行一些实验，这样，我就可以省去一些在 VPS 上的花费。 这也解释了为什么我需要 64GB 的内存。 对于存储部分，我将 4个硬盘分成两组，每组 2 个磁盘，第 1 组我创建一个 raid 1 用于重要文件存储，如照片，文档和我的代码； 第 2 组我创建一个LVM卷用于日常存储，例如电影，音乐等。"/>
 
   
@@ -285,7 +285,7 @@
   
   <hr>
   <section><h2 id="在此之前">在此之前</h2>
-<p>买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE机器。</p>
+<p>买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE 机器。</p>
 <h2 id="硬件">硬件</h2>
 <table>
 <thead>

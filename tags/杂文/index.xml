@@ -1,83 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on 若如笔记</title>
-    <link>https://www.rho.ac.cn/post/</link>
-    <description>Recent content in Posts on 若如笔记</description>
+    <title>杂文 on 若如笔记</title>
+    <link>https://www.rho.ac.cn/tags/%E6%9D%82%E6%96%87/</link>
+    <description>Recent content in 杂文 on 若如笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/post/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Homelab: 打造一台 AIO 家用服务器</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-2/</link>
-      <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
-      <description>在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE 机器。
-硬件    Module Series Price     CPU + 主板 Intel Xeon D-1581 + HSGM D1581-R3 ¥498   内存 二手 ECC DDR3 1600 16GB $\times$ 4 ¥79   显卡 自用 NVIDIA RTX 2060 ¥0   SSD 存储 DAHUA C900 512GB ¥245   HDD 存储 TOSHIBA MG04ACA400N 4T $\times$ 4 ¥1340   机箱 not named ¥399   ｜总价  ¥2561    我选择 Xeon D-1581 这个芯片组的原因是我不希望在这台机器上玩游戏或运行一些期望单核高性能的程序，而是我需要多核用于虚拟机进行一些实验，这样，我就可以省去一些在 VPS 上的花费。 这也解释了为什么我需要 64GB 的内存。 对于存储部分，我将 4个硬盘分成两组，每组 2 个磁盘，第 1 组我创建一个 raid 1 用于重要文件存储，如照片，文档和我的代码； 第 2 组我创建一个LVM卷用于日常存储，例如电影，音乐等。</description>
-    </item>
-    
-    <item>
-      <title>👨‍💻 My Personal Experimental Network: L-Net</title>
-      <link>https://www.rho.ac.cn/post/lnet-1/</link>
-      <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/lnet-1/</guid>
-      <description>Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters.</description>
-    </item>
-    
-    <item>
-      <title>K3s/Kubernetes - 番外：自建 Docker 镜像站</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-extra-1/</link>
-      <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/k3s-setup-extra-1/</guid>
-      <description>正如我在K3s Setup 2中提到的，通常中国用户访问https: //gcr.io、https://k8s.gcr.io 或 https://ghcr.io。 因此，在这种情况下，我们可以设置一个服务器作为注册代理端点。
-一些选项 DockerHub 提供了一个名为 Docker Registry 的“官方”包，它是一个无状态、高度可扩展的服务器端应用程序，可以存储并让用户分发 Docker 镜像。
-Nexus Repository OSS，由 Sonatype 提供，是一个开源存储库，支持多种工件格式，包括 Docker、Java™ 和 npm。
-由 VMWare 提供的 Harbor 是一个开源注册表，它通过策略和基于角色的访问控制来保护工件，确保图像被扫描并且没有漏洞，并将图像签名为可信的。
-Nexus 作为 Registry 代理 我们很容易构建 Nexus，只需使用 docker-compose.yml：
-version: &amp;#34;3.7&amp;#34; services: nexus: image: sonatype/nexus3:latest environment: INSTALL4J_ADD_VM_PARAMS: -Xms128m -Xmx512m -XX:MaxDirectMemorySize=512m # decrease the occupancy rate of nexus container_name: nexus3 restart: always ports: - 8081:8081 # port of frontend of the nexus repo - 8082:8082 # port of the docker proxy volumes: - .</description>
-    </item>
-    
-    <item>
-      <title>K3s/Kubernetes - 配置高可用 K3s 集群</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-2/</link>
-      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/k3s-setup-2/</guid>
-      <description>在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
-K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
-curl -sfL https://get.k3s.io | K3S_TOKEN=&amp;lt;token&amp;gt; INSTALL_K3S_EXEC=&amp;#34;server \ --node-ip &amp;lt;wg-node-ip&amp;gt; \ --advertise-address &amp;lt;node-public-ip&amp;gt; \ --node-external-ip &amp;lt;node-public-ip&amp;gt; \ --flannel-iface wg0 \ --node-name &amp;lt;node-name&amp;gt; \ --cluster-init &amp;#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror.</description>
-    </item>
-    
-    <item>
-      <title>K3s/Kubernetes - 快速启动 K3s 服务</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-1/</link>
-      <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/k3s-setup-1/</guid>
-      <description>在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
-对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
-部署环境 这是我的设备列表：
-   设备名称 设备所在地 设备规格 OS Network IP     hilbert(server) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP + Wireguard 1.xx.xx.xx + 192.168.36.1   cantor(server) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP + Wireguard 110.xx.xx.xx + 192.168.36.2   newton(worker) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20.</description>
-    </item>
-    
-    <item>
-      <title>家庭实验室: 打造一套家庭赛博实验室</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
-      <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
-      <description>长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
-为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
-这是我的设备列表
-   Device Location Configuration System Network     DELL EMC R730 Zhuhai, China E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps   DELL Precision T1700 Zhuhai, China i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti Arch Linux 500Mbps   Homebuilt PC Zhongshan, China i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP Arch Linux 500Mbps   Homebuilt NAS Shenzhen, China AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD Ubuntu 20.</description>
-    </item>
-    
+    <lastBuildDate>Mon, 21 Jun 2021 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/%E6%9D%82%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>保安日记</title>
       <link>https://www.rho.ac.cn/post/security-daily/</link>
@@ -157,35 +87,6 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=&amp;lt;token&amp;gt; INSTALL_K3S_EXEC=
 你們這樣的對他們貼近他們，去 “幫助” 他們，試想一下，「基層」當中會有幾多個人，會認為別人希望改善他們的工作和生活條件，就是「看不起」他們？ 很簡單的講，就是不認為「基層」是和他們有一樣的物質和精神需要的人，而是一種特殊的物種，一種供小資運動家們「保育」和「鑑賞」的對象。
 這樣的「Rovolution」也好，「Movement」也罷，與原本的無產階級革命已經是背道而馳，不再是「消除工人們在資本主義下的生活困苦等境遇，提高生活、文化、技術水平，創造自己的經濟基礎」而是一種，認為「不憂慮前途，不貪心生計的人」才是「真·工人階級」，也正是這一種「基層」概念（認為只有小康的人才有能力作為國家和社會的先進力量，而非普通的「基層群眾」），證明了他們犯下了佛洛伊德式的錯誤，讓他們與社會主義、共產主意不再相關，而變成了一種左翼民粹主義。
 而且這些，正是在上層階級和「基層」之間去扮演一種「支持正義」的祭司、「伸張社會倫理」的判官。</description>
-    </item>
-    
-    <item>
-      <title>大二，我的桌面</title>
-      <link>https://www.rho.ac.cn/post/desk-set-up/</link>
-      <pubDate>Fri, 06 Apr 2018 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/desk-set-up/</guid>
-      <description>昨天晚上，骑完车回来，坐在凳子上休息，突然萌生了要重新收拾桌面的想法，于是乎，说干就干。
-介绍一下，这几个屏幕：最左边的是一个戴尔家 P2317h 为什么没有上 U 系列，当然是因为没有钱啦。而且，我对色彩的要求不太高，这样的话， P 系列自然有着更高的性价比；往右边走，是一台 MacBook pro 15-inch Mid-2015 这是我在高三上学期买的电脑，到目前为止，依旧流畅。但是还是希望暑假的时候可以配一台主机以用来跑深（绝）度（地）学（求）习（生）；现在它是一台半主机的状态，因为我买了一台 chormebook （HP chromebook 1 4）作为日常使用；中间有一个小小个的时钟，其实这是个平板： Nokia N1 这个歌板子除了屏幕质量不错以外，别的一无是处，所以除了带上床看剧以外，就放在这里当个时钟用了（刚好我也缺一个钟）；
-倒数第二个屏幕，只有背光没有显示，是因为，树莓派正处于休眠状态。我也是这个学期才开始玩树莓派，利用 samba 服务做一个简易的 nas 。最右边的就是前几天米粉节买的小米电视 4A 32-inch。为什么会买它？主要是因为 xbox one 卖不出去，而且自己也想玩，就入手了这台电视。虽然分辨率不高，应用商店东西不多，但是这都难不倒我们 “机佬” 嘛。利用 Xbox 中的 Kodi 还是可以做很多事情滴。
-因为穷，所以使用易驱线来链接硬盘，听说易驱线很容易烧坏硬盘，所以在树莓派里装了 hdparm 来管理硬盘的休眠和启动，效果的话，其实我心里也没底，不过这两个硬盘都年纪很大了，anyway，先这样用着吧。
-这样链接屏幕以后，自然需要一个 USB-HUB 所以买了一个 orico 的外置电源的 USB-HUB，这样就可以方便的插拔移动设备了（请忽略后面的走线，等下解释为啥有这样迷的走线。
-音响的话是 creative 的一套桌面 2.1 音响，低音炮被我藏在的 MacBook 后面。两三百的印象里面，我感觉这套算是不错的了，这种玄学问题就不做太多论述了。在 USB-HUB 旁边的红色的小人是参加广州 GDG 活动送的公仔。
-键盘是 IKBC 的poker2 茶轴 ；鼠标是 logi MX Master 2s；都是生产力工具，选择茶轴的原因是因为青轴会吵到室友（这个键盘是小姐姐送的嘛，如果让我买我会买青轴的）；鼠标的话个方面都挺平均的，没啥好说的。这样的布局有个好处，可以用触控板（个人认为在使用 Mac 的情况下触控板秒杀一切鼠标）
-两个路由器，一个 NETGEAR 的 R6220 一个极路由的 B70，这两个路由器都不错的，如果有人买了网件这个 R6220 建议还是不要刷机，官方固件很好，我刷了 LEDE 但是没有刷潘多拉进去，现在也不敢乱玩。。。。 而极路由的话，现在这个 HIWIFI OS 不错，用了一些小技巧进行了科学上网以后，就更加棒了。这个 b70 是我在上课的时候闲来无事逛京东然后买的&amp;hellip;&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>2018 进货记录</title>
-      <link>https://www.rho.ac.cn/post/purchase/</link>
-      <pubDate>Thu, 01 Feb 2018 00:11:21 +0800</pubDate>
-      
-      <guid>https://www.rho.ac.cn/post/purchase/</guid>
-      <description>从上个学期期末就开始纠结：到底是买一个Chromebook 还是买一个好用的平板，鉴于自己本身已经拥有了一台 x86 平板，而且安卓平台上也发现了一个很好的终端 Termux 和一个很好的 Markdown 编辑器： MarkdownX ，所以还是决定用这笔预算去买一个蓝牙键盘和鼠标。
-鼠标 一直在使用罗技的鼠标，M280 可以说是非常的实在了，虽然偏小，但是回弹和手型比其他同价位的鼠标优秀。
-应该很多人都看过 Zealer 王自如的 办公室1.0 我十分的喜欢他那样的工业风（loft）设计，其中他的键盘和鼠标也是一直在我的购物车中；去年的下半年，罗技更新了一波，logi MX anywhere 2s 和 logi MX master 2s 都上架了， 同学中也有买了 anywhere 的，体验了一波，感觉还是偏小了。所以，过完年后直接在罗技的旗舰店入手了 MX master 2s 。可以说是非常的快了，第二天就到了。 到手的时候，吓了一跳，明明只是一个键盘和一个鼠标，但是却寄来了一个30＊50 的大盒子，里面充满了填充物，可以说是非常的良心了。在网上看到说在京东买的 MX master 2s 会有盒损的现象，我是毫不担心。第一次买“高端产品线”（不知道算不算高端）MX 的盒子可以说是吓到我了，巨大无比，还送了一个针织套。。。emmm 保护的非常好了。 使用起来的话，因为我的手大，所以感觉还是小….. 主要是托不住我的手掌部分（不知道我是怎么坚持使用 m280 的…..） 至于 这一代开始支持的 Flow 功能，要等到我回学校两台电脑联动的时候才能体验了（家贫，无从致多台设备已用）  鼠标就讲这么多了，下面看下这块键盘
-键盘 罗技的 k480 应该不用我多言，一个三系统都可以使用的蓝牙键盘（MacOS Windows Android iOS）现在还支持了 chrome OS 了，可以说非常的全面了。 这个键盘我在高三的时候就想买了，但感觉买回来用途不大，所以一直放在购物车里。后来，看到大学同学（对，就是那个用 anywhere 2s 的那个同学）在用 k780 感觉这样支持热切换的键盘实在太棒了，而且这个时候我已经买了这个破平板了，所以，就跟鼠标一起入手了。
-这篇文章就是用这个键盘敲的，可能是刚开始用的原因，敲击的感觉比较硬，但是键程比较合适，比我的 15 款 MacBook pro 长一些，也因为键程长了，所以敲击更加舒服，手感的话比较像黑轴，不会很吵，而且偏重（当然没有机械的手感好）在课堂上应该也不会太吵。 现在就有个问题，连接不上我的电脑&amp;hellip;&amp;hellip; 很奇怪，可能是和 Unifying 向冲突，后续我会继续尝试连接的。</description>
     </item>
     
     <item>
