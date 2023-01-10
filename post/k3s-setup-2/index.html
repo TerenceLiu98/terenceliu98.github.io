@@ -49,8 +49,10 @@
   
   <meta name="theme-color" />
   
-  <meta name="description" content="Generating a basic K3s cluster is quite easy by following the K3s&rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB." />
+  <meta name="description" content="在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
+K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
+curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror." />
   <meta name="author" content="" />
   
 
@@ -112,8 +114,10 @@
   
   
   <meta property="og:title" content="K3s/Kubernetes - 配置高可用 K3s 集群" />
-<meta property="og:description" content="Generating a basic K3s cluster is quite easy by following the K3s&rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB." />
+<meta property="og:description" content="在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
+K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
+curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/k3s-setup-2/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-09-26T00:11:21+08:00" />
@@ -122,16 +126,20 @@
 
   
   <meta itemprop="name" content="K3s/Kubernetes - 配置高可用 K3s 集群">
-<meta itemprop="description" content="Generating a basic K3s cluster is quite easy by following the K3s&rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="description" content="在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
+K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
+curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
 
-<meta itemprop="wordCount" content="1170">
+<meta itemprop="wordCount" content="631">
 <meta itemprop="keywords" content="k3s,kubernetes," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="K3s/Kubernetes - 配置高可用 K3s 集群"/>
-<meta name="twitter:description" content="Generating a basic K3s cluster is quite easy by following the K3s&rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB."/>
+<meta name="twitter:description" content="在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
+K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
+curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror."/>
 
   
   
@@ -283,55 +291,16 @@
     
   
   <hr>
-  <section><p>Generating a basic K3s cluster is quite easy by following the <a href="https://doc.k3s.io">K3s&rsquo;s Doc</a>. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:</p>
+  <section><h1 id="在此之前">在此之前</h1>
+<p>按照 <a href="https://doc.k3s.io">K3s 的文档</a> 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：</p>
 <ol>
 <li>High Availability with an External DB (for example, <a href="https://www.postgresql.org/">PostgreSQL</a>, <a href="https://www.mysql.com/">MySQL</a>,  <a href="https://mariadb.org/">MariaDB</a>)</li>
 <li>High Availability with Embedded DB (<a href="https://etcd.io/">etcd</a>)</li>
 </ol>
-<p>I chose the second one - with Embedded DB.</p>
-<h2 id="enviornment">Enviornment</h2>
-<p>Here is the list of my device:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Node Name</th>
-<th style="text-align:center">Location</th>
-<th style="text-align:center">Specification</th>
-<th style="text-align:center">OS</th>
-<th style="text-align:center">Network</th>
-<th style="text-align:center">IP</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">hilbert(master)</td>
-<td style="text-align:center">Tencent Cloud (SH-CN)</td>
-<td style="text-align:center">4C8G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">Pbulic IP + Wireguard</td>
-<td style="text-align:center">1.xx.xx.xx + 192.168.36.1</td>
-</tr>
-<tr>
-<td style="text-align:center">cantor(master)</td>
-<td style="text-align:center">Tencent Cloud (SH-CN)</td>
-<td style="text-align:center">2C4G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">Pbulic IP + Wireguard</td>
-<td style="text-align:center">110.xx.xx.xx + 192.168.36.2</td>
-</tr>
-<tr>
-<td style="text-align:center">newton(agent)</td>
-<td style="text-align:center">Tencent Cloud (GZ-CN)</td>
-<td style="text-align:center">1C2G</td>
-<td style="text-align:center">Ubuntu 20.04 LTS</td>
-<td style="text-align:center">Pbulic IP + Wireguard</td>
-<td style="text-align:center">119.xx.xx.xx + 192.168.36.3</td>
-</tr>
-</tbody>
-</table>
-<h2 id="k3s-installation">K3s Installation</h2>
-<h3 id="k3s-server-node">K3s Server Node</h3>
-<p>To set up the Server, I follow the instruction from <a href="https://k3s.io">K3s</a> with a little modification, since I want to customize the network and node name. Here is the command I used for server-installation:</p>
+<p>我选择了第二个——带有嵌入式数据库:</p>
+<h2 id="k3s-安装">K3s 安装</h2>
+<h3 id="k3s-控制节点">K3s 控制节点</h3>
+<p>为了设置服务器，我按照 <a href="https://k3s.io">K3s</a> 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://get.k3s.io | K3S_TOKEN<span style="color:#f92672">=</span>&lt;token&gt;  INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server \
 </span><span style="color:#e6db74">                            --node-ip &lt;wg-node-ip&gt; \
 </span><span style="color:#e6db74">                            --advertise-address &lt;node-public-ip&gt; \
@@ -350,19 +319,18 @@ curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh 
 </span><span style="color:#e6db74">                            --flannel-iface wg0   \
 </span><span style="color:#e6db74">                            --node-name &lt;node-name&gt; \ 
 </span><span style="color:#e6db74">                            --cluster-init &#34;</span> sh -
-</code></pre></div><p>where you can see that <code>--node-ip</code> is the ip address to advertise for node; <code>--advertise-address</code> is the ip address that apiserver user to advertise to members of the cluster; <code>--node-external-ip</code> is the external ip address to advertise for node; <code>--flannel-iface</code> is to override the default flannel interface.</p>
-<p>For whom can not access Google and GitHub fluently, you may try:</p>
-<p>To generate the token, I used <code>openssl rand --hex 16</code>.</p>
-<p>Similarly, for the second server, you can use the same configuration above with IPs' substitution.</p>
-<h3 id="k3s-node">K3s node</h3>
-<p>For the K3s node, you can simply reuse the above command with a modification: change <code>server</code> to <code>agent</code>:</p>
+</code></pre></div><p>您可以在其中看到 <code>--node-ip</code> 是为节点的 IP 地址； <code>--advertise-address</code> 是 apiserver 用户向集群其他节点发布的 ip 地址； <code>--node-external-ip</code> 是为节点宣告的外部 ip 地址； <code>--flannel-iface</code>  是 flannel 所使用的网卡设备。</p>
+<p>为了生成令牌，我使用了 <code>openssl rand --hex 16</code>.</p>
+<p>同样，对于第二台服务器，您可以使用上面相同的配置和 IP 替换。</p>
+<h3 id="k3s-计算节点">K3s 计算节点</h3>
+<p>对于 K3s 计算节点，您可以简单地重用上述命令并进行修改：将 <code>server</code> 更改为 <code>agent</code>：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn K3S_TOKEN<span style="color:#f92672">=</span>&lt;TOKEN&gt; INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;agent 
 </span><span style="color:#e6db74">                    --server https://&lt;server-ip&gt;:6443 
 </span><span style="color:#e6db74">                    --node-ip &lt;node-wg-ip&gt; 
 </span><span style="color:#e6db74">                    --node-external-ip &lt;node-wg-ip&gt; 
 </span><span style="color:#e6db74">                    --flannel-iface wg0 
 </span><span style="color:#e6db74">                    --node-name &lt;node-name&gt;&#34;</span> sh -
-</code></pre></div><p>After the installation of the server and node, you may check whether the server can reach the node correctly:</p>
+</code></pre></div><p>在服务端和节点安装完成后，可以检查服务端是否能正确到达节点：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo kubectl get nodes -o wide
 <span style="color:#75715e"># NAME      STATUS   ROLES                       AGE   VERSION        INTERNAL-IP    EXTERNAL-IP     OS-IMAGE           KERNEL-VERSION      CONTAINER-RUNTIME</span>
 <span style="color:#75715e"># cantor    Ready    control-plane,etcd,master   9h    v1.24.6+k3s1   10.210.120.2   xxx.xxx.xxx.xxx   Ubuntu 20.04 LTS   5.4.0-126-generic   containerd://1.6.8-k3s1</span>
@@ -374,8 +342,8 @@ sudo kubectl top nodes
 <span style="color:#75715e"># cantor    445m         22%    2451Mi          71%</span>
 <span style="color:#75715e"># hilbert   300m         7%     3942Mi          52%</span>
 <span style="color:#75715e"># newton    90m          9%     1118Mi          56%</span>
-</code></pre></div><h2 id="helm-installlation">Helm Installlation</h2>
-<p><a href="https://helm.sh">Helm</a> is the package manager of kubernetes, where usually we can use it to download and install pre-packed applications to our cluster. To install it, we can go to helm&rsquo;s GitHub release to find the compiled binary file and download it. Here is an example for the Linux amd64:</p>
+</code></pre></div><h2 id="helm-安装">Helm 安装</h2>
+<p><a href="https://helm.sh">Helm</a> 是的包管理器，通常我们可以使用它来下载并安装预打包的应用程序到我们的集群。 要安装它，我们可以去 hel m的 GitHub release 找到编译好的二进制文件并下载。 以下是 Linux amd64 的示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz -O helm.tar.gz
 
 tar -xvf helm.tar.gz
@@ -383,18 +351,18 @@ sudo mv linux-amd64/helm /usr/local/bi
 
 helm version
 <span style="color:#75715e"># version.BuildInfo{Version:&#34;v3.10.0&#34;, GitCommit:&#34;ce66412a723e4d89555dc67217607c6579ffcb21&#34;, GitTreeState:&#34;clean&#34;, GoVersion:&#34;go1.18.6&#34;}</span>
-</code></pre></div><h2 id="change-the-mirrors-for-containerd-optional">Change the mirrors for Containerd (Optional)</h2>
-<p>For some reason, the China region&rsquo;s network may be stuck and cannot connect (or very slow) to some of the website, sadly, gcr.io<code>and</code>quay.io` are inside the list. Thus, we may need to change to the China&rsquo;s mirrors.</p>
-<p>For example: we can subsitute the <code>quay.io</code> with <code>https://quay-mirror.qiniu.com</code> and <code>gcr.io</code> we can use <code>https://registry.aliyuncs.com</code>. For the docker, we can use the <a href="https://www.daocloud.io/">Daocloud</a>&rsquo;s script to update the mirrors. This may help speeding up the installication process in the after step.</p>
-<h2 id="cert-manager-installation-and-configuration">Cert-Manager Installation and Configuration</h2>
-<p><a href="https://cert-manager.io/">Cert-Manager</a> is a cloud-native certificate management tool which can help us automatically sign SSL/TLC certificate from Let&rsquo;s Encrypt with ACME. Typically, Cert-Manager offers two challenge validations - HTTP01 and DNS01 challenges. In here, we use DNS01, but for now, let us install the Cert-Manager first.</p>
+</code></pre></div><h2 id="更改-containerd-的镜像可选">更改 Containerd 的镜像（可选）</h2>
+<p>由于某些原因，某些地区的网络可能会卡在「拉镜像」这一步，无法连接（或非常慢）某些网站，遗憾的是，gcr.io<code>和</code>quay.io`都在列表中。 因此，我们可能需要换成物理位置更近的镜像。</p>
+<p>例如：我们可以将 <code>quay.io</code> 替换为 <code>https://quay-mirror.qiniu.com</code> 和 <code>gcr.io</code> 我们可以使用 <code>https://registry.aliyuncs.com</code>。 对于docker，我们可以使用 <a href="https://www.daocloud.io/">Daocloud</a> 的脚本来更新镜像。 这可能有助于加快后续步骤中的安装过程。</p>
+<h2 id="cert-manager-安装和配置">Cert-Manager 安装和配置</h2>
+<p><a href="https://cert-manager.io/">Cert-Manager</a> 是一个云原生的证书管理工具，可以帮助我们自动签署 Let&rsquo;s Encrypt with ACME 的 SSL/TLC 证书。 通常，Cert-Manager 提供两种质询验证 - HTTP01 和 DNS01 质询。 在这里，我们使用 DNS01，但现在，让我们先安装 Cert-Manager。</p>
 <ol>
-<li>Add the helm repository and update repo: <code>sudo helm repo add jetstack https://charts.jetstack.io &amp;&amp; sudo helm repo update</code> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
-<li>Install the cert-manager: <code>helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.9.1 --set installCRDs=true</code> (create a NS; cert-manager&rsquo;s version is v1.9.1; install the CRD resources)</li>
-<li>Check the cert-manager&rsquo;s status: <code>sudo kubectl get pods --namespace cert-manager</code></li>
+<li>添加 helm 存储库并更新 repo：<code>sudo helm repo add jetstack https://charts.jetstack.io &amp;&amp; sudo helm repo update</code> [^1]</li>
+<li>安装证书管理器：<code>helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.9.1 --set installCRDs=true</code>（创建一个 namespace，并指定 cert-manager 的版本是 v1.9.1；安装CRD资源）</li>
+<li>检查证书管理器的状态：<code>sudo kubectl get pods --namespace cert-manager</code></li>
 </ol>
-<p>After installing the cert-manager, we need to go to [Cloudflare&rsquo;s dashboard(https://dash.cloudflare.com/profile) to create a API token with &ldquo;Edit zone DNS&rdquo; template, set permission: <code>Zone - DNS - Edit</code> and <code>Zone - Zone - Read</code>, other can be default. Remember that the API will only show onee, you may need to copy it before turn of the tab.</p>
-<p>Create a yaml (<code>cloudflare-api-token-secret.yaml</code> and you may change the file name) and start a new Issuer:</p>
+<p>安装 cert-manager 后，我们需要去 <a href="https://dash.cloudflare.com/profile">Cloudflare 的仪表板</a> 创建一个带有“编辑区域 DNS”模板的 API 令牌，设置权限：<code>Zone - DNS - Edit </code>和<code>Zone-Zone-Read</code>，其他可以默认。 请记住，API 只会显示一个，您可能需要在打开选项卡之前复制它。</p>
+<p>创建一个 yaml（<code>cloudflare-api-token-secret.yaml</code>，您可以更改文件名）并启动一个新的 Issuer：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
 <span style="color:#f92672">metadata</span>:
@@ -403,7 +371,7 @@ helm version
 <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Opaque</span>
 <span style="color:#f92672">stringData</span>:
   <span style="color:#f92672">api-token</span>: <span style="color:#ae81ff">&lt;CF-API-TOKEN&gt;</span>
-</code></pre></div><p>Create another yaml (<code>ClusterIssuer.yaml</code>):</p>
+</code></pre></div><p>创建另一个 yaml (<code>ClusterIssuer.yaml</code>):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterIssuer</span>
 <span style="color:#f92672">metadata</span>:
@@ -421,7 +389,7 @@ helm version
           <span style="color:#f92672">apiTokenSecretRef</span>:
             <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cloudflare-api-token-secret</span> <span style="color:#75715e"># need to be same with the above yaml metadata&#39;s name</span>
             <span style="color:#f92672">key</span>: <span style="color:#ae81ff">api-token</span>
-</code></pre></div><p>Create the third yaml (<code>Certificate.yaml</code>):</p>
+</code></pre></div><p>创建第三个 yaml (<code>Certificate.yaml</code>):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Certificate</span>
 <span style="color:#f92672">metadata</span>:
@@ -435,17 +403,17 @@ helm version
    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterIssuer</span>
    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">letsencrypt-dns01</span> <span style="color:#75715e"># Cite ClusterIssuer and use DNS01 for the challenge</span>
  <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;secret-name&gt;</span> <span style="color:#75715e"># the certificate with store in this cecret and you may change it </span>
-</code></pre></div><p>Then, apply these three yaml file, and wait for a while. Use <code>sudo kubectl describe certificate</code> to check the status.</p>
+</code></pre></div><p>然后，应用这三个yaml文件，稍等片刻。 使用 <code>sudo kubectl describe certificate</code> 检查状态。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo kubectl describe certificate
 NAME           READY    SECRET       AGE
 &lt;domain-name&gt;   True    &lt;secret&gt;      1m
-</code></pre></div><p>If it is ready, it means that the certificate is Issued.</p>
-<h2 id="rancher-installation">Rancher Installation</h2>
-<p>It is easy to install the Rancher, Rancher is a complete software stack for teams adopting containers. It addresses the operational and security challenges of managing multiple Kubernetes clusters, while providing DevOps teams with integrated tools for running containerized workloads.</p>
-<p>Similar to the installation of Cert-Manager:</p>
+</code></pre></div><p>如果准备就绪，则表示证书已颁发。</p>
+<h2 id="rancher-安装">Rancher 安装</h2>
+<p>安装 Rancher 很容易，Rancher 是一个完整的软件堆栈，适用于采用容器的团队。 它解决了管理多个 Kubernetes 集群的操作和安全挑战，同时为 DevOps 团队提供了用于运行容器化工作负载的集成工具。</p>
+<p>类似于 Cert-Manager 的安装：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo helm repo add rancher-latest https://releases.rancher.com/server-charts/latest <span style="color:#75715e"># add </span>
 sudo helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname<span style="color:#f92672">=</span>rancher.k3s.cklau.ml --set bootstrapPassword<span style="color:#f92672">=</span>admin --set ingress.tls.source<span style="color:#f92672">=</span>secret
-</code></pre></div><p>Then, we need to create a certificate and an ingress for Rancher where we can use our domain to access:</p>
+</code></pre></div><p>然后，我们需要为 Rancher 创建一个证书和一个入口，我们可以在其中使用我们的域访问：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Certificate</span>
 <span style="color:#f92672">metadata</span>:
@@ -482,15 +450,8 @@ sudo helm install rancher rancher-latest/rancher --namespace cattle-system --cre
   - <span style="color:#f92672">hosts</span>:
     - <span style="color:#ae81ff">rancher.example.com</span>
     <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;secret-name&gt;</span>
-</code></pre></div><p>After apply the yaml, we may check whether the rancher install properly: <code>sudo kubectl get pods --namespace cattle-system</code> and check <code>rancher.example.com</code>.</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p>For some reason, I met some problems with helm but they all correlated to the <code>KUBECONFIG</code>. Thus, you may copy the <code>KUBECONFIG</code> to <code>~/.kube/config</code> and this may solve your problem: <code>sudo cat /etc/rancher/k3s/k3s.ymal &gt; ~/.kube/config</code>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
+</code></pre></div><p>应用 yaml 后，我们可以检查 rancher 是否正确安装：<code>sudo kubectl get pods --namespace cattle-system</code> 并检查 <code>rancher.example.com</code>。</p>
+<p>[^1]：出于某种原因，我遇到了 helm 的一些问题，但它们都与 <code>KUBECONFIG</code> 相关。 因此，您可以将 <code>KUBECONFIG</code> 复制到 <code>~/.kube/config</code>，这可能会解决您的问题：<code>sudo cat /etc/rancher/k3s/k3s.yaml &gt; ~/.kube/config</code></p>
 </section>
 
   
@@ -533,14 +494,10 @@ sudo helm install rancher rancher-latest/rancher --namespace cattle-system --cre
 
     <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-80">
   <div class="mr-auto">
-    
-    <a href="https://beian.miit.gov.cn">粤ICP备2022102668号</a>
+    <a href="https://beian.miit.gov.cn">粤ICP备2022102668号</a> &copy; 2016 - 2023 <a class="link" href="https://github.com/TerenceLiu98">Terence Liu</a>
   </div>
   The Object Storage Service is provided by <a class="link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/upyun.png" align="absmiddle" width="60px" height="30px"/></a>
-
-  
 </footer>
-
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844674035384472"
      crossorigin="anonymous"></script>
   </body>

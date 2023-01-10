@@ -14,7 +14,8 @@
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
-      <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
+      <description>在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE机器。
+硬件    Module Series Price     CPU + 主板 Intel Xeon D-1581 + HSGM D1581-R3 ¥498   内存 二手 ECC DDR3 1600 16GB $\times$ 4 ¥79   显卡 自用 NVIDIA RTX 2060 ¥0   SSD 存储 DAHUA C900 512GB ¥245   HDD 存储 TOSHIBA MG04ACA400N 4T $\times$ 4 ¥1340   机箱 not named ¥399   ｜总价  ¥2561    我选择 Xeon D-1581 这个芯片组的原因是我不希望在这台机器上玩游戏或运行一些期望单核高性能的程序，而是我需要多核用于虚拟机进行一些实验，这样，我就可以省去一些在 VPS 上的花费。 这也解释了为什么我需要 64GB 的内存。 对于存储部分，我将 4个硬盘分成两组，每组 2 个磁盘，第 1 组我创建一个 raid 1 用于重要文件存储，如照片，文档和我的代码； 第 2 组我创建一个LVM卷用于日常存储，例如电影，音乐等。</description>
     </item>
     
     <item>
@@ -28,14 +29,14 @@ However, to investigate deeper into the network performance, I started to learn 
     </item>
     
     <item>
-      <title>Projects</title>
+      <title>项目</title>
       <link>https://www.rho.ac.cn/projects/</link>
       <pubDate>Tue, 04 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/projects/</guid>
       <description>个人项目：我的 HomeLab 和我的集群 主要内容：分布式 HomeLab，高可用 K3s 集群，从零搭建一个 Kubernetes 集群
- Homelab: 打造一套 Homelab Homelab: 打造一台 AIO 家用服务器 K3s/Kubernetes - 快速启动 K3s 服务 K3s/Kubernetes - 配置高可用 K3s 集群 K3s/Kubernetes - 自建 Docker 镜像站 K3s/Kubernetes - GitOps 如何帮助你实现快速部署 - Coming soon  个人项目：个人实验性网络构建 主要内容：Build a Experimental Network with your VPS
- L-Net: 个人实验性网络 1.0  </description>
+ Homelab: 打造一套 Homelab Homelab: 打造一台 AIO 家用服务器 K3s/Kubernetes - 快速启动 K3s 服务 K3s/Kubernetes - 配置高可用 K3s 集群 K3s/Kubernetes - 自建 Docker 镜像站 K3s/Kubernetes - GitOps 如何帮助你实现快速部署 - Coming soon K3s/Kubernetes - 从 K3s 到 Kubernetes，其实也很简单 K3s/Kubernetes - 使用 Kubeadm 构建高可用性 Kubernetes 集群  个人项目：个人实验性网络构建 主要内容：Build a Experimental Network with your VPS
+ L-Net: 个人实验性网络 V1.0 L-Net: 个人实验性网络 V1.1 - eBGP 和 iBGP L-Net: 个人实验性网络 V1.</description>
     </item>
     
     <item>
@@ -55,7 +56,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/friends/</guid>
-      <description>Junde Yhi： UICHCC 置顶人士，Linux 专家， IoT 从业人员 ECWU: 全栈开发者，会同 Cloud-Native 社区创始成员/ 管理员，长期从事计算机教育；医疗图像，XAI，NLP 等领域领路人。 Renjie Deng: 全栈开发者 Junru Zhong: MRI 医疗图像顶级研究人员，公共交通狂热爱好者，CUHK Computer vision PhD 候选人 Laurence Luo: 开发者，极客  Propose New Link If you want me to append you to the friend page, just comment below!</description>
+      <description>Junde Yhi： UICHCC 置顶人士，Linux 专家， IoT 从业人员 ECWU: 全栈开发者，会同 Cloud-Native 社区创始成员/ 管理员，长期从事计算机教育；医疗图像，XAI，NLP 等领域领路人。 Renjie Deng: 全栈开发者 Junru Zhong: MRI 医疗图像顶级研究人员，公共交通狂热爱好者，CUHK Computer vision PhD 候选人 Laurence Luo: 开发者，极客 [KirinBaka] UICHCC 新生代领导人  添加友链 如果您想让我将您添加到朋友页面，请在下面发表评论！</description>
     </item>
     
     <item>
@@ -64,8 +65,10 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/post/k3s-setup-2/</guid>
-      <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
+      <description>在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
+K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
+curl -sfL https://get.k3s.io | K3S_TOKEN=&amp;lt;token&amp;gt; INSTALL_K3S_EXEC=&amp;#34;server \ --node-ip &amp;lt;wg-node-ip&amp;gt; \ --advertise-address &amp;lt;node-public-ip&amp;gt; \ --node-external-ip &amp;lt;node-public-ip&amp;gt; \ --flannel-iface wg0 \ --node-name &amp;lt;node-name&amp;gt; \ --cluster-init &amp;#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror.</description>
     </item>
     
     <item>
@@ -88,8 +91,10 @@ BNU-HKBU UIC统计系获得学士学位，并将成为香港浸会大学的Mphil
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/post/k3s-setup-1/</guid>
-      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
-For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
+      <description>在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
+对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
+部署环境 这是我的设备列表：
+   设备名称 设备所在地 设备规格 OS Network IP     hilbert(server) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP + Wireguard 1.xx.xx.xx + 192.168.36.1   cantor(server) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP + Wireguard 110.xx.xx.xx + 192.168.36.2   newton(worker) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20.</description>
     </item>
     
     <item>

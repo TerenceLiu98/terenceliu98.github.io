@@ -25,8 +25,10 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/post/k3s-setup-2/</guid>
-      <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
+      <description>在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
+ High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
+K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
+curl -sfL https://get.k3s.io | K3S_TOKEN=&amp;lt;token&amp;gt; INSTALL_K3S_EXEC=&amp;#34;server \ --node-ip &amp;lt;wg-node-ip&amp;gt; \ --advertise-address &amp;lt;node-public-ip&amp;gt; \ --node-external-ip &amp;lt;node-public-ip&amp;gt; \ --flannel-iface wg0 \ --node-name &amp;lt;node-name&amp;gt; \ --cluster-init &amp;#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror.</description>
     </item>
     
     <item>
@@ -35,8 +37,10 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/post/k3s-setup-1/</guid>
-      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
-For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
+      <description>在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
+对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
+部署环境 这是我的设备列表：
+   设备名称 设备所在地 设备规格 OS Network IP     hilbert(server) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP + Wireguard 1.xx.xx.xx + 192.168.36.1   cantor(server) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP + Wireguard 110.xx.xx.xx + 192.168.36.2   newton(worker) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20.</description>
     </item>
     
   </channel>
