@@ -54,6 +54,7 @@
 部署环境 这是我的设备列表：
    设备名称 设备所在地 设备规格 OS Network IP     hilbert(server) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 1.xx.xx.xx &#43; 192.168.36.1   cantor(server) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 110.xx.xx.xx &#43; 192.168.36.2   newton(worker) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20." />
   <meta name="author" content="" />
+<meta content="k3s, kubernetes, wireguard" name="keywords">
   
 
   
@@ -114,10 +115,7 @@
   
   
   <meta property="og:title" content="K3s/Kubernetes - 快速启动 K3s 服务" />
-<meta property="og:description" content="在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
-对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
-部署环境 这是我的设备列表：
-   设备名称 设备所在地 设备规格 OS Network IP     hilbert(server) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 1.xx.xx.xx &#43; 192.168.36.1   cantor(server) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 110.xx.xx.xx &#43; 192.168.36.2   newton(worker) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20." />
+<meta property="og:description" content="K3s/Kubernetes - 快速启动 K3s 服务" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/k3s-setup-1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-09-24T00:11:21+08:00" />
@@ -126,20 +124,14 @@
 
   
   <meta itemprop="name" content="K3s/Kubernetes - 快速启动 K3s 服务">
-<meta itemprop="description" content="在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
-对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
-部署环境 这是我的设备列表：
-   设备名称 设备所在地 设备规格 OS Network IP     hilbert(server) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 1.xx.xx.xx &#43; 192.168.36.1   cantor(server) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 110.xx.xx.xx &#43; 192.168.36.2   newton(worker) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20."><meta itemprop="datePublished" content="2022-09-24T00:11:21+08:00" />
+<meta itemprop="description" content="K3s/Kubernetes - 快速启动 K3s 服务"><meta itemprop="datePublished" content="2022-09-24T00:11:21+08:00" />
 <meta itemprop="dateModified" content="2022-09-26T00:11:21+08:00" />
 <meta itemprop="wordCount" content="206">
 <meta itemprop="keywords" content="k3s,kubernetes,wireguard," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="K3s/Kubernetes - 快速启动 K3s 服务"/>
-<meta name="twitter:description" content="在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
-对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
-部署环境 这是我的设备列表：
-   设备名称 设备所在地 设备规格 OS Network IP     hilbert(server) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 1.xx.xx.xx &#43; 192.168.36.1   cantor(server) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP &#43; Wireguard 110.xx.xx.xx &#43; 192.168.36.2   newton(worker) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20."/>
+<meta name="twitter:description" content="K3s/Kubernetes - 快速启动 K3s 服务"/>
 
   
   

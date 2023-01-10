@@ -14,9 +14,12 @@
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
       <guid>https://www.rho.ac.cn/post/k3s-setup-extra-1/</guid>
-      <description>As I have mentioned in K3s Setup 2, usually, it is not easy for the China&amp;rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</description>
+      <description>正如我在K3s Setup 2中提到的，通常中国用户访问https: //gcr.io、https://k8s.gcr.io 或 https://ghcr.io。 因此，在这种情况下，我们可以设置一个服务器作为注册代理端点。
+一些选项 DockerHub 提供了一个名为 Docker Registry 的“官方”包，它是一个无状态、高度可扩展的服务器端应用程序，可以存储并让用户分发 Docker 镜像。
+Nexus Repository OSS，由 Sonatype 提供，是一个开源存储库，支持多种工件格式，包括 Docker、Java™ 和 npm。
+由 VMWare 提供的 Harbor 是一个开源注册表，它通过策略和基于角色的访问控制来保护工件，确保图像被扫描并且没有漏洞，并将图像签名为可信的。
+Nexus 作为 Registry 代理 我们很容易构建 Nexus，只需使用 docker-compose.yml：
+version: &amp;#34;3.7&amp;#34; services: nexus: image: sonatype/nexus3:latest environment: INSTALL4J_ADD_VM_PARAMS: -Xms128m -Xmx512m -XX:MaxDirectMemorySize=512m # decrease the occupancy rate of nexus container_name: nexus3 restart: always ports: - 8081:8081 # port of frontend of the nexus repo - 8082:8082 # port of the docker proxy volumes: - .</description>
     </item>
     
   </channel>

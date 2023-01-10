@@ -54,6 +54,7 @@
 K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
 curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror." />
   <meta name="author" content="" />
+<meta content="k3s, kubernetes" name="keywords">
   
 
   
@@ -114,10 +115,7 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;ser
   
   
   <meta property="og:title" content="K3s/Kubernetes - 配置高可用 K3s 集群" />
-<meta property="og:description" content="在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
-K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
-curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror." />
+<meta property="og:description" content="K3s/Kubernetes - 配置高可用 K3s 集群" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/k3s-setup-2/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-09-26T00:11:21+08:00" />
@@ -126,20 +124,14 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;ser
 
   
   <meta itemprop="name" content="K3s/Kubernetes - 配置高可用 K3s 集群">
-<meta itemprop="description" content="在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
-K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
-curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror."><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="description" content="K3s/Kubernetes - 配置高可用 K3s 集群"><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
 
 <meta itemprop="wordCount" content="631">
 <meta itemprop="keywords" content="k3s,kubernetes," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="K3s/Kubernetes - 配置高可用 K3s 集群"/>
-<meta name="twitter:description" content="在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
-K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
-curl -sfL https://get.k3s.io | K3S_TOKEN=&lt;token&gt; INSTALL_K3S_EXEC=&#34;server \ --node-ip &lt;wg-node-ip&gt; \ --advertise-address &lt;node-public-ip&gt; \ --node-external-ip &lt;node-public-ip&gt; \ --flannel-iface wg0 \ --node-name &lt;node-name&gt; \ --cluster-init &#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror."/>
+<meta name="twitter:description" content="K3s/Kubernetes - 配置高可用 K3s 集群"/>
 
   
   

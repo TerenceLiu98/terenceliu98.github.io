@@ -49,10 +49,14 @@
   
   <meta name="theme-color" />
   
-  <meta name="description" content="As I have mentioned in K3s Setup 2, usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm." />
+  <meta name="description" content="正如我在K3s Setup 2中提到的，通常中国用户访问https: //gcr.io、https://k8s.gcr.io 或 https://ghcr.io。 因此，在这种情况下，我们可以设置一个服务器作为注册代理端点。
+一些选项 DockerHub 提供了一个名为 Docker Registry 的“官方”包，它是一个无状态、高度可扩展的服务器端应用程序，可以存储并让用户分发 Docker 镜像。
+Nexus Repository OSS，由 Sonatype 提供，是一个开源存储库，支持多种工件格式，包括 Docker、Java™ 和 npm。
+由 VMWare 提供的 Harbor 是一个开源注册表，它通过策略和基于角色的访问控制来保护工件，确保图像被扫描并且没有漏洞，并将图像签名为可信的。
+Nexus 作为 Registry 代理 我们很容易构建 Nexus，只需使用 docker-compose.yml：
+version: &#34;3.7&#34; services: nexus: image: sonatype/nexus3:latest environment: INSTALL4J_ADD_VM_PARAMS: -Xms128m -Xmx512m -XX:MaxDirectMemorySize=512m # decrease the occupancy rate of nexus container_name: nexus3 restart: always ports: - 8081:8081 # port of frontend of the nexus repo - 8082:8082 # port of the docker proxy volumes: - ." />
   <meta name="author" content="" />
+<meta content="kubernetes, docker, registry" name="keywords">
   
 
   
@@ -113,9 +117,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
   
   
   <meta property="og:title" content="K3s/Kubernetes - 番外：自建 Docker 镜像站" />
-<meta property="og:description" content="As I have mentioned in K3s Setup 2, usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm." />
+<meta property="og:description" content="K3s/Kubernetes - 番外：自建 Docker 镜像站" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.rho.ac.cn/post/k3s-setup-extra-1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-10-02T10:00:00+08:00" />
@@ -124,18 +126,14 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
 
   
   <meta itemprop="name" content="K3s/Kubernetes - 番外：自建 Docker 镜像站">
-<meta itemprop="description" content="As I have mentioned in K3s Setup 2, usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm."><meta itemprop="datePublished" content="2022-10-02T10:00:00+08:00" />
+<meta itemprop="description" content="K3s/Kubernetes - 番外：自建 Docker 镜像站"><meta itemprop="datePublished" content="2022-10-02T10:00:00+08:00" />
 
-<meta itemprop="wordCount" content="615">
+<meta itemprop="wordCount" content="445">
 <meta itemprop="keywords" content="k3s,kubernetes,docker,registry," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="K3s/Kubernetes - 番外：自建 Docker 镜像站"/>
-<meta name="twitter:description" content="As I have mentioned in K3s Setup 2, usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm."/>
+<meta name="twitter:description" content="K3s/Kubernetes - 番外：自建 Docker 镜像站"/>
 
   
   
@@ -297,13 +295,13 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
     
   
   <hr>
-  <section><p>As I have mentioned in <a href="https://www.rho.ac.cn/post/k3s-setup-2/" title="K3s Setup 2">K3s Setup 2</a>, usually, it is not easy for the China&rsquo;s user to access <code>https://gcr.io</code>, <code>https://k8s.gcr.io</code> or <code>https://ghcr.io</code>. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.</p>
-<h2 id="some-options">Some options</h2>
-<p>DockerHub provide a &ldquo;offical&rdquo; package called <a href="https://docs.docker.com/registry/">Docker Registry</a> where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.</p>
-<p>Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</p>
-<p>Harbor, provided by VMWare,  is an opensource registry that secure artifacts with policies and role-based access control, ensures images are scanned and free from vulnerabilities, and signs images as trusted.</p>
-<h2 id="nexus-as-registry-proxy">Nexus as registry proxy</h2>
-<p>It is easy for us to build the Nexus repositry, simply with the <code>docker-compose.yml</code>:</p>
+  <section><p>正如我在<a href="https://www.rho.ac.cn/post/k3s-setup-2/" title="K3s Setup 2">K3s Setup 2</a>中提到的，通常中国用户访问<code>https: //gcr.io</code>、<code>https://k8s.gcr.io</code> 或 <code>https://ghcr.io</code>。 因此，在这种情况下，我们可以设置一个服务器作为注册代理端点。</p>
+<h2 id="一些选项">一些选项</h2>
+<p>DockerHub 提供了一个名为 <a href="https://docs.docker.com/registry/">Docker Registry</a> 的“官方”包，它是一个无状态、高度可扩展的服务器端应用程序，可以存储并让用户分发 Docker 镜像。</p>
+<p>Nexus Repository OSS，由 Sonatype 提供，是一个开源存储库，支持多种工件格式，包括 Docker、Java™ 和 npm。</p>
+<p>由 VMWare 提供的 Harbor 是一个开源注册表，它通过策略和基于角色的访问控制来保护工件，确保图像被扫描并且没有漏洞，并将图像签名为可信的。</p>
+<h2 id="nexus-作为-registry-代理">Nexus 作为 Registry 代理</h2>
+<p>我们很容易构建 Nexus，只需使用 <code>docker-compose.yml</code>：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.7&#34;</span>
 <span style="color:#f92672">services</span>:
   <span style="color:#f92672">nexus</span>:
@@ -317,7 +315,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       - <span style="color:#ae81ff">8082</span>:<span style="color:#ae81ff">8082</span>   <span style="color:#75715e"># port of the docker proxy</span>
     <span style="color:#f92672">volumes</span>:
       -  <span style="color:#ae81ff">./data:/nexus-data</span>
-</code></pre></div><p>With <code>sudo docker compose up -d</code>, we can easily run the nexus. <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+</code></pre></div><p>With <code>sudo docker compose up -d</code>, we can easily run the nexus. [^1]</p>
 <p>For the reverse proxy, I use nginx and here is the configuration:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">server <span style="color:#f92672">{</span>
     listen 80;
@@ -384,7 +382,7 @@ server <span style="color:#f92672">{</span>
     <span style="color:#f92672">}</span>
 
 <span style="color:#f92672">}</span>
-</code></pre></div><p>After setting up the nexus and nginx, we can go to <code>https://nexus.example.com</code> to set up the proxy rules.</p>
+</code></pre></div><p>设置完nexus和nginx后，我们可以去 <code>https://nexus.example.com</code> 设置代理规则。</p>
 <ol>
 <li>For Docker: <code>Creat Repository</code> -&gt; Choose <code>docker(proxy)</code> -&gt;  <code>Remote storage = https://registry-1.docker.io</code> and <code>Docker Index = Use Docker Hub</code></li>
 <li>For <a href="https://ghcr.io">ghcr.io</a>:  Creat Repository<code>-&gt; Choose</code>docker(proxy)<code>-&gt; </code>Remote storage = <a href="https://ghcr.io">https://ghcr.io</a>`</li>
@@ -410,7 +408,7 @@ sudo docker pull registry.example.com/coreos/kube-state-metrics:v1.5.0          
     endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
   <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;k8s.gcr.io&#34;</span><span style="color:#f92672">]</span>
     endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
-</code></pre></div><p>For the rancher&rsquo;s <code>containerd</code>, k3s will generate config.toml for containerd in <code>/var/lib/rancher/k3s/agent/etc/containerd/config.toml</code>, for advanced customization for this file you can create another file called <code>config.toml.tmpl</code> in the same directory and it will be used instead. Then, modify the configuration into the file and restart the <code>sudo systemctl restart k3s</code> or <code>sudo systemctl restart k3s-agent</code></p>
+</code></pre></div><p>对于 rancher 的 <code>containerd</code>，k3s 将在 <code>/var/lib/rancher/k3s/agent/etc/containerd/config.toml</code> 中为 containerd 生成 config.toml，对于此文件的高级定制，您可以创建另一个名为 <code> config.toml.tmpl</code> 在同一目录中，它将被使用。 然后，修改配置到文件中，重启<code>sudo systemctl restart k3s</code>或<code>sudo systemctl restart k3s-agent</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>plugins.cri.registry.mirrors<span style="color:#f92672">]</span>
   <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;docker.io&#34;</span><span style="color:#f92672">]</span>
     endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
@@ -422,14 +420,7 @@ sudo docker pull registry.example.com/coreos/kube-state-metrics:v1.5.0          
     endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
   <span style="color:#f92672">[</span>plugins.cri.registry.mirrors.<span style="color:#e6db74">&#34;k8s.gcr.io&#34;</span><span style="color:#f92672">]</span>
     endpoint <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://mirrors.example.com&#34;</span><span style="color:#f92672">]</span>
-</code></pre></div><section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p>Before you up the yaml, create the folder first and give the proper permission, for me: <code>mkdir data &amp;&amp; chmod 777 data</code> is good enough. The default password is stored in <code>data/admin.password</code>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
+</code></pre></div><p>[^1]：在启动 yaml 之前，先创建文件夹并授予适当的权限，对我来说：<code>mkdir data &amp;&amp; chmod 777 data</code> 就足够了。 默认密码存储在 data/admin.password 中。</p>
 </section>
 
   
