@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>杂文 on 若如笔记</title>
-    <link>https://www.rho.ac.cn/tags/%E6%9D%82%E6%96%87/</link>
+    <link>https://blog.rho.ac.cn/tags/%E6%9D%82%E6%96%87/</link>
     <description>Recent content in 杂文 on 若如笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 21 Jun 2021 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/%E6%9D%82%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Jun 2021 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.rho.ac.cn/tags/%E6%9D%82%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>保安日记</title>
-      <link>https://www.rho.ac.cn/post/security-daily/</link>
+      <link>https://blog.rho.ac.cn/post/security-daily/</link>
       <pubDate>Mon, 21 Jun 2021 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/security-daily/</guid>
+      <guid>https://blog.rho.ac.cn/post/security-daily/</guid>
       <description>敬告：以此记录作为保安的一天， 全文为笔者主观臆断、胡思乱想，纯属虚构。
 惠同村，是一个古村，我生于此，长于此。虽说祠堂里写着这里的历史，但并没有给我带来什么实质性的利益。
 成为了村里的联防队员后，每日过着重复且无变化的一天。
@@ -27,10 +27,10 @@
     
     <item>
       <title>社群的生老病死</title>
-      <link>https://www.rho.ac.cn/post/community-from-begin-to-the-end/</link>
+      <link>https://blog.rho.ac.cn/post/community-from-begin-to-the-end/</link>
       <pubDate>Thu, 04 Feb 2021 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/community-from-begin-to-the-end/</guid>
+      <guid>https://blog.rho.ac.cn/post/community-from-begin-to-the-end/</guid>
       <description>筆者注：人生百態並不是“勸喻”大家看開後躺平，而是看遍百態，依然保持向光的希望。
  社群的定義 按照現當代互聯網的定義，公/私域流量的集合體；更加直白的說，便是通過社交認識的一群人，他們有着共同愛好與興趣，從而集中在了一起。當然，社群這個詞已經存在了很久，甚至還有一個主義稱之爲「社群主義」。 社群主義認爲，社群造就了人，人的自我認同與自我觀念是由他所處的社群造就的。(海明, &amp;amp; 温 (2002). 和而不同: 比较哲学与中西会通. 北京大学出版社.) 聽起來，挺有道理的，但，個人認爲，這種社群主義是更加宏觀的觀測人的行爲與表現，而不是我們現在所見的社群。正如上文所說「他們有着共同愛好與興趣」，現在的社群更多的是圍繞這兩個出發的。
 社群的目的 「人人都是產品經理」上有提到“如果沒有想好做社群的目的，就不要去做” 。筆者認爲，對於公司或者以盈利爲目的的人，當然如是，但，在學校或社會，可能有一部分人不太願意日日講金不講心、主義在口而生意在手。基於這種假設，問題又轉變成了心和金的爭先，誰對誰啱，不清楚。
@@ -45,10 +45,10 @@
     
     <item>
       <title>2020 小结</title>
-      <link>https://www.rho.ac.cn/post/summary-2020/</link>
+      <link>https://blog.rho.ac.cn/post/summary-2020/</link>
       <pubDate>Sat, 02 Jan 2021 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/summary-2020/</guid>
+      <guid>https://blog.rho.ac.cn/post/summary-2020/</guid>
       <description>2021/01/02，突然想写下 2020 的总结，也不能算是总结，流水一下，记录 2020 的“悲惨”人生。
 第一季度 除了疫情，春天还发生了很多事，比如在这个申请季全军覆没，比如家里人去世。 我承认有赌的成分，但是确实成绩差了不少，所幸，中介如合同办事，成功退回中介费还嫖到了中介的文书（不说很烂，但质量确实很一般）。 第一季度，也是大四的最后一个学期，完成了 FYP2， 也提出了一个不能算是新方法的 “novel algorithm”， 老师也觉得可以投个 conference 试试。算是给 CV 多增了一些好看的东西吧。
 第二季度 无所事事，网课也没好好上，而且我最后一个学期还是 4 门课（大三 drop 了一门，另外自己多加了一门）， 不过还好，最后一个学期 GPA 竟然上 3 了，也是四年第一次上 3 :) paper 也写的差不多了，在 submission 的最后几天投了出去。
@@ -59,10 +59,10 @@
     
     <item>
       <title>2019 小结</title>
-      <link>https://www.rho.ac.cn/post/summary-2019/</link>
+      <link>https://blog.rho.ac.cn/post/summary-2019/</link>
       <pubDate>Sat, 28 Dec 2019 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/summary-2019/</guid>
+      <guid>https://blog.rho.ac.cn/post/summary-2019/</guid>
       <description>己亥为干支之一，顺序为第36个。前一位是戊戌，后一位是庚子。論陰陽五行，天干之己屬陰之土，地支之亥屬陰之水，是土尅水相尅。
  這一年我們失去了很多大師：霍金、查良鏞、曾仕強教授等等；
 這一年我們經歷了很多：「PKU 大字報」，「美國制裁 ZTE 、花廠美」，「CN-US 貿易 Battle 」，「英帝脱歐」等。
@@ -75,10 +75,10 @@
     
     <item>
       <title>題目暫定為胡言亂語之何謂公平</title>
-      <link>https://www.rho.ac.cn/post/not-fair/</link>
+      <link>https://blog.rho.ac.cn/post/not-fair/</link>
       <pubDate>Mon, 20 Aug 2018 00:10:44 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/not-fair/</guid>
+      <guid>https://blog.rho.ac.cn/post/not-fair/</guid>
       <description>社會本身是不公平的，爭取的就只是相對公平，從來沒有絕對公平。劉少奇曾經講過：分配問題是長期性的問題，是社會主義社會的制度上產生的新的問題。——社會主義制度下的分配問題（一九五七年三月二十四日）
 這也恰恰說明了這個問題不是現在才有的，而是長期以往的。難道只有社會主義是這樣嗎？你們忘記了資本主義的貧富懸殊了嗎？更慘！從那工資那一刻起，注定你和別人的差距。
 有許多工廠、公司建了操場、運動場，說給員工福利，但是基層生產線的員工卻從來沒有機會去享受。為什麼？因為你不加班，去踢球，就沒有加班費拿；你不願意加班，別人願意，你就被炒魷魚，算是現代版「物競天擇」了，套用老闆們最喜歡用的一句“愛幹幹，不幹滾蛋。”
@@ -91,10 +91,10 @@
     
     <item>
       <title>我们的目标： 没有蛀牙 - 2017 小結</title>
-      <link>https://www.rho.ac.cn/post/summary-2017/</link>
+      <link>https://blog.rho.ac.cn/post/summary-2017/</link>
       <pubDate>Wed, 27 Dec 2017 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/summary-2017/</guid>
+      <guid>https://blog.rho.ac.cn/post/summary-2017/</guid>
       <description>筆者註：本文為開始公眾號後的第一個年度小結
  這個公眾號已經活了 161 天了。
 2017年7月19日，第一篇文章《日與夜》的推送，到今天的這一條《我們的目標》應該已有十三篇了，其中有關於自己的，也有關於 ingress 的； 大都是自己對外界的看法。

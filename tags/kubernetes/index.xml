@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>kubernetes on 若如笔记</title>
-    <link>https://www.rho.ac.cn/tags/kubernetes/</link>
+    <link>https://blog.rho.ac.cn/tags/kubernetes/</link>
     <description>Recent content in kubernetes on 若如笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.rho.ac.cn/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>K3s/Kubernetes - 番外：自建 Docker 镜像站</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-extra-1/</link>
+      <link>https://blog.rho.ac.cn/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/k3s-setup-extra-1/</guid>
+      <guid>https://blog.rho.ac.cn/post/k3s-setup-extra-1/</guid>
       <description>正如我在K3s Setup 2中提到的，通常中国用户访问https: //gcr.io、https://k8s.gcr.io 或 https://ghcr.io。 因此，在这种情况下，我们可以设置一个服务器作为注册代理端点。
 一些选项 DockerHub 提供了一个名为 Docker Registry 的“官方”包，它是一个无状态、高度可扩展的服务器端应用程序，可以存储并让用户分发 Docker 镜像。
 Nexus Repository OSS，由 Sonatype 提供，是一个开源存储库，支持多种工件格式，包括 Docker、Java™ 和 npm。
@@ -24,10 +24,10 @@ version: &amp;#34;3.7&amp;#34; services: nexus: image: sonatype/nexus3:latest en
     
     <item>
       <title>K3s/Kubernetes - 配置高可用 K3s 集群</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-2/</link>
+      <link>https://blog.rho.ac.cn/post/k3s-setup-2/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/k3s-setup-2/</guid>
+      <guid>https://blog.rho.ac.cn/post/k3s-setup-2/</guid>
       <description>在此之前 按照 K3s 的文档 生成基本的 K3s 集群非常容易。 让我们尝试将其修改为 High Availability Cluster。 单个服务器集群可以满足各种用例，但对于 Kubenetes 控制平面的正常运行时间至关重要的环境，我们需要高可用性配置。 高可用性有两种方式：
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
 K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
@@ -36,10 +36,10 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=&amp;lt;token&amp;gt; INSTALL_K3S_EXEC=
     
     <item>
       <title>K3s/Kubernetes - 快速启动 K3s 服务</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-1/</link>
+      <link>https://blog.rho.ac.cn/post/k3s-setup-1/</link>
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/k3s-setup-1/</guid>
+      <guid>https://blog.rho.ac.cn/post/k3s-setup-1/</guid>
       <description>在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
 对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
 部署环境 这是我的设备列表：

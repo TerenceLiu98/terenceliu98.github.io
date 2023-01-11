@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>registry on 若如笔记</title>
-    <link>https://www.rho.ac.cn/tags/registry/</link>
+    <link>https://blog.rho.ac.cn/tags/registry/</link>
     <description>Recent content in registry on 若如笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/registry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Oct 2022 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.rho.ac.cn/tags/registry/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>K3s/Kubernetes - 番外：自建 Docker 镜像站</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-extra-1/</link>
+      <link>https://blog.rho.ac.cn/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/k3s-setup-extra-1/</guid>
+      <guid>https://blog.rho.ac.cn/post/k3s-setup-extra-1/</guid>
       <description>正如我在K3s Setup 2中提到的，通常中国用户访问https: //gcr.io、https://k8s.gcr.io 或 https://ghcr.io。 因此，在这种情况下，我们可以设置一个服务器作为注册代理端点。
 一些选项 DockerHub 提供了一个名为 Docker Registry 的“官方”包，它是一个无状态、高度可扩展的服务器端应用程序，可以存储并让用户分发 Docker 镜像。
 Nexus Repository OSS，由 Sonatype 提供，是一个开源存储库，支持多种工件格式，包括 Docker、Java™ 和 npm。

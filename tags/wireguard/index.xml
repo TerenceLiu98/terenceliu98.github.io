@@ -2,28 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>wireguard on 若如笔记</title>
-    <link>https://www.rho.ac.cn/tags/wireguard/</link>
+    <link>https://blog.rho.ac.cn/tags/wireguard/</link>
     <description>Recent content in wireguard on 若如笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 18 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.rho.ac.cn/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net</title>
-      <link>https://www.rho.ac.cn/post/lnet-1/</link>
+      <link>https://blog.rho.ac.cn/post/lnet-1/</link>
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/lnet-1/</guid>
+      <guid>https://blog.rho.ac.cn/post/lnet-1/</guid>
       <description>Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
 However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters.</description>
     </item>
     
     <item>
       <title>K3s/Kubernetes - 快速启动 K3s 服务</title>
-      <link>https://www.rho.ac.cn/post/k3s-setup-1/</link>
+      <link>https://blog.rho.ac.cn/post/k3s-setup-1/</link>
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/k3s-setup-1/</guid>
+      <guid>https://blog.rho.ac.cn/post/k3s-setup-1/</guid>
       <description>在此之前 K3s是一个更适合 Edge/IoT/CI/ARM 场景/设备的轻量级 Kubernetes。 通常，对于人来说，我们没有像 24c 服务器甚至更高的多个高性能设备。 因此，K3s 是我们学习如何设置 kubernetes 集群的一种方式。
 对我来说，多年前我是一个裸机狂热者，但是当我对虚拟化和容器有了更多的了解后，我变成了一个 Docker 用户。 这些操作系统级别的虚拟化在我们尝试迁移我们的服务时更加方便，例如博客迁移、身份验证迁移等。
 部署环境 这是我的设备列表：

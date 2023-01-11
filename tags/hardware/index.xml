@@ -2,28 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>hardware on 若如笔记</title>
-    <link>https://www.rho.ac.cn/tags/hardware/</link>
+    <link>https://blog.rho.ac.cn/tags/hardware/</link>
     <description>Recent content in hardware on 若如笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://www.rho.ac.cn/tags/hardware/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.rho.ac.cn/tags/hardware/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Homelab: 打造一台 AIO 家用服务器</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-2/</link>
+      <link>https://blog.rho.ac.cn/post/my-homelab-2/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-2/</guid>
+      <guid>https://blog.rho.ac.cn/post/my-homelab-2/</guid>
       <description>在此之前 买这台机器的原因有很多，但最重要的是，之前的 NAS 是建立在一台很老的机器上，而且磁盘都是“二手”的，所以我不确定这个老家伙的稳定性。 而我拿到了之前项目的奖金，所以该花就花 :)。 这一次，我不希望它是一个纯粹的 NAS，它应该是一个ALL-IN-ONE 机器。
 硬件    Module Series Price     CPU + 主板 Intel Xeon D-1581 + HSGM D1581-R3 ¥498   内存 二手 ECC DDR3 1600 16GB $\times$ 4 ¥79   显卡 自用 NVIDIA RTX 2060 ¥0   SSD 存储 DAHUA C900 512GB ¥245   HDD 存储 TOSHIBA MG04ACA400N 4T $\times$ 4 ¥1340   机箱 not named ¥399   ｜总价  ¥2561    我选择 Xeon D-1581 这个芯片组的原因是我不希望在这台机器上玩游戏或运行一些期望单核高性能的程序，而是我需要多核用于虚拟机进行一些实验，这样，我就可以省去一些在 VPS 上的花费。 这也解释了为什么我需要 64GB 的内存。 对于存储部分，我将 4个硬盘分成两组，每组 2 个磁盘，第 1 组我创建一个 raid 1 用于重要文件存储，如照片，文档和我的代码； 第 2 组我创建一个LVM卷用于日常存储，例如电影，音乐等。</description>
     </item>
     
     <item>
       <title>家庭实验室: 打造一套家庭赛博实验室</title>
-      <link>https://www.rho.ac.cn/post/my-homelab-1/</link>
+      <link>https://blog.rho.ac.cn/post/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
       
-      <guid>https://www.rho.ac.cn/post/my-homelab-1/</guid>
+      <guid>https://blog.rho.ac.cn/post/my-homelab-1/</guid>
       <description>长期以来，笔者购买了许多电子产品，有物理存在的主机也有在云上的虚拟服务器，但是，从来都没有想过将他们放在一个集群内。或者更准确地说，是搭建一个可以轻松管理它们的平台。 在这个暑假，我开始思考建立分布式家庭实验室的可能性。通过网络，将我的设备串通在一起，希望可以做到不管我在哪都可以访问到。
 为什么是分布式的 笔者长期混迹在粤港澳大湾区周边城市，各式各样的设备也散落在不同的城市，所以要想组成一个 Lab，这些设备就必然需要通过网线才能相互访问，也就必然是分布式的了。
 这是我的设备列表
