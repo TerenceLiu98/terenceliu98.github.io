@@ -19,7 +19,7 @@
     </item>
     
     <item>
-      <title>👨‍💻 My Personal Experimental Network: L-Net</title>
+      <title>👨‍💻 个人实验性网络的搭建（一）</title>
       <link>https://blog.rho.ac.cn/post/lnet-1/</link>
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
       
@@ -72,20 +72,6 @@ version: &amp;#34;3.7&amp;#34; services: nexus: image: sonatype/nexus3:latest en
  High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  我选择了第二个——带有嵌入式数据库:
 K3s 安装 K3s 控制节点 为了设置服务器，我按照 K3s 的说明稍作修改，因为我想自定义网络和节点名称。 这是我用于服务器安装的命令：
 curl -sfL https://get.k3s.io | K3S_TOKEN=&amp;lt;token&amp;gt; INSTALL_K3S_EXEC=&amp;#34;server \ --node-ip &amp;lt;wg-node-ip&amp;gt; \ --advertise-address &amp;lt;node-public-ip&amp;gt; \ --node-external-ip &amp;lt;node-public-ip&amp;gt; \ --flannel-iface wg0 \ --node-name &amp;lt;node-name&amp;gt; \ --cluster-init &amp;#34; sh - # for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror.</description>
-    </item>
-    
-    <item>
-      <title>你好 👋</title>
-      <link>https://blog.rho.ac.cn/about/</link>
-      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://blog.rho.ac.cn/about/</guid>
-      <description>😅 中文博客名为什么叫「若如」？取自 rho 的音译而已。
-通常我会说我的名字是 Terence Lau, A.K.A:
- Terry Lau/Liu Terence Liu JunJie LIU  我可能也会用 TerenceCKLau，这是因为别的名字都被用了。
-BNU-HKBU UIC 统计系获得理学学士学位，并将成为香港浸会大学的 Mphil 学生，概率论与数理统计。 @UICHCC (UIC Homebrew Computer Club) 的联合创始人之一。 🔭 我现在专注于
- 金融、经济数据分析，包括但不限于微/宏观市场、加密货币与区块链 医疗数据分析，包括但不限于药物实验、基因转录 复杂网络与社交网络，包括但不限于信息传播模型、影响力分析 非对称密码算法，主要包括 pre-quantum 和 post-quantum UIC-STAT 第一代计算集群（USBC）的维护； 更多信息请查看：USBC-WIKI &amp;amp; @Bayes-Cluster；  云原生技术 超融合架构    研究兴趣:
- 🚩 Statistical Inference (Bayesian) 🚩 Computational Statistics 🚩 Stochastic Process, Markov-related 🚩 High Performance Computing (including CPU &amp;amp; GPU Parallel Algorithm) 🚩 HPC Cluster/Hybrid Cloud maintenance   📫 我的邮箱: bWVAY2tsYXUuY2M= 📃 获取更多信息，可以查看我的 CV  </description>
     </item>
     
     <item>
@@ -238,6 +224,21 @@ BNU-HKBU UIC 统计系获得理学学士学位，并将成为香港浸会大学�
 個人網站 實習的時候，項目就是幫公司建站，既然如此，為什麼不能做一個個人網站呢，將個人作品放上去呢？（以後簡歷裡還可以寫多點東西） 當然，失敗了很多次。（自己背鍋，總是在拖）終於，在這個學期的期中考試後搞定了。 如果沒有什麼意外，一直會沿用她的。想看的話，點擊閱讀原文吧。
 還有 這一年，發生了很多事，從 三星 S8 到 iPhone X 再到前幾週的 Smartisan 堅果 pro2 ，這些都跟我無關；從暑假在新生家長群被刁難到面對面對新生 “刁難” ，這一年確實成長了很多；發生了很多事，就不囉嗦了。
 天天刷牙，蛀牙應該是沒有了，希望明年還能開開心心吧！</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.rho.ac.cn/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.rho.ac.cn/about/</guid>
+      <description>&amp;ldquo;?&amp;rdquo; &amp;ldquo;?&amp;rdquo;
+😅 中文博客名为什么叫「若如」？取自 rho 的音译而已。
+通常我会说我的名字是 Terence Lau, A.K.A:
+ Terry Lau/Liu Terence Liu JunJie LIU  我可能也会用 TerenceCKLau，这是因为别的名字都被用了。
+BNU-HKBU UIC 统计系获得理学学士学位，并将成为香港浸会大学的 Mphil 学生，概率论与数理统计。 @UICHCC (UIC Homebrew Computer Club) 的联合创始人之一。 🔭 我现在专注于
+ 金融、经济数据分析，包括但不限于微/宏观市场、加密货币与区块链 医疗数据分析，包括但不限于药物实验、基因转录 复杂网络与社交网络，包括但不限于信息传播模型、影响力分析 非对称密码算法，主要包括 pre-quantum 和 post-quantum UIC-STAT 第一代计算集群（USBC）的维护； 更多信息请查看：USBC-WIKI &amp;amp; @Bayes-Cluster；  云原生技术 超融合架构    研究兴趣:
+ 🚩 Statistical Inference (Bayesian) 🚩 Computational Statistics 🚩 Stochastic Process, Markov-related 🚩 High Performance Computing (including CPU &amp;amp; GPU Parallel Algorithm) 🚩 HPC Cluster/Hybrid Cloud maintenance   📫 我的邮箱: bWVAY2tsYXUuY2M= 📃 获取更多信息，可以查看我的 CV  </description>
     </item>
     
   </channel>
