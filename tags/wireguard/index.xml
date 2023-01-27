@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>wireguard on Terence Lau</title>
+    <title>wireguard on Terence Liu</title>
     <link>https://blog.cklau.cc/tags/wireguard/</link>
-    <description>Recent content in wireguard on Terence Lau</description>
+    <description>Recent content in wireguard on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
@@ -14,9 +12,7 @@
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/lnet-3/</guid>
-      <description>Before In the previous project: Homelab, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.
-However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.
-VXLAN  VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments.</description>
+      <description></description>
     </item>
     
     <item>
@@ -25,8 +21,7 @@ VXLAN  VXLAN, Virtual eXtensible LAN is a network virtualization technology that
       <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/lnet-2/</guid>
-      <description>Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
-Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192.</description>
+      <description></description>
     </item>
     
     <item>
@@ -35,8 +30,7 @@ Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/lnet-1/</guid>
-      <description>Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters.</description>
+      <description></description>
     </item>
     
     <item>
@@ -45,8 +39,7 @@ However, to investigate deeper into the network performance, I started to learn 
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
-      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
-For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
+      <description></description>
     </item>
     
     <item>
@@ -55,7 +48,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-3/</guid>
-      <description>In General Tools I use I choose Wireguard since it’s fast because of its light design, and it’s secure because it uses the best cryptographic tools available. However, for each time, the user may need to consider a SUBNET for the wireguard and a IP for each node, for me, it is every annoyed, as I have too many subnet need to be configured. Thus, I build a little tool: wgtools</description>
+      <description></description>
     </item>
     
   </channel>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>networking on Terence Liu</title>
+    <link>https://blog.cklau.cc/series/networking/</link>
+    <description>Recent content in networking on Terence Liu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/series/networking/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
+      <link>https://blog.cklau.cc/post/lnet-3/</link>
+      <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/lnet-3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
+      <link>https://blog.cklau.cc/post/lnet-2/</link>
+      <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/lnet-2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>👨‍💻 My Personal Experimental Network: L-Net</title>
+      <link>https://blog.cklau.cc/post/lnet-1/</link>
+      <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/lnet-1/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

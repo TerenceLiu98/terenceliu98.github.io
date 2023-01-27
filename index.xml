@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Terence Lau</title>
+    <title>Terence Liu</title>
     <link>https://blog.cklau.cc/</link>
-    <description>Recent content on Terence Lau</description>
+    <description>Recent content on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Jan 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Homelab: My Distributed Homelab (2)</title>
+      <link>https://blog.cklau.cc/post/my-homelab-6/</link>
+      <pubDate>Tue, 24 Jan 2023 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/my-homelab-6/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
       <link>https://blog.cklau.cc/post/lnet-3/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/lnet-3/</guid>
-      <description>Before In the previous project: Homelab, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.
-However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.
-VXLAN  VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments.</description>
+      <description></description>
     </item>
     
     <item>
@@ -25,8 +30,7 @@ VXLAN  VXLAN, Virtual eXtensible LAN is a network virtualization technology that
       <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/lnet-2/</guid>
-      <description>Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:
-Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192.</description>
+      <description></description>
     </item>
     
     <item>
@@ -35,7 +39,7 @@ Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-5/</guid>
-      <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
+      <description></description>
     </item>
     
     <item>
@@ -44,8 +48,7 @@ Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/
       <pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k8s-setup-1/</guid>
-      <description>Before What is Kuberntes Kubernetes, is an open-source system for automating deployment, scaling, and management of containerized applications. Usually, we call it K8s as there are 8 characters between K and s :).
-Basically, all the application are containerized, and we can easily the reason why we use K8s is that the use of microservices increasing, away from traditional monolithic-type applications. As a result, containers provide the perfeet host form these individual microservices as containers manage dependencies, are indipendent, OS-agnostic and ephemaral, amongst other benefits, which is very powerful and suitable for users as we want users to run their application isolated and donot be influenced by others.</description>
+      <description></description>
     </item>
     
     <item>
@@ -54,8 +57,7 @@ Basically, all the application are containerized, and we can easily the reason w
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/lnet-1/</guid>
-      <description>Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.
-However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters.</description>
+      <description></description>
     </item>
     
     <item>
@@ -65,7 +67,7 @@ However, to investigate deeper into the network performance, I started to learn 
       
       <guid>https://blog.cklau.cc/projects/</guid>
       <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
- Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes - Build a High availability Kubernetes Cluster with Kubeadm &amp;ndash; Coming soon  Personal Project: Personal Experimental Network: L-Net These areticles are inside my projects: Build a Experimental Network with your VPS</description>
+Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes - Build a High availability Kubernetes Cluster with Kubeadm &amp;ndash; Coming soon Personal Project: Personal Experimental Network: L-Net These areticles are inside my projects: Build a Experimental Network with your VPS</description>
     </item>
     
     <item>
@@ -74,9 +76,16 @@ However, to investigate deeper into the network performance, I started to learn 
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid>
-      <description>As I have mentioned in K3s Setup 2, usually, it is not easy for the China&amp;rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</description>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>👋 Hello World</title>
+      <link>https://blog.cklau.cc/about/</link>
+      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/about/</guid>
+      <description>&lt;p&gt;My name is Terence Lau, AKA:&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -85,19 +94,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/friends/</guid>
-      <description>Junde Yhi： Linux expert and IoT practitioner ECWU: A full-stack developer, and now focusing on NLP(Natrual Language Processing) &amp;amp; Medical imaging research Renjie Deng: A full-stack developer Junru Zhong: MRI expert, transportation enthusiast, PhD candidate in Computer vision (CUHK) Laurence Luo: developer, geek KirinBaka: New generation UICHCC bellwether  Propose New Link If you want me to append you to the friend page, just comment below!</description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>https://blog.cklau.cc/about/</link>
-      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/about/</guid>
-      <description>Hi there 👋 My name is Terence Lau, AKA:
- Terry Lau/Liu Terence Liu JunJie LIU  I may use TerenceCKLau as well, only if Terence Liu/Lau is registered.
-Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a Mphil student in Hong Kong Baptist Univeristy. One of the co-founders of @UICHCC (UIC Homebrew Computer Club) and Cyclododecene, a data analysis group(no long exists);
-🔭 I am now focusing on</description>
+      <description>Junde Yhi： Linux expert and IoT practitioner ECWU: A full-stack developer, and now focusing on NLP(Natrual Language Processing) &amp;amp; Medical imaging research Renjie Deng: A full-stack developer Junru Zhong: MRI expert, transportation enthusiast, PhD candidate in Computer vision (CUHK) Laurence Luo: developer, geek KirinBaka: New generation UICHCC bellwether Propose New Link If you want me to append you to the friend page, just comment below!</description>
     </item>
     
     <item>
@@ -106,8 +103,7 @@ Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a 
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k3s-setup-2/</guid>
-      <description>Generating a basic K3s cluster is quite easy by following the K3s&amp;rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
- High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd)  I chose the second one - with Embedded DB.</description>
+      <description></description>
     </item>
     
     <item>
@@ -116,8 +112,7 @@ Got my Bacholer degree from BNU-HKBU UIC Statistics deparment and going to be a 
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
-      <description>Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
-For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.</description>
+      <description></description>
     </item>
     
     <item>
@@ -126,9 +121,7 @@ For me, I am a bare metal fanatic many year ago, but I changed into a Docker use
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-4/</guid>
-      <description>&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
-Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
-ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports.</description>
+      <description></description>
     </item>
     
     <item>
@@ -137,8 +130,7 @@ ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-2/</guid>
-      <description>Networking For the homelab, I would like to choose a commerical company&amp;rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&amp;rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
-Service For the homelab, I would like to docker as it is very covinence and can set up easily.</description>
+      <description></description>
     </item>
     
     <item>
@@ -147,7 +139,7 @@ Service For the homelab, I would like to docker as it is very covinence and can 
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-3/</guid>
-      <description>In General Tools I use I choose Wireguard since it’s fast because of its light design, and it’s secure because it uses the best cryptographic tools available. However, for each time, the user may need to consider a SUBNET for the wireguard and a IP for each node, for me, it is every annoyed, as I have too many subnet need to be configured. Thus, I build a little tool: wgtools</description>
+      <description></description>
     </item>
     
     <item>
@@ -156,37 +148,7 @@ Service For the homelab, I would like to docker as it is very covinence and can 
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-1/</guid>
-      <description>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
-Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.</description>
-    </item>
-    
-    <item>
-      <title>大二，我的桌面</title>
-      <link>https://blog.cklau.cc/post/desk-set-up/</link>
-      <pubDate>Fri, 06 Apr 2018 00:11:21 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/post/desk-set-up/</guid>
-      <description>昨天晚上，骑完车回来，坐在凳子上休息，突然萌生了要重新收拾桌面的想法，于是乎，说干就干。
-介绍一下，这几个屏幕：最左边的是一个戴尔家 P2317h 为什么没有上 U 系列，当然是因为没有钱啦。而且，我对色彩的要求不太高，这样的话， P 系列自然有着更高的性价比；往右边走，是一台 MacBook pro 15-inch Mid-2015 这是我在高三上学期买的电脑，到目前为止，依旧流畅。但是还是希望暑假的时候可以配一台主机以用来跑深（绝）度（地）学（求）习（生）；现在它是一台半主机的状态，因为我买了一台 chormebook （HP chromebook 1 4）作为日常使用；中间有一个小小个的时钟，其实这是个平板： Nokia N1 这个歌板子除了屏幕质量不错以外，别的一无是处，所以除了带上床看剧以外，就放在这里当个时钟用了（刚好我也缺一个钟）；
-倒数第二个屏幕，只有背光没有显示，是因为，树莓派正处于休眠状态。我也是这个学期才开始玩树莓派，利用 samba 服务做一个简易的 nas 。最右边的就是前几天米粉节买的小米电视 4A 32-inch。为什么会买它？主要是因为 xbox one 卖不出去，而且自己也想玩，就入手了这台电视。虽然分辨率不高，应用商店东西不多，但是这都难不倒我们 “机佬” 嘛。利用 Xbox 中的 Kodi 还是可以做很多事情滴。
-因为穷，所以使用易驱线来链接硬盘，听说易驱线很容易烧坏硬盘，所以在树莓派里装了 hdparm 来管理硬盘的休眠和启动，效果的话，其实我心里也没底，不过这两个硬盘都年纪很大了，anyway，先这样用着吧。
-这样链接屏幕以后，自然需要一个 USB-HUB 所以买了一个 orico 的外置电源的 USB-HUB，这样就可以方便的插拔移动设备了（请忽略后面的走线，等下解释为啥有这样迷的走线。
-音响的话是 creative 的一套桌面 2.1 音响，低音炮被我藏在的 MacBook 后面。两三百的印象里面，我感觉这套算是不错的了，这种玄学问题就不做太多论述了。在 USB-HUB 旁边的红色的小人是参加广州 GDG 活动送的公仔。
-键盘是 IKBC 的poker2 茶轴 ；鼠标是 logi MX Master 2s；都是生产力工具，选择茶轴的原因是因为青轴会吵到室友（这个键盘是小姐姐送的嘛，如果让我买我会买青轴的）；鼠标的话个方面都挺平均的，没啥好说的。这样的布局有个好处，可以用触控板（个人认为在使用 Mac 的情况下触控板秒杀一切鼠标）
-两个路由器，一个 NETGEAR 的 R6220 一个极路由的 B70，这两个路由器都不错的，如果有人买了网件这个 R6220 建议还是不要刷机，官方固件很好，我刷了 LEDE 但是没有刷潘多拉进去，现在也不敢乱玩。。。。 而极路由的话，现在这个 HIWIFI OS 不错，用了一些小技巧进行了科学上网以后，就更加棒了。这个 b70 是我在上课的时候闲来无事逛京东然后买的&amp;hellip;&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>2018 进货记录</title>
-      <link>https://blog.cklau.cc/post/purchase/</link>
-      <pubDate>Thu, 01 Feb 2018 00:11:21 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/post/purchase/</guid>
-      <description>从上个学期期末就开始纠结：到底是买一个Chromebook 还是买一个好用的平板，鉴于自己本身已经拥有了一台 x86 平板，而且安卓平台上也发现了一个很好的终端 Termux 和一个很好的 Markdown 编辑器： MarkdownX ，所以还是决定用这笔预算去买一个蓝牙键盘和鼠标。
-鼠标 一直在使用罗技的鼠标，M280 可以说是非常的实在了，虽然偏小，但是回弹和手型比其他同价位的鼠标优秀。
-应该很多人都看过 Zealer 王自如的 办公室1.0 我十分的喜欢他那样的工业风（loft）设计，其中他的键盘和鼠标也是一直在我的购物车中；去年的下半年，罗技更新了一波，logi MX anywhere 2s 和 logi MX master 2s 都上架了， 同学中也有买了 anywhere 的，体验了一波，感觉还是偏小了。所以，过完年后直接在罗技的旗舰店入手了 MX master 2s 。可以说是非常的快了，第二天就到了。 到手的时候，吓了一跳，明明只是一个键盘和一个鼠标，但是却寄来了一个30＊50 的大盒子，里面充满了填充物，可以说是非常的良心了。在网上看到说在京东买的 MX master 2s 会有盒损的现象，我是毫不担心。第一次买“高端产品线”（不知道算不算高端）MX 的盒子可以说是吓到我了，巨大无比，还送了一个针织套。。。emmm 保护的非常好了。 使用起来的话，因为我的手大，所以感觉还是小….. 主要是托不住我的手掌部分（不知道我是怎么坚持使用 m280 的…..） 至于 这一代开始支持的 Flow 功能，要等到我回学校两台电脑联动的时候才能体验了（家贫，无从致多台设备已用）  鼠标就讲这么多了，下面看下这块键盘
-键盘 罗技的 k480 应该不用我多言，一个三系统都可以使用的蓝牙键盘（MacOS Windows Android iOS）现在还支持了 chrome OS 了，可以说非常的全面了。 这个键盘我在高三的时候就想买了，但感觉买回来用途不大，所以一直放在购物车里。后来，看到大学同学（对，就是那个用 anywhere 2s 的那个同学）在用 k780 感觉这样支持热切换的键盘实在太棒了，而且这个时候我已经买了这个破平板了，所以，就跟鼠标一起入手了。
-这篇文章就是用这个键盘敲的，可能是刚开始用的原因，敲击的感觉比较硬，但是键程比较合适，比我的 15 款 MacBook pro 长一些，也因为键程长了，所以敲击更加舒服，手感的话比较像黑轴，不会很吵，而且偏重（当然没有机械的手感好）在课堂上应该也不会太吵。 现在就有个问题，连接不上我的电脑&amp;hellip;&amp;hellip; 很奇怪，可能是和 Unifying 向冲突，后续我会继续尝试连接的。</description>
+      <description></description>
     </item>
     
   </channel>

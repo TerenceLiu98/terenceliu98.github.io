@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ufw on Terence Lau</title>
+    <title>ufw on Terence Liu</title>
     <link>https://blog.cklau.cc/tags/ufw/</link>
-    <description>Recent content in ufw on Terence Lau</description>
+    <description>Recent content in ufw on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Thu, 21 Jul 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/ufw/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
@@ -14,9 +12,7 @@
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-4/</guid>
-      <description>&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
-Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
-ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports.</description>
+      <description></description>
     </item>
     
   </channel>

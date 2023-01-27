@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker on Terence Lau</title>
+    <title>docker on Terence Liu</title>
     <link>https://blog.cklau.cc/tags/docker/</link>
-    <description>Recent content in docker on Terence Lau</description>
+    <description>Recent content in docker on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>Copyright © 2005–2022, Terence Junjie LIU; all rights reserved.</copyright>
     <lastBuildDate>Sun, 23 Oct 2022 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell (1)</title>
@@ -14,8 +12,7 @@
       <pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k8s-setup-1/</guid>
-      <description>Before What is Kuberntes Kubernetes, is an open-source system for automating deployment, scaling, and management of containerized applications. Usually, we call it K8s as there are 8 characters between K and s :).
-Basically, all the application are containerized, and we can easily the reason why we use K8s is that the use of microservices increasing, away from traditional monolithic-type applications. As a result, containers provide the perfeet host form these individual microservices as containers manage dependencies, are indipendent, OS-agnostic and ephemaral, amongst other benefits, which is very powerful and suitable for users as we want users to run their application isolated and donot be influenced by others.</description>
+      <description></description>
     </item>
     
     <item>
@@ -24,9 +21,7 @@ Basically, all the application are containerized, and we can easily the reason w
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid>
-      <description>As I have mentioned in K3s Setup 2, usually, it is not easy for the China&amp;rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
-Some options DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
-Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.</description>
+      <description></description>
     </item>
     
     <item>
@@ -35,9 +30,7 @@ Nexus Repository OSS, provided by Sonatype, is an open source repository that su
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-4/</guid>
-      <description>&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
-Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
-ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports.</description>
+      <description></description>
     </item>
     
   </channel>

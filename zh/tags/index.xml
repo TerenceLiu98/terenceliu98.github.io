@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Terence Liu</title>
+    <link>https://blog.cklau.cc/zh/tags/</link>
+    <description>Recent content in Tags on Terence Liu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 02 Jan 2021 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/zh/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>杂文</title>
+      <link>https://blog.cklau.cc/zh/tags/%E6%9D%82%E6%96%87/</link>
+      <pubDate>Sat, 02 Jan 2021 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/zh/tags/%E6%9D%82%E6%96%87/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
