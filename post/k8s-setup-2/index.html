@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terence Liu</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm - Terence Liu">
+    <meta name="author" content="Terence Liu">
+    <link rel="canonical" href="https://blog.cklau.cc/post/k8s-setup-2/">
+
+    
+
+
+    <meta property="og:title" content="K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/k8s-setup-2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-02-19T22:42:17+08:00" />
+<meta property="article:modified_time" content="2023-02-19T22:42:17+08:00" />
+<meta property="og:see_also" content="https://blog.cklau.cc/post/k8s-setup-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k3s-setup-extra-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k3s-setup-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k3s-setup-1/" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm",
+      "item": "https://blog.cklau.cc/post/k8s-setup-2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm",
+  "name": "K3s\/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm",
+  "description": "",
+  "keywords": [
+    "k3s", "kubernetes", "containerd", "docker"
+  ],
+  "articleBody": "Why we need a High availability Kubernetes? In production-ready environment, a system hang is not affordable. The Kubernetes can help us handling the containers’ replica or the pod/service rescheduling. However, If there is only one control node, this may cause a big problem. Thus, when we talking about K8s’s HA, usually, we are talking on the control plane’s HA. I am not saying that the worker node are not important, or do not need HA, but, more importantly, is the control nodes’ safety.\nBefore, The prerequisites of build a high availability K8s cluster:\nThree or more machines that meet K8s’s minimum requirements for the control-plane nodes. The quantities of control nodes usually are an odd numbers (to avoid split-brain). Thus, the minimum number is three. Three or more machines that meet K8s’s minimum requirements for the worker nodes. Full network connectivity between all machines in the cluster Superuser privileges on all machines Here is my nodes:\nHostname IP address Usage newton 192.168.101.1 load balancer cantor 192.168.102.1 control-plane gauss 192.168.102.2 control-plane freud 192.168.103.1 control-plane hilbert 192.168.102.3 worker einstein 192.168.104.1 worker bohr 192.168.104.2 worker As you can see, there are three control-plane, three worker, and one load-balancer.\nInstallation First, we need to modify the host /etc/hosts to map IP address to host names:\nnewton 192.168.101.1 cantor 192.168.102.1 gauss 192.168.102.2 freud 192.168.103.1 hilbert 192.168.103.1 einstein 192.168.104.1 bohr 192.168.104.2 This step is important, without this step, the etcd cluster may be failed to establish.\nModify the kernel parameters and install the tools we need:\nipvsadm netfilter containerd kubeadm kubelet kubectl echo \"=== install ipvsadm ===\" sudo apt-get install ipvsadm -y modprobe -- ip_vs modprobe -- ip_vs_rr modprobe -- ip_vs_wrr modprobe -- ip_vs_sh modprobe -- nf_conntrack cat \u003c",
+  "wordCount" : "991",
+  "inLanguage": "en",
+  "datePublished": "2023-02-19T22:42:17+08:00",
+  "dateModified": "2023-02-19T22:42:17+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Terence Liu"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/k8s-setup-2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Terence Liu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/icon.png">
+
+<link rel="manifest" href="/images/icon.png">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.a8c311691615cbefe21eae4cf71fc9fb26320b4328badec43cd33226f7428d46.css" integrity="sha256-qMMRaRYVy&#43;/iHq5M9x/J&#43;yYyC0Mout7EPNMyJvdCjUY=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    </head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s Blog
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Blog</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/tags">Tags</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/projects">Project</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</h1>
+  </header>
+
+  <p>
+  <small>
+    February 19, 2023&nbsp;· 991 words&nbsp;· 5 min</small>
+  <small>
+    
+    ·
+    
+    
+    <a href="https://blog.cklau.cc/tags/k3s/">k3s</a>
+    
+    <a href="https://blog.cklau.cc/tags/kubernetes/">kubernetes</a>
+    
+    <a href="https://blog.cklau.cc/tags/containerd/">containerd</a>
+    
+    <a href="https://blog.cklau.cc/tags/docker/">docker</a>
+    
+  </small>
+<p>
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#before">Before,</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><p>Why we need a High availability Kubernetes? In production-ready environment, a system hang is not affordable. The Kubernetes can help us handling the containers&rsquo; replica or the pod/service rescheduling. However, If there is only one control node, this may cause a big problem. Thus, when we talking about K8s&rsquo;s HA, usually, we are talking on the control plane&rsquo;s HA. I am not saying that the worker node are not important, or do not need HA, but, more importantly, is the control nodes&rsquo; safety.</p>
+<h2 id="before">Before,</h2>
+<p>The prerequisites of build a high availability K8s cluster:</p>
+<ol>
+<li>Three or more machines that meet K8s&rsquo;s minimum requirements for the control-plane nodes. The quantities of control nodes usually are an odd numbers (to avoid split-brain). Thus, the minimum number is three.</li>
+<li>Three or more machines that meet K8s&rsquo;s minimum requirements for the worker nodes.</li>
+<li>Full network connectivity between all machines in the cluster</li>
+<li>Superuser privileges on all machines</li>
+</ol>
+<p>Here is my nodes:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Hostname</th>
+<th style="text-align:center">IP address</th>
+<th style="text-align:center">Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">newton</td>
+<td style="text-align:center">192.168.101.1</td>
+<td style="text-align:center">load balancer</td>
+</tr>
+<tr>
+<td style="text-align:center">cantor</td>
+<td style="text-align:center">192.168.102.1</td>
+<td style="text-align:center">control-plane</td>
+</tr>
+<tr>
+<td style="text-align:center">gauss</td>
+<td style="text-align:center">192.168.102.2</td>
+<td style="text-align:center">control-plane</td>
+</tr>
+<tr>
+<td style="text-align:center">freud</td>
+<td style="text-align:center">192.168.103.1</td>
+<td style="text-align:center">control-plane</td>
+</tr>
+<tr>
+<td style="text-align:center">hilbert</td>
+<td style="text-align:center">192.168.102.3</td>
+<td style="text-align:center">worker</td>
+</tr>
+<tr>
+<td style="text-align:center">einstein</td>
+<td style="text-align:center">192.168.104.1</td>
+<td style="text-align:center">worker</td>
+</tr>
+<tr>
+<td style="text-align:center">bohr</td>
+<td style="text-align:center">192.168.104.2</td>
+<td style="text-align:center">worker</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, there are three control-plane, three worker, and one load-balancer.</p>
+<h2 id="installation">Installation</h2>
+<p>First, we need to modify the host <code>/etc/hosts</code> to map IP address to host names:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>newton    192.168.101.1
+</span></span><span style="display:flex;"><span>cantor    192.168.102.1
+</span></span><span style="display:flex;"><span>gauss     192.168.102.2
+</span></span><span style="display:flex;"><span>freud     192.168.103.1
+</span></span><span style="display:flex;"><span>hilbert   192.168.103.1
+</span></span><span style="display:flex;"><span>einstein  192.168.104.1
+</span></span><span style="display:flex;"><span>bohr      192.168.104.2
+</span></span></code></pre></div><p><strong>This step</strong> is important, without this step, the <code>etcd</code> cluster may be failed to establish.</p>
+<p>Modify the kernel parameters and install the tools we need:</p>
+<ul>
+<li>ipvsadm</li>
+<li>netfilter</li>
+<li>containerd</li>
+<li>kubeadm</li>
+<li>kubelet</li>
+<li>kubectl</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;=== install ipvsadm ===&#34;</span>
+</span></span><span style="display:flex;"><span>sudo apt-get install ipvsadm -y 
+</span></span><span style="display:flex;"><span>modprobe -- ip_vs
+</span></span><span style="display:flex;"><span>modprobe -- ip_vs_rr
+</span></span><span style="display:flex;"><span>modprobe -- ip_vs_wrr
+</span></span><span style="display:flex;"><span>modprobe -- ip_vs_sh
+</span></span><span style="display:flex;"><span>modprobe -- nf_conntrack
+</span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/modules-load.d/ipvs.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ip_vs
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ip_vs_rr
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ip_vs_wrr
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ip_vs_sh
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">nf_conntrack
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>sudo sysctl --system
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;done&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;=== load overlay &amp; br_netfilter, setup netfilter ===&#34;</span>
+</span></span><span style="display:flex;"><span>sudo modprobe overlay <span style="color:#f92672">&amp;&amp;</span> sudo modprobe br_netfilter
+</span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/modules-load.d/containerd.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">overlay
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">br_netfilter
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.bridge.bridge-nf-call-iptables  = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.ipv4.ip_forward                 = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>sudo sysctl --system
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;done&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;=== ip forwarding ===&#34;</span>
+</span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/sysctl.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kernel.sysrq = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.ipv6.conf.all.disable_ipv6=0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.ipv6.conf.default.disable_ipv6=0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.ipv6.conf.lo.disable_ipv6=0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kernel.printk = 5
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;=== install containerd ===&#34;</span>
+</span></span><span style="display:flex;"><span>sudo mkdir -p /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.bfsu.edu.cn/docker-ce/linux/ubuntu </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get -y install containerd.io
+</span></span><span style="display:flex;"><span>sudo mkdir -p /etc/containerd <span style="color:#f92672">&amp;&amp;</span> sudo containerd config default | sudo tee /etc/containerd/config.toml
+</span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/crictl.yaml
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">runtime-endpoint: unix:///run/containerd/containerd.sock
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">debug: false
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>sudo sed <span style="color:#e6db74">&#39;s/SystemdCgroup = false/SystemdCgroup = true/&#39;</span> /etc/containerd/config.toml &gt; .etc.containerd/config.toml
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;done&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;=== install kubeadm kubelet kubectl ===&#34;</span>
+</span></span><span style="display:flex;"><span>sudo apt install -y apt-transport-https ca-certificates curl
+</span></span><span style="display:flex;"><span>curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add - 
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main&#39;</span> | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+</span></span><span style="display:flex;"><span>sudo apt-get update
+</span></span><span style="display:flex;"><span>sudo apt-get -y install kubelet kubeadm kubectl
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;install kubelet kubeadm kubectl...done&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;start kubelet&#34;</span>
+</span></span><span style="display:flex;"><span>sudo systemctl enable --now kubelet
+</span></span></code></pre></div><p>Run the above script on every machines, for the worker nodes, you may not install the <code>kubeadm</code>, <code>kubelet</code> and <code>kubectl</code>.</p>
+<p>Install the HAproxy in <code>newton - 192.168.101.1</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get install haproxy -y
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## put this text in /etc/haproxy/haproxy.cfg</span>
+</span></span><span style="display:flex;"><span>frontend kube-apiserver
+</span></span><span style="display:flex;"><span>  bind 192.168.101.1:6443
+</span></span><span style="display:flex;"><span>  mode tcp
+</span></span><span style="display:flex;"><span>  option tcplog
+</span></span><span style="display:flex;"><span>  default_backend kube-apiserver
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>backend kube-apiserver
+</span></span><span style="display:flex;"><span>    mode tcp
+</span></span><span style="display:flex;"><span>    option tcp-check
+</span></span><span style="display:flex;"><span>    balance source
+</span></span><span style="display:flex;"><span>    server k8s-master1 192.168.102.1:6443 check fall <span style="color:#ae81ff">3</span> rise <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    server k8s-master2 192.168.102.2:6443 check fall <span style="color:#ae81ff">3</span> rise <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    server k8s-master2 192.168.103.1:6443 check fall <span style="color:#ae81ff">3</span> rise <span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><p>Run the <code>kubeadm init</code> in the first control node, here is my modified script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo kubeadm init <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	--kubernetes-version 1.26.0 <span style="color:#ae81ff">\ </span>               
+</span></span><span style="display:flex;"><span>	--control-plane-endpoint 192.168.101.1:6443 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	--apiserver-advertise-address 192.168.102.1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	--upload-certs <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	--service-cidr<span style="color:#f92672">=</span>10.96.0.0/12 <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># (optional)</span>
+</span></span><span style="display:flex;"><span>	--pod-network-cidr<span style="color:#f92672">=</span>10.244.0.0/16 <span style="color:#ae81ff">\ </span> <span style="color:#75715e"># (optional)</span>
+</span></span><span style="display:flex;"><span>	--image-repository registry.cn-hangzhou.aliyuncs.com/google_containers <span style="color:#ae81ff">\ </span>
+</span></span><span style="display:flex;"><span>        --v <span style="color:#ae81ff">5</span>
+</span></span></code></pre></div><p>where <code>--control-plane-endpoint</code> should be the load-balancer&rsquo;s IP, and <code>--apiserver-advertise-address</code> should be local IP; <code>--image-repository</code> is specify the repository, which is helpful for the user who cannot access <code>registry.k8s.io</code>.</p>
+<p>Wait for a while, if you can see the output like this, it means that you have successfully install the Kubernetes on the first machine:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Your Kubernetes control-plane has initialized successfully!
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>To start using your cluster, you need to run the following as a regular user:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  mkdir -p $HOME/.kube
+</span></span><span style="display:flex;"><span>  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+</span></span><span style="display:flex;"><span>  sudo chown <span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>:<span style="color:#66d9ef">$(</span>id -g<span style="color:#66d9ef">)</span> $HOME/.kube/config
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Alternatively, <span style="color:#66d9ef">if</span> you are the root user, you can run:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export KUBECONFIG<span style="color:#f92672">=</span>/etc/kubernetes/admin.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>You should now deploy a pod network to the cluster.
+</span></span><span style="display:flex;"><span>Run <span style="color:#e6db74">&#34;kubectl apply -f [podnetwork].yaml&#34;</span> with one of the options listed at:
+</span></span><span style="display:flex;"><span>  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>You can now join any number of the control-plane node running the following command on each as root:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  kubeadm join 192.168.101.1:6443 --token xxxxxxxxxxxxxxxxxxxxxxxxx <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	--control-plane --certificate-key xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+</span></span><span style="display:flex;"><span>As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;kubeadm init phase upload-certs --upload-certs&#34;</span> to reload certs afterward.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Then you can join any number of worker nodes by running the following on each as root:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kubeadm join 192.168.101.1:6443 --token xxxxxxxxxxxxxxxxxxxxxx <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+</span></span></code></pre></div><p>This output show three points:</p>
+<ol>
+<li>How to load the <code>KUBECONFIG</code> to current user&rsquo;s home directory</li>
+<li>How to add worker nodes to this cluster</li>
+<li>How to add other control-plane to this cluster</li>
+</ol>
+<p>You can see that the output only give one certificate for worker/control node, however, we have multiple work/control nodes, thus, we need to generate token and certificates for each of them:</p>
+<ol>
+<li>For the worker node: <code>sudo kubeadm token create --print-join-command</code></li>
+<li>For other control-plane node: <code>echo &quot;$(sudo kubeadm token create --print-join-command) --control-plane --certificate-key $(sudo kubeadm init phase upload-certs --upload-certs | tail -1)&quot;</code></li>
+</ol>
+<p>Copy the output to each corresponding nodes and run the script, wait for a while and you can see it works.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ol>
+<li>How to Install Helm for the user who cannot access <code>GitHub</code>: <code>wget https://goodrain-pkg.oss-cn-shanghai.aliyuncs.com/pkg/helm &amp;&amp; chmod +x helm &amp;&amp; sudo mv helm /usr/local/bin/</code></li>
+<li>How to change node&rsquo;s <code>InternalIP</code>: Go to <code>/var/lib/kubelet/kubeadm-flags.env</code>, add <code>--node-ip=xxx.xxx.xxx.xxx</code> at the end of <code>BELET_KUBEADM_ARGS</code> and <code>sudo systemctl restart kubelet</code></li>
+</ol></section>
+
+  
+  
+  <div class="paginator">
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/my-homelab-6/"><span>Homelab: My Distributed Homelab (2)</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+      <nav>
+        <ul>
+        
+        
+          
+        
+          
+            <li>
+              <a href="/post/k8s-setup-1/">K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/k3s-setup-extra-1/">K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/k3s-setup-2/">K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/k3s-setup-1/">K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</a>
+            </li>
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+  <p>&copy; 2023 <a href="https://blog.cklau.cc">Terence Liu</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a><a href="https://blog.rho.ac.cn">(https://blog.rho.ac.cn)</a>
+️  </p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

@@ -5,7 +5,16 @@
     <link>https://blog.cklau.cc/</link>
     <description>Recent content on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 24 Jan 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Feb 2023 22:42:17 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title>
+      <link>https://blog.cklau.cc/post/k8s-setup-2/</link>
+      <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/k8s-setup-2/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Homelab: My Distributed Homelab (2)</title>
       <link>https://blog.cklau.cc/post/my-homelab-6/</link>
@@ -43,7 +52,7 @@
     </item>
     
     <item>
-      <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell (1)</title>
+      <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</title>
       <link>https://blog.cklau.cc/post/k8s-setup-1/</link>
       <pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate>
       
@@ -67,7 +76,7 @@
       
       <guid>https://blog.cklau.cc/projects/</guid>
       <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
-Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes - Build a High availability Kubernetes Cluster with Kubeadm &amp;ndash; Coming soon Personal Project: Personal Experimental Network: L-Net These areticles are inside my projects: Build a Experimental Network with your VPS</description>
+Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes - Build a High availability Kubernetes Cluster with Kubeadm Personal Project: Personal Experimental Network: L-Net These areticles are inside my projects: Build a Experimental Network with your VPS</description>
     </item>
     
     <item>
