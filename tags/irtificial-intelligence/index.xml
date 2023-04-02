@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Irtificial Intelligence on Terence Liu</title>
+    <link>https://blog.cklau.cc/tags/irtificial-intelligence/</link>
+    <description>Recent content in Irtificial Intelligence on Terence Liu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 02 Apr 2023 00:13:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/irtificial-intelligence/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>👨🏿‍⚕️ RetiGAN: A GAN-based model on retinal Image synthesis</title>
+      <link>https://blog.cklau.cc/post/medcv-retigan-1/</link>
+      <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/medcv-retigan-1/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -2,6 +2,73 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.cklau.cc/post/medcv-retigan-1/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/fundus-image/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/irtificial-intelligence/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/series/medcv/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/medical-image/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/post/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/post/"
+                />
+  </url><url>
+    <loc>https://blog.cklau.cc/series/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/series/"
+                />
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/tags/"
+                />
+  </url><url>
+    <loc>https://blog.cklau.cc/</loc>
+    <lastmod>2023-04-02T00:13:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/"
+                />
+  </url><url>
     <loc>https://blog.cklau.cc/tags/containerd/</loc>
     <lastmod>2023-02-19T22:42:17+08:00</lastmod>
   </url><url>
@@ -19,58 +86,6 @@
   </url><url>
     <loc>https://blog.cklau.cc/series/kubernetes/</loc>
     <lastmod>2023-02-19T22:42:17+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/post/</loc>
-    <lastmod>2023-02-19T22:42:17+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://blog.cklau.cc/zh/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.cklau.cc/post/"
-                />
-  </url><url>
-    <loc>https://blog.cklau.cc/series/</loc>
-    <lastmod>2023-02-19T22:42:17+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://blog.cklau.cc/zh/series/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.cklau.cc/series/"
-                />
-  </url><url>
-    <loc>https://blog.cklau.cc/tags/</loc>
-    <lastmod>2023-02-19T22:42:17+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://blog.cklau.cc/zh/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.cklau.cc/tags/"
-                />
-  </url><url>
-    <loc>https://blog.cklau.cc/</loc>
-    <lastmod>2023-02-19T22:42:17+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://blog.cklau.cc/zh/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.cklau.cc/"
-                />
   </url><url>
     <loc>https://blog.cklau.cc/tags/hardware/</loc>
     <lastmod>2023-01-24T00:11:21+08:00</lastmod>
