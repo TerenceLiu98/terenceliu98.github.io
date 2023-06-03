@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.cklau.cc/zh/post/phd-application/</loc>
+    <lastmod>2023-06-03T00:11:21+08:00</lastmod>
+  </url><url>
     <loc>https://blog.cklau.cc/zh/post/</loc>
     <lastmod>2023-06-03T00:11:21+08:00</lastmod>
     <xhtml:link
@@ -53,9 +56,6 @@
                 hreflang="zh"
                 href="https://blog.cklau.cc/zh/"
                 />
-  </url><url>
-    <loc>https://blog.cklau.cc/zh/post/phd-application/</loc>
-    <lastmod>2023-06-03T00:11:21+08:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/zh/tags/%E7%94%B3%E8%AF%B7/</loc>
     <lastmod>2023-06-03T00:11:21+08:00</lastmod>
