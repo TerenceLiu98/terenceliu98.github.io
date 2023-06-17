@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terence Liu</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@👨‍💻 My Personal Experimental Network: L-Net - Terence Liu">
+    <meta name="author" content="Terence Liu">
+    <link rel="canonical" href="https://blog.cklau.cc/post/tech/lnet-1/">
+
+    
+
+
+    <meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/tech/lnet-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-10-18T00:11:21+08:00" />
+<meta property="article:modified_time" content="2022-10-18T00:11:21+08:00" />
+<meta property="og:see_also" content="https://blog.cklau.cc/post/tech/lnet-3/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/tech/lnet-2/" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="👨‍💻 My Personal Experimental Network: L-Net"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "👨‍💻 My Personal Experimental Network: L-Net",
+      "item": "https://blog.cklau.cc/post/tech/lnet-1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "👨‍💻 My Personal Experimental Network: L-Net",
+  "name": "👨‍💻 My Personal Experimental Network: L-Net",
+  "description": "",
+  "keywords": [
+    "networking", "wireguard", "experimental network"
+  ],
+  "articleBody": "Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.\nHowever, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What’s more, if I can federate this isolated network, I don’t need to build separate services in different clusters. For instance, I can use a single Prometheus to monitor all the devices and no more millions of virtual interfaces :rofl:\nDesign We are using the Wireguard to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: a1 is the router of the cluster A and b is the central router of the whole L-Net and A’s IP address is 172.12.1.0/24 , then we need an extra IP address(an extra Wireguard tunnel) for a → b.\nUnder this circumstance, we can connect the nodes inside the A (a2, a3, …) to b, and other nodes from C (c1, c2, c3, …) can also connect to A.\nHere is the topology of my design:\nThose bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.\nNetwork Configuration Loc 1 - Mainland, China Network Interface: cn\nIP address: 192.168.10.0/24 Allowed IP: 192.168.141.x/32, 192.168.{20,30}.0/24 Network Interface (Router): sgcn\nIP address: 192.168.141.0/24 Allowed IP: 0.0.0.0/0 Service Provider Location Name Public IP Private IP Purpose Tencent Cloud GZ newton (secret) 192.168.10.1 / 192.168.141.2 Router Tencent Cloud SH gauss (secret) 192.168.10.2 Tencent Cloud SH cantor (secret) 192.168.10.3 Tencent Cloud SH hilbert (secret) 192.168.10.4 China Telecom Cloud GZ NA (secret) 192.168.10.5 Loc 2 - Japan Network Interface: jp\nIP address: 192.168.20.0/24 Allowed IP: 192.168.142.0/32, 192.168.{10, 30}.0/24 Network Interface (Router): sgjp\nIP address: 192.168.142.0/24 Allowed IP: 0.0.0.0/0 Service Provider Location Name Public IP Private IP Purpose Oracle Cloud JP einstein (secret) 192.168.20.1 / 192.168.142.2 Router Oracle Cloud JP bohr (secret) 192.168.20.2 Loc 3 - HKSAR, China Network Interface: hk\nIP address: 192.168.30.0/24 Allowed IP: 192.168.143.0/32, 192.168.{20, 30}.0/24 Network Interface (Router): sghk\nIP address: 192.168.143.0/24 Allowed IP: 0.0.0.0/0 Service Provider Location Name Public IP Private IP Purpose Cube Cloud HK turing (secret) 192.168.30.3 / 192.168.143.2 Router Tencent Cloud HK neumann (secret) 192.168.30.1 Tencent Cloud HK hinton (secret) 192.168.30.2 Loc 4 - Singapore Network Interface: sgcn\nIP address: 192.168.141.0/24 Allowed IP: 0.0.0.0/0 Network Interface: sgjp\nIP address: 192.168.142.0/24 Allowed IP: 0.0.0.0/0 Network Interface: sghk\nIP address: 192.168.143.0/24 Allowed IP: 0.0.0.0/0 Service Provider Location Name Public IP Private IP Purpose Tencent Cloud SG bayes (secret) 192.168.141.1 / 192.168.142.1 / 192.168.143.1 Central Router Configuration “Backbone Network” As usual, I use the tool I wrote wgtools to generate Wireguard configuration. However, the tool is built for the full-mesh configuration, thus, for the “backbone” network, we need to modify the config, here is an example: in the sgcn interface, I put the following settings in bayes:\n[Interface] Address = 192.168.141.1/24 ListenPort = 51821 PrivateKey = Table = off [Peer] # Name = cn-router PublicKey = AllowedIPs = 0.0.0.0/0 PersistentKeepalive = 25 Endpoint = xxx.xxx.xxx.xxx:51821 The reason why we need to set the Address of the Interface to /24 is that if we want the subnet of newton are accessible, which means that 192.168.141.2/32 need to be accessible from both sides as it is the bridge between sgcn and cn as the sgcn the interface is the bridge between the “external” to the “internal”. Here is the setting in newton:\n[Interface] Address = 192.168.141.2/24 # the same reason, this interface is the \"bridge\" ListenPort = 51821 PrivateKey = cJgoIHnDfCl+p8D7KE0jCBkRipEwe3K6Jq7FG8OTzlo= Table = off [Peer] # Name = bayes PublicKey = FF85tV+bkTWA3rNHpn+sapA/08JV7HO92y/I1P+xsRE= AllowedIPs = 0.0.0.0/0 PersistentKeepalive = 25 Endpoint = xxx.xxx.xxx.xxx:51821 Similarly, you can modify the Address and Endpoint for sgjp and sghk .\n“Intranet/Internet” It is easy to generate the configuration with my tools, or maybe you can generate them manually, which is not the key for the configuration. The important part is that for each node of the “intranet“, you can control which other subnet can access to you. Take gauss and einstein as an example, if you want gauss can access from the einstein then you need to add the address of einstein in the newton’s AllowedIPs:\n# configuration of gauss [Interface] Address = 192.168.10.2/32,fd0b:76a0:952b:0:afa3:e03c:fe6d:2e55/128 ListenPort = 51820 PrivateKey = PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE [Peer] # Name = newton PublicKey = AllowedIPs = 192.168.20.1/32,192.168.248.1/32,fd0b:76a0:952b:0:e96f:2dae:80a8:b578/128 PersistentKeepalive = 25 Endpoint = xxx.xxx.xxx.xxx:51820 This is because newton is the bridge between cn and jp , or more specifically, the einstein ‘s traffic needs to go through the jp → sgjp → sgcn → cn , and for sgcn → cn you need to add the 192.168.20.1/32 in the AllowedIPs and cn will know that this traffic can be accepted by the cn and it’s routed via the 192.168.248.1/32.\nWireguard Site-to-Site Configuration For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP) and iBGP(Interior Border Gateway Protocol) to resolve the routing problem.\nThere are multiple different tools we can use: bird2, quagga, and etc.. I use bird2 in here.\nsudo apt-get install bird2 \u0026\u0026 sudo systemctl stop bird2 The reason why I stop the process at first is that I don’t want the “bad” configuration to influence the network.\nOSPF - Open Shortest Path Frist OSPF is an interior gateway protocol (IGP) that routes packets within a single autonomous system (AS). OSPF uses link-state information to make routing decisions, making route calculations using the shortest-path-first (SPF) algorithm (also referred to as the Dijkstra algorithm). Each router running OSPF floods link-state advertisements throughout the AS or area that contain information about that router’s attached interfaces and routing metrics. Each router uses the information in these link-state advertisements to calculate the least cost path to each network and create a routing table for the protocol.\nFirst, let’s try OSPF first.\n## cn-router router id 192.168.199.1; protocol device { } protocol kernel { ipv4 { export where proto = \"wg\"; }; } protocol ospf v2 sgcn { ipv4 { import where net !~ 192.168.141.0/24; export all; }; area 192.168.141.0 { interface \"sgcn\"; }; } protocol ospf v2 cn { ipv4 { export all; }; area 192.168.10.0 { interface \"cn\"; }; } where router id is the specific id for the router, it looks like a IP address, however, it actually just arbitrary 32-bit numbers that are by convection written in dotted-quad notation.\nprotocol deive help use to get information about netowkr interfaces from the kernel protocol kernel performs synchronization of BIRD’s routing tables with the OS kernel and here we export the wg protocol’s routing protocol ospf v2 sgcn sets up the the OSPFv2 instance we’ll use for the wireguard connection. Note that the sgcn is the id I give to this instance, it can be arbitrary id; we import all the routes it receives over OSPF into its routing table and export all;. The import where net !~ 192.168.141.0/24; line configures BIRD to avoid pulling in any routes to the 192.168.141.0/24 subnet from OSPF — this is the subnet we’re using for the WireGuard connection between cn-router and sg-router. This route is already set up in the /etc/wireguard/sgcn.conf. The area 192.168.141.0 block configures BIRD to use the area with an ID of 192.168.141.0 for OSPF on the specified interface. This ID is also an arbitrary 32-bit number. The interface \"sgcn\" specifies that the sgcn interface we set up is included in the area definition. With this setting, the router will listen for and setd out OSPF broadcasts on the sgcn interface, importing the routes learned from OSPF into the table, and exporting the other routes in its table to share over OSPF. As you can se protocol ospf v2 cn is the OSPF for the cn LAN.\n# start bird sudo systemctl start bird # check birdc status sudo birdc # reload configuration sudo birdc configurate # check ospf sudo birdc show ospf # check route table sudo birdc show route With the above configuration, cn-router and sg-router can communicate and exchange routing table, the next step is to propagate cn and to sg’s node. We can still use OSPF for routing.\nAs you can see, two LAN OSPF can sharing the local routing table to each other via the sgcn and sgjp.\niBGP - Interior Border Gateway Protocol IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.\n# configuration of cn-router router id 192.168.199.1; define LOCAL_ASN = 4242420100; protocol device { } protocol kernel { ipv4 { export where proto = \"wg\"; }; } protocol ospf v2 wg { ipv4 { import where net !~ 192.168.141.0/24; export all; }; area 192.168.141.0 { interface \"sgcn\"; }; } protocol direct { ipv4; interface \"cn\"; } protocol bgp lnet_sgcn { local 192.168.141.2 as 4242420100; neighbor 192.168.141.1 as 4242420100; multihop 1; graceful restart on; rr client; ipv4 { import all; export all; }; } protocal direct block with the actual name of the roter’s LAN interface, for here, my router’s LAN interface is cn. The protocal direct is required as it is used to import the direct interface routes for the LAN interface into BIRD’s routing table, so that it can add the correct next hop to the routes from the other site that it will share via BGP. protocal bgp lnet is used to define the BGP section, again, the lnet_sgnn is just arbitrary ID for the protocal, you can use any word/number you want. export all directs BIRD to share all the rotes in the routing table with the other iBGP server. next hop self directs it to adjust those roures to make the Wireguard router itself the next hop in all those routes. This will share the rotes the Wireguard roter learned from the other site, using the Wireguard router it elf as the link to the site. local 192.168.141.2 as 424220100 and neighbor 192.168.141.1 as 424220100 is defining the AS number of local machine and the neighbor. If these two ASN are the same, we are defining a iBGP and if there are different we are defining a eBGP. For now, I have tried OSPF and iBGP. But I just simply follow the instruction and did not dig into the high-level setting.\nis supported $\\frac{1}{2}$\n",
+  "wordCount" : "1848",
+  "inLanguage": "en",
+  "datePublished": "2022-10-18T00:11:21+08:00",
+  "dateModified": "2022-10-18T00:11:21+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Terence Liu"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/tech/lnet-1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Terence Liu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/icon.png">
+
+<link rel="manifest" href="/images/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script>
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.a8c311691615cbefe21eae4cf71fc9fb26320b4328badec43cd33226f7428d46.css" integrity="sha256-qMMRaRYVy&#43;/iHq5M9x/J&#43;yYyC0Mout7EPNMyJvdCjUY=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    </head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s Blog
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Blog</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/tags">Tags</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/projects">Project</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>👨‍💻 My Personal Experimental Network: L-Net</h1>
+  </header>
+
+  <p>
+  <small>
+    October 18, 2022&nbsp;· 1848 words&nbsp;· 9 min</small>
+  <small>
+    
+    ·
+    
+    
+    <a href="https://blog.cklau.cc/tags/networking/">networking</a>
+    
+    <a href="https://blog.cklau.cc/tags/wireguard/">wireguard</a>
+    
+    <a href="https://blog.cklau.cc/tags/experimental-network/">experimental network</a>
+    
+  </small>
+<p>
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#before">Before</a></li>
+    <li><a href="#design">Design</a></li>
+    <li><a href="#network-configuration">Network Configuration</a>
+      <ul>
+        <li><a href="#loc-1---mainland-china">Loc 1 - Mainland, China</a></li>
+        <li><a href="#loc-2---japan">Loc 2 - Japan</a></li>
+        <li><a href="#loc-3---hksar-china">Loc 3 - HKSAR, China</a></li>
+        <li><a href="#loc-4---singapore">Loc 4 - Singapore</a></li>
+      </ul>
+    </li>
+    <li><a href="#configuration">Configuration</a>
+      <ul>
+        <li><a href="#backbone-network">“Backbone Network”</a></li>
+        <li><a href="#intranetinternet">“Intranet/Internet”</a></li>
+        <li><a href="#wireguard-site-to-site-configuration">Wireguard Site-to-Site Configuration</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><h2 id="before">Before</h2>
+<p>In the previous project: <a href="https://blog.cklau.cc/post/tech/my-homelab-1/" title="My Homelab 2">Homelab</a>, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.</p>
+<p>However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&rsquo;s more, if I can federate this isolated network, I don&rsquo;t need to build separate services in different clusters. For instance, I can use a single <a href="https://prometheus.io/">Prometheus</a> to monitor all the devices and no more millions of virtual interfaces :rofl:</p>
+<h2 id="design">Design</h2>
+<p>We are using the <code>Wireguard</code> to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: <code>a1</code> is the router of the cluster <code>A</code> and <code>b</code> is the central router of the whole L-Net and <code>A</code>’s IP address is <code>172.12.1.0/24</code> , then we need an extra IP address(an extra Wireguard tunnel) for <code>a → b</code>.</p>
+<p>Under this circumstance, we can connect the nodes inside the <code>A (a2, a3, …)</code>  to <code>b</code>, and other nodes  from <code>C (c1, c2, c3, …)</code> can also connect to <code>A</code>.</p>
+<p>Here is the topology of my design:</p>
+<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/dc88ca70-d652-4d2b-9360-931c852ea1b3/LNet.drawio.png" alt="topology"></p>
+<p>Those bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.</p>
+<h2 id="network-configuration">Network Configuration</h2>
+<h3 id="loc-1---mainland-china">Loc 1 - Mainland, China</h3>
+<ol>
+<li>
+<p>Network Interface: <code>cn</code></p>
+<ol>
+<li>IP address: <code>192.168.10.0/24</code></li>
+<li>Allowed IP: <code>192.168.141.x/32, 192.168.{20,30}.0/24</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface (Router): <code>sgcn</code></p>
+<ol>
+<li>IP address: <code>192.168.141.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tencent Cloud</td>
+<td>GZ</td>
+<td>newton</td>
+<td>(secret)</td>
+<td>192.168.10.1 / 192.168.141.2</td>
+<td>Router</td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>SH</td>
+<td>gauss</td>
+<td>(secret)</td>
+<td>192.168.10.2</td>
+<td></td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>SH</td>
+<td>cantor</td>
+<td>(secret)</td>
+<td>192.168.10.3</td>
+<td></td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>SH</td>
+<td>hilbert</td>
+<td>(secret)</td>
+<td>192.168.10.4</td>
+<td></td>
+</tr>
+<tr>
+<td>China Telecom Cloud</td>
+<td>GZ</td>
+<td>NA</td>
+<td>(secret)</td>
+<td>192.168.10.5</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="loc-2---japan">Loc 2 - Japan</h3>
+<ol>
+<li>
+<p>Network Interface: <code>jp</code></p>
+<ol>
+<li>IP address: <code>192.168.20.0/24</code></li>
+<li>Allowed IP: <code>192.168.142.0/32, 192.168.{10, 30}.0/24</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface (Router): <code>sgjp</code></p>
+<ol>
+<li>IP address: <code>192.168.142.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oracle Cloud</td>
+<td>JP</td>
+<td>einstein</td>
+<td>(secret)</td>
+<td>192.168.20.1 / 192.168.142.2</td>
+<td>Router</td>
+</tr>
+<tr>
+<td>Oracle Cloud</td>
+<td>JP</td>
+<td>bohr</td>
+<td>(secret)</td>
+<td>192.168.20.2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="loc-3---hksar-china">Loc 3 - HKSAR, China</h3>
+<ol>
+<li>
+<p>Network Interface: <code>hk</code></p>
+<ol>
+<li>IP address: <code>192.168.30.0/24</code></li>
+<li>Allowed IP: <code>192.168.143.0/32, 192.168.{20, 30}.0/24</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface (Router): <code>sghk</code></p>
+<ol>
+<li>IP address: <code>192.168.143.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cube Cloud</td>
+<td>HK</td>
+<td>turing</td>
+<td>(secret)</td>
+<td>192.168.30.3 / 192.168.143.2</td>
+<td>Router</td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>HK</td>
+<td>neumann</td>
+<td>(secret)</td>
+<td>192.168.30.1</td>
+<td></td>
+</tr>
+<tr>
+<td>Tencent Cloud</td>
+<td>HK</td>
+<td>hinton</td>
+<td>(secret)</td>
+<td>192.168.30.2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="loc-4---singapore">Loc 4 - Singapore</h3>
+<ol>
+<li>
+<p>Network Interface: <code>sgcn</code></p>
+<ol>
+<li>IP address: <code>192.168.141.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface: <code>sgjp</code></p>
+<ol>
+<li>IP address: <code>192.168.142.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+<li>
+<p>Network Interface: <code>sghk</code></p>
+<ol>
+<li>IP address: <code>192.168.143.0/24</code></li>
+<li>Allowed IP: <code>0.0.0.0/0</code></li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Service Provider</th>
+<th>Location</th>
+<th>Name</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tencent Cloud</td>
+<td>SG</td>
+<td>bayes</td>
+<td>(secret)</td>
+<td>192.168.141.1 / 192.168.142.1 / 192.168.143.1</td>
+<td>Central Router</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration">Configuration</h2>
+<h3 id="backbone-network">“Backbone Network”</h3>
+<p>As usual, I use the tool I wrote <a href="https://github.com/TerenceLiu98/wgtools">wgtools</a> to generate Wireguard configuration. However, the tool is built for the full-mesh configuration, thus, for the “backbone” network, we need to modify the config, here is an example: in the  <code>sgcn</code>  interface, I put the following settings in <code>bayes</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Address <span style="color:#f92672">=</span> 192.168.141.1/24
+</span></span><span style="display:flex;"><span>ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51821</span>
+</span></span><span style="display:flex;"><span>PrivateKey <span style="color:#f92672">=</span> &lt;interface-prikey&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Table <span style="color:#f92672">=</span> off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Name = cn-router</span>
+</span></span><span style="display:flex;"><span>PublicKey <span style="color:#f92672">=</span> &lt;peer-pubkey&gt;
+</span></span><span style="display:flex;"><span>AllowedIPs <span style="color:#f92672">=</span> 0.0.0.0/0
+</span></span><span style="display:flex;"><span>PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51821
+</span></span></code></pre></div><p>The reason why we need to set the Address of the Interface to <code>/24</code> is that if we want the subnet of <code>newton</code> are accessible, which means that <code>192.168.141.2/32</code> need to be accessible from both sides as it is the bridge between <code>sgcn</code> and <code>cn</code> as the <code>sgcn</code> the interface is the bridge between the “external” to the “internal”. Here is the setting in <code>newton</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Address <span style="color:#f92672">=</span> 192.168.141.2/24 <span style="color:#75715e"># the same reason, this interface is the &#34;bridge&#34; </span>
+</span></span><span style="display:flex;"><span>ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51821</span>
+</span></span><span style="display:flex;"><span>PrivateKey <span style="color:#f92672">=</span> cJgoIHnDfCl+p8D7KE0jCBkRipEwe3K6Jq7FG8OTzlo<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Table <span style="color:#f92672">=</span> off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Name = bayes</span>
+</span></span><span style="display:flex;"><span>PublicKey <span style="color:#f92672">=</span> FF85tV+bkTWA3rNHpn+sapA/08JV7HO92y/I1P+xsRE<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>AllowedIPs <span style="color:#f92672">=</span> 0.0.0.0/0
+</span></span><span style="display:flex;"><span>PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51821
+</span></span></code></pre></div><p>Similarly, you can modify the Address and Endpoint for <code>sgjp</code> and <code>sghk</code> .</p>
+<h3 id="intranetinternet">“Intranet/Internet”</h3>
+<p>It is easy to generate the configuration with my tools, or maybe you can generate them manually, which is not the key for the configuration. The important part is that for each node of the “intranet“, you can control which other subnet can access to you. Take <code>gauss</code> and <code>einstein</code> as an example, if you want <code>gauss</code> can access from the <code>einstein</code> then you need to add the address of <code>einstein</code> in the <code>newton</code>’s <code>AllowedIPs</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># configuration of gauss</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Address <span style="color:#f92672">=</span> 192.168.10.2/32,fd0b:76a0:952b:0:afa3:e03c:fe6d:2e55/128
+</span></span><span style="display:flex;"><span>ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51820</span>
+</span></span><span style="display:flex;"><span>PrivateKey <span style="color:#f92672">=</span> &lt;gauss-privkey&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</span></span><span style="display:flex;"><span>PostDown <span style="color:#f92672">=</span> iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Name = newton</span>
+</span></span><span style="display:flex;"><span>PublicKey <span style="color:#f92672">=</span> &lt;newton-pubkey&gt;
+</span></span><span style="display:flex;"><span>AllowedIPs <span style="color:#f92672">=</span> 192.168.20.1/32,192.168.248.1/32,fd0b:76a0:952b:0:e96f:2dae:80a8:b578/128
+</span></span><span style="display:flex;"><span>PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51820
+</span></span></code></pre></div><p>This is because <code>newton</code> is the bridge between <code>cn</code> and <code>jp</code> , or more specifically, the <code>einstein</code> ‘s traffic needs to go through the <code>jp → sgjp → sgcn → cn</code> , and for <code>sgcn → cn</code> you need to add the <code>192.168.20.1/32</code> in the <code>AllowedIPs</code> and <code>cn</code> will know that this traffic can be accepted by the <code>cn</code> and it’s routed via the <code>192.168.248.1/32</code>.</p>
+<h3 id="wireguard-site-to-site-configuration">Wireguard Site-to-Site Configuration</h3>
+<p>For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose <code>OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP)</code> and <code>iBGP(Interior Border Gateway Protocol)</code> to resolve the routing problem.</p>
+<p>There are multiple different tools we can use: <code>bird2</code>, <code>quagga</code>, and etc.. I use <code>bird2</code> in here.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get install bird2 <span style="color:#f92672">&amp;&amp;</span> sudo systemctl stop bird2
+</span></span></code></pre></div><p>The reason why I stop the process at first is that I don&rsquo;t want the &ldquo;bad&rdquo; configuration to influence the network.</p>
+<h4 id="ospf---open-shortest-path-frist">OSPF - Open Shortest Path Frist</h4>
+<p>OSPF is an interior gateway protocol (IGP) that routes packets within a single autonomous system (AS). OSPF uses link-state information to make routing decisions, making route calculations using the shortest-path-first (SPF) algorithm (also referred to as the Dijkstra algorithm). Each router running OSPF floods link-state advertisements throughout the AS or area that contain information about that router’s attached interfaces and routing metrics. Each router uses the information in these link-state advertisements to calculate the least cost path to each network and create a routing table for the protocol.</p>
+<p>First, let&rsquo;s try OSPF first.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## cn-router</span>
+</span></span><span style="display:flex;"><span>router id 192.168.199.1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol device <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>protocol kernel <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ipv4 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        export where proto <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wg&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol ospf v2 sgcn <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ipv4 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        import where net !~ 192.168.141.0/24;
+</span></span><span style="display:flex;"><span>        export all;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>    area 192.168.141.0 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        interface <span style="color:#e6db74">&#34;sgcn&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol ospf v2 cn <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ipv4 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        export all;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>    area 192.168.10.0 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        interface <span style="color:#e6db74">&#34;cn&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>where <code>router id</code> is the specific id for the router, it looks like a IP address, however, it actually just arbitrary 32-bit numbers that are by convection written in dotted-quad notation.</p>
+<ul>
+<li><code>protocol deive</code> help use to get information about netowkr interfaces from the kernel</li>
+<li><code>protocol kernel</code> performs synchronization of BIRD&rsquo;s routing tables with the OS kernel and here we export the <code>wg</code> protocol&rsquo;s routing</li>
+<li><code>protocol ospf v2 sgcn</code> sets up the the OSPFv2 instance we&rsquo;ll use for the wireguard connection. Note that the <code>sgcn</code> is the id I give to this instance, it can be arbitrary id; we import all the routes it receives over OSPF into its routing table and <code>export all;</code>.
+<ul>
+<li>The <code>import where net !~ 192.168.141.0/24;</code> line configures BIRD to avoid pulling in any routes to the <code>192.168.141.0/24</code> subnet from OSPF — this is the subnet we’re using for the WireGuard connection between <code>cn-router</code> and <code>sg-router</code>. This route is already set up in the <code>/etc/wireguard/sgcn.conf</code>.</li>
+<li>The <code>area 192.168.141.0</code> block configures BIRD to use the area with an ID of <code>192.168.141.0</code> for OSPF on the specified interface. This ID is also an arbitrary 32-bit number. The <code>interface &quot;sgcn&quot;</code> specifies that the <code>sgcn</code> interface we set up is included in the area definition.</li>
+</ul>
+</li>
+</ul>
+<p>With this setting, the router will listen for and setd out OSPF broadcasts on the <code>sgcn</code> interface, importing the routes learned from OSPF into the table, and exporting the other routes in its table to share over OSPF. As you can se <code>protocol ospf v2 cn</code> is the OSPF for the <code>cn</code> LAN.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># start bird</span>
+</span></span><span style="display:flex;"><span>sudo systemctl start bird
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check birdc status</span>
+</span></span><span style="display:flex;"><span>sudo birdc 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reload configuration</span>
+</span></span><span style="display:flex;"><span>sudo birdc configurate
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check ospf </span>
+</span></span><span style="display:flex;"><span>sudo birdc show ospf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check route table</span>
+</span></span><span style="display:flex;"><span>sudo birdc show route
+</span></span></code></pre></div><p>With the above configuration, <code>cn-router</code> and <code>sg-router</code> can communicate and exchange routing table, the next step is to propagate <code>cn</code> and to <code>sg</code>&rsquo;s node. We can still use <code>OSPF</code> for routing.</p>
+<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/18362fae-26e4-403b-9c54-79b1fe7539e9/ospf-lnet.png" alt="ospf routing"></p>
+<p>As you can see, two LAN OSPF can sharing the local routing table to each other via the <code>sgcn</code> and <code>sgjp</code>.</p>
+<h4 id="ibgp---interior-border-gateway-protocol">iBGP - Interior Border Gateway Protocol</h4>
+<p>IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># configuration of cn-router</span>
+</span></span><span style="display:flex;"><span>router id 192.168.199.1;
+</span></span><span style="display:flex;"><span>define LOCAL_ASN <span style="color:#f92672">=</span> 4242420100;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol device <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>protocol kernel <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ipv4 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        export where proto <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wg&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol ospf v2 wg <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ipv4 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        import where net !~ 192.168.141.0/24;
+</span></span><span style="display:flex;"><span>        export all;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>    area 192.168.141.0 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        interface <span style="color:#e6db74">&#34;sgcn&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol direct <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ipv4;
+</span></span><span style="display:flex;"><span>    interface <span style="color:#e6db74">&#34;cn&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol bgp lnet_sgcn <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    local 192.168.141.2 as 4242420100;
+</span></span><span style="display:flex;"><span>    neighbor 192.168.141.1 as 4242420100;
+</span></span><span style="display:flex;"><span>    multihop 1;
+</span></span><span style="display:flex;"><span>    graceful restart on;
+</span></span><span style="display:flex;"><span>    rr client;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ipv4 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        import all;
+</span></span><span style="display:flex;"><span>        export all;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ul>
+<li><code>protocal direct</code> block with the actual name of the roter&rsquo;s LAN interface, for here, my router&rsquo;s LAN interface is <code>cn</code>. The <code>protocal direct</code> is required as it is used to import the direct interface routes for the LAN interface into BIRD&rsquo;s routing table, so that it can add the correct next hop to the routes from the other site that it will share via BGP.</li>
+<li><code>protocal bgp lnet</code> is used to define the BGP section, again, the <code>lnet_sgnn</code> is just arbitrary ID for the protocal, you can use any word/number you want.</li>
+<li><code>export all</code> directs BIRD to share all the rotes in the routing table with the other iBGP server. <code>next hop self</code> directs it to adjust those roures to make the Wireguard router itself the next hop in all those routes. This will share the rotes the Wireguard roter learned from the other site, using the Wireguard router it elf as the link to the site.</li>
+<li><code>local 192.168.141.2 as 424220100</code> and <code>neighbor 192.168.141.1 as 424220100</code> is defining the AS number of local machine and the neighbor. If these two ASN are the same, we are defining a <code>iBGP</code> and if there are different we are defining a <code>eBGP</code>.</li>
+</ul>
+<p>For now, I have tried <code>OSPF</code> and <code>iBGP</code>. But I just simply follow the instruction and did not dig into the high-level setting.</p>
+<p>is supported $\frac{1}{2}$</p></section>
+
+  
+  
+  <div class="paginator">
+    
+    <a class="prev" href="https://blog.cklau.cc/post/tech/k8s-setup-1/"><span>&larr;&nbsp;&nbsp;</span><span>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</span></a>
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/tech/k3s-setup-extra-1/"><span>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+      <nav>
+        <ul>
+        
+        
+          
+            <li>
+              <a href="/post/tech/lnet-3/">👨‍💻 My Personal Experimental Network: L-Net 1.2</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/tech/lnet-2/">👨‍💻 My Personal Experimental Network: L-Net 1.1</a>
+            </li>
+          
+        
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+  <p>&copy; 2023 <a href="https://blog.cklau.cc">Terence Liu</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a><a href="https://blog.rho.ac.cn">(https://blog.rho.ac.cn)</a>
+️  </p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

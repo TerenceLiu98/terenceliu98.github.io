@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terence Liu</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@Homelab: My Distributed Homelab (2) - Terence Liu">
+    <meta name="author" content="Terence Liu">
+    <link rel="canonical" href="https://blog.cklau.cc/post/tech/my-homelab-6/">
+
+    
+
+
+    <meta property="og:title" content="Homelab: My Distributed Homelab (2)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/tech/my-homelab-6/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-01-24T00:11:21+08:00" />
+<meta property="article:modified_time" content="2023-01-24T00:11:21+08:00" />
+<meta property="og:see_also" content="https://blog.cklau.cc/post/tech/my-homelab-extra-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/tech/my-homelab-5/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/tech/my-homelab-4/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/tech/my-homelab-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/tech/my-homelab-3/" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Homelab: My Distributed Homelab (2)"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Homelab: My Distributed Homelab (2)",
+      "item": "https://blog.cklau.cc/post/tech/my-homelab-6/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Homelab: My Distributed Homelab (2)",
+  "name": "Homelab: My Distributed Homelab (2)",
+  "description": "",
+  "keywords": [
+    "homelab", "hardware"
+  ],
+  "articleBody": "Before I built a distributed Homelab, which is not good enough, where\nI set up multiple endpoints to forfill the connection of Mainland China’s connection and other countries’ with two CDN (Tencent CDN and Cloudflare) The network bottleneck is in the BGP router, where the machine in GZ is only 6Mbps Distributed storage, but not connected Some of them are running Docker, and some are running K3s, which is not a bad thing, but I want a dashboard to centralized the server configuration Thus, I need to re-design the architecture:\nBuy a new VM, which has 100Mbps (dynamic) to replace GZ machine - Done Network re-design, how to maximize the usage of each machine’s bandwith Set up a root DNS server, to “hijack” the local domain - based on PowerDNS Build a distributed object storage system as the underlay of the file system - based on MinIO Network Re-design Since I have multiple different server in differnt locations, I still keep them into different ASN:\nAS4242101 - CN-SOUTH-1 (Guangzhou, China) - 192.168.101.0/24 AS4242102 - CN-EAST-1 (Shanghai, China) - 192.168.102.0/24 AS4242103 - AP-EAST-1 (HKSAR, China) - 192.168.103.0/24 AS4242104 - AP-SOUTHEAST-1 (Mumbai, India) - 192.168.104.0/24 Previously, AS4242104 is the machines located in Japan, however, during the Spring Festival, I accidentlly got the quota of ARM machines from Oracle Cloud, thus, I replace the machine X86 machines from Japan to ARM machines to Mumbai. The ARM machine is much powerful then the free-X86, where it has 2C/12G and the X86 has only 1C/1G.\nBesides, I also includes the intranet of my home into the L-NET. The meaning of “include” is that they are acting as the client of L-NET. Therefore, I desided to set up an external tunnel for the “user” side where the edge access points forward the traffic to the correct machine. However, since clients are using multiple different OS (Windows, Linux, iOS, macOS, Android), I choose OCServ as the tunnel tools for clients, and keep using Wireguard as the backbone VPN. Anyconnect is more compatible to different distribution.\nSelf-hosted DNS Server My domain is hosted on Cloudflare, however, different services are on different machines and the intranet machines do not need to be routed to CF’s access points. Thus, The authoritative DNS server is needed to “hijack” the domain within the L-NET.\nI set up two DNS server in different region as main/backup architecture. In this way, if one server down, the second server can be used as the backup.\nI have tried Bind9 and PowerDNS. Both are easy if we deploy them via Docker:\nBind9 DNS Service version: \"3\" services: bind9: container_name: dns-aristotle image: ubuntu/bind9:latest environment: - BIND9_USER=root - TZ=Asia/Shanghai ports: - \"192.168.103.1:53:53/tcp\" # bind to the wireguard IP addr - \"192.168.103.1:53:53/udp\" volumes: - ./config:/etc/bind - ./cache:/var/cache/bind - ./records:/var/lib/bind restart: always ## master DNS server - 192.168.103.1 acl internal { 192.168.100.0/20; }; options { allow-query { internal; }; allow-transfer { internal; }; allow-notify { 192.168.101.2; }; # 192.168.101.2 is the second DNS server }; zone \"local.cklau.cc\" IN { type slave; masters { 192.168.103.1; }; file \"/etc/bind/local.cklau.cc.zone\"; }; $TTL 2d $ORIGIN cklau.cc. @ IN SOA ns.cklau.cc. info.cklau.cc ( 2022122800 ; serial 12h ; refresh 15m ; retry 3w ; expire 3h ; minimum ttl ) IN NS\tns1.cklau.cc. IN NS\tns2.cklau.cc. ns1 IN A 192.168.103.1 ns2 IN A 192.168.101.2 ;\t-- cn-south-1 newton\tIN\tA\t192.168.101.1 aristotle\tIN\tA\t192.168.101.2 riemann\tIN A\t192.168.101.3 ;\t-- cn-east-1 hilbert\tIN\tA\t192.168.102.1 ;\t-- ap-east-1 freud\tIN\tA\t192.168.103.1 ;\t-- ap-south-1\teinstein\tIN\tA\t192.168.104.1 ;\t-- application auth\tIN\tA\t192.168.100.46 git\tIN\tA\t192.168.101.3 PowerDNS and Adguard Home I just follow the instructure from Debian 11 / Ubuntu 22.04 安装 PowerDNS 和 PowerDNS-Admin 自建权威 DNS 教程\nAs soon as I set up the PowerDNS, I use as as one of the upstream DNS servers of my Adguard Home. With the PowerDNS, I can easily control the domain resolution inside the intranet. Here is the example of DNS setting in Adg:\n[/cloud.cklau.cc/]192.168.101.2 1.1.1.1 1.0.0.1 Storage and File system Previously, I use Nextcloud as my webdrive, however, since there is a uploading limition in Cloudflare’s TOS, the Nextcloud is not suitable for using CDN. I replaced it with Seafile as it is fast and simple. Yes, NextCloud can provide more features, but its performance is not good enough, sometimes the web interface take around 5-10sec to load for each action you perform. I am not familiar with PHP thus, I just kept the default settings of the page response, which may cause the performance issue.\nI migrated the storage to Seafile, which natively support block storage and end-to-end encryption. The Chunk uploading mechanism may bypass the uploading limit of Cloudflare. I test it several time by uploading cuple large files and all of them passed. (Some intrstruction says it may not, but in my case it does)\nversion: '2.0' services: db: image: mariadb:10.1 container_name: seafile-mysql environment: - MYSQL_ROOT_PASSWORD=seafile - MYSQL_LOG_CONSOLE=true volumes: - ./mysql:/var/lib/mysql networks: - seafile-net restart: always memcached: image: memcached:1.6 container_name: seafile-memcached entrypoint: memcached -m 256 networks: - seafile-net restart: always seafile: image: seafileltd/seafile-mc:latest container_name: seafile #command: pip install requests_oauthlib ports: - \"9999:80\" volumes: - /mnt/storage/seafile:/shared environment: - DB_HOST=db - DB_ROOT_PASSWD=seafile - TIME_ZONE=Etc/UTC - SEAFILE_ADMIN_EMAIL= - SEAFILE_ADMIN_PASSWORD= - SEAFILE_SERVER_LETSENCRYPT=false - SEAFILE_SERVER_HOSTNAME=seafile.example.com depends_on: - db - memcached networks: - seafile-net restart: always networks: seafile-net: Also, seafile natively support Single-Sign-on with LDAP and OAuth2, by following the Manual’s instruction. The configuration path is: /opt/seafile/conf/seahub_settings.py.\n",
+  "wordCount" : "903",
+  "inLanguage": "en",
+  "datePublished": "2023-01-24T00:11:21+08:00",
+  "dateModified": "2023-01-24T00:11:21+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Terence Liu"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/tech/my-homelab-6/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Terence Liu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/icon.png">
+
+<link rel="manifest" href="/images/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script>
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.a8c311691615cbefe21eae4cf71fc9fb26320b4328badec43cd33226f7428d46.css" integrity="sha256-qMMRaRYVy&#43;/iHq5M9x/J&#43;yYyC0Mout7EPNMyJvdCjUY=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    </head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s Blog
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Blog</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/tags">Tags</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/projects">Project</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>Homelab: My Distributed Homelab (2)</h1>
+  </header>
+
+  <p>
+  <small>
+    January 24, 2023&nbsp;· 903 words&nbsp;· 5 min</small>
+  <small>
+    
+    ·
+    
+    
+    <a href="https://blog.cklau.cc/tags/homelab/">homelab</a>
+    
+    <a href="https://blog.cklau.cc/tags/hardware/">hardware</a>
+    
+  </small>
+<p>
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#before">Before</a></li>
+    <li><a href="#network-re-design">Network Re-design</a></li>
+    <li><a href="#self-hosted-dns-server">Self-hosted DNS Server</a>
+      <ul>
+        <li><a href="#bind9-dns-service">Bind9 DNS Service</a></li>
+        <li><a href="#powerdns-and-adguard-home">PowerDNS and Adguard Home</a></li>
+      </ul>
+    </li>
+    <li><a href="#storage-and-file-system">Storage and File system</a></li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><h2 id="before">Before</h2>
+<p>I built a distributed Homelab, which is not good enough, where</p>
+<ol>
+<li>I set up multiple endpoints to forfill the connection of Mainland China&rsquo;s connection and other countries&rsquo; with two CDN (Tencent CDN and Cloudflare)</li>
+<li>The network bottleneck is in the BGP router, where the machine in GZ is only 6Mbps</li>
+<li>Distributed storage, but not connected</li>
+<li>Some of them are running Docker, and some are running K3s, which is not a bad thing, but I want a dashboard to centralized the server configuration</li>
+</ol>
+<p>Thus, I need to re-design the architecture:</p>
+<ol>
+<li>Buy a new VM, which has 100Mbps (dynamic) to replace GZ machine - Done</li>
+<li>Network re-design, how to maximize the usage of each machine&rsquo;s bandwith</li>
+<li>Set up a root DNS server, to &ldquo;hijack&rdquo; the local domain - based on <a href="https://www.powerdns.com/">PowerDNS</a></li>
+<li>Build a distributed object storage system as the underlay of the file system - based on <a href="https://min.io/">MinIO</a></li>
+</ol>
+<h2 id="network-re-design">Network Re-design</h2>
+<p>Since I have multiple different server in differnt locations, I still keep them into different ASN:</p>
+<ol>
+<li>AS4242101 - CN-SOUTH-1 (Guangzhou, China) - 192.168.101.0/24</li>
+<li>AS4242102 - CN-EAST-1 (Shanghai, China) - 192.168.102.0/24</li>
+<li>AS4242103 - AP-EAST-1 (HKSAR, China) - 192.168.103.0/24</li>
+<li>AS4242104 - AP-SOUTHEAST-1 (Mumbai, India) - 192.168.104.0/24</li>
+</ol>
+<p>Previously, <code>AS4242104</code> is the machines located in Japan, however, during the Spring Festival, I accidentlly got the quota of ARM machines from Oracle Cloud, thus, I replace the machine X86 machines from Japan to ARM machines to Mumbai. The ARM machine is much powerful then the free-X86, where it has 2C/12G and the X86 has only 1C/1G.</p>
+<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/2b48d637-5791-464d-8252-931046db7358/network.drawio.png" alt="NETWORK"></p>
+<p>Besides, I also includes the intranet of my home into the L-NET. The meaning of &ldquo;include&rdquo; is that they are acting as the client of L-NET.  Therefore, I desided to set up an external tunnel for the &ldquo;user&rdquo; side where the edge access points forward the traffic to the correct machine. However, since clients are using multiple different OS (Windows, Linux, iOS, macOS, Android), I choose <a href="https://ocserv.gitlab.io/www/">OCServ</a> as the tunnel tools for clients, and keep using Wireguard as the backbone VPN. Anyconnect is more compatible to different distribution.</p>
+<h2 id="self-hosted-dns-server">Self-hosted DNS Server</h2>
+<p>My domain is hosted on Cloudflare, however, different services are on different machines and the intranet machines do not need to be routed to CF&rsquo;s access points. Thus, The authoritative DNS server is needed to &ldquo;hijack&rdquo; the domain within the L-NET.</p>
+<p>I set up two DNS server in different region as main/backup architecture. In this way, if one server down, the second server can be used as the backup.</p>
+<p>I have tried <a href="https://www.isc.org/bind/">Bind9</a> and <a href="https://www.powerdns.com/">PowerDNS</a>. Both are easy if we deploy them via Docker:</p>
+<h3 id="bind9-dns-service">Bind9 DNS Service</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">bind9</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">dns-aristotle</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ubuntu/bind9:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">BIND9_USER=root</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">TZ=Asia/Shanghai</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;192.168.103.1:53:53/tcp&#34;</span> <span style="color:#75715e"># bind to the wireguard IP addr</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;192.168.103.1:53:53/udp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./config:/etc/bind</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./cache:/var/cache/bind</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./records:/var/lib/bind</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## master DNS server - 192.168.103.1</span>
+</span></span><span style="display:flex;"><span>acl internal <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    192.168.100.0/20;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>options <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    allow-query <span style="color:#f92672">{</span> internal; <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>    allow-transfer <span style="color:#f92672">{</span> internal; <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>    allow-notify <span style="color:#f92672">{</span> 192.168.101.2; <span style="color:#f92672">}</span>; <span style="color:#75715e"># 192.168.101.2 is the second DNS server</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>zone <span style="color:#e6db74">&#34;local.cklau.cc&#34;</span> IN <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    type slave;
+</span></span><span style="display:flex;"><span>    masters <span style="color:#f92672">{</span> 192.168.103.1; <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>    file <span style="color:#e6db74">&#34;/etc/bind/local.cklau.cc.zone&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$TTL 2d
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ORIGIN cklau.cc.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@               IN      SOA     ns.cklau.cc. info.cklau.cc <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ae81ff">2022122800</span>      ; serial
+</span></span><span style="display:flex;"><span>                                12h             ; refresh
+</span></span><span style="display:flex;"><span>                                15m             ; retry
+</span></span><span style="display:flex;"><span>                                3w              ; expire
+</span></span><span style="display:flex;"><span>                                3h              ; minimum ttl
+</span></span><span style="display:flex;"><span>                                <span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>		IN 	NS	ns1.cklau.cc.
+</span></span><span style="display:flex;"><span>		IN 	NS	ns2.cklau.cc.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ns1             IN      A       192.168.103.1
+</span></span><span style="display:flex;"><span>ns2             IN      A       192.168.101.2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>;	-- cn-south-1
+</span></span><span style="display:flex;"><span>newton		IN	A	192.168.101.1
+</span></span><span style="display:flex;"><span>aristotle	IN	A	192.168.101.2
+</span></span><span style="display:flex;"><span>riemann		IN 	A	192.168.101.3
+</span></span><span style="display:flex;"><span>;	-- cn-east-1
+</span></span><span style="display:flex;"><span>hilbert		IN	A	192.168.102.1
+</span></span><span style="display:flex;"><span>;	-- ap-east-1
+</span></span><span style="display:flex;"><span>freud		IN	A	192.168.103.1
+</span></span><span style="display:flex;"><span>;	-- ap-south-1	
+</span></span><span style="display:flex;"><span>einstein	IN	A	192.168.104.1
+</span></span><span style="display:flex;"><span>;	-- application
+</span></span><span style="display:flex;"><span>auth		IN	A	192.168.100.46
+</span></span><span style="display:flex;"><span>git			IN	A	192.168.101.3
+</span></span></code></pre></div><h3 id="powerdns-and-adguard-home">PowerDNS and Adguard Home</h3>
+<p>I just follow the instructure from <a href="https://u.sb/debian-install-powerdns/">Debian 11 / Ubuntu 22.04 安装 PowerDNS 和 PowerDNS-Admin 自建权威 DNS 教程</a></p>
+<p>As soon as I set up the PowerDNS, I use as as one of the upstream DNS servers of my Adguard Home. With the PowerDNS, I can easily control the domain resolution inside the intranet. Here is the example of DNS setting in Adg:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>/cloud.cklau.cc/<span style="color:#f92672">]</span>192.168.101.2
+</span></span><span style="display:flex;"><span>1.1.1.1
+</span></span><span style="display:flex;"><span>1.0.0.1
+</span></span></code></pre></div><h2 id="storage-and-file-system">Storage and File system</h2>
+<p>Previously, I use Nextcloud as my webdrive, however, since there is a uploading limition in Cloudflare&rsquo;s TOS, the Nextcloud is not suitable for using CDN. I replaced it with <a href="https://www.seafile.com/en/home/">Seafile</a> as it is fast and simple. Yes, NextCloud can provide more features, but its performance is not good enough, sometimes the web interface take around 5-10sec to load for each action you perform. I am not familiar with PHP thus, I just kept the default settings of the page response, which may cause the performance issue.</p>
+<p>I migrated the storage to Seafile, which natively support block storage and end-to-end encryption. The Chunk uploading mechanism may bypass the uploading limit of Cloudflare. I test it several time by uploading cuple large files and all of them passed. (Some intrstruction says it may not, but in my case it does)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.0&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mariadb:10.1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">seafile-mysql</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">MYSQL_ROOT_PASSWORD=seafile</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">MYSQL_LOG_CONSOLE=true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./mysql:/var/lib/mysql</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">seafile-net</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">memcached</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">memcached:1.6</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">seafile-memcached</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">memcached -m 256</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">seafile-net</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">seafile</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">seafileltd/seafile-mc:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">seafile</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">#command: pip install requests_oauthlib</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;9999:80&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">/mnt/storage/seafile:/shared</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">DB_HOST=db</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">DB_ROOT_PASSWD=seafile</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">TIME_ZONE=Etc/UTC</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">SEAFILE_ADMIN_EMAIL=&lt;admin-email&gt;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">SEAFILE_ADMIN_PASSWORD=&lt;admin-password&gt;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">SEAFILE_SERVER_LETSENCRYPT=false</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">SEAFILE_SERVER_HOSTNAME=seafile.example.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">db</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">memcached</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">seafile-net</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">seafile-net</span>:
+</span></span></code></pre></div><p>Also, seafile natively support Single-Sign-on with LDAP and OAuth2, by following the <a href="https://manual.seafile.com/deploy/oauth/">Manual</a>&rsquo;s instruction. The configuration path is: <code>/opt/seafile/conf/seahub_settings.py</code>.</p></section>
+
+  
+  
+  <div class="paginator">
+    
+    <a class="prev" href="https://blog.cklau.cc/post/tech/k8s-setup-2/"><span>&larr;&nbsp;&nbsp;</span><span>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</span></a>
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/tech/lnet-3/"><span>👨‍💻 My Personal Experimental Network: L-Net 1.2</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+      <nav>
+        <ul>
+        
+        
+          
+            <li>
+              <a href="/post/tech/my-homelab-extra-1/">Homelab: A self-hosted GitHub Accelerator</a>
+            </li>
+          
+        
+          
+        
+          
+            <li>
+              <a href="/post/tech/my-homelab-5/">Homelab: How to build a AIO home-server</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/tech/my-homelab-4/">Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/tech/my-homelab-2/">Homelab: My Distributed Homelab</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/tech/my-homelab-3/">Homelab: My Network setup</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/tech/my-homelab-1/">Homelab: My Devices</a>
+            </li>
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+  <p>&copy; 2023 <a href="https://blog.cklau.cc">Terence Liu</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a><a href="https://blog.rho.ac.cn">(https://blog.rho.ac.cn)</a>
+️  </p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

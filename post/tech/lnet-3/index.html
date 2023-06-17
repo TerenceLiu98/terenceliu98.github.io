@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terence Liu</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@👨‍💻 My Personal Experimental Network: L-Net 1.2 - Terence Liu">
+    <meta name="author" content="Terence Liu">
+    <link rel="canonical" href="https://blog.cklau.cc/post/tech/lnet-3/">
+
+    
+
+
+    <meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.2" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/tech/lnet-3/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-01-03T00:16:21+08:00" />
+<meta property="article:modified_time" content="2023-01-03T00:16:21+08:00" />
+<meta property="og:see_also" content="https://blog.cklau.cc/post/tech/lnet-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/tech/lnet-1/" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.2"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "👨‍💻 My Personal Experimental Network: L-Net 1.2",
+      "item": "https://blog.cklau.cc/post/tech/lnet-3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "👨‍💻 My Personal Experimental Network: L-Net 1.2",
+  "name": "👨‍💻 My Personal Experimental Network: L-Net 1.2",
+  "description": "",
+  "keywords": [
+    "networking", "wireguard", "BGP", "experimental network"
+  ],
+  "articleBody": "Before In the previous project: Homelab, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.\nHowever, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.\nVXLAN VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments. It uses a VLAN-like encapsulation technique to encapsulate OSI layer 2 Ethernet frames within layer 4 UDP datagrams, using 4789 as the default IANA-assigned destination UDP port number.\nIn short, it is a extension for VLAN where VLAN only use 12 bit and can only cantains 4094 VLANs, however, VXLAN use 24-bit (VNI, vxlan network identfier) which can allows more vlan as it has a large MAC address tables. However, in my scenario, I build vxlan over wireguard just because vxlan interface is on layer 2 where it contains MAC address which provide more flexibility, e.g. multicast, broadcast, and etc..\nPoint to Point VXLAN Assumes that there are two machines: A wth 192.168.100.100/32 and B with 192.168.100.101/32, and we want to create a overlay CIDR 10.100.0.0/24. To do so, first we need to create the vxlan interface vxlanAB in each machine, assign the ip to the interface and set up the interace:\n# for machine A ip link add vxlanAB type vxlan id 42 dstport 4789 remote 192.168.100.101 local 192.168.100.100 dev eth0 ip addr add 10.100.0.1/24 dev vxlanAB ip link set vxlanAB up # for machine B ip link add vxlanAB type vxlan id 42 dstport 4789 remote 192.168.100.100 local 192.168.100.101 dev eth0 ip addr add 10.100.0.2/24 dev vxlanAB ip link set vxlanAB up # try to ping from A to B ping 10.100.0.2 Multicast VXLAN If we have three machines, A wth 192.168.100.100/32, B with 192.168.100.101/32 and C with 192.168.100.102/32. We can us VXLAN’s multicast for auto dscovery by adding the vtep into the multicast group\n# for machine A ip link add vxlanABC type vxlan id 42 dstport 4789 group 239.1.1.1 dev eth0 ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up # for machine B ip link add vxlanABC type vxlan id 42 dstport 4789 group 239.1.1.1 dev eth0 ip addr add 10.100.0.2/24 dev vxlanABC ip link set vxlanABC up # for machine C ip link add vxlanABC type vxlan id 42 dstport 4789 group 239.1.1.1 dev eth0 ip addr add 10.100.0.3/24 dev vxlanABC ip link set vxlanABC up # try to ping from A to B/C ping 192.168.0.{2, 3} Multicast VXLAN has multiple benefits, for example, auto discovery of other VTEPs shareingthe same multicast group, group bandwidth usage (packets are replaced as late as possible). However, since Wireguard is a Layer 3 tunnel, which means we cannot multicast or broadcast via it. With ifconfig, it shows: wg0: flags=209 mtu 1420. In this way we can only build the tunnel with unicast addresses, which can be easily done by using iproute2. We keep the assumption of machines’ name and ip, and develop a unicast flooding:\nMachine A will send a ARP package asking who is 10.100.0.2 this package will send to all machines’ VTEP # for machine A ip link add vxlanABC type vxlan id 42 dstport 4789 dev eth0 bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up # for machine B ip link add vxlanABC type vxlan id 42 dstport 4789 dev eth0 bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up # for machine C ip link add vxlanABC type vxlan id 42 dstport 4789 dev eth0 bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up In this scheme, we set up a unknown-unicast traffic, where a machine recives unicast traffic intended to be delivered to a destination that is not in its forwarding information base, which means every machine in the network will receive the VXLAN message, we can use tcpdump -vni vxlanABC to check this message:\n20:19:56.674410 ARP, Ethernet (len 6), IPv4 (len 4), Request who-has 10.100.0.1 tell 10.100.0.2, length 28 20:19:56.706706 ARP, Ethernet (len 6), IPv4 (len 4), Reply 10.100.0.1 is-at 4e:b8:1f:b5:df:6f, length 28 With this solution, the machine can receives all the MAC-IP to FDB after a while.\nL-Net 1.2 Previously, I set up multiple wireguard tunnels for establishing the backbone network. However, dozen of interfaces is ok but not elegant. Also, if we want to develop a full-mesh network, we need $2n-2$ tunnels for $n$ nodes. With the implemenetation of VXLAN over Wireguard, the underlay full-mesh network(wireguard) can be easily developed.\nIn wireguard configuration, we can use PreUp/PostUp - PreDown/PostDown command to set up ip route before/after the wireguard interface up/down. Thus, we can set up the vxlan configuration inside the wireguard configuration. Under this configuration, we no longer care about the wireguard’s ip addr, instead, we are using the vxlan’s ip addr. Here is an example:\n[Interface] Address = 192.168.228.166/24 ListenPort = 51820 PrivateKey = Table = off PostUp = ip link add v%i type vxlan id 49371 dstport 4789 ttl 1 dev %i PostUp = bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.128 dev v%i PostUp = bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.60 dev v%i PostUp = ip address add 192.168.102.1/24 dev v%i PostUp = ip address add fde9:632e:2c3f:0:62bb:bbe3:3778:37ad/64 dev v%i PostUp = ip link set v%i up PreDown = ip link set v%i down PreDown = ip link delete v%i [Peer] # Name = gauss PublicKey = AllowedIPs = 192.168.228.128/32 PersistentKeepalive = 25 Endpoint = xxx.xxx.xxx.xxx:51820 [Peer] # Name = hilbert PublicKey = AllowedIPs = 192.168.228.60/32 PersistentKeepalive = 25 Endpoint = xxx.xxx.xxx.xxx:51820 Since, the vxlan’s traffic is over wireguard’s interface, intuitively, I use PostUp in the configuration. By following the unicast flooding configuration, we can set up the vxlan inside the wireguard config file. For the router, we can keep iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE in the PostUp as we are trying to use it as the gateway for network traffic.\nBased on the experience above, I modify the wgtools to fit the demands. In the new branch, we did not care about the wireguard’s addr, instead, we focus on the vxlan’s addr. Thus, I just use 192.168.200.0/16 for generate the wg connection. For the rest part are basically the same from the previous.\n",
+  "wordCount" : "1111",
+  "inLanguage": "en",
+  "datePublished": "2023-01-03T00:16:21+08:00",
+  "dateModified": "2023-01-03T00:16:21+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Terence Liu"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/tech/lnet-3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Terence Liu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/icon.png">
+
+<link rel="manifest" href="/images/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script>
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.a8c311691615cbefe21eae4cf71fc9fb26320b4328badec43cd33226f7428d46.css" integrity="sha256-qMMRaRYVy&#43;/iHq5M9x/J&#43;yYyC0Mout7EPNMyJvdCjUY=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    </head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s Blog
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Blog</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/tags">Tags</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/projects">Project</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>👨‍💻 My Personal Experimental Network: L-Net 1.2</h1>
+  </header>
+
+  <p>
+  <small>
+    January 3, 2023&nbsp;· 1111 words&nbsp;· 6 min</small>
+  <small>
+    
+    ·
+    
+    
+    <a href="https://blog.cklau.cc/tags/networking/">networking</a>
+    
+    <a href="https://blog.cklau.cc/tags/wireguard/">wireguard</a>
+    
+    <a href="https://blog.cklau.cc/tags/bgp/">BGP</a>
+    
+    <a href="https://blog.cklau.cc/tags/experimental-network/">experimental network</a>
+    
+  </small>
+<p>
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#before">Before</a></li>
+    <li><a href="#vxlan">VXLAN</a>
+      <ul>
+        <li><a href="#point-to-point-vxlan">Point to Point VXLAN</a></li>
+        <li><a href="#multicast-vxlan">Multicast VXLAN</a></li>
+      </ul>
+    </li>
+    <li><a href="#l-net-12">L-Net 1.2</a></li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><h2 id="before">Before</h2>
+<p>In the previous project: <a href="https://blog.cklau.cc/post/tech/lnet-2/" title="My Personal Experimental Network">Homelab</a>, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.</p>
+<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/fee27882-b91c-4a86-b6fa-cb4f2e779982/lnet.png" alt="L-Net 1.1"></p>
+<p>However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.</p>
+<h2 id="vxlan">VXLAN</h2>
+<blockquote>
+<p>VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments. It uses a VLAN-like encapsulation technique to encapsulate OSI layer 2 Ethernet frames within layer 4 UDP datagrams, using 4789 as the default IANA-assigned destination UDP port number.</p>
+</blockquote>
+<p>In short, it is a extension for VLAN where VLAN only use 12 bit and can only cantains 4094 VLANs, however, VXLAN use 24-bit (VNI, vxlan network identfier) which can allows more vlan as it has a large MAC address tables. However, in my scenario, I build vxlan over wireguard just because vxlan interface is on layer 2 where it contains MAC address which provide more flexibility, e.g. multicast, broadcast, and etc..</p>
+<h3 id="point-to-point-vxlan">Point to Point VXLAN</h3>
+<p>Assumes that there are two machines: A wth <code>192.168.100.100/32</code> and B with <code>192.168.100.101/32</code>, and we want to create a overlay CIDR <code>10.100.0.0/24</code>.  To do so, first we need to create the vxlan interface <code>vxlanAB</code> in each machine, assign the ip to the interface and set up the interace:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># for machine A</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanAB type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> remote 192.168.100.101 local 192.168.100.100 dev eth0
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.1/24 dev vxlanAB
+</span></span><span style="display:flex;"><span>ip link set vxlanAB up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for machine B</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanAB type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> remote 192.168.100.100 local 192.168.100.101 dev eth0
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.2/24 dev vxlanAB
+</span></span><span style="display:flex;"><span>ip link set vxlanAB up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># try to ping from A to B </span>
+</span></span><span style="display:flex;"><span>ping 10.100.0.2
+</span></span></code></pre></div><h3 id="multicast-vxlan">Multicast VXLAN</h3>
+<p>If we have three machines, A wth <code>192.168.100.100/32</code>, B with <code>192.168.100.101/32</code> and C with <code>192.168.100.102/32</code>. We can us VXLAN&rsquo;s multicast for auto dscovery by adding the vtep into the multicast group</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># for machine A</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanABC type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> group 239.1.1.1 dev eth0
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.1/24 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip link set vxlanABC up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for machine B</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanABC type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> group 239.1.1.1 dev eth0
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.2/24 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip link set vxlanABC up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for machine C</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanABC type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> group 239.1.1.1 dev eth0
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.3/24 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip link set vxlanABC up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># try to ping from A to B/C</span>
+</span></span><span style="display:flex;"><span>ping 192.168.0.<span style="color:#f92672">{</span>2, 3<span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Multicast VXLAN has multiple benefits, for example, auto discovery of other VTEPs shareingthe same multicast group, group bandwidth usage (packets are replaced as late as possible). However, since Wireguard is a Layer 3 tunnel, which means we cannot multicast or broadcast via it. With <code>ifconfig</code>, it shows: <code>wg0: flags=209&lt;UP,POINTOPOINT,RUNNING,NOARP&gt;  mtu 1420</code>. In this way we can only build the tunnel with unicast addresses, which can be easily done by using iproute2. We keep the assumption of machines&rsquo; name and ip, and develop a unicast flooding:</p>
+<ol>
+<li>Machine A will send a ARP package asking <code>who is 10.100.0.2</code></li>
+<li>this package will send to all machines&rsquo; VTEP</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># for machine A</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanABC type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> dev eth0
+</span></span><span style="display:flex;"><span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC
+</span></span><span style="display:flex;"><span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.1/24 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip link set vxlanABC up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for machine B</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanABC type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> dev eth0
+</span></span><span style="display:flex;"><span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC
+</span></span><span style="display:flex;"><span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.1/24 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip link set vxlanABC up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for machine C</span>
+</span></span><span style="display:flex;"><span>ip link add vxlanABC type vxlan id <span style="color:#ae81ff">42</span> dstport <span style="color:#ae81ff">4789</span> dev eth0
+</span></span><span style="display:flex;"><span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC
+</span></span><span style="display:flex;"><span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip addr add 10.100.0.1/24 dev vxlanABC
+</span></span><span style="display:flex;"><span>ip link set vxlanABC up
+</span></span></code></pre></div><p>In this scheme, we set up a unknown-unicast traffic, where a machine recives unicast traffic intended to be delivered to a destination that is not in its forwarding information base, which means every machine in the network will receive the VXLAN message, we can use <code>tcpdump -vni vxlanABC</code> to check this message:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>20:19:56.674410 ARP, Ethernet <span style="color:#f92672">(</span>len 6<span style="color:#f92672">)</span>, IPv4 <span style="color:#f92672">(</span>len 4<span style="color:#f92672">)</span>, Request who-has 10.100.0.1 tell 10.100.0.2, length <span style="color:#ae81ff">28</span>
+</span></span><span style="display:flex;"><span>20:19:56.706706 ARP, Ethernet <span style="color:#f92672">(</span>len 6<span style="color:#f92672">)</span>, IPv4 <span style="color:#f92672">(</span>len 4<span style="color:#f92672">)</span>, Reply 10.100.0.1 is-at 4e:b8:1f:b5:df:6f, length <span style="color:#ae81ff">28</span>
+</span></span></code></pre></div><p>With this solution, the machine can receives all the MAC-IP to FDB after a while.</p>
+<h2 id="l-net-12">L-Net 1.2</h2>
+<p>Previously, I set up multiple wireguard tunnels for establishing the backbone network. However,  dozen of interfaces is ok but not elegant. Also, if we want to develop a full-mesh network, we need $2n-2$ tunnels for $n$ nodes. With the implemenetation of VXLAN over Wireguard, the underlay full-mesh network(wireguard) can be easily developed.</p>
+<p>In wireguard configuration, we can use <code>PreUp/PostUp - PreDown/PostDown</code> command to set up ip route before/after the wireguard interface up/down. Thus, we can set up the vxlan configuration inside the wireguard configuration. Under this configuration, we no longer care about the wireguard&rsquo;s ip addr, instead, we are using the vxlan&rsquo;s ip addr. Here is an example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Address <span style="color:#f92672">=</span> 192.168.228.166/24
+</span></span><span style="display:flex;"><span>ListenPort <span style="color:#f92672">=</span> <span style="color:#ae81ff">51820</span>
+</span></span><span style="display:flex;"><span>PrivateKey <span style="color:#f92672">=</span> &lt;pri-key&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Table <span style="color:#f92672">=</span> off
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> ip link add v%i type vxlan id <span style="color:#ae81ff">49371</span> dstport <span style="color:#ae81ff">4789</span> ttl <span style="color:#ae81ff">1</span> dev %i
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.128 dev v%i
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.60 dev v%i
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> ip address add 192.168.102.1/24 dev v%i
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> ip address add fde9:632e:2c3f:0:62bb:bbe3:3778:37ad/64 dev v%i
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> ip link set v%i up
+</span></span><span style="display:flex;"><span>PreDown <span style="color:#f92672">=</span> ip link set v%i down
+</span></span><span style="display:flex;"><span>PreDown <span style="color:#f92672">=</span> ip link delete v%i
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Name = gauss</span>
+</span></span><span style="display:flex;"><span>PublicKey <span style="color:#f92672">=</span> &lt;pub-key&gt;
+</span></span><span style="display:flex;"><span>AllowedIPs <span style="color:#f92672">=</span> 192.168.228.128/32
+</span></span><span style="display:flex;"><span>PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51820
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Name = hilbert</span>
+</span></span><span style="display:flex;"><span>PublicKey <span style="color:#f92672">=</span> &lt;pub-key&gt;
+</span></span><span style="display:flex;"><span>AllowedIPs <span style="color:#f92672">=</span> 192.168.228.60/32
+</span></span><span style="display:flex;"><span>PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51820
+</span></span></code></pre></div><p>Since, the vxlan&rsquo;s traffic is over wireguard&rsquo;s interface, intuitively, I use <code>PostUp</code> in the configuration. By following the <em>unicast flooding</em> configuration, we can set up the vxlan inside the wireguard config file. For the router, we can keep <code>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</code> in the <code>PostUp</code> as we are trying to use it as the gateway for network traffic.</p>
+<p>Based on the experience above, I modify the <a href="https://github.com/TerenceLiu98/wgtools/tree/vxlan">wgtools</a> to fit the demands. In the new branch, we did not care about the wireguard&rsquo;s addr, instead, we focus on the vxlan&rsquo;s addr. Thus, I just use <code>192.168.200.0/16</code> for generate the wg connection. For the rest part are basically the same from the previous.</p></section>
+
+  
+  
+  <div class="paginator">
+    
+    <a class="prev" href="https://blog.cklau.cc/post/tech/my-homelab-6/"><span>&larr;&nbsp;&nbsp;</span><span>Homelab: My Distributed Homelab (2)</span></a>
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/tech/lnet-2/"><span>👨‍💻 My Personal Experimental Network: L-Net 1.1</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+      <nav>
+        <ul>
+        
+        
+          
+        
+          
+            <li>
+              <a href="/post/tech/lnet-2/">👨‍💻 My Personal Experimental Network: L-Net 1.1</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/tech/lnet-1/">👨‍💻 My Personal Experimental Network: L-Net</a>
+            </li>
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+  <p>&copy; 2023 <a href="https://blog.cklau.cc">Terence Liu</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a><a href="https://blog.rho.ac.cn">(https://blog.rho.ac.cn)</a>
+️  </p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>
