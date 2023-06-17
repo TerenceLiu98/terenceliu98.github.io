@@ -16,15 +16,6 @@
     </item>
     
     <item>
-      <title>👨🏿‍⚕️ RetiGAN: A GAN-based model on retinal Image synthesis</title>
-      <link>https://blog.cklau.cc/post/sci/cv-retigan-1/</link>
-      <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      
-      <guid>https://blog.cklau.cc/post/sci/cv-retigan-1/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title>
       <link>https://blog.cklau.cc/post/k8s-setup-2/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
@@ -152,11 +143,11 @@
     
     <item>
       <title></title>
-      <link>https://blog.cklau.cc/post/sci/dl-gan-1/</link>
+      <link>https://blog.cklau.cc/post/sci/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.cklau.cc/post/sci/dl-gan-1/</guid>
-      <description></description>
+      <guid>https://blog.cklau.cc/post/sci/</guid>
+      <description>a b</description>
     </item>
     
   </channel>
