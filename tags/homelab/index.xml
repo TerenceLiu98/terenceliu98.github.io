@@ -5,7 +5,16 @@
     <link>https://blog.cklau.cc/tags/homelab/</link>
     <description>Recent content in homelab on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 24 Jan 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/homelab/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/homelab/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Homelab: A self-hosted GitHub Accelerator</title>
+      <link>https://blog.cklau.cc/post/my-homelab-extra-1/</link>
+      <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Homelab: My Distributed Homelab (2)</title>
       <link>https://blog.cklau.cc/post/my-homelab-6/</link>

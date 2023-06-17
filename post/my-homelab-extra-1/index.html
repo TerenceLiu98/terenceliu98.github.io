@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terence Liu</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@Homelab: A self-hosted GitHub Accelerator - Terence Liu">
+    <meta name="author" content="Terence Liu">
+    <link rel="canonical" href="https://blog.cklau.cc/post/my-homelab-extra-1/">
+
+    
+
+
+    <meta property="og:title" content="Homelab: A self-hosted GitHub Accelerator" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-extra-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-06-17T00:11:21+08:00" />
+<meta property="article:modified_time" content="2023-06-17T00:11:21+08:00" />
+<meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-6/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-5/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-4/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-3/" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Homelab: A self-hosted GitHub Accelerator"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Homelab: A self-hosted GitHub Accelerator",
+      "item": "https://blog.cklau.cc/post/my-homelab-extra-1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Homelab: A self-hosted GitHub Accelerator",
+  "name": "Homelab: A self-hosted GitHub Accelerator",
+  "description": "",
+  "keywords": [
+    "homelab", "proxy", "github"
+  ],
+  "articleBody": "In general, there are multiple ways for you to accelerate the git pull / git push or download the release/source code from GitHub:\nYou may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port] You may use a public github-proxy, e.g. ghproxy.com or gh-proxy.com You can also build a self-hosted ghproxy-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:\nversion: \"3\" services: gh-proxy: image: stilleshan/gh-proxy container_name: gh-proxy ports: - 12345:80 restart: always With nginx you can proxy the service to a sub-domain:\n# Upstream where your authentik server is hosted. upstream ghproxy { server 127.0.0.1:12345; # Improve performance by keeping some connections alive. keepalive 10; } # Upgrade WebSocket if requested, otherwise use keepalive map $http_upgrade $connection_upgrade_keepalive { default upgrade; '' ''; } server { # HTTP server config listen 80; server_name ghproxy.example.com; # 301 redirect to HTTPS location / { return 301 https://$host$request_uri; } } server { # HTTPS server config listen 443 ssl http2; server_name ghproxy.example.com; # TLS certificates ssl_certificate /var/www/ssl/example.com.crt; ssl_certificate_key /var/www/ssl/example.com.key; # Proxy site location / { proxy_pass http://ghproxy; proxy_http_version 1.1; proxy_set_header X-Forwarded-Proto $scheme; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header Host $host; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection $connection_upgrade_keepalive; } } ",
+  "wordCount" : "208",
+  "inLanguage": "en",
+  "datePublished": "2023-06-17T00:11:21+08:00",
+  "dateModified": "2023-06-17T00:11:21+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Terence Liu"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/my-homelab-extra-1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Terence Liu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/icon.png">
+
+<link rel="manifest" href="/images/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script>
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.a8c311691615cbefe21eae4cf71fc9fb26320b4328badec43cd33226f7428d46.css" integrity="sha256-qMMRaRYVy&#43;/iHq5M9x/J&#43;yYyC0Mout7EPNMyJvdCjUY=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    </head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s Blog
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Blog</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/tags">Tags</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/projects">Project</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>Homelab: A self-hosted GitHub Accelerator</h1>
+  </header>
+
+  <p>
+  <small>
+    June 17, 2023&nbsp;· 208 words&nbsp;· One minute</small>
+  <small>
+    
+    ·
+    
+    
+    <a href="https://blog.cklau.cc/tags/homelab/">homelab</a>
+    
+    <a href="https://blog.cklau.cc/tags/proxy/">proxy</a>
+    
+    <a href="https://blog.cklau.cc/tags/github/">github</a>
+    
+  </small>
+<p>
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents"></nav>
+  </div>
+
+  <section class="blog-content"><p>In general, there are multiple ways for you to accelerate the <code>git pull / git push</code> or download the release/source code from <a href="https://github.com">GitHub</a>:</p>
+<ol>
+<li>You may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal <code>export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port]</code></li>
+<li>You may use a public <code>github-proxy</code>, e.g. <a href="https://ghproxy.com">ghproxy.com</a> or <a href="https://gh-proxy.com">gh-proxy.com</a></li>
+</ol>
+<p>You can also build a self-hosted <code>ghproxy</code>-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">gh-proxy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">stilleshan/gh-proxy</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">gh-proxy</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">12345</span>:<span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span></code></pre></div><p>With <code>nginx</code> you can proxy the service to a sub-domain:</p>
+<pre tabindex="0"><code># Upstream where your authentik server is hosted.
+upstream ghproxy {
+    server 127.0.0.1:12345;
+    # Improve performance by keeping some connections alive.
+    keepalive 10;
+}
+
+# Upgrade WebSocket if requested, otherwise use keepalive
+map $http_upgrade $connection_upgrade_keepalive {
+    default upgrade;
+    &#39;&#39;      &#39;&#39;;
+}
+
+server {
+    # HTTP server config
+    listen 80;
+    server_name ghproxy.example.com;
+
+    # 301 redirect to HTTPS
+    location / {
+            return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    # HTTPS server config
+    listen 443 ssl http2;
+    server_name ghproxy.example.com;
+
+    # TLS certificates
+    ssl_certificate /var/www/ssl/example.com.crt;
+    ssl_certificate_key /var/www/ssl/example.com.key;
+
+    # Proxy site
+    location / {
+        proxy_pass http://ghproxy;
+        proxy_http_version 1.1;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade_keepalive;
+    }
+}
+</code></pre></section>
+
+  
+  
+  <div class="paginator">
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/sci/cv-retigan-1/"><span>👨🏿‍⚕️ RetiGAN: A GAN-based model on retinal Image synthesis</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+      <nav>
+        <ul>
+        
+        
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-6/">Homelab: My Distributed Homelab (2)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-5/">Homelab: How to build a AIO home-server</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-4/">Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-2/">Homelab: My Distributed Homelab</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-3/">Homelab: My Network setup</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-1/">Homelab: My Devices</a>
+            </li>
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+  <p>&copy; 2023 <a href="https://blog.cklau.cc">Terence Liu</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a><a href="https://blog.rho.ac.cn">(https://blog.rho.ac.cn)</a>
+️  </p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

@@ -5,7 +5,16 @@
     <link>https://blog.cklau.cc/</link>
     <description>Recent content on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 02 Apr 2023 00:13:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Homelab: A self-hosted GitHub Accelerator</title>
+      <link>https://blog.cklau.cc/post/my-homelab-extra-1/</link>
+      <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>👯 Friends</title>
       <link>https://blog.cklau.cc/friends/</link>
@@ -17,10 +26,10 @@
     
     <item>
       <title>👨🏿‍⚕️ RetiGAN: A GAN-based model on retinal Image synthesis</title>
-      <link>https://blog.cklau.cc/post/medcv-retigan-1/</link>
+      <link>https://blog.cklau.cc/post/sci/cv-retigan-1/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
       
-      <guid>https://blog.cklau.cc/post/medcv-retigan-1/</guid>
+      <guid>https://blog.cklau.cc/post/sci/cv-retigan-1/</guid>
       <description></description>
     </item>
     
@@ -94,7 +103,7 @@
       
       <guid>https://blog.cklau.cc/projects/</guid>
       <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
-Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) K3s/Kubernetes - A quick setup for single machine K3s/Kubernetes - A quick setup for HA K3s/Kubernetes - A self-hosted registry K3s/Kubernetes - How GitOps works - Coming soon K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes - Build a High availability Kubernetes Cluster with Kubeadm Personal Project: Personal Experimental Network: L-Net These articles are inside my projects: Build a Experimental Network with your VPS</description>
+Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) Homelab: A self-hosted GitHub Accelerator K3s/Kubernetes: A quick setup for single machine K3s/Kubernetes: A quick setup for HA K3s/Kubernetes: A self-hosted registry K3s/Kubernetes: How GitOps works - Coming soon K3s/Kubernetes: From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm Personal Project: Personal Experimental Network: L-Net These articles are inside my projects: Build a Experimental Network with your VPS</description>
     </item>
     
     <item>
@@ -166,6 +175,15 @@ Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Ho
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
       
       <guid>https://blog.cklau.cc/post/my-homelab-1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.cklau.cc/post/sci/dl-gan-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/sci/dl-gan-1/</guid>
       <description></description>
     </item>
     
