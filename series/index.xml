@@ -5,7 +5,25 @@
     <link>https://blog.cklau.cc/series/</link>
     <description>Recent content in Series on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/series/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Knowledge Management</title>
+      <link>https://blog.cklau.cc/series/knowledge-management/</link>
+      <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/series/knowledge-management/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Project Management</title>
+      <link>https://blog.cklau.cc/series/project-management/</link>
+      <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/series/project-management/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>homelab</title>
       <link>https://blog.cklau.cc/series/homelab/</link>

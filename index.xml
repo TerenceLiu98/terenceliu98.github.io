@@ -5,7 +5,19 @@
     <link>https://blog.cklau.cc/</link>
     <description>Recent content on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</title>
+      <link>https://blog.cklau.cc/post/specification/</link>
+      <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/specification/</guid>
+      <description>There are multiple articles have illustruated that the project(code) management is important:
+neptune.ai - how to organize deep learning projects 深度学习科研，如何高效进行代码和实验管理？ In this guideline, I would mainly shows you how I manage my project&amp;rsquo;s code and link the new knowledge to the knowledge base.
+In General A lifecyle of a project may includes this five points1:
+Planning and project setup Define the task and scope out requirements Determine project feasibility Discuss general model tradeoffs (accuracy vs speed) Set up project codebase Data collection and labelling Define ground truth (create labeling documentation) Build data ingestion pipeline Validate quality of data Label data and ensure ground truth is well-definend Revisit Step 1 and ensure data is sufficient for the task Model exploration Establish baselines for model performance Start with a simple model using initial data pipeline Overfit simple model to training data Stay nimble and try many parallel (isolated) ideas during early stages Find SoTA model for your problem domain (if available) and reproduce results, then apply to your dataset as a second baseline Revisit Step 1 and ensure feasibility Revisit Step 2 and ensure data quality is sufficient Model refinement Perform model-specific optimizations (ie.</description>
+    </item>
+    
     <item>
       <title>Homelab: A self-hosted GitHub Accelerator</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-extra-1/</link>

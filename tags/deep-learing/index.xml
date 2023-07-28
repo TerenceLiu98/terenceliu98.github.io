@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Terence Liu</title>
-    <link>https://blog.cklau.cc/post/</link>
-    <description>Recent content on Terence Liu</description>
+    <title>Deep Learing on Terence Liu</title>
+    <link>https://blog.cklau.cc/tags/deep-learing/</link>
+    <description>Recent content in Deep Learing on Terence Liu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/deep-learing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</title>
       <link>https://blog.cklau.cc/post/specification/</link>
