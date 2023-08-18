@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>homelab on Terence Liu</title>
+    <title>homelab on CKLAU&#39;s Blog</title>
     <link>https://blog.cklau.cc/series/homelab/</link>
-    <description>Recent content in homelab on Terence Liu</description>
+    <description>Recent content in homelab on CKLAU&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/series/homelab/index.xml" rel="self" type="application/rss+xml" />
     <item>

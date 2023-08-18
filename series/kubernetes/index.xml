@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on Terence Liu</title>
+    <title>kubernetes on CKLAU&#39;s Blog</title>
     <link>https://blog.cklau.cc/series/kubernetes/</link>
-    <description>Recent content in kubernetes on Terence Liu</description>
+    <description>Recent content in kubernetes on CKLAU&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 19 Feb 2023 22:42:17 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/series/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>

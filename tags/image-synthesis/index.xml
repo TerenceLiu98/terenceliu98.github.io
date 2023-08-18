@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Image Synthesis on Terence Liu</title>
+    <title>Image Synthesis on CKLAU&#39;s Blog</title>
     <link>https://blog.cklau.cc/tags/image-synthesis/</link>
-    <description>Recent content in Image Synthesis on Terence Liu</description>
+    <description>Recent content in Image Synthesis on CKLAU&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://blog.cklau.cc/tags/image-synthesis/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>👨‍💻 Style Transfer and Synthesis (1/3): Style Transfer in Image Synthesis</title>
