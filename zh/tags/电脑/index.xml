@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>电脑 on 特倫蘇的日與夜</title>
+    <link>https://blog.cklau.cc/zh/tags/%E7%94%B5%E8%84%91/</link>
+    <description>Recent content in 电脑 on 特倫蘇的日與夜</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 18 Jan 2024 00:12:00 +0000</lastBuildDate><atom:link href="https://blog.cklau.cc/zh/tags/%E7%94%B5%E8%84%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>💻 从白苹果到黑苹果 - SER5 MAX 的骇金塔之旅</title>
+      <link>https://blog.cklau.cc/zh/post/hackintosh/</link>
+      <pubDate>Thu, 18 Jan 2024 00:12:00 +0000</pubDate>
+      
+      <guid>https://blog.cklau.cc/zh/post/hackintosh/</guid>
+      <description>Tip 💡 For learning and communication purposes only. Commercial use is strictly prohibited. 此文为技术实践记录和个人学习用途，并已经删除相关文件，包括且不限 EFI 文件和镜像。 一台 mini PC 笔者目前的工作和生活在不知不</description>
+    </item>
+    
+  </channel>
+</rss>
