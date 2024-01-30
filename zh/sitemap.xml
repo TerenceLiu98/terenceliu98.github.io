@@ -2,11 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.cklau.cc/zh/post/hackintosh/</loc>
-    <lastmod>2024-01-19T16:34:10+00:00</lastmod>
-  </url><url>
     <loc>https://blog.cklau.cc/zh/post/</loc>
-    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -18,46 +15,8 @@
                 href="https://blog.cklau.cc/zh/post/"
                 />
   </url><url>
-    <loc>https://blog.cklau.cc/zh/tags/</loc>
-    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.cklau.cc/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://blog.cklau.cc/zh/tags/"
-                />
-  </url><url>
-    <loc>https://blog.cklau.cc/zh/tags/%E7%94%B5%E8%84%91/</loc>
-    <lastmod>2024-01-19T16:34:10+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/zh/</loc>
-    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.cklau.cc/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://blog.cklau.cc/zh/"
-                />
-  </url><url>
-    <loc>https://blog.cklau.cc/zh/tags/%E6%97%A0%E4%B8%9A%E6%B8%B8%E6%B0%91/</loc>
-    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/zh/tags/%E6%8A%98%E8%85%BE/</loc>
-    <lastmod>2024-01-19T16:34:10+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/zh/post/edu-in-child/</loc>
-    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
-  </url><url>
     <loc>https://blog.cklau.cc/zh/series/</loc>
-    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -69,13 +28,63 @@
                 href="https://blog.cklau.cc/zh/series/"
                 />
   </url><url>
+    <loc>https://blog.cklau.cc/zh/tags/</loc>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/tags/"
+                />
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/post/cdn-divertor/</loc>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/</loc>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/"
+                />
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/tags/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/series/%E6%9D%82%E6%96%87/</loc>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/post/hackintosh/</loc>
+    <lastmod>2024-01-19T16:34:10+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/tags/%E7%94%B5%E8%84%91/</loc>
+    <lastmod>2024-01-19T16:34:10+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/tags/%E6%97%A0%E4%B8%9A%E6%B8%B8%E6%B0%91/</loc>
+    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/tags/%E6%8A%98%E8%85%BE/</loc>
+    <lastmod>2024-01-19T16:34:10+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/post/edu-in-child/</loc>
+    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
+  </url><url>
     <loc>https://blog.cklau.cc/zh/tags/%E4%BA%BA%E7%B1%BB/</loc>
     <lastmod>2024-01-20T09:39:01+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/zh/tags/%E6%9D%82%E6%96%87/</loc>
-    <lastmod>2024-01-20T09:39:01+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/zh/series/%E6%9D%82%E6%96%87/</loc>
     <lastmod>2024-01-20T09:39:01+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/zh/post/podcast/</loc>
@@ -86,6 +95,19 @@
   </url><url>
     <loc>https://blog.cklau.cc/zh/tags/%E5%B9%BF%E6%92%AD/</loc>
     <lastmod>2024-01-20T09:39:01+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/zh/gadgets/</loc>
+    <lastmod>2024-01-30T08:01:55+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/gadgets/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/gadgets/"
+                />
   </url><url>
     <loc>https://blog.cklau.cc/zh/friends/</loc>
     <lastmod>2023-11-10T21:47:18+00:00</lastmod>

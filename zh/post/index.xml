@@ -5,7 +5,16 @@
     <link>https://blog.cklau.cc/zh/post/</link>
     <description>Recent content in Posts on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 18 Jan 2024 00:12:00 +0000</lastBuildDate><atom:link href="https://blog.cklau.cc/zh/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Jan 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/zh/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🛜 境内外 CDN 分流配置</title>
+      <link>https://blog.cklau.cc/zh/post/cdn-divertor/</link>
+      <pubDate>Mon, 29 Jan 2024 00:00:00 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/zh/post/cdn-divertor/</guid>
+      <description>前置条件 本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。 我的静态博客</description>
+    </item>
+    
     <item>
       <title>💻 从白苹果到黑苹果 - SER5 MAX 的骇金塔之旅</title>
       <link>https://blog.cklau.cc/zh/post/hackintosh/</link>

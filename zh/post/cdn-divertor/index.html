@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特倫蘇的日與夜</title>
+    <meta charset="utf-8">
+    <meta name="description" content="前置条件 本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。 我的静态博客">
+    <meta name="author" content="劉駿傑">
+    <link rel="canonical" href="https://blog.cklau.cc/zh/post/cdn-divertor/">
+        <meta name="google-site-verification" content="GTM-MC97JQPW">
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
+}
+</script>
+
+
+
+    <meta property="og:title" content="🛜 境内外 CDN 分流配置" />
+<meta property="og:description" content="前置条件 本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。 我的静态博客" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/zh/post/cdn-divertor/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2024-01-29T00:00:00+08:00" />
+<meta property="article:modified_time" content="2024-01-30T08:01:55+00:00" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="🛜 境内外 CDN 分流配置"/>
+<meta name="twitter:description" content="前置条件 本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。 我的静态博客"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "🛜 境内外 CDN 分流配置",
+      "item": "https://blog.cklau.cc/zh/post/cdn-divertor/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "🛜 境内外 CDN 分流配置",
+  "name": "🛜 境内外 CDN 分流配置",
+  "description": "前置条件 本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。 我的静态博客",
+  "keywords": [
+    "网络配置", "博客"
+  ],
+  "articleBody": "前置条件 本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。\n我的静态博客是托管在 GitHub Page，并且使用了 Cloudflare 的 CDN 服务。 我拥有一台境内服务器，并且有一个已备案域名，可以满足国内 CDN 的要求。 境内外 CDN 分流 网站运行 我的网站部署流程是这样的：\n在本地编写博客内容，使用 Hugo 生成静态网页进行内容渲染进行检查。 将 source file 推动到 TerenceLiu98.github.io.source 仓库，使用 GitHub Action 进行自动部署。 在 GitHub Action 中，使用 Hugo 生成静态网页，并将生成的网页推送到 TerenceLiu98.github.io 在 Cloudflare 中，将 TerenceLiu98.github.io 仓库的内容进行 CDN 加速。 具体配置 你需要在国内的服务器上搭建一个 HTTP 服务，用于分流境内的请求。这里我使用了 Nginx 作为 HTTP 服务，因为我从一开始就在使用 nginx 所以相对熟悉。不过你也可以使用其他 HTTP 服务，比如 Caddy，Caddy 有一个很好的特性，就是可以自动申请 HTTPS 证书，这样你就不需要自己去申请证书了。我这里使用 ACME 进行证书申请，所以就不再使用 Caddy 了。\nserver { listen 80; listen [::]:80; server_name blog.rho.ac.cn; return 301 https://$host$request_uri; } server { listen 443 ssl; server_name blog.rho.ac.cn; ssl_certificate /home/ubuntu/acme-script/ssl/rho.ac.cn.pem; ssl_certificate_key /home/ubuntu/acme-script/ssl/rho.ac.cn.key; root /var/www/terenceliu98.github.io; index index.php index.html index.htm; location / { try_files $uri $uri/ =404; } } 其中，server_name 是准备的备案后域名，root 指向的是我存储博客内容的地方，index 指定了默认的首页。ssl_certificate 和 ssl_certificate_key 指定了 HTTPS 证书的位置。你也可以对 nginx 配置文件进行定制，这里不再赘述。在准备好这些以后，可以尝试运行网站，如果没有问题，那么就可以进行下一步了。\n当然，这里应该会遇到一个域名错误的问题，因为在 Hugo 里我们配置了 CNAME，所以它在渲染的时候会将域名替换成 CNAME 中指定的域名，这样就会出现域名不匹配的问题。这里我使用了一个很蠢的方式解决，就是在 Hugo 渲染之后，进行域名替换。这里我使用了一个 Bash 脚本，将域名替换成了我准备的备案后域名。\ngit restore . \u0026\u0026 git pull for file in $(find -iname '*.html'); do sed -i 's/blog.cklau.cc/blog.rho.ac.cn/g' $file done 在网站可以正常运行后，我们仅需要在腾讯云的 CDN 控制台里添加自己的域名即可，将域名解析到提供的 CNAME，主源站指向自己国内的服务器 IP，配置好回源 Host 即可1。其他平台也是一样的方法，这里不再赘述。\nCloudflare 的配置也十分简单，仅需要在 Rules 里添加一个规则，我这里选择的是根据国家进行分流，这样虽然是一刀切，但是确实保证了用户的使用体验（也是因为我买不起 GeoDNS）。\n后续 因为腾讯云 CDN 的 HTTPS 需要自己提供证书（也需要付费），所以我将刚才申请到的 ACME 证书添加到了指定的地方，不知道是否有可以自动化的方法，不然就需要三个月更新一次证书了 🥹 。\nHOST 就填自己的域名即可，不需要填 IP，因为我们已经配置了 HTTP 服务，所以需要域名进行分流。 ↩︎\n",
+  "wordCount" : "1048",
+  "inLanguage": "zh",
+  "datePublished": "2024-01-29T00:00:00+08:00",
+  "dateModified": "2024-01-30T08:01:55Z",
+  "author":{
+    "@type": "Person",
+    "name": "劉駿傑"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/zh/post/cdn-divertor/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "特倫蘇的日與夜",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/icon.png">
+
+<link rel="manifest" href="/images/icon.png">
+    
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.2ea55aaafa2a39230056f2d122a89dd2aa2a3883be0a592340a1091d201175f9.css" integrity="sha256-LqVaqvoqOSMAVvLRIqid0qoqOIO&#43;ClkjQKEJHSARdfk=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/zh">
+            特倫蘇的日與夜
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/zh/post">文章</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/zh/tags">分类</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/zh/friends">朋辈</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/zh/gadgets">工具</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+            </li>
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/">EN</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>🛜 境内外 CDN 分流配置</h1>
+  </header>
+
+  <p>
+  <small>
+    
+    
+    
+    <u># <a href="https://blog.cklau.cc/zh/tags/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">网络配置</a></u>
+    
+    <u># <a href="https://blog.cklau.cc/zh/tags/%E5%8D%9A%E5%AE%A2/">博客</a></u>
+    &nbsp;·
+  </small>
+  <small>
+    1048 字&nbsp;· 3 分钟&nbsp;·
+    发布时间: <u>2024年1月29日</u> (更新时间: <u>2024年1月30日)</u>
+  </small>
+</p>
+
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前置条件">前置条件</a></li>
+    <li><a href="#境内外-cdn-分流">境内外 CDN 分流</a>
+      <ul>
+        <li><a href="#网站运行">网站运行</a></li>
+        <li><a href="#具体配置">具体配置</a></li>
+        <li><a href="#后续">后续</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><h2 id="前置条件">前置条件</h2>
+<p>本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。</p>
+<ol>
+<li>我的静态博客是托管在 <a href="https://pages.github.com">GitHub Page</a>，并且使用了 <a href="https://www.cloudflare.com">Cloudflare</a> 的 CDN 服务。</li>
+<li>我拥有一台境内服务器，并且有一个已备案域名，可以满足国内 CDN 的要求。</li>
+</ol>
+<h2 id="境内外-cdn-分流">境内外 CDN 分流</h2>
+<h3 id="网站运行">网站运行</h3>
+<p>我的网站部署流程是这样的：</p>
+<ol>
+<li>在本地编写博客内容，使用 <a href="https://gohugo.io">Hugo</a> 生成静态网页进行内容渲染进行检查。</li>
+<li>将 source file 推动到 <a href="https://github.com/terenceliu98.github.io.source">TerenceLiu98.github.io.source</a> 仓库，使用 GitHub Action 进行自动部署。</li>
+<li>在 GitHub Action 中，使用 Hugo 生成静态网页，并将生成的网页推送到 <a href="https://github.com/terenceliu98.github.io">TerenceLiu98.github.io</a></li>
+<li>在 Cloudflare 中，将 <a href="https://github.com/terenceliu98.github.io">TerenceLiu98.github.io</a> 仓库的内容进行 CDN 加速。</li>
+</ol>
+<h3 id="具体配置">具体配置</h3>
+<p>你需要在国内的服务器上搭建一个 HTTP 服务，用于分流境内的请求。这里我使用了 <a href="https://www.nginx.com">Nginx</a> 作为 HTTP 服务，因为我从一开始就在使用 nginx 所以相对熟悉。不过你也可以使用其他 HTTP 服务，比如 <a href="https://caddyserver.com">Caddy</a>，Caddy 有一个很好的特性，就是可以自动申请 HTTPS 证书，这样你就不需要自己去申请证书了。我这里使用 ACME 进行证书申请，所以就不再使用 Caddy 了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>       	listen 80;
+</span></span><span style="display:flex;"><span>      	listen <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:80;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      	server_name blog.rho.ac.cn;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> https://$host$request_uri;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        listen <span style="color:#ae81ff">443</span> ssl;
+</span></span><span style="display:flex;"><span>        server_name blog.rho.ac.cn;
+</span></span><span style="display:flex;"><span>        ssl_certificate /home/ubuntu/acme-script/ssl/rho.ac.cn.pem;
+</span></span><span style="display:flex;"><span>        ssl_certificate_key /home/ubuntu/acme-script/ssl/rho.ac.cn.key;
+</span></span><span style="display:flex;"><span>	root /var/www/terenceliu98.github.io;
+</span></span><span style="display:flex;"><span>	index index.php index.html index.htm;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  	try_files $uri $uri/ <span style="color:#f92672">=</span>404;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>其中，<code>server_name</code> 是准备的备案后域名，<code>root</code> 指向的是我存储博客内容的地方，<code>index</code> 指定了默认的首页。<code>ssl_certificate</code> 和 <code>ssl_certificate_key</code> 指定了 HTTPS 证书的位置。你也可以对 nginx 配置文件进行定制，这里不再赘述。在准备好这些以后，可以尝试运行网站，如果没有问题，那么就可以进行下一步了。</p>
+<p>当然，这里应该会遇到一个域名错误的问题，因为在 Hugo 里我们配置了 CNAME，所以它在渲染的时候会将域名替换成 CNAME 中指定的域名，这样就会出现域名不匹配的问题。这里我使用了一个很蠢的方式解决，就是在 Hugo 渲染之后，进行域名替换。这里我使用了一个 Bash 脚本，将域名替换成了我准备的备案后域名。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git restore . <span style="color:#f92672">&amp;&amp;</span> git pull
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> file in <span style="color:#66d9ef">$(</span>find -iname <span style="color:#e6db74">&#39;*.html&#39;</span><span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	sed -i <span style="color:#e6db74">&#39;s/blog.cklau.cc/blog.rho.ac.cn/g&#39;</span> $file
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p>在网站可以正常运行后，我们仅需要在腾讯云的 CDN 控制台里添加自己的域名即可，将域名解析到提供的 CNAME，主源站指向自己国内的服务器 IP，配置好回源 Host 即可<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。其他平台也是一样的方法，这里不再赘述。</p>
+<p>Cloudflare 的配置也十分简单，仅需要在 Rules 里添加一个规则，我这里选择的是根据国家进行分流，这样虽然是一刀切，但是确实保证了用户的使用体验（也是因为我买不起 GeoDNS）。</p>
+<h3 id="后续">后续</h3>
+<p>因为腾讯云 CDN 的 HTTPS 需要自己提供证书（也需要付费），所以我将刚才申请到的 ACME 证书添加到了指定的地方，不知道是否有可以自动化的方法，不然就需要三个月更新一次证书了 🥹 。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>HOST 就填自己的域名即可，不需要填 IP，因为我们已经配置了 HTTP 服务，所以需要域名进行分流。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+</section>
+
+  
+  
+  <div class="paginator">
+    
+    
+    <a class="next" href="https://blog.cklau.cc/zh/post/hackintosh/"><span>💻 从白苹果到黑苹果 - SER5 MAX 的骇金塔之旅</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+  
+    
+<div class="comments">
+  <script>
+      const getTheme = window.localStorage && window.localStorage.getItem("theme");
+      let theme = getTheme === 'dark' ? 'github-dark' : 'github-light';
+      let s = document.createElement('script');
+      s.src = 'https://utteranc.es/client.js';
+      s.setAttribute('repo', 'TerenceLiu98\/terenceliu98.github.io');
+      s.setAttribute('issue-term', 'url');
+      s.setAttribute('theme', theme);
+      s.setAttribute('crossorigin', 'anonymous');
+      s.setAttribute('async', '');
+      document.querySelector('div.comments').innerHTML = '';
+      document.querySelector('div.comments').appendChild(s);
+  </script>
+</div>
+
+    
+  
+  
+
+<div class="related-resources">
+  <h3>相关系列文章推荐</h3>
+  
+    
+    
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+<center>
+  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a>
+️  </p>
+</center>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

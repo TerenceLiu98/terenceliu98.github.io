@@ -5,7 +5,16 @@
     <link>https://blog.cklau.cc/zh/</link>
     <description>Recent content on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 18 Jan 2024 00:12:00 +0000</lastBuildDate><atom:link href="https://blog.cklau.cc/zh/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Jan 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/zh/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🛜 境内外 CDN 分流配置</title>
+      <link>https://blog.cklau.cc/zh/post/cdn-divertor/</link>
+      <pubDate>Mon, 29 Jan 2024 00:00:00 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/zh/post/cdn-divertor/</guid>
+      <description>前置条件 本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。 我的静态博客</description>
+    </item>
+    
     <item>
       <title>💻 从白苹果到黑苹果 - SER5 MAX 的骇金塔之旅</title>
       <link>https://blog.cklau.cc/zh/post/hackintosh/</link>
@@ -31,6 +40,15 @@
       
       <guid>https://blog.cklau.cc/zh/post/podcast/</guid>
       <description>&lt;p&gt;初中开始，广播就伴随着我的很多个日日夜夜，虽然当时的我不太懂什么是「壮阳药」、「男性永远的痛」，「三个疗程就见效」，但是我大概知道了广播是在没落了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title> ⚙️ 工具</title>
+      <link>https://blog.cklau.cc/zh/gadgets/</link>
+      <pubDate>Mon, 14 Aug 2023 00:11:21 +0800</pubDate>
+      
+      <guid>https://blog.cklau.cc/zh/gadgets/</guid>
+      <description>Tip 这里是一些我日常会用到的工具 服务监控：Service Status &amp;amp; Cluster Status 代理工具：Mirrors For Container &amp;amp; GitHub Proxy 代码托管：My self-hosted Git Service</description>
     </item>
     
     <item>
