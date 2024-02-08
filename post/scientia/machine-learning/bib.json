@@ -1,0 +1,695 @@
+[
+  {
+    "URL": "http://arxiv.org/abs/2401.00423",
+    "abstract": "Multivariate time series forecasting poses an ongoing challenge across various disciplines. Time series data often exhibit diverse intra-series and inter-series correlations, contributing to intricate and interwoven dependencies that have been the focus of numerous studies. Nevertheless, a significant research gap remains in comprehending the varying inter-series correlations across different time scales among multiple time series, an area that has received limited attention in the literature. To bridge this gap, this paper introduces MSGNet, an advanced deep learning model designed to capture the varying inter-series correlations across multiple time scales using frequency domain analysis and adaptive graph convolution. By leveraging frequency domain analysis, MSGNet effectively extracts salient periodic patterns and decomposes the time series into distinct time scales. The model incorporates a self-attention mechanism to capture intra-series dependencies, while introducing an adaptive mixhop graph convolution layer to autonomously learn diverse inter-series correlations within each time scale. Extensive experiments are conducted on several real-world datasets to showcase the effectiveness of MSGNet. Furthermore, MSGNet possesses the ability to automatically learn explainable multi-scale inter-series correlations, exhibiting strong generalization capabilities even when applied to out-of-distribution samples.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "annote": "Comment: 13 pages, 12 figures",
+    "author": [
+      {
+        "family": "Cai",
+        "given": "Wanlin"
+      },
+      {
+        "family": "Liang",
+        "given": "Yuxuan"
+      },
+      {
+        "family": "Liu",
+        "given": "Xianggen"
+      },
+      {
+        "family": "Feng",
+        "given": "Jianshuai"
+      },
+      {
+        "family": "Wu",
+        "given": "Yuankai"
+      }
+    ],
+    "id": "cai_msgnet_2023",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          12
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Machine Learning",
+    "note": "arXiv:2401.00423 [cs]",
+    "publisher": "arXiv",
+    "title": "MSGNet: Learning Multi-Scale Inter-Series Correlations for Multivariate Time Series Forecasting",
+    "title-short": "MSGNet",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2110.02999",
+    "abstract": "With the discovery of Wasserstein GANs, Optimal Transport (OT) has become a powerful tool for large-scale generative modeling tasks. In these tasks, OT cost is typically used as the loss for training GANs. In contrast to this approach, we show that the OT map itself can be used as a generative model, providing comparable performance. Previous analogous approaches consider OT maps as generative models only in the latent spaces due to their poor performance in the original high-dimensional ambient space. In contrast, we apply OT maps directly in the ambient space, e.g., a space of high-dimensional images. First, we derive a min-max optimization algorithm to efficiently compute OT maps for the quadratic cost (Wasserstein-2 distance). Next, we extend the approach to the case when the input and output distributions are located in the spaces of different dimensions and derive error bounds for the computed OT map. We evaluate the algorithm on image generation and unpaired image restoration tasks. In particular, we consider denoising, colorization, and inpainting, where the optimality of the restoration map is a desired attribute, since the output (restored) image is expected to be close to the input (degraded) one.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "annote": "Comment: ICLR 2022",
+    "author": [
+      {
+        "family": "Rout",
+        "given": "Litu"
+      },
+      {
+        "family": "Korotin",
+        "given": "Alexander"
+      },
+      {
+        "family": "Burnaev",
+        "given": "Evgeny"
+      }
+    ],
+    "id": "rout_generative_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          3
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Machine Learning",
+    "note": "arXiv:2110.02999 [cs]",
+    "publisher": "arXiv",
+    "title": "Generative Modeling with Optimal Transport Maps",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2401.12665",
+    "abstract": "Recently, foundational models such as CLIP and SAM have shown promising performance for the task of Zero-Shot Anomaly Segmentation (ZSAS). However, either CLIP-based or SAM-based ZSAS methods still suffer from non-negligible key drawbacks: 1) CLIP primarily focuses on global feature alignment across different inputs, leading to imprecise segmentation of local anomalous parts; 2) SAM tends to generate numerous redundant masks without proper prompt constraints, resulting in complex post-processing requirements. In this work, we innovatively propose a CLIP and SAM collaboration framework called ClipSAM for ZSAS. The insight behind ClipSAM is to employ CLIP’s semantic understanding capability for anomaly localization and rough segmentation, which is further used as the prompt constraints for SAM to refine the anomaly segmentation results. In details, we introduce a crucial Unified Multi-scale Cross-modal Interaction (UMCI) module for interacting language with visual features at multiple scales of CLIP to reason anomaly positions. Then, we design a novel Multi-level Mask Refinement (MMR) module, which utilizes the positional information as multi-level prompts for SAM to acquire hierarchical levels of masks and merges them. Extensive experiments validate the effectiveness of our approach, achieving the optimal segmentation performance on the MVTec-AD and VisA datasets.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "annote": "Comment: 17 pages,17 figures",
+    "author": [
+      {
+        "family": "Li",
+        "given": "Shengze"
+      },
+      {
+        "family": "Cao",
+        "given": "Jianjian"
+      },
+      {
+        "family": "Ye",
+        "given": "Peng"
+      },
+      {
+        "family": "Ding",
+        "given": "Yuhan"
+      },
+      {
+        "family": "Tu",
+        "given": "Chongjun"
+      },
+      {
+        "family": "Chen",
+        "given": "Tao"
+      }
+    ],
+    "id": "li_clipsam_2024",
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          1
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Artificial Intelligence, Computer Science - Computer Vision and Pattern Recognition",
+    "note": "arXiv:2401.12665 [cs]",
+    "publisher": "arXiv",
+    "title": "ClipSAM: CLIP and SAM Collaboration for Zero-Shot Anomaly Segmentation",
+    "title-short": "ClipSAM",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2203.05813",
+    "abstract": "Several fields in science, from genomics to neuroimaging, require monitoring populations (measures) that evolve with time. These complex datasets, describing dynamics with both time and spatial components, pose new challenges for data analysis. We propose in this work a new framework to carry out averaging of these datasets, with the goal of synthesizing a representative template trajectory from multiple trajectories. We show that this requires addressing three sources of invariance: shifts in time, space, and total population size (or mass/amplitude). Here we draw inspiration from dynamic time warping (DTW), optimal transport (OT) theory and its unbalanced extension (UOT) to propose a criterion that can address all three issues. This proposal leverages a smooth formulation of DTW (Soft-DTW) that is shown to capture temporal shifts, and UOT to handle both variations in space and size. Our proposed loss can be used to define spatio-temporal barycenters as Fr\\’echet means. Using Fenchel duality, we show how these barycenters can be computed efficiently, in parallel, via a novel variant of entropy-regularized debiased UOT. Experiments on handwritten letters and brain imaging data confirm our theoretical findings and illustrate the effectiveness of the proposed loss for spatio-temporal data.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Janati",
+        "given": "Hicham"
+      },
+      {
+        "family": "Cuturi",
+        "given": "Marco"
+      },
+      {
+        "family": "Gramfort",
+        "given": "Alexandre"
+      }
+    ],
+    "id": "janati_averaging_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          4
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Machine Learning, Statistics - Machine Learning",
+    "note": "arXiv:2203.05813 [cs, stat]",
+    "publisher": "arXiv",
+    "title": "Averaging Spatio-temporal Signals using Optimal Transport and Soft Alignments",
+    "type": ""
+  },
+  {
+    "abstract": "Comparing data deﬁned over space and time is notoriously hard. It involves quantifying both spatial and temporal variability while taking into account the chronological structure of the data. Dynamic Time Warping (DTW) computes a minimal cost alignment between time series that preserves the chronological order but is inherently blind to spatiotemporal shifts. In this paper, we propose Spatio-Temporal Alignments (STA), a new diﬀerentiable formulation of DTW that captures spatial and temporal variability. Spatial diﬀerences between time samples are captured using regularized Optimal transport. While temporal alignment cost exploits a smooth variant of DTW called soft-DTW. We show how smoothing DTW leads to alignment costs that increase quadratically with time shifts. The costs are expressed using an unbalanced Wasserstein distance to cope with observations that are not probabilities. Experiments on handwritten letters and brain imaging data conﬁrm our theoretical ﬁndings and illustrate the eﬀectiveness of STA as a dissimilarity for spatio-temporal data.",
+    "author": [
+      {
+        "family": "Janati",
+        "given": "Hicham"
+      },
+      {
+        "family": "Cuturi",
+        "given": "Marco"
+      },
+      {
+        "family": "Gramfort",
+        "given": "Alexandre"
+      }
+    ],
+    "id": "janati_spatio-temporal_nodate",
+    "keyword": "/unread",
+    "title": "Spatio-Temporal Alignments: Optimal transport through space and time",
+    "title-short": "Spatio-Temporal Alignments",
+    "type": "article-journal"
+  },
+  {
+    "abstract": "We present a novel framework based on optimal transport for the challenging problem of comparing graphs. Speciﬁcally, we exploit the probabilistic distribution of smooth graph signals deﬁned with respect to the graph topology. This allows us to derive an explicit expression of the Wasserstein distance between graph signal distributions in terms of the graph Laplacian matrices. This leads to a structurally meaningful measure for comparing graphs, which is able to take into account the global structure of graphs, while most other measures merely observe local changes independently. Our measure is then used for formulating a new graph alignment problem, whose objective is to estimate the permutation that minimizes the distance between two graphs. We further propose an efﬁcient stochastic algorithm based on Bayesian exploration to accommodate for the nonconvexity of the graph alignment problem. We ﬁnally demonstrate the performance of our novel framework on different tasks like graph alignment, graph classiﬁcation and graph signal prediction, and we show that our method leads to signiﬁcant improvement with respect to the state-of-art algorithms.",
+    "author": [
+      {
+        "family": "Maretic",
+        "given": "Hermina Petric"
+      },
+      {
+        "family": "Gheche",
+        "given": "Mireille EL"
+      }
+    ],
+    "id": "maretic_got_nodate",
+    "keyword": "/unread",
+    "title": "GOT: An Optimal Transport framework for Graph comparison",
+    "title-short": "GOT",
+    "type": "article-journal"
+  },
+  {
+    "DOI": "10.1145/3447548.3467401",
+    "ISBN": "978-1-4503-8332-5",
+    "URL": "https://dl.acm.org/doi/10.1145/3447548.3467401",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Zerveas",
+        "given": "George"
+      },
+      {
+        "family": "Jayaraman",
+        "given": "Srideepika"
+      },
+      {
+        "family": "Patel",
+        "given": "Dhaval"
+      },
+      {
+        "family": "Bhamidipaty",
+        "given": "Anuradha"
+      },
+      {
+        "family": "Eickhoff",
+        "given": "Carsten"
+      }
+    ],
+    "container-title": "Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery & Data Mining",
+    "id": "zerveas_transformer-based_2021",
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          8
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "2114-2124",
+    "publisher": "ACM",
+    "publisher-place": "Virtual Event Singapore",
+    "title": "A Transformer-based Framework for Multivariate Time Series Representation Learning",
+    "type": "paper-conference"
+  },
+  {
+    "URL": "http://arxiv.org/abs/1702.03584",
+    "abstract": "A considerable amount of clustering algorithms take instance-feature matrices as their inputs. As such, they cannot directly analyze time series data due to its temporal nature, usually unequal lengths, and complex properties. This is a great pity since many of these algorithms are effective, robust, efficient, and easy to use. In this paper, we bridge this gap by proposing an efficient representation learning framework that is able to convert a set of time series with various lengths to an instance-feature matrix. In particular, we guarantee that the pairwise similarities between time series are well preserved after the transformation, thus the learned feature representation is particularly suitable for the time series clustering task. Given a set of $n$ time series, we first construct an $n\\times n$ partially-observed similarity matrix by randomly sampling $\\mathcal{O}(n \\log n)$ pairs of time series and computing their pairwise similarities. We then propose an efficient algorithm that solves a non-convex and NP-hard problem to learn new features based on the partially-observed similarity matrix. By conducting extensive empirical studies, we show that the proposed framework is more effective, efficient, and flexible, compared to other state-of-the-art time series clustering methods.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Lei",
+        "given": "Qi"
+      },
+      {
+        "family": "Yi",
+        "given": "Jinfeng"
+      },
+      {
+        "family": "Vaculin",
+        "given": "Roman"
+      },
+      {
+        "family": "Wu",
+        "given": "Lingfei"
+      },
+      {
+        "family": "Dhillon",
+        "given": "Inderjit S."
+      }
+    ],
+    "id": "lei_similarity_2019",
+    "issued": {
+      "date-parts": [
+        [
+          2019,
+          6
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Artificial Intelligence, Computer Science - Machine Learning",
+    "note": "arXiv:1702.03584 [cs]",
+    "publisher": "arXiv",
+    "title": "Similarity Preserving Representation Learning for Time Series Clustering",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2105.08179",
+    "abstract": "Time-series representation learning is a fundamental task for time-series analysis. While significant progress has been made to achieve accurate representations for downstream applications, the learned representations often lack interpretability and do not expose semantic meanings. Different from previous efforts on the entangled feature space, we aim to extract the semantic-rich temporal correlations in the latent interpretable factorized representation of the data. Motivated by the success of disentangled representation learning in computer vision, we study the possibility of learning semantic-rich time-series representations, which remains unexplored due to three main challenges: 1) sequential data structure introduces complex temporal correlations and makes the latent representations hard to interpret, 2) sequential models suffer from KL vanishing problem, and 3) interpretable semantic concepts for time-series often rely on multiple factors instead of individuals. To bridge the gap, we propose Disentangle Time Series (DTS), a novel disentanglement enhancement framework for sequential data. Specifically, to generate hierarchical semantic concepts as the interpretable and disentangled representation of time-series, DTS introduces multi-level disentanglement strategies by covering both individual latent factors and group semantic segments. We further theoretically show how to alleviate the KL vanishing problem: DTS introduces a mutual information maximization term, while preserving a heavier penalty on the total correlation and the dimension-wise KL to keep the disentanglement property. Experimental results on various real-world benchmark datasets demonstrate that the representations learned by DTS achieve superior performance in downstream applications, with high interpretability of semantic concepts.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Li",
+        "given": "Yuening"
+      },
+      {
+        "family": "Chen",
+        "given": "Zhengzhang"
+      },
+      {
+        "family": "Zha",
+        "given": "Daochen"
+      },
+      {
+        "family": "Du",
+        "given": "Mengnan"
+      },
+      {
+        "family": "Zhang",
+        "given": "Denghui"
+      },
+      {
+        "family": "Chen",
+        "given": "Haifeng"
+      },
+      {
+        "family": "Hu",
+        "given": "Xia"
+      }
+    ],
+    "id": "li_learning_2021",
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          5
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Artificial Intelligence, Computer Science - Machine Learning",
+    "note": "arXiv:2105.08179 [cs]",
+    "publisher": "arXiv",
+    "title": "Learning Disentangled Representations for Time Series",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2202.13196",
+    "abstract": "Recently, finetuning a pretrained language model to capture the similarity between sentence embeddings has shown the state-of-the-art performance on the semantic textual similarity (STS) task. However, the absence of an interpretation method for the sentence similarity makes it difficult to explain the model output. In this work, we explicitly describe the sentence distance as the weighted sum of contextualized token distances on the basis of a transportation problem, and then present the optimal transport-based distance measure, named RCMD; it identifies and leverages semantically-aligned token pairs. In the end, we propose CLRCMD, a contrastive learning framework that optimizes RCMD of sentence pairs, which enhances the quality of sentence similarity and their interpretation. Extensive experiments demonstrate that our learning framework outperforms other baselines on both STS and interpretable-STS benchmarks, indicating that it computes effective sentence similarity and also provides interpretation consistent with human judgement. The code and checkpoint are publicly available at https://github.com/sh0416/clrcmd.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          2
+        ]
+      ]
+    },
+    "annote": "Comment: ACL 2022 main + camera-ready version",
+    "author": [
+      {
+        "family": "Lee",
+        "given": "Seonghyeon"
+      },
+      {
+        "family": "Lee",
+        "given": "Dongha"
+      },
+      {
+        "family": "Jang",
+        "given": "Seongbo"
+      },
+      {
+        "family": "Yu",
+        "given": "Hwanjo"
+      }
+    ],
+    "id": "lee_toward_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          4
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Artificial Intelligence",
+    "note": "arXiv:2202.13196 [cs]",
+    "publisher": "arXiv",
+    "title": "Toward Interpretable Semantic Textual Similarity via Optimal Transport-based Contrastive Sentence Learning",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2401.13919",
+    "abstract": "The advancement of large language models (LLMs) leads to a new era marked by the development of autonomous applications in the real world, which drives innovation in the creation of advanced web-based agents. Existing web agents typically only handle one input modality and are evaluated only in simplified web simulators or static web snapshots, greatly limiting their applicability in real-world scenarios. To bridge this gap, we introduce WebVoyager, an innovative Large Multimodal Model (LMM) powered web agent that can complete user instructions end-to-end by interacting with real-world websites. Moreover, we propose a new evaluation protocol for web agents to address the challenges of automatic evaluation of open-ended web agent tasks, leveraging the robust multimodal comprehension capabilities of GPT-4V. We create a new benchmark by gathering real-world tasks from 15 widely used websites to evaluate our agents. We show that WebVoyager achieves a 55.7% task success rate, significantly surpassing the performance of both GPT-4 (All Tools) and the WebVoyager (text-only) setups, underscoring the exceptional capability of WebVoyager in practical applications. We found that our proposed automatic evaluation achieves 85.3% agreement with human judgment, paving the way for further development of web agents in a real-world setting.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          3
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "He",
+        "given": "Hongliang"
+      },
+      {
+        "family": "Yao",
+        "given": "Wenlin"
+      },
+      {
+        "family": "Ma",
+        "given": "Kaixin"
+      },
+      {
+        "family": "Yu",
+        "given": "Wenhao"
+      },
+      {
+        "family": "Dai",
+        "given": "Yong"
+      },
+      {
+        "family": "Zhang",
+        "given": "Hongming"
+      },
+      {
+        "family": "Lan",
+        "given": "Zhenzhong"
+      },
+      {
+        "family": "Yu",
+        "given": "Dong"
+      }
+    ],
+    "id": "he_webvoyager_2024",
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          1
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Artificial Intelligence, Computer Science - Computation and Language",
+    "note": "arXiv:2401.13919 [cs]",
+    "publisher": "arXiv",
+    "title": "WebVoyager: Building an End-to-End Web Agent with Large Multimodal Models",
+    "title-short": "WebVoyager",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2310.19852",
+    "abstract": "AI alignment aims to make AI systems behave in line with human intentions and values. As AI systems grow more capable, so do risks from misalignment. To provide a comprehensive and up-to-date overview of the alignment field, in this survey, we delve into the core concepts, methodology, and practice of alignment. First, we identify four principles as the key objectives of AI alignment: Robustness, Interpretability, Controllability, and Ethicality (RICE). Guided by these four principles, we outline the landscape of current alignment research and decompose them into two key components: forward alignment and backward alignment. The former aims to make AI systems aligned via alignment training, while the latter aims to gain evidence about the systems’ alignment and govern them appropriately to avoid exacerbating misalignment risks. On forward alignment, we discuss techniques for learning from feedback and learning under distribution shift. On backward alignment, we discuss assurance techniques and governance practices. We also release and continually update the website (www.alignmentsurvey.com) which features tutorials, collections of papers, blog posts, and other resources.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          3
+        ]
+      ]
+    },
+    "annote": "Comment: Continually updated. 56 pages (excluding bibliography), 882 references. Abstract on arXiv webpage is abridged",
+    "author": [
+      {
+        "family": "Ji",
+        "given": "Jiaming"
+      },
+      {
+        "family": "Qiu",
+        "given": "Tianyi"
+      },
+      {
+        "family": "Chen",
+        "given": "Boyuan"
+      },
+      {
+        "family": "Zhang",
+        "given": "Borong"
+      },
+      {
+        "family": "Lou",
+        "given": "Hantao"
+      },
+      {
+        "family": "Wang",
+        "given": "Kaile"
+      },
+      {
+        "family": "Duan",
+        "given": "Yawen"
+      },
+      {
+        "family": "He",
+        "given": "Zhonghao"
+      },
+      {
+        "family": "Zhou",
+        "given": "Jiayi"
+      },
+      {
+        "family": "Zhang",
+        "given": "Zhaowei"
+      },
+      {
+        "family": "Zeng",
+        "given": "Fanzhi"
+      },
+      {
+        "family": "Ng",
+        "given": "Kwan Yee"
+      },
+      {
+        "family": "Dai",
+        "given": "Juntao"
+      },
+      {
+        "family": "Pan",
+        "given": "Xuehai"
+      },
+      {
+        "family": "O’Gara",
+        "given": "Aidan"
+      },
+      {
+        "family": "Lei",
+        "given": "Yingshan"
+      },
+      {
+        "family": "Xu",
+        "given": "Hua"
+      },
+      {
+        "family": "Tse",
+        "given": "Brian"
+      },
+      {
+        "family": "Fu",
+        "given": "Jie"
+      },
+      {
+        "family": "McAleer",
+        "given": "Stephen"
+      },
+      {
+        "family": "Yang",
+        "given": "Yaodong"
+      },
+      {
+        "family": "Wang",
+        "given": "Yizhou"
+      },
+      {
+        "family": "Zhu",
+        "given": "Song-Chun"
+      },
+      {
+        "family": "Guo",
+        "given": "Yike"
+      },
+      {
+        "family": "Gao",
+        "given": "Wen"
+      }
+    ],
+    "id": "ji_ai_2024",
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          1
+        ]
+      ]
+    },
+    "keyword": "Computer Science - Artificial Intelligence",
+    "note": "arXiv:2310.19852 [cs]",
+    "publisher": "arXiv",
+    "title": "AI Alignment: A Comprehensive Survey",
+    "title-short": "AI Alignment",
+    "type": ""
+  },
+  {
+    "id": "noauthor_addon_nodate",
+    "title": "Addon Item",
+    "type": ""
+  },
+  {
+    "DOI": "10.1609/aaai.v36i8.20881",
+    "ISSN": "2374-3468, 2159-5399",
+    "URL": "https://ojs.aaai.org/index.php/AAAI/article/view/20881",
+    "abstract": "This paper presents TS2Vec, a universal framework for learning representations of time series in an arbitrary semantic level. Unlike existing methods, TS2Vec performs contrastive learning in a hierarchical way over augmented context views, which enables a robust contextual representation for each timestamp. Furthermore, to obtain the representation of an arbitrary sub-sequence in the time series, we can apply a simple aggregation over the representations of corresponding timestamps. We conduct extensive experiments on time series classiﬁcation tasks to evaluate the quality of time series representations. As a result, TS2Vec achieves signiﬁcant improvement over existing SOTAs of unsupervised time series representation on 125 UCR datasets and 29 UEA datasets. The learned timestamp-level representations also achieve superior results in time series forecasting and anomaly detection tasks. A linear regression trained on top of the learned representations outperforms previous SOTAs of time series forecasting. Furthermore, we present a simple way to apply the learned representations for unsupervised anomaly detection, which establishes SOTA results in the literature. The source code is publicly available at https://github.com/yuezhihan/ts2vec.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          6
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Yue",
+        "given": "Zhihan"
+      },
+      {
+        "family": "Wang",
+        "given": "Yujing"
+      },
+      {
+        "family": "Duan",
+        "given": "Juanyong"
+      },
+      {
+        "family": "Yang",
+        "given": "Tianmeng"
+      },
+      {
+        "family": "Huang",
+        "given": "Congrui"
+      },
+      {
+        "family": "Tong",
+        "given": "Yunhai"
+      },
+      {
+        "family": "Xu",
+        "given": "Bixiong"
+      }
+    ],
+    "container-title": "Proceedings of the AAAI Conference on Artificial Intelligence",
+    "id": "yue_ts2vec_2022",
+    "issue": "8",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          6
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "8980-8987",
+    "title": "TS2Vec: Towards Universal Representation of Time Series",
+    "title-short": "TS2Vec",
+    "type": "article-journal",
+    "volume": "36"
+  }
+]
