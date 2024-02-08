@@ -5,7 +5,16 @@
     <link>https://blog.cklau.cc/</link>
     <description>Recent content on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Feb 2024 00:15:00 +0000</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>👨🏿‍⚕️ Multimodal Representation Leraning from both Text and Image</title>
+      <link>https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/</link>
+      <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
+      
+      <guid>https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/</guid>
+      <description>Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the</description>
+    </item>
+    
     <item>
       <title>👯 Friends</title>
       <link>https://blog.cklau.cc/friends/</link>
