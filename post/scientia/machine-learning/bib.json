@@ -691,5 +691,1189 @@
     "title-short": "TS2Vec",
     "type": "article-journal",
     "volume": "36"
+  },
+  {
+    "DOI": "10.1109/CVPR52688.2022.01593",
+    "ISBN": "978-1-66546-946-3",
+    "URL": "https://ieeexplore.ieee.org/document/9879585/",
+    "abstract": "Vision-language (V+L) pretraining models have achieved great success in supporting multimedia applications by understanding the alignments between images and text. While existing vision-language pretraining models primarily focus on understanding objects in images or entities in text, they often ignore the alignment at the level of events and their argument structures. In this work, we propose a contrastive learning framework to enforce vision-language pretraining models to comprehend events and associated argument (participant) roles. To achieve this, we take advantage of text information extraction technologies to obtain event structural knowledge, and utilize multiple prompt functions to contrast difficult negative descriptions by manipulating event structures. We also design an event graph alignment loss based on optimal transport to capture event argument structures. In addition, we collect a large event-rich dataset (106,875 images) for pretraining, which provides a more challenging image retrieval benchmark to assess the understanding of complicated lengthy sentences1. Experiments show that our zero-shot CLIP-Event outperforms the state-of-the-art supervised model in argument extraction on Multimedia Event Extraction, achieving more than 5% absolute F-score gain in event extraction, as well as significant improvements on a variety of downstream tasks under zero-shot settings.",
+    "accessed": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          14
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Li",
+        "given": "Manling"
+      },
+      {
+        "family": "Xu",
+        "given": "Ruochen"
+      },
+      {
+        "family": "Wang",
+        "given": "Shuohang"
+      },
+      {
+        "family": "Zhou",
+        "given": "Luowei"
+      },
+      {
+        "family": "Lin",
+        "given": "Xudong"
+      },
+      {
+        "family": "Zhu",
+        "given": "Chenguang"
+      },
+      {
+        "family": "Zeng",
+        "given": "Michael"
+      },
+      {
+        "family": "Ji",
+        "given": "Heng"
+      },
+      {
+        "family": "Chang",
+        "given": "Shih-Fu"
+      }
+    ],
+    "container-title": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+    "id": "li_clip-event_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          6
+        ]
+      ]
+    },
+    "keyword": "/unread, CLIP-model, dataset",
+    "page": "16399-16408",
+    "publisher": "IEEE",
+    "publisher-place": "New Orleans, LA, USA",
+    "title": "CLIP-Event: Connecting Text and Images with Event Structures",
+    "title-short": "CLIP-Event",
+    "type": "paper-conference"
+  },
+  {
+    "URL": "http://arxiv.org/abs/2305.03517",
+    "abstract": "Incorporating auxiliary modalities such as images into event detection models has attracted increasing interest over the last few years. The complexity of natural language in describing situations has motivated researchers to leverage the related visual context to improve event detection performance. However, current approaches in this area suffer from data scarcity, where a large amount of labelled text-image pairs are required for model training. Furthermore, limited access to the visual context at inference time negatively impacts the performance of such models, which makes them practically ineffective in real-world scenarios. In this paper, we present a novel domain-adaptive visually-fused event detection approach that can be trained on a few labelled image-text paired data points. Specifically, we introduce a visual imaginator method that synthesises images from text in the absence of visual context. Moreover, the imaginator can be customised to a specific domain. In doing so, our model can leverage the capabilities of pre-trained vision-language models and can be trained in a few-shot setting. This also allows for effective inference where only single-modality data (i.e. text) is available. The experimental evaluation on the benchmark M2E2 dataset shows that our model outperforms existing state-of-the-art models, by up to 11 points.",
+    "accessed": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          17
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Moghimifar",
+        "given": "Farhad"
+      },
+      {
+        "family": "Shiri",
+        "given": "Fatemeh"
+      },
+      {
+        "family": "Nguyen",
+        "given": "Van"
+      },
+      {
+        "family": "Haffari",
+        "given": "Reza"
+      },
+      {
+        "family": "Li",
+        "given": "Yuan-Fang"
+      }
+    ],
+    "id": "moghimifar_few-shot_2023",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          6
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Artificial Intelligence, Computer Science - Computation and Language",
+    "note": "arXiv:2305.03517 [cs]",
+    "publisher": "arXiv",
+    "title": "Few-shot Domain-Adaptive Visually-fused Event Detection from Text",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/2306.08966",
+    "abstract": "Contemporary news reporting increasingly features multimedia content, motivating research on multimedia event extraction. However, the task lacks annotated multimodal training data and artificially generated training data suffer from distribution shift from real-world data. In this paper, we propose Cross-modality Augmented Multimedia Event Learning (CAMEL), which successfully utilizes artificially generated multimodal training data and achieves state-of-the-art performance. We start with two labeled unimodal datasets in text and image respectively, and generate the missing modality using off-the-shelf image generators like Stable Diffusion [45] and image captioners like BLIP [24]. After that, we train the network on the resultant multimodal datasets. In order to learn robust features that are effective across domains, we devise an iterative and gradual training strategy. Substantial experiments show that CAMEL surpasses state-of-the-art (SOTA) baselines on the M2E2 benchmark. On multimedia events in particular, we outperform the prior SOTA by 4.2% F1 on event mention identification and by 9.8% F1 on argument identification, which indicates that CAMEL learns synergistic representations from the two modalities. Our work demonstrates a recipe to unleash the power of synthetic training data in structured prediction.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          1,
+          30
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Du",
+        "given": "Zilin"
+      },
+      {
+        "family": "Li",
+        "given": "Yunxin"
+      },
+      {
+        "family": "Guo",
+        "given": "Xu"
+      },
+      {
+        "family": "Sun",
+        "given": "Yidan"
+      },
+      {
+        "family": "Li",
+        "given": "Boyang"
+      }
+    ],
+    "id": "du_training_2023",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          8
+        ]
+      ]
+    },
+    "keyword": "Computer Science - Computer Vision and Pattern Recognition, Computer Science - Multimedia",
+    "note": "arXiv:2306.08966 [cs]",
+    "publisher": "arXiv",
+    "title": "Training Multimedia Event Extraction With Generated Images and Captions",
+    "type": ""
+  },
+  {
+    "DOI": "10.18653/v1/2022.emnlp-main.60",
+    "URL": "https://aclanthology.org/2022.emnlp-main.60",
+    "abstract": "The diverse relationships among real-world events, including coreference, temporal, causal, and subevent relations, are fundamental to understanding natural languages. However, two drawbacks of existing datasets limit event relation extraction (ERE) tasks: (1) Small scale. Due to the annotation complexity, the data scale of existing datasets is limited, which cannot well train and evaluate data-hungry models. (2) Absence of unified annotation. Different types of event relations naturally interact with each other, but existing datasets only cover limited relation types at once, which prevents models from taking full advantage of relation interactions. To address these issues, we construct a unified large-scale human-annotated ERE dataset MAVEN-ERE with improved annotation schemes. It contains 103, 193 event coreference chains, 1, 216, 217 temporal relations, 57, 992 causal relations, and 15, 841 subevent relations, which is larger than existing datasets of all the ERE tasks by at least an order of magnitude. Experiments show that ERE on MAVEN-ERE is quite challenging, and considering relation interactions with joint learning can improve performances. The dataset and source codes can be obtained from https://github.com/THU-KEG/MAVEN-ERE.",
+    "accessed": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          2
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Wang",
+        "given": "Xiaozhi"
+      },
+      {
+        "family": "Chen",
+        "given": "Yulin"
+      },
+      {
+        "family": "Ding",
+        "given": "Ning"
+      },
+      {
+        "family": "Peng",
+        "given": "Hao"
+      },
+      {
+        "family": "Wang",
+        "given": "Zimu"
+      },
+      {
+        "family": "Lin",
+        "given": "Yankai"
+      },
+      {
+        "family": "Han",
+        "given": "Xu"
+      },
+      {
+        "family": "Hou",
+        "given": "Lei"
+      },
+      {
+        "family": "Li",
+        "given": "Juanzi"
+      },
+      {
+        "family": "Liu",
+        "given": "Zhiyuan"
+      },
+      {
+        "family": "Li",
+        "given": "Peng"
+      },
+      {
+        "family": "Zhou",
+        "given": "Jie"
+      }
+    ],
+    "container-title": "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing",
+    "id": "wang_maven-ere_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "926-941",
+    "publisher": "Association for Computational Linguistics",
+    "publisher-place": "Abu Dhabi, United Arab Emirates",
+    "title": "MAVEN-ERE: A Unified Large-scale Dataset for Event Coreference, Temporal, Causal, and Subevent Relation Extraction",
+    "title-short": "MAVEN-ERE",
+    "type": "paper-conference"
+  },
+  {
+    "URL": "http://arxiv.org/abs/2203.08308",
+    "abstract": "We present a study on leveraging multilingual pre-trained generative language models for zero-shot cross-lingual event argument extraction (EAE). By formulating EAE as a language generation task, our method effectively encodes event structures and captures the dependencies between arguments. We design language-agnostic templates to represent the event argument structures, which are compatible with any language, hence facilitating the cross-lingual transfer. Our proposed model ﬁnetunes multilingual pre-trained generative language models to generate sentences that ﬁll in the language-agnostic template with arguments extracted from the input passage. The model is trained on source languages and is then directly applied to target languages for event argument extraction. Experiments demonstrate that the proposed model outperforms the current state-of-the-art models on zero-shot cross-lingual EAE. Comprehensive studies and error analyses are presented to better understand the advantages and the current limitations of using generative language models for zero-shot cross-lingual transfer EAE.",
+    "accessed": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          2
+        ]
+      ]
+    },
+    "annote": "Comment: ACL 2022. Our code is available at https://github.com/PlusLabNLP/X-Gear",
+    "author": [
+      {
+        "family": "Huang",
+        "given": "Kuan-Hao"
+      },
+      {
+        "family": "Hsu",
+        "given": "I.-Hung"
+      },
+      {
+        "family": "Natarajan",
+        "given": "Premkumar"
+      },
+      {
+        "family": "Chang",
+        "given": "Kai-Wei"
+      },
+      {
+        "family": "Peng",
+        "given": "Nanyun"
+      }
+    ],
+    "id": "huang_multilingual_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          3
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Computation and Language",
+    "note": "arXiv:2203.08308 [cs]",
+    "publisher": "arXiv",
+    "title": "Multilingual Generative Language Models for Zero-Shot Cross-Lingual Event Argument Extraction",
+    "type": ""
+  },
+  {
+    "DOI": "10.18653/v1/2022.naacl-main.400",
+    "URL": "https://aclanthology.org/2022.naacl-main.400",
+    "accessed": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          2
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Hu",
+        "given": "Yibo"
+      },
+      {
+        "family": "Hosseini",
+        "given": "MohammadSaleh"
+      },
+      {
+        "family": "Skorupa Parolin",
+        "given": "Erick"
+      },
+      {
+        "family": "Osorio",
+        "given": "Javier"
+      },
+      {
+        "family": "Khan",
+        "given": "Latifur"
+      },
+      {
+        "family": "Brandt",
+        "given": "Patrick"
+      },
+      {
+        "family": "D’Orazio",
+        "given": "Vito"
+      }
+    ],
+    "container-title": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+    "id": "hu_conflibert_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "5469-5482",
+    "publisher": "Association for Computational Linguistics",
+    "publisher-place": "Seattle, United States",
+    "title": "ConfliBERT: A Pre-trained Language Model for Political Conflict and Violence",
+    "title-short": "ConfliBERT",
+    "type": "paper-conference"
+  },
+  {
+    "DOI": "10.18653/v1/2022.naacl-main.291",
+    "URL": "https://aclanthology.org/2022.naacl-main.291",
+    "abstract": "Event extraction aims to identify an event and then extract the arguments participating in the event. Despite the great success in sentencelevel event extraction, events are more naturally presented in the form of documents, with event arguments scattered in multiple sentences. However, a major barrier to promote documentlevel event extraction has been the lack of large-scale and practical training and evaluation datasets. In this paper, we present DocEE, a new document-level event extraction dataset including 27,000+ events, 180,000+ arguments. We highlight three features: largescale manual annotations, fine-grained argument types and application-oriented settings. Experiments show that there is still a big gap between state-of-the-art models and human beings (41% Vs 85% in F1 score), indicating that DocEE is an open issue. DocEE is now available at https://github.com/ tongmeihan1995/DocEE.git.",
+    "accessed": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          2
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Tong",
+        "given": "MeiHan"
+      },
+      {
+        "family": "Xu",
+        "given": "Bin"
+      },
+      {
+        "family": "Wang",
+        "given": "Shuai"
+      },
+      {
+        "family": "Han",
+        "given": "Meihuan"
+      },
+      {
+        "family": "Cao",
+        "given": "Yixin"
+      },
+      {
+        "family": "Zhu",
+        "given": "Jiangqi"
+      },
+      {
+        "family": "Chen",
+        "given": "Siyu"
+      },
+      {
+        "family": "Hou",
+        "given": "Lei"
+      },
+      {
+        "family": "Li",
+        "given": "Juanzi"
+      }
+    ],
+    "container-title": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+    "id": "tong_docee_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "keyword": "/unread, dataset",
+    "page": "3970-3982",
+    "publisher": "Association for Computational Linguistics",
+    "publisher-place": "Seattle, United States",
+    "title": "DocEE: A Large-Scale and Fine-grained Benchmark for Document-level Event Extraction",
+    "title-short": "DocEE",
+    "type": "paper-conference"
+  },
+  {
+    "abstract": "Event extraction from news articles is a commonly required prerequisite for various tasks, such as article summarization, article clustering, and news aggregation. Due to the lack of universally applicable and publicly available methods tailored to news datasets, many researchers redundantly implement event extraction methods for their own projects. The journalistic 5W1H questions are capable of describing the main event of an article, i.e., by answering who did what, when, where, why, and how. We provide an in-depth description of an improved version of Giveme5W1H, a system that uses syntactic and domain-specific rules to automatically extract the relevant phrases from English news articles to provide answers to these 5W1H questions. Given the answers to these questions, the system determines an article’s main event. In an expert evaluation with three assessors and 120 articles, we determined an overall precision of p=0.73, and p=0.82 for answering the first four W questions, which alone can sufficiently summarize the main event reported on in a news article. We recently made our system publicly available, and it remains the only universal open-source 5W1H extractor capable of being applied to a wide range of use cases in news analysis.",
+    "author": [
+      {
+        "family": "Hamborg",
+        "given": "Felix"
+      },
+      {
+        "family": "Breitinger",
+        "given": "Corinna"
+      },
+      {
+        "family": "Gipp",
+        "given": "Bela"
+      }
+    ],
+    "id": "hamborg_giveme5w1h_2019",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "keyword": "/unread, dataset",
+    "title": "Giveme5W1H: A Universal System for Extracting Main Events from News Articles",
+    "title-short": "Giveme5W1H",
+    "type": "article-journal"
+  },
+  {
+    "URL": "http://arxiv.org/abs/2106.09232",
+    "abstract": "Event extraction is challenging due to the complex structure of event records and the semantic gap between text and event. Traditional methods usually extract event records by decomposing the complex structure prediction task into multiple subtasks. In this paper, we propose Text2Event, a sequence-to-structure generation paradigm that can directly extract events from the text in an end-to-end manner. Specifically, we design a sequence-to-structure network for unified event extraction, a constrained decoding algorithm for event knowledge injection during inference, and a curriculum learning algorithm for efficient model learning. Experimental results show that, by uniformly modeling all tasks in a single model and universally predicting different labels, our method can achieve competitive performance using only record-level annotations in both supervised learning and transfer learning settings.",
+    "accessed": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          2
+        ]
+      ]
+    },
+    "annote": "Comment: Accepted to ACL2021 (main conference)",
+    "author": [
+      {
+        "family": "Lu",
+        "given": "Yaojie"
+      },
+      {
+        "family": "Lin",
+        "given": "Hongyu"
+      },
+      {
+        "family": "Xu",
+        "given": "Jin"
+      },
+      {
+        "family": "Han",
+        "given": "Xianpei"
+      },
+      {
+        "family": "Tang",
+        "given": "Jialong"
+      },
+      {
+        "family": "Li",
+        "given": "Annan"
+      },
+      {
+        "family": "Sun",
+        "given": "Le"
+      },
+      {
+        "family": "Liao",
+        "given": "Meng"
+      },
+      {
+        "family": "Chen",
+        "given": "Shaoyi"
+      }
+    ],
+    "id": "lu_text2event_2021",
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          6
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Computation and Language",
+    "note": "arXiv:2106.09232 [cs]",
+    "publisher": "arXiv",
+    "title": "Text2Event: Controllable Sequence-to-Structure Generation for End-to-end Event Extraction",
+    "title-short": "Text2Event",
+    "type": ""
+  },
+  {
+    "DOI": "10.1016/j.knosys.2020.105695",
+    "ISSN": "09507051",
+    "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0950705120301271",
+    "abstract": "Due to the prevalence of social media sites, users are allowed to conveniently share their ideas and activities anytime and anywhere. Therefore, these sites hold substantial real-world event related data. Different from traditional social event detection methods which mainly focus on single-media, multimodal social event detection aims at discovering events in vast heterogeneous data such as texts, images and video clips. These data denote real-world events from multiple dimensions simultaneously so that they can provide comprehensive and complementary understanding of social event. In recent years, multi-modal social event detection has attracted intensive attentions. This paper concentrates on conducting a comprehensive survey of extant works. Two current attempts in this field are firstly reviewed: event feature learning and event inference. Particularly, event feature learning is a prerequisite because of its ability on translating social media data into computer-friendly numerical form. Event inference aims at deciding whether a sample belongs to a social event. Then, several public datasets in the community are introduced and the comparison results are also provided. At the end of this paper, a general discussion of the insights is delivered to promote the development of multi-modal social event detection.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          1,
+          30
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Zhou",
+        "given": "Han"
+      },
+      {
+        "family": "Yin",
+        "given": "Hongpeng"
+      },
+      {
+        "family": "Zheng",
+        "given": "Hengyi"
+      },
+      {
+        "family": "Li",
+        "given": "Yanxia"
+      }
+    ],
+    "container-title": "Knowledge-Based Systems",
+    "id": "zhou_survey_2020",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          5
+        ]
+      ]
+    },
+    "keyword": "/unread, SURVEY",
+    "page": "105695",
+    "title": "A survey on multi-modal social event detection",
+    "type": "article-journal",
+    "volume": "195"
+  },
+  {
+    "DOI": "10.1007/s10115-022-01665-w",
+    "ISSN": "0219-1377, 0219-3116",
+    "URL": "https://link.springer.com/10.1007/s10115-022-01665-w",
+    "abstract": "As an essential component of human cognition, cause–effect relations appear frequently in text, and curating cause–effect relations from text helps in building causal networks for predictive tasks. Existing causality extraction techniques include knowledge-based, statistical machine learning (ML)-based, and deep learning-based approaches. Each method has its advantages and weaknesses. For example, knowledge-based methods are understandable but require extensive manual domain knowledge and have poor cross-domain applicability. Statistical machine learning methods are more automated because of natural language processing (NLP) toolkits. However, feature engineering is labor-intensive, and toolkits may lead to error propagation. In the past few years, deep learning techniques attract substantial attention from NLP researchers because of its powerful representation learning ability and the rapid increase in computational resources. Their limitations include high computational costs and a lack of adequate annotated training data. In this paper, we conduct a comprehensive survey of causality extraction. We initially introduce primary forms existing in the causality extraction: explicit intra-sentential causality, implicit causality, and inter-sentential causality. Next, we list benchmark datasets and modeling assessment methods for causal relation extraction. Then, we present a structured overview of the three techniques with their representative systems. Lastly, we highlight existing open challenges with their potential directions.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          1,
+          30
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Yang",
+        "given": "Jie"
+      },
+      {
+        "family": "Han",
+        "given": "Soyeon Caren"
+      },
+      {
+        "family": "Poon",
+        "given": "Josiah"
+      }
+    ],
+    "container-title": "Knowledge and Information Systems",
+    "id": "yang_survey_2022",
+    "issue": "5",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          5
+        ]
+      ]
+    },
+    "keyword": "/unread, SURVEY",
+    "page": "1161-1186",
+    "title": "A survey on extraction of causal relations from natural language text",
+    "type": "article-journal",
+    "volume": "64"
+  },
+  {
+    "DOI": "10.1145/3450287",
+    "ISSN": "0360-0300, 1557-7341",
+    "URL": "https://dl.acm.org/doi/10.1145/3450287",
+    "abstract": "Events are occurrences in specific locations, time, and semantics that nontrivially impact either our society or the nature, such as earthquakes, civil unrest, system failures, pandemics, and crimes. It is highly desirable to be able to anticipate the occurrence of such events in advance to reduce the potential social upheaval and damage caused. Event prediction, which has traditionally been prohibitively challenging, is now becoming a viable option in the big data era and is thus experiencing rapid growth, also thanks to advances in high performance computers and new Artificial Intelligence techniques. There is a large amount of existing work that focuses on addressing the challenges involved, including heterogeneous multi-faceted outputs, complex (e.g., spatial, temporal, and semantic) dependencies, and streaming data feeds. Due to the strong interdisciplinary nature of event prediction problems, most existing event prediction methods were initially designed to deal with specific application domains, though the techniques and evaluation procedures utilized are usually generalizable across different domains. However, it is imperative yet difficult to cross-reference the techniques across different domains, given the absence of a comprehensive literature survey for event prediction. This article aims to provide a systematic and comprehensive survey of the technologies, applications, and evaluations of event prediction in the big data era. First, systematic categorization and summary of existing techniques are presented, which facilitate domain experts’ searches for suitable techniques and help model developers consolidate their research at the frontiers. Then, comprehensive categorization and summary of major application domains are provided to introduce wider applications to model developers to help them expand the impacts of their research. Evaluation metrics and procedures are summarized and standardized to unify the understanding of model performance among stakeholders, model developers, and domain experts in various application domains. Finally, open problems and future directions are discussed. Additional resources related to event prediction are included in the paper website: http://cs.emory.edu/∼lzhao41/projects/event_prediction_site.html.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          1,
+          30
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Zhao",
+        "given": "Liang"
+      }
+    ],
+    "container-title": "ACM Computing Surveys",
+    "id": "zhao_event_2022",
+    "issue": "5",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          6
+        ]
+      ]
+    },
+    "keyword": "/unread, SURVEY",
+    "page": "1-37",
+    "title": "Event Prediction in the Big Data Era: A Systematic Survey",
+    "title-short": "Event Prediction in the Big Data Era",
+    "type": "article-journal",
+    "volume": "54"
+  },
+  {
+    "DOI": "10.1609/aaai.v34i05.6437",
+    "ISSN": "2374-3468, 2159-5399",
+    "URL": "https://ojs.aaai.org/index.php/AAAI/article/view/6437",
+    "abstract": "Event detection is a crucial and challenging sub-task of event extraction, which suffers from a severe ambiguity issue of trigger words. Existing works mainly focus on using textual context information, while there naturally exist many images accompanied by news articles that are yet to be explored. We believe that images not only reﬂect the core events of the text, but are also helpful for the disambiguation of trigger words. In this paper, we ﬁrst contribute an image dataset supplement to ED benchmarks (i.e., ACE2005) for training and evaluation. We then propose a novel Dual Recurrent Multimodal Model, DRMM, to conduct deep interactions between images and sentences for modality features aggregation. DRMM utilizes pre-trained BERT and ResNet to encode sentences and images, and employs an alternating dual attention to select informative features for mutual enhancements. Our superior performance compared to six state-of-art baselines as well as further ablation studies demonstrate the signiﬁcance of image modality and effectiveness of the proposed architecture. The code and image dataset are avaliable at https://github.com/ shuaiwa16/image-enhanced-event-extraction.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          1,
+          30
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Tong",
+        "given": "Meihan"
+      },
+      {
+        "family": "Wang",
+        "given": "Shuai"
+      },
+      {
+        "family": "Cao",
+        "given": "Yixin"
+      },
+      {
+        "family": "Xu",
+        "given": "Bin"
+      },
+      {
+        "family": "Li",
+        "given": "Juanzi"
+      },
+      {
+        "family": "Hou",
+        "given": "Lei"
+      },
+      {
+        "family": "Chua",
+        "given": "Tat-Seng"
+      }
+    ],
+    "container-title": "Proceedings of the AAAI Conference on Artificial Intelligence",
+    "id": "tong_image_2020",
+    "issue": "05",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          4
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "9040-9047",
+    "title": "Image Enhanced Event Detection in News Articles",
+    "type": "article-journal",
+    "volume": "34"
+  },
+  {
+    "DOI": "10.3233/SW-180333",
+    "ISSN": "22104968, 15700844",
+    "URL": "https://www.medra.org/servlet/aliasResolver?alias=iospress&doi=10.3233/SW-180333",
+    "abstract": "We provide a comprehensive survey of the research literature that applies Information Extraction techniques in a Semantic Web setting. Works in the intersection of these two areas can be seen from two overlapping perspectives: using Semantic Web resources (languages/ontologies/knowledge-bases/tools) to improve Information Extraction, and/or using Information Extraction to populate the Semantic Web. In more detail, we focus on the extraction and linking of three elements: entities, concepts and relations. Extraction involves identifying (textual) mentions referring to such elements in a given unstructured or semi-structured input source. Linking involves associating each such mention with an appropriate disambiguated identiﬁer referring to the same element in a Semantic Web knowledge-base (or ontology), in some cases creating a new identiﬁer where necessary. With respect to entities, works involving (Named) Entity Recognition, Entity Disambiguation, Entity Linking, etc. in the context of the Semantic Web are considered. With respect to concepts, works involving Terminology Extraction, Keyword Extraction, Topic Modeling, Topic Labeling, etc., in the context of the Semantic Web are considered. Finally, with respect to relations, works involving Relation Extraction in the context of the Semantic Web are considered. The focus of the majority of the survey is on works applied to unstructured sources (text in natural language); however, we also provide an overview of works that develop custom techniques adapted for semi-structured inputs, namely markup documents and web tables.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          1,
+          30
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Martinez-Rodriguez",
+        "given": "Jose L."
+      },
+      {
+        "family": "Hogan",
+        "given": "Aidan"
+      },
+      {
+        "family": "Lopez-Arevalo",
+        "given": "Ivan"
+      }
+    ],
+    "container-title": "Semantic Web",
+    "editor": [
+      {
+        "family": "Hotho",
+        "given": "Andreas"
+      }
+    ],
+    "id": "martinez-rodriguez_information_2020",
+    "issue": "2",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "255-335",
+    "title": "Information extraction meets the Semantic Web: A survey",
+    "title-short": "Information extraction meets the Semantic Web",
+    "type": "article-journal",
+    "volume": "11"
+  },
+  {
+    "abstract": "Vision-Language Pre-training (VLP) has advanced the performance for many vision-language tasks. However, most existing pre-trained models only excel in either understanding-based tasks or generation-based tasks. Furthermore, performance improvement has been largely achieved by scaling up the dataset with noisy image-text pairs collected from the web, which is a suboptimal source of supervision. In this paper, we propose BLIP, a new VLP framework which transfers flexibly to both vision-language understanding and generation tasks. BLIP effectively utilizes the noisy web data by bootstrapping the captions, where a captioner generates synthetic captions and a filter removes the noisy ones. We achieve state-of-the-art results on a wide range of vision-language tasks, such as image-text retrieval (+2.7% in average recall@1), image captioning (+2.8% in CIDEr), and VQA (+1.6% in VQA score). BLIP also demonstrates strong generalization ability when directly transferred to video-language tasks in a zero-shot manner. Code and models are available at https://github. com/salesforce/BLIP.",
+    "author": [
+      {
+        "family": "Li",
+        "given": "Junnan"
+      },
+      {
+        "family": "Li",
+        "given": "Dongxu"
+      },
+      {
+        "family": "Xiong",
+        "given": "Caiming"
+      },
+      {
+        "family": "Hoi",
+        "given": "Steven"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "id": "li_blip_nodate",
+    "keyword": "/unread",
+    "title": "BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation",
+    "title-short": "BLIP",
+    "type": "article-journal"
+  },
+  {
+    "abstract": "SOTA computer vision systems are trained to predict a ﬁxed set of predetermined object categories. This restricted form of supervision limits their generality and usability since additional labeled data is needed to specify any other visual concept. Learning directly from raw text about images is a promising alternative which leverages a much broader source of supervision. We demonstrate that the simple pre-training task of predicting which caption goes with which image is an efﬁcient and scalable way to learn SOTA image representations from scratch on a dataset of 400 million (image, text) pairs collected from the internet. After pre-training, natural language is used to reference learned visual concepts (or describe new ones) enabling zero-shot transfer of the model to downstream tasks. We study performance on over 30 different computer vision datasets, spanning tasks such as OCR, action recognition in videos, geo-localization, and many types of ﬁne-grained object classiﬁcation. The model transfers nontrivially to most tasks and is often competitive with a fully supervised baseline without the need for any dataset speciﬁc training. For instance, we match the accuracy of the original ResNet50 on ImageNet zero-shot without needing to use any of the 1.28 million training examples it was trained on. We release our code and pre-trained model weights at https://github.com/OpenAI/CLIP.",
+    "author": [
+      {
+        "family": "Radford",
+        "given": "Alec"
+      },
+      {
+        "family": "Kim",
+        "given": "Jong Wook"
+      },
+      {
+        "family": "Hallacy",
+        "given": "Chris"
+      },
+      {
+        "family": "Ramesh",
+        "given": "Aditya"
+      },
+      {
+        "family": "Goh",
+        "given": "Gabriel"
+      },
+      {
+        "family": "Agarwal",
+        "given": "Sandhini"
+      },
+      {
+        "family": "Sastry",
+        "given": "Girish"
+      },
+      {
+        "family": "Askell",
+        "given": "Amanda"
+      },
+      {
+        "family": "Mishkin",
+        "given": "Pamela"
+      },
+      {
+        "family": "Clark",
+        "given": "Jack"
+      },
+      {
+        "family": "Krueger",
+        "given": "Gretchen"
+      },
+      {
+        "family": "Sutskever",
+        "given": "Ilya"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "id": "radford_learning_nodate",
+    "title": "Learning Transferable Visual Models From Natural Language Supervision",
+    "type": "article-journal"
+  },
+  {
+    "URL": "http://arxiv.org/abs/2301.12597",
+    "abstract": "The cost of vision-and-language pre-training has become increasingly prohibitive due to end-to-end training of large-scale models. This paper proposes BLIP-2, a generic and efficient pre-training strategy that bootstraps vision-language pre-training from off-the-shelf frozen pre-trained image encoders and frozen large language models. BLIP-2 bridges the modality gap with a lightweight Querying Transformer, which is pre-trained in two stages. The first stage bootstraps vision-language representation learning from a frozen image encoder. The second stage bootstraps vision-to-language generative learning from a frozen language model. BLIP-2 achieves state-of-the-art performance on various vision-language tasks, despite having significantly fewer trainable parameters than existing methods. For example, our model outperforms Flamingo80B by 8.7% on zero-shot VQAv2 with 54x fewer trainable parameters. We also demonstrate the model’s emerging capabilities of zero-shot image-to-text generation that can follow natural language instructions.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          3
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Li",
+        "given": "Junnan"
+      },
+      {
+        "family": "Li",
+        "given": "Dongxu"
+      },
+      {
+        "family": "Savarese",
+        "given": "Silvio"
+      },
+      {
+        "family": "Hoi",
+        "given": "Steven"
+      }
+    ],
+    "id": "li_blip-2_2023",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          6
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Computer Vision and Pattern Recognition",
+    "note": "arXiv:2301.12597 [cs]",
+    "publisher": "arXiv",
+    "title": "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models",
+    "title-short": "BLIP-2",
+    "type": ""
+  },
+  {
+    "DOI": "10.18653/v1/2020.acl-demos.11",
+    "URL": "https://www.aclweb.org/anthology/2020.acl-demos.11",
+    "abstract": "We present the ﬁrst comprehensive, open source multimedia knowledge extraction system that takes a massive stream of unstructured, heterogeneous multimedia data from various sources and languages as input, and creates a coherent, structured knowledge base, indexing entities, relations, and events, following a rich, ﬁne-grained ontology. Our system, GAIA 1, enables seamless search of complex graph queries, and retrieves multimedia evidence including text, images and videos. GAIA achieves top performance at the recent NIST TAC SM-KBP2019 evaluation2. The system is publicly available at GitHub3 and DockerHub4, with complete documentation5.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          6
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Li",
+        "given": "Manling"
+      },
+      {
+        "family": "Zareian",
+        "given": "Alireza"
+      },
+      {
+        "family": "Lin",
+        "given": "Ying"
+      },
+      {
+        "family": "Pan",
+        "given": "Xiaoman"
+      },
+      {
+        "family": "Whitehead",
+        "given": "Spencer"
+      },
+      {
+        "family": "Chen",
+        "given": "Brian"
+      },
+      {
+        "family": "Wu",
+        "given": "Bo"
+      },
+      {
+        "family": "Ji",
+        "given": "Heng"
+      },
+      {
+        "family": "Chang",
+        "given": "Shih-Fu"
+      },
+      {
+        "family": "Voss",
+        "given": "Clare"
+      },
+      {
+        "family": "Napierski",
+        "given": "Daniel"
+      },
+      {
+        "family": "Freedman",
+        "given": "Marjorie"
+      }
+    ],
+    "container-title": "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics: System Demonstrations",
+    "id": "li_gaia_2020",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "77-86",
+    "publisher": "Association for Computational Linguistics",
+    "publisher-place": "Online",
+    "title": "GAIA: A Fine-grained Multimedia Knowledge Extraction System",
+    "title-short": "GAIA",
+    "type": "paper-conference"
+  },
+  {
+    "DOI": "10.18653/v1/2020.acl-main.713",
+    "URL": "https://www.aclweb.org/anthology/2020.acl-main.713",
+    "abstract": "Most existing joint neural models for Information Extraction (IE) use local task-speciﬁc classiﬁers to predict labels for individual instances (e.g., trigger, relation) regardless of their interactions. For example, a VICTIM of a DIE event is likely to be a VICTIM of an ATTACK event in the same sentence. In order to capture such cross-subtask and cross-instance inter-dependencies, we propose a joint neural framework, ONEIE, that aims to extract the globally optimal IE result as a graph from an input sentence. ONEIE performs end-to-end IE in four stages: (1) Encoding a given sentence as contextualized word representations; (2) Identifying entity mentions and event triggers as nodes; (3) Computing label scores for all nodes and their pairwise links using local classiﬁers; (4) Searching for the globally optimal graph with a beam decoder. At the decoding stage, we incorporate global features to capture the cross-subtask and cross-instance interactions. Experiments show that adding global features improves the performance of our model and achieves new state-of-the-art on all subtasks. As ONEIE does not use any language-speciﬁc feature, we prove it can be easily applied to new languages or trained in a multilingual manner. Our code and models for English, Spanish and Chinese are publicly available for research purpose 1.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          6
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Lin",
+        "given": "Ying"
+      },
+      {
+        "family": "Ji",
+        "given": "Heng"
+      },
+      {
+        "family": "Huang",
+        "given": "Fei"
+      },
+      {
+        "family": "Wu",
+        "given": "Lingfei"
+      }
+    ],
+    "container-title": "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics",
+    "id": "lin_joint_2020",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "keyword": "/unread",
+    "page": "7999-8009",
+    "publisher": "Association for Computational Linguistics",
+    "publisher-place": "Online",
+    "title": "A Joint Neural Model for Information Extraction with Global Features",
+    "type": "paper-conference"
+  },
+  {
+    "DOI": "10.18653/v1/2020.acl-main.230",
+    "URL": "https://www.aclweb.org/anthology/2020.acl-main.230",
+    "abstract": "We introduce a new task, MultiMedia Event Extraction (M2E2), which aims to extract events and their arguments from multimedia documents. We develop the ﬁrst benchmark and collect a dataset of 245 multimedia news articles with extensively annotated events and arguments.1 We propose a novel method, Weakly Aligned Structured Embedding (WASE), that encodes structured representations of semantic information from textual and visual data into a common embedding space. The structures are aligned across modalities by employing a weakly supervised training strategy, which enables exploiting available resources without explicit cross-media annotation. Compared to unimodal state-of-the-art methods, our approach achieves 4.0% and 9.8% absolute F-score gains on text event argument role labeling and visual event extraction. Compared to stateof-the-art multimedia unstructured representations, we achieve 8.3% and 5.0% absolute Fscore gains on multimedia event extraction and argument role labeling, respectively. By utilizing images, we extract 21.4% more event mentions than traditional text-only methods.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          6
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Li",
+        "given": "Manling"
+      },
+      {
+        "family": "Zareian",
+        "given": "Alireza"
+      },
+      {
+        "family": "Zeng",
+        "given": "Qi"
+      },
+      {
+        "family": "Whitehead",
+        "given": "Spencer"
+      },
+      {
+        "family": "Lu",
+        "given": "Di"
+      },
+      {
+        "family": "Ji",
+        "given": "Heng"
+      },
+      {
+        "family": "Chang",
+        "given": "Shih-Fu"
+      }
+    ],
+    "container-title": "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics",
+    "id": "li_cross-media_2020",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "keyword": "/unread, dataset",
+    "page": "2557-2568",
+    "publisher": "Association for Computational Linguistics",
+    "publisher-place": "Online",
+    "title": "Cross-media Structured Common Space for Multimedia Event Extraction",
+    "type": "paper-conference"
+  },
+  {
+    "URL": "http://arxiv.org/abs/2204.06125",
+    "abstract": "Contrastive models like CLIP have been shown to learn robust representations of images that capture both semantics and style. To leverage these representations for image generation, we propose a two-stage model: a prior that generates a CLIP image embedding given a text caption, and a decoder that generates an image conditioned on the image embedding. We show that explicitly generating image representations improves image diversity with minimal loss in photorealism and caption similarity. Our decoders conditioned on image representations can also produce variations of an image that preserve both its semantics and style, while varying the non-essential details absent from the image representation. Moreover, the joint embedding space of CLIP enables language-guided image manipulations in a zero-shot fashion. We use diffusion models for the decoder and experiment with both autoregressive and diffusion models for the prior, ﬁnding that the latter are computationally more efﬁcient and produce higher-quality samples.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          8
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Ramesh",
+        "given": "Aditya"
+      },
+      {
+        "family": "Dhariwal",
+        "given": "Prafulla"
+      },
+      {
+        "family": "Nichol",
+        "given": "Alex"
+      },
+      {
+        "family": "Chu",
+        "given": "Casey"
+      },
+      {
+        "family": "Chen",
+        "given": "Mark"
+      }
+    ],
+    "id": "ramesh_hierarchical_2022",
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          4
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Computer Vision and Pattern Recognition",
+    "note": "arXiv:2204.06125 [cs]",
+    "publisher": "arXiv",
+    "title": "Hierarchical Text-Conditional Image Generation with CLIP Latents",
+    "type": ""
+  },
+  {
+    "URL": "http://arxiv.org/abs/1705.09406",
+    "abstract": "Our experience of the world is multimodal - we see objects, hear sounds, feel texture, smell odors, and taste flavors. Modality refers to the way in which something happens or is experienced and a research problem is characterized as multimodal when it includes multiple such modalities. In order for Artificial Intelligence to make progress in understanding the world around us, it needs to be able to interpret such multimodal signals together. Multimodal machine learning aims to build models that can process and relate information from multiple modalities. It is a vibrant multi-disciplinary field of increasing importance and with extraordinary potential. Instead of focusing on specific multimodal applications, this paper surveys the recent advances in multimodal machine learning itself and presents them in a common taxonomy. We go beyond the typical early and late fusion categorization and identify broader challenges that are faced by multimodal machine learning, namely: representation, translation, alignment, fusion, and co-learning. This new taxonomy will enable researchers to better understand the state of the field and identify directions for future research.",
+    "accessed": {
+      "date-parts": [
+        [
+          2024,
+          2,
+          8
+        ]
+      ]
+    },
+    "author": [
+      {
+        "family": "Baltrušaitis",
+        "given": "Tadas"
+      },
+      {
+        "family": "Ahuja",
+        "given": "Chaitanya"
+      },
+      {
+        "family": "Morency",
+        "given": "Louis-Philippe"
+      }
+    ],
+    "id": "baltrusaitis_multimodal_2017",
+    "issued": {
+      "date-parts": [
+        [
+          2017,
+          8
+        ]
+      ]
+    },
+    "keyword": "/unread, Computer Science - Machine Learning",
+    "note": "arXiv:1705.09406 [cs]",
+    "publisher": "arXiv",
+    "title": "Multimodal Machine Learning: A Survey and Taxonomy",
+    "title-short": "Multimodal Machine Learning",
+    "type": ""
   }
 ]
