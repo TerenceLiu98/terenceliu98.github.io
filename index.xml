@@ -5,227 +5,176 @@
     <link>https://blog.cklau.cc/</link>
     <description>Recent content on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 08 Feb 2024 00:15:00 +0000</lastBuildDate><atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Thu, 08 Feb 2024 00:15:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>👨🏿‍⚕️ Multimodal Representation Leraning from both Text and Image</title>
       <link>https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/</guid>
-      <description>Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the</description>
+      <description>Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.</description>
     </item>
-    
     <item>
       <title>👯 Friends</title>
       <link>https://blog.cklau.cc/friends/</link>
       <pubDate>Thu, 19 Oct 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/friends/</guid>
       <description> 👨‍💻 Junde Yhi: Linux expert, IoT practitioner 👨‍💻 ECWU: Assistant Instructur, focusing on NLP &amp;amp; Medical imaging research 👨‍💻 Reijie Deng: full-stack developer 👨‍💻 Laurence Luo: developer, geek 👨‍💻 Kirin Baka: New generation UICHCC bellwether 🙎‍♂️ Hao Tian: Student in UIC, studying Media and Communication Studies 👨‍🎓 Junru Zhong: PhD candidate in Chinese University of Hong Kong 👨‍🎓 Yifu Qiu: PhD candidate in The University of Edinburgh and Cambridge University, 2023 Apple Scholars, Fans of Liverpool </description>
     </item>
-    
     <item>
       <title> ⚙️ Gadgets</title>
       <link>https://blog.cklau.cc/gadgets/</link>
       <pubDate>Mon, 14 Aug 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/gadgets/</guid>
-      <description> Tip
-Here are some tools I used in monitoring my cluster/server or accelerate the image pull
-Service Monitoring：Service Status &amp;amp; Cluster Status Proxy：Mirrors For Container &amp;amp; GitHub Proxy Code Hosting：My self-hosted Git Service </description>
+      <description> Tip&#xA;Here are some tools I used in monitoring my cluster/server or accelerate the image pull&#xA;Service Monitoring：Service Status &amp;amp; Cluster Status Proxy：Mirrors For Container &amp;amp; GitHub Proxy Code Hosting：My self-hosted Git Service </description>
     </item>
-    
     <item>
       <title>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</title>
       <link>https://blog.cklau.cc/post/specification/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/specification/</guid>
       <description>&lt;p&gt;There are multiple articles have illustruated that the project(code) management is important:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Homelab: A self-hosted GitHub Accelerator</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-extra-1/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/my-homelab-extra-1/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>🥼 RetiGAN: A GAN-based model on retinal Image synthesis</title>
       <link>https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title>
       <link>https://blog.cklau.cc/post/tech/k8s-setup-2/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/k8s-setup-2/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Homelab: My Distributed Homelab (2)</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-6/</link>
       <pubDate>Tue, 24 Jan 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/my-homelab-6/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
       <link>https://blog.cklau.cc/post/tech/lnet-3/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/lnet-3/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
       <link>https://blog.cklau.cc/post/tech/lnet-2/</link>
       <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/lnet-2/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Homelab: How to build a AIO home-server</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-5/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/my-homelab-5/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</title>
       <link>https://blog.cklau.cc/post/tech/k8s-setup-1/</link>
       <pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/k8s-setup-1/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net</title>
       <link>https://blog.cklau.cc/post/tech/lnet-1/</link>
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/lnet-1/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Projects</title>
       <link>https://blog.cklau.cc/projects/</link>
       <pubDate>Tue, 04 Oct 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/projects/</guid>
-      <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster
-Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) Homelab: A self-hosted GitHub Accelerator K3s/Kubernetes: A quick setup for single machine K3s/Kubernetes: A quick setup for HA K3s/Kubernetes: A self-hosted registry K3s/Kubernetes: How GitOps works - Coming soon K3s/Kubernetes: From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm Personal Project: Personal Experimental Network: L-Net These articles are inside my projects: Build a Experimental Network with your VPS</description>
+      <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster&#xA;Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) Homelab: A self-hosted GitHub Accelerator K3s/Kubernetes: A quick setup for single machine K3s/Kubernetes: A quick setup for HA K3s/Kubernetes: A self-hosted registry K3s/Kubernetes: How GitOps works - Coming soon K3s/Kubernetes: From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm Personal Project: Personal Experimental Network: L-Net These articles are inside my projects: Build a Experimental Network with your VPS</description>
     </item>
-    
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title>
       <link>https://blog.cklau.cc/post/tech/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/k3s-setup-extra-1/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>👋 Hello World - About Me</title>
       <link>https://blog.cklau.cc/about/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/about/</guid>
-      <description>&lt;style type=&#34;text/css&#34;&gt;.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style&gt;
-&lt;div&gt;&lt;svg width=&#34;0&#34; height=&#34;0&#34; display=&#34;none&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;symbol id=&#34;tip-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;note-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;warning-notice&#34; viewBox=&#34;0 0 576 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;info-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z&#34;/&gt;&lt;/symbol&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div class=&#34;notice tip&#34; &gt;
-&lt;p class=&#34;first notice-title&#34;&gt;&lt;span class=&#34;icon-notice baseline&#34;&gt;&lt;svg&gt;&lt;use href=&#34;#tip-notice&#34;&gt;&lt;/use&gt;&lt;/svg&gt;&lt;/span&gt;Tip&lt;/p&gt;&lt;p&gt;💡 To check my post, please click &lt;a href=&#34;https://blog.cklau.cc/projects&#34;&gt;here(projects)&lt;/a&gt; or &lt;a href=&#34;https://blog.cklau.cc/post&#34;&gt;here(daily)&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description>
+      <description>&lt;style type=&#34;text/css&#34;&gt;.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style&gt;&#xA;&lt;div&gt;&lt;svg width=&#34;0&#34; height=&#34;0&#34; display=&#34;none&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;symbol id=&#34;tip-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;note-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;warning-notice&#34; viewBox=&#34;0 0 576 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;info-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z&#34;/&gt;&lt;/symbol&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div class=&#34;notice tip&#34; &gt;&#xA;&lt;p class=&#34;first notice-title&#34;&gt;&lt;span class=&#34;icon-notice baseline&#34;&gt;&lt;svg&gt;&lt;use href=&#34;#tip-notice&#34;&gt;&lt;/use&gt;&lt;/svg&gt;&lt;/span&gt;Tip&lt;/p&gt;&lt;p&gt;💡 To check my post, please click &lt;a href=&#34;https://blog.cklau.cc/projects&#34;&gt;here(projects)&lt;/a&gt; or &lt;a href=&#34;https://blog.cklau.cc/post&#34;&gt;here(daily)&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description>
     </item>
-    
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</title>
       <link>https://blog.cklau.cc/post/tech/k3s-setup-2/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/k3s-setup-2/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</title>
       <link>https://blog.cklau.cc/post/tech/k3s-setup-1/</link>
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/k3s-setup-1/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-4/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/my-homelab-4/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Homelab: My Distributed Homelab</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-2/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/my-homelab-2/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Homelab: My Network setup</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-3/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/my-homelab-3/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Homelab: My Devices</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/my-homelab-1/</guid>
       <description></description>
     </item>
-    
     <item>
       <title></title>
       <link>https://blog.cklau.cc/post/develop-environ/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/post/develop-environ/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>👨‍💻 Style Transfer and Synthesis (1/3): Style Transfer in Image Synthesis</title>
       <link>https://blog.cklau.cc/post/scientia/machine-learning/dl-gan-1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/post/scientia/machine-learning/dl-gan-1/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

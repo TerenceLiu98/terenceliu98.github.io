@@ -3,10 +3,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>特倫蘇的日與夜</title>
     <meta charset="utf-8">
-    <meta name="description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the">
+    <meta name="description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.">
     <meta name="author" content="Junjie(Terence) LIU">
     <link rel="canonical" href="https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/">
-    <link rel="stylesheet" type="text/css" href="/hugo-cite.css" />
         <meta name="google-site-verification" content="GTM-MC97JQPW">
 
     
@@ -24,17 +23,17 @@ if (!doNotTrack) {
 
 
     <meta property="og:title" content="👨🏿‍⚕️ Multimodal Representation Leraning from both Text and Image" />
-<meta property="og:description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the" />
+<meta property="og:description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2024-02-08T00:15:00+00:00" />
-<meta property="article:modified_time" content="2024-02-08T16:49:45+00:00" />
+<meta property="article:modified_time" content="2024-02-09T02:57:43+00:00" />
 
 
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="👨🏿‍⚕️ Multimodal Representation Leraning from both Text and Image"/>
-<meta name="twitter:description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the"/>
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="👨🏿‍⚕️ Multimodal Representation Leraning from both Text and Image"/>
+<meta name="twitter:description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio."/>
 
 
 <script type="application/ld+json">
@@ -75,15 +74,15 @@ if (!doNotTrack) {
   "@type": "BlogPosting",
   "headline": "👨🏿‍⚕️ Multimodal Representation Leraning from both Text and Image",
   "name": "👨🏿‍⚕️ Multimodal Representation Leraning from both Text and Image",
-  "description": "Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the",
+  "description": "Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.",
   "keywords": [
     "Artificial Intelligence", "text-image", "multi-modality", "long-read"
   ],
-  "articleBody": "Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.\nHowever, different data mode has different representation, especially for the machine, i.e., different mode of data has different representation. Some of the modality can be approximated by the others, e.g. audio can be transformed into images via the Fourier Transformation [^1].\nUsually, the multimodal learning includes these five aspects ( Citation: Baltrušaitis, Ahuja \u0026 al., 2017 Baltrušaitis, T., Ahuja, C. \u0026 Morency, L. (2017). Multimodal Machine Learning: A Survey and Taxonomy. arXiv. Retrieved from http://arxiv.org/abs/1705.09406 ) :\nRepresentation: It is important for us to know how to represent each unimodality or multimodality Translation: This is the mapping from one data mode to another, e.g. using spectrogram to transform audio to image Alignment or Registration: This is the direct relation between elements from two or more different modalities. If they are in the same modality, we would call it registration. Fusion: It is to join information from two or more modalities to perform a downstream task. Co-learning: Transforming knowledge from different modalities For this series, we are not shaped by the five main aspects, instead, we would organized by modalities. In this post, we are focusing on the Text and Image, with such amounts of researchs and works, I decided to follow on the two papers: CLIP ( Citation: Radford, Kim \u0026 al., 2021 Radford, A., Kim, J., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G. \u0026 Sutskever, I. (2021). Learning Transferable Visual Models From Natural Language Supervision. ) and BLIP ( Citation: Li, Li \u0026 al., 2022 Li, J., Li, D., Xiong, C. \u0026 Hoi, S. (2022). BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation. ) , some of their variants would be mentioned.\nCLIP: Learning Transferable Visual Models From Natural Language Supervision CLIP’s key contribution is its ability to map text and image into a shared embedding space based on the seperated text/image encoder. This shared multimodal embedding space makes text-to-image and image-to-text tasks so much easier. Not meaning that it can directly used in these tasks, but providing a idea that how to do the multimodal representation.\nReference Baltrušaitis, Ahuja \u0026 Morency (2017) Baltrušaitis, T., Ahuja, C. \u0026 Morency, L. (2017). Multimodal Machine Learning: A Survey and Taxonomy. arXiv. Retrieved from http://arxiv.org/abs/1705.09406 Li, Li, Xiong \u0026 Hoi (2022) Li, J., Li, D., Xiong, C. \u0026 Hoi, S. (2022). BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation. Radford, Kim, Hallacy, Ramesh, Goh, Agarwal, Sastry, Askell, Mishkin, Clark, Krueger \u0026 Sutskever (2021) Radford, A., Kim, J., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G. \u0026 Sutskever, I. (2021). Learning Transferable Visual Models From Natural Language Supervision. [^1] For more information, pleace check Spectrogram and Mel Spectrogram\n",
-  "wordCount" : "606",
+  "articleBody": "Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.\nHowever, different data mode has different representation, especially for the machine, i.e., different mode of data has different representation. Some of the modality can be approximated by the others, e.g. audio can be transformed into images via the Fourier Transformation 1.\nUsually, the multimodal learning includes these five aspects [1]:\nRepresentation: It is important for us to know how to represent each unimodality or multimodality Translation: This is the mapping from one data mode to another, e.g. using spectrogram to transform audio to image Alignment or Registration: This is the direct relation between elements from two or more different modalities. If they are in the same modality, we would call it registration. Fusion: It is to join information from two or more modalities to perform a downstream task. Co-learning: Transforming knowledge from different modalities For this series, we are not shaped by the five main aspects, instead, we would organized by modalities. In this post, we are focusing on the Text and Image, with such amounts of researchs and works, I decided to follow on the two papers: CLIP [2] and BLIP [3], some of their variants would be mentioned.\nCLIP: Learning Transferable Visual Models From Natural Language Supervision CLIP’s key contribution is its ability to map text and image into a shared embedding space based on the seperated text/image encoder. This shared multimodal embedding space makes text-to-image and image-to-text tasks so much easier. Not meaning that it can directly used in these tasks, but providing a idea that how to do the multimodal representation.\nFigure 1: The architecture of CLIP model\nThe work shown above is Copyrighted to OPENAI.\nFigure 1 shows the approach of CLIP model. Text and image are encoded by two different encoders $f_{\\theta_i}$ and $g_{\\theta_t}$, let $\\mathbf{x} \\in \\mathbb{R}^{N \\times H \\times W \\times C}$ as one batch of image, $\\mathbf{y} \\in \\mathbb{R}^{N \\times S}$ as one batch of text data, the embedding of $\\mathbf{x}$ and $\\mathbf{y}$ then can be denoted as:\n$$\\begin{aligned} \\mathbf{f} \u0026= f_{\\theta_i}(\\mathbf{x}) \\in \\mathbf{R}^{N \\times D_i} \\Rightarrow \\mathbf{f}^e = L_i(\\mathbf{f}) \\cr \\mathbf{g} \u0026= g_{\\theta_t}(\\mathbf{y}) \\in \\mathbf{R}^{N \\times D_t} \\Rightarrow \\mathbf{g}^e = L_t(\\mathbf{g}) \\end{aligned}$$\nwhere $D_i$ and $D_t$ are the dimension of the image and text embedding, respectively. linear projectors $L_i$ and $L_t$ are used for mapping two embedding into the same dimension. The dot product between the image and text embedding is used to calculate the similarity between the text and image, i.e., $\\mathcal{F} = \\mathbf{f} \\cdot \\mathbf{g}$, where $\\mathcal{F} \\in \\mathbb{R}^{N \\times N}$ is the similarity matrix and the $\\mathcal{F} \\circ I_N$ is the positive sample set, and the others are the negative samples (In total, there are $N^2 - N$ negatives samples). The pseudocode of the CLIP model is shown in Figure 2 (original papers). The idea of CLIP model is relative naive, as it is a classic negative sampling method called batch negative sampling. The main contribution is that they create a huge dataset with the text and image pairs, including 400 million (image, text) pairs collected form of a variety of publicly available sources on the Internet. With this dataset, they don’t even need the pretrained encoder as the encoder can be trained simultaneously with the downstream alignment.\nApplications The first application of CLIP is classification. Since the CLIP model is relatively similar to the reitrival model, it can be easily implemented into the classification with zero-shot learning. The zero-shot learning is a task that the model can classify the unseen classes without any training data. See the second part of Figure 1, where for a given image, the model can classify the similarity between the given image and the prompted text, by calculating the similarity of image and each given sentence we could get the classification, vice versa. This can be seen as classification, or retrieval.\nThe second application is the generation. The CLIP model can be used to generate the image from the given text. Although it cannot generate the image directly since it does not have any decoder, however, the CLIP can be seen as the backbone and provide the embedding for image or text generation. After the CLIP came out, OpenAI also released the DALL-E2, where they provide a model called unCLIP [4]\nReference T. Baltrušaitis, C. Ahuja, and L. Morency, Multimodal Machine Learning: A Survey and Taxonomy. arXiv, 2017. [Online]. Available: http://arxiv.org/abs/1705.09406 [Accessed: Feb. 8, 2024]. A. Radford, J. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, G. Krueger, and I. Sutskever, Learning Transferable Visual Models From Natural Language Supervision, 2021. J. Li, D. Li, C. Xiong, and S. Hoi, BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation, 2022. A. Ramesh, P. Dhariwal, A. Nichol, C. Chu, and M. Chen, Hierarchical Text-Conditional Image Generation with CLIP Latents. arXiv, 2022. [Online]. Available: http://arxiv.org/abs/2204.06125 [Accessed: Feb. 8, 2024]. For more information, pleace check Spectrogram and Mel Spectrogram ↩︎\n",
+  "wordCount" : "869",
   "inLanguage": "en",
   "datePublished": "2024-02-08T00:15:00Z",
-  "dateModified": "2024-02-08T16:49:45Z",
+  "dateModified": "2024-02-09T02:57:43Z",
   "author":{
     "@type": "Person",
     "name": "Junjie(Terence) LIU"
@@ -109,14 +108,11 @@ if (!doNotTrack) {
 <link rel="manifest" href="/images/icon.png">
     
     
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
-    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
-    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
-    crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
-    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
-    crossorigin="anonymous"></script>
+        <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         renderMathInElement(document.body, {
@@ -158,7 +154,7 @@ if (!doNotTrack) {
     <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
 
     
-    <script src="/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js"></script>
+    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
     <script>hljs.highlightAll();</script>
 
     <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
@@ -256,8 +252,8 @@ if (!doNotTrack) {
   </small>
   <br>
   <small>
-    Published On: <u>February 8, 2024</u> (Last updated on: <u>February 8, 2024)</u> <br>
-    606 words&nbsp;· 2 min</small>
+    Published On: <u>February 8, 2024</u> (Last updated on: <u>February 9, 2024)</u> <br>
+    869 words&nbsp;· 5 min</small>
 </p>
 
 
@@ -266,7 +262,11 @@ if (!doNotTrack) {
     <nav id="TableOfContents">
   <ul>
     <li><a href="#before">Before</a></li>
-    <li><a href="#clip-learning-transferable-visual-models-from-natural-language-supervision">CLIP: Learning Transferable Visual Models From Natural Language Supervision</a></li>
+    <li><a href="#clip-learning-transferable-visual-models-from-natural-language-supervision">CLIP: Learning Transferable Visual Models From Natural Language Supervision</a>
+      <ul>
+        <li><a href="#applications">Applications</a></li>
+      </ul>
+    </li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
@@ -274,50 +274,8 @@ if (!doNotTrack) {
 
   <section class="blog-content"><h2 id="before">Before</h2>
 <p>For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.</p>
-<p>However, different data mode has different representation, especially for the machine, i.e., different mode of data has different representation. Some of the modality can be approximated by the others, e.g. audio can be transformed into images via the Fourier Transformation [^1].</p>
-<p>Usually, the multimodal learning includes these five aspects 
-
-
-
-
-<span class="hugo-cite-intext"
-        itemprop="citation">(<span class="hugo-cite-group">
-
-          <a href="#baltrusaitis_multimodal_2017"><span class="visually-hidden">Citation: </span><span itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="givenName" content="Tadas"><span itemprop="familyName">Baltrušaitis</span></span>,&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="givenName" content="Chaitanya"><span itemprop="familyName">Ahuja</span></span>
-                  <em>&amp; al.</em>,&#32;<span itemprop="datePublished">2017</span></a><span class="hugo-cite-citation"> 
-
-
-
-
-
-
-
-
-
-
-<span itemscope
-      itemtype="https://schema.org/CreativeWork"
-      data-type="default"><span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Baltrušaitis</span>,&#32;
-    <meta itemprop="givenName" content="Tadas" />
-    T.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Ahuja</span>,&#32;
-    <meta itemprop="givenName" content="Chaitanya" />
-    C.</span>&#32;&amp;&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Morency</span>,&#32;
-    <meta itemprop="givenName" content="Louis-Philippe" />
-    L.</span>
-  &#32;
-    (<span itemprop="datePublished">2017</span>).
-  &#32;<span itemprop="name">
-    <i>Multimodal Machine Learning: A Survey and Taxonomy</i></span>.
-  &#32;
-  <span itemprop="publisher" itemtype="http://schema.org/Organization" itemscope="">
-    <span itemprop="name">arXiv</span></span>.&#32;Retrieved from&#32;
-  <a href="http://arxiv.org/abs/1705.09406"
-     itemprop="identifier"
-     itemtype="https://schema.org/URL">http://arxiv.org/abs/1705.09406</a></span>
-
-</span></span>)</span>
-:</p>
+<p>However, different data mode has different representation, especially for the machine, i.e., different mode of data has different representation. Some of the modality can be approximated by the others, e.g. audio can be transformed into images via the Fourier Transformation <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>Usually, the multimodal learning includes these five aspects [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-1" title="T. Baltrušaitis, C. Ahuja, and L. Morency, Multimodal Machine Learning: A Survey and Taxonomy. arXiv, 2017. [Online]. Available: http://arxiv.org/abs/1705.09406 [Accessed: Feb. 8, 2024]. ">1</a>]:</p>
 <ol>
 <li>Representation: It is important for us to know how to represent each unimodality or multimodality</li>
 <li>Translation: This is the mapping from one data mode to another, e.g. using spectrogram to transform audio to image</li>
@@ -325,307 +283,62 @@ if (!doNotTrack) {
 <li>Fusion: It is to join information from two or more modalities to perform a downstream task.</li>
 <li>Co-learning: Transforming knowledge from different modalities</li>
 </ol>
-<p>For this series, we are not shaped by the five main aspects, instead, we would organized by modalities. In this post, we are focusing on the Text and Image, with such amounts of researchs and works, I decided to follow on the two papers: CLIP 
-
-
-
-
-<span class="hugo-cite-intext"
-        itemprop="citation">(<span class="hugo-cite-group">
-
-          <a href="#radford_learning_nodate"><span class="visually-hidden">Citation: </span><span itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="givenName" content="Alec"><span itemprop="familyName">Radford</span></span>,&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="givenName" content="Jong Wook"><span itemprop="familyName">Kim</span></span>
-                  <em>&amp; al.</em>,&#32;<span itemprop="datePublished">2021</span></a><span class="hugo-cite-citation"> 
-
-
-
-
-
-
-
-
-
-
-<span itemscope
-      itemtype="https://schema.org/Article"
-      data-type="article"><span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Radford</span>,&#32;
-    <meta itemprop="givenName" content="Alec" />
-    A.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Kim</span>,&#32;
-    <meta itemprop="givenName" content="Jong Wook" />
-    J.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Hallacy</span>,&#32;
-    <meta itemprop="givenName" content="Chris" />
-    C.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Ramesh</span>,&#32;
-    <meta itemprop="givenName" content="Aditya" />
-    A.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Goh</span>,&#32;
-    <meta itemprop="givenName" content="Gabriel" />
-    G.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Agarwal</span>,&#32;
-    <meta itemprop="givenName" content="Sandhini" />
-    S.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Sastry</span>,&#32;
-    <meta itemprop="givenName" content="Girish" />
-    G.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Askell</span>,&#32;
-    <meta itemprop="givenName" content="Amanda" />
-    A.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Mishkin</span>,&#32;
-    <meta itemprop="givenName" content="Pamela" />
-    P.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Clark</span>,&#32;
-    <meta itemprop="givenName" content="Jack" />
-    J.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Krueger</span>,&#32;
-    <meta itemprop="givenName" content="Gretchen" />
-    G.</span>&#32;&amp;&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Sutskever</span>,&#32;
-    <meta itemprop="givenName" content="Ilya" />
-    I.</span>
-  &#32;
-    (<span itemprop="datePublished">2021</span>).
-  &#32;<span itemprop="name">Learning Transferable Visual Models From Natural Language Supervision</span>.</span>
-
-
-
-
-</span></span>)</span>
- and BLIP 
-
-
-
-
-<span class="hugo-cite-intext"
-        itemprop="citation">(<span class="hugo-cite-group">
-
-          <a href="#li_blip_nodate"><span class="visually-hidden">Citation: </span><span itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="givenName" content="Junnan"><span itemprop="familyName">Li</span></span>,&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="givenName" content="Dongxu"><span itemprop="familyName">Li</span></span>
-                  <em>&amp; al.</em>,&#32;<span itemprop="datePublished">2022</span></a><span class="hugo-cite-citation"> 
-
-
-
-
-
-
-
-
-
-
-<span itemscope
-      itemtype="https://schema.org/Article"
-      data-type="article"><span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Li</span>,&#32;
-    <meta itemprop="givenName" content="Junnan" />
-    J.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Li</span>,&#32;
-    <meta itemprop="givenName" content="Dongxu" />
-    D.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Xiong</span>,&#32;
-    <meta itemprop="givenName" content="Caiming" />
-    C.</span>&#32;&amp;&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Hoi</span>,&#32;
-    <meta itemprop="givenName" content="Steven" />
-    S.</span>
-  &#32;
-    (<span itemprop="datePublished">2022</span>).
-  &#32;<span itemprop="name">BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</span>.</span>
-
-
-
-
-</span></span>)</span>
-, some of their variants would be mentioned.</p>
+<p>For this series, we are not shaped by the five main aspects, instead, we would organized by modalities. In this post, we are focusing on the Text and Image, with such amounts of researchs and works, I decided to follow on the two papers: CLIP [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-2" title="A. Radford, J. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, G. Krueger, and I. Sutskever, Learning Transferable Visual Models From Natural Language Supervision, 2021. ">2</a>] and BLIP [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-3" title="J. Li, D. Li, C. Xiong, and S. Hoi, BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation, 2022. ">3</a>], some of their variants would be mentioned.</p>
 <h2 id="clip-learning-transferable-visual-models-from-natural-language-supervision">CLIP: Learning Transferable Visual Models From Natural Language Supervision</h2>
 <p>CLIP&rsquo;s key contribution is its ability to map text and image into a shared embedding space based on the seperated text/image encoder. This shared multimodal embedding space makes text-to-image and image-to-text tasks so much easier. Not meaning that it can directly used in these tasks, but providing a idea that how to do the multimodal representation.</p>
-<!-- raw HTML omitted -->
+<div class="semwebdemostyle" style="width: 100%;"><figure class="figure_box txt_center">
+      <div><a href="https://blog.cklau.cc" rel="">
+          <picture><source srcset="https://blog.cklau.cc/image_1881611846882928792_hucb52bd991ea5ad84c0398ddcc4540233_0_2330x864_resize_q75_h2_box_3.webp" type="image/webp" /><img src="https://blog.cklau.cc/image_1881611846882928792.png" alt="ALT" type="image/png" style="max-width: 100%;" loading="lazy" decoding="async" />
+          </picture>
+          </a></div>
+      <figcaption class="attribution_caption txt_center">
+        
+        <p><i>Figure 1: The architecture of CLIP model</i></p><p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
+            <small>The work shown above is Copyrighted to <a href="https://openai.com" rel="dct:creator ">OPENAI</a>.</small></p></figcaption>
+    </figure></div><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  "@id": "https://s3.cklau.cc/outline/uploads/b6880a0c-d8fc-4d04-9621-1e308a59ebb4/64cc5e48-d9a3-46aa-95b2-b6e0e9467fb3/image.png#image","caption": "Figure 1: The architecture of CLIP model","representativeOfPage": false,
+  "contentUrl": "https://s3.cklau.cc/outline/uploads/b6880a0c-d8fc-4d04-9621-1e308a59ebb4/64cc5e48-d9a3-46aa-95b2-b6e0e9467fb3/image.png",
+  "about": "Figure 1: The architecture of CLIP model",
+  "creativeWorkStatus": "Published",
+  "isPartOf": [
+    {
+      "@id": "https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/#article"
+    },
+    {
+      "@id": "https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/#webpage"
+    },
+    {
+      "@id": "https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/#webcontent"
+    }
+  ],"description": "Figure 1: The architecture of CLIP model",
+  "name": "Figure 1: The architecture of CLIP model",
+  "url": "https://s3.cklau.cc/outline/uploads/b6880a0c-d8fc-4d04-9621-1e308a59ebb4/64cc5e48-d9a3-46aa-95b2-b6e0e9467fb3/image.png"
+}
+</script>
+
+<p>Figure 1 shows the approach of CLIP model. Text and image are encoded by two different encoders $f_{\theta_i}$ and $g_{\theta_t}$, let $\mathbf{x} \in \mathbb{R}^{N \times H \times W \times C}$ as one batch of image, $\mathbf{y} \in \mathbb{R}^{N \times S}$ as one batch of text data,  the embedding of $\mathbf{x}$ and $\mathbf{y}$ then can be denoted as:</p>
+<p>$$\begin{aligned} \mathbf{f} &amp;= f_{\theta_i}(\mathbf{x}) \in \mathbf{R}^{N \times D_i} \Rightarrow \mathbf{f}^e = L_i(\mathbf{f})  \cr  \mathbf{g} &amp;= g_{\theta_t}(\mathbf{y}) \in \mathbf{R}^{N \times D_t} \Rightarrow \mathbf{g}^e = L_t(\mathbf{g}) \end{aligned}$$</p>
+<p>where $D_i$ and $D_t$ are the dimension of the image and text embedding, respectively. linear projectors $L_i$ and $L_t$ are used for mapping two embedding into the same dimension. The dot product between the image and text embedding is used to calculate the similarity between the text and image, i.e., $\mathcal{F} = \mathbf{f} \cdot \mathbf{g}$, where $\mathcal{F} \in \mathbb{R}^{N \times N}$ is the similarity matrix and the $\mathcal{F} \circ I_N$ is the positive sample set, and the others are the negative samples (In total, there are $N^2 - N$ negatives samples). The pseudocode of the CLIP model is shown in Figure 2 (original papers). The idea of CLIP model is relative naive, as it is a classic negative sampling method called batch negative sampling. The main contribution is that they create a huge dataset with the text and image pairs, including 400 million (image, text) pairs collected form of a variety of publicly available sources on the Internet. With this dataset, they don&rsquo;t even need the pretrained encoder as the encoder can be trained simultaneously with the downstream alignment.</p>
+<h3 id="applications">Applications</h3>
+<p>The first application of CLIP is classification. Since the CLIP model is relatively similar to the reitrival model, it can be easily implemented into the classification with zero-shot learning. The zero-shot learning is a task that the model can classify the unseen classes without any training data. See the second part of Figure 1, where for a given image, the model can classify the similarity between the given image and the prompted text, by calculating the similarity of image and each given sentence we could get the classification, vice versa. This can be seen as classification, or retrieval.</p>
+<p>The second application is the generation. The CLIP model can be used to generate the image from the given text. Although it cannot generate the image directly since it does not have any decoder, however, the CLIP can be seen as the backbone and provide the embedding for image or text generation. After the CLIP came out, OpenAI also released the DALL-E2, where they provide a model called unCLIP [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-4" title="A. Ramesh, P. Dhariwal, A. Nichol, C. Chu, and M. Chen, Hierarchical Text-Conditional Image Generation with CLIP Latents. arXiv, 2022. [Online]. Available: http://arxiv.org/abs/2204.06125 [Accessed: Feb. 8, 2024]. ">4</a>]</p>
 <h2 id="reference">Reference</h2>
-
-  
-
-  
-
-
-
-
-
-
-
-
-
-
-<section class="hugo-cite-bibliography">
-  <dl>
-    
-
-      <div id="baltrusaitis_multimodal_2017">
-        <dt>
-          Baltrušaitis,&#32;
-          Ahuja&#32;&amp;&#32;Morency
-
-          
-          (2017)</dt>
-
-        <dd>
-          
-
-
-
-
-
-
-
-
-
-
-<span itemscope
-      itemtype="https://schema.org/CreativeWork"
-      data-type="default"><span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Baltrušaitis</span>,&#32;
-    <meta itemprop="givenName" content="Tadas" />
-    T.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Ahuja</span>,&#32;
-    <meta itemprop="givenName" content="Chaitanya" />
-    C.</span>&#32;&amp;&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Morency</span>,&#32;
-    <meta itemprop="givenName" content="Louis-Philippe" />
-    L.</span>
-  &#32;
-    (<span itemprop="datePublished">2017</span>).
-  &#32;<span itemprop="name">
-    <i>Multimodal Machine Learning: A Survey and Taxonomy</i></span>.
-  &#32;
-  <span itemprop="publisher" itemtype="http://schema.org/Organization" itemscope="">
-    <span itemprop="name">arXiv</span></span>.&#32;Retrieved from&#32;
-  <a href="http://arxiv.org/abs/1705.09406"
-     itemprop="identifier"
-     itemtype="https://schema.org/URL">http://arxiv.org/abs/1705.09406</a></span>
-
-</dd>
-
-      </div>
-
-      <div id="li_blip_nodate">
-        <dt>
-          Li,&#32;
-          Li,&#32;
-          Xiong&#32;&amp;&#32;Hoi
-
-          
-          (2022)</dt>
-
-        <dd>
-          
-
-
-
-
-
-
-
-
-
-
-<span itemscope
-      itemtype="https://schema.org/Article"
-      data-type="article"><span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Li</span>,&#32;
-    <meta itemprop="givenName" content="Junnan" />
-    J.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Li</span>,&#32;
-    <meta itemprop="givenName" content="Dongxu" />
-    D.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Xiong</span>,&#32;
-    <meta itemprop="givenName" content="Caiming" />
-    C.</span>&#32;&amp;&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Hoi</span>,&#32;
-    <meta itemprop="givenName" content="Steven" />
-    S.</span>
-  &#32;
-    (<span itemprop="datePublished">2022</span>).
-  &#32;<span itemprop="name">BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</span>.</span>
-
-
-
-
-</dd>
-
-      </div>
-
-      <div id="radford_learning_nodate">
-        <dt>
-          Radford,&#32;
-          Kim,&#32;
-          Hallacy,&#32;
-          Ramesh,&#32;
-          Goh,&#32;
-          Agarwal,&#32;
-          Sastry,&#32;
-          Askell,&#32;
-          Mishkin,&#32;
-          Clark,&#32;
-          Krueger&#32;&amp;&#32;Sutskever
-
-          
-          (2021)</dt>
-
-        <dd>
-          
-
-
-
-
-
-
-
-
-
-
-<span itemscope
-      itemtype="https://schema.org/Article"
-      data-type="article"><span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Radford</span>,&#32;
-    <meta itemprop="givenName" content="Alec" />
-    A.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Kim</span>,&#32;
-    <meta itemprop="givenName" content="Jong Wook" />
-    J.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Hallacy</span>,&#32;
-    <meta itemprop="givenName" content="Chris" />
-    C.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Ramesh</span>,&#32;
-    <meta itemprop="givenName" content="Aditya" />
-    A.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Goh</span>,&#32;
-    <meta itemprop="givenName" content="Gabriel" />
-    G.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Agarwal</span>,&#32;
-    <meta itemprop="givenName" content="Sandhini" />
-    S.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Sastry</span>,&#32;
-    <meta itemprop="givenName" content="Girish" />
-    G.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Askell</span>,&#32;
-    <meta itemprop="givenName" content="Amanda" />
-    A.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Mishkin</span>,&#32;
-    <meta itemprop="givenName" content="Pamela" />
-    P.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Clark</span>,&#32;
-    <meta itemprop="givenName" content="Jack" />
-    J.</span>,&#32;
-  <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Krueger</span>,&#32;
-    <meta itemprop="givenName" content="Gretchen" />
-    G.</span>&#32;&amp;&#32;<span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="familyName">Sutskever</span>,&#32;
-    <meta itemprop="givenName" content="Ilya" />
-    I.</span>
-  &#32;
-    (<span itemprop="datePublished">2021</span>).
-  &#32;<span itemprop="name">Learning Transferable Visual Models From Natural Language Supervision</span>.</span>
-
-
-
-
-</dd>
-
-      </div>
-  </dl>
-</section>
-
-
-
-<p>[^1] For more information, pleace check <a href="https://en.wikipedia.org/wiki/Spectrogram">Spectrogram</a> and <a href="https://ieeexplore.ieee.org/document/9859621">Mel Spectrogram</a></p>
+<ol class="hugo-simplecite-reference-list"><li class="hugo-simplecite-reference-list-item" id="bibreference-1">T. Baltrušaitis,&#32;C. Ahuja, and&#32;L. Morency,&#32;<em>Multimodal Machine Learning: A Survey and Taxonomy</em>.&#32;arXiv, 2017.&#32;[Online]. Available: <a class="hugo-simplecite-url-hyperlink" rel="noopener" target="_blank" href="http://arxiv.org/abs/1705.09406">http://arxiv.org/abs/1705.09406</a>&#32;[Accessed:
+Feb. 8, 2024].
+</li><li class="hugo-simplecite-reference-list-item" id="bibreference-2">A. Radford,&#32;J. Kim,&#32;C. Hallacy,&#32;A. Ramesh,&#32;G. Goh,&#32;S. Agarwal,&#32;G. Sastry,&#32;A. Askell,&#32;P. Mishkin,&#32;J. Clark,&#32;G. Krueger, and&#32;I. Sutskever,&#32;<q>Learning Transferable Visual Models From Natural Language Supervision,</q>&#32;2021.&#32;</li><li class="hugo-simplecite-reference-list-item" id="bibreference-3">J. Li,&#32;D. Li,&#32;C. Xiong, and&#32;S. Hoi,&#32;<q>BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation,</q>&#32;2022.&#32;</li><li class="hugo-simplecite-reference-list-item" id="bibreference-4">A. Ramesh,&#32;P. Dhariwal,&#32;A. Nichol,&#32;C. Chu, and&#32;M. Chen,&#32;<em>Hierarchical Text-Conditional Image Generation with CLIP Latents</em>.&#32;arXiv, 2022.&#32;[Online]. Available: <a class="hugo-simplecite-url-hyperlink" rel="noopener" target="_blank" href="http://arxiv.org/abs/2204.06125">http://arxiv.org/abs/2204.06125</a>&#32;[Accessed:
+Feb. 8, 2024].
+</li></ol>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>For more information, pleace check <a href="https://en.wikipedia.org/wiki/Spectrogram">Spectrogram</a> and <a href="https://ieeexplore.ieee.org/document/9859621">Mel Spectrogram</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 </section>
 
   

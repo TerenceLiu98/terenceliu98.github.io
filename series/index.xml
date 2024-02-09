@@ -5,78 +5,64 @@
     <link>https://blog.cklau.cc/series/</link>
     <description>Recent content in Series on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 08 Feb 2024 00:15:00 +0000</lastBuildDate><atom:link href="https://blog.cklau.cc/series/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Thu, 08 Feb 2024 00:15:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.cklau.cc/series/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Multi-Modality</title>
       <link>https://blog.cklau.cc/series/multi-modality/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/series/multi-modality/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Knowledge Management</title>
       <link>https://blog.cklau.cc/series/knowledge-management/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/series/knowledge-management/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Project Management</title>
       <link>https://blog.cklau.cc/series/project-management/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/series/project-management/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>homelab</title>
       <link>https://blog.cklau.cc/series/homelab/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/series/homelab/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>MedCV</title>
       <link>https://blog.cklau.cc/series/medcv/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/series/medcv/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>kubernetes</title>
       <link>https://blog.cklau.cc/series/kubernetes/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/series/kubernetes/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>networking</title>
       <link>https://blog.cklau.cc/series/networking/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/series/networking/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Style Transfer and Synthesis</title>
       <link>https://blog.cklau.cc/series/style-transfer-and-synthesis/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/series/style-transfer-and-synthesis/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

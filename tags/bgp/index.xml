@@ -5,24 +5,22 @@
     <link>https://blog.cklau.cc/tags/bgp/</link>
     <description>Recent content in BGP on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/bgp/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate>
+    <atom:link href="https://blog.cklau.cc/tags/bgp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
       <link>https://blog.cklau.cc/post/tech/lnet-3/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/lnet-3/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
       <link>https://blog.cklau.cc/post/tech/lnet-2/</link>
       <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/post/tech/lnet-2/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

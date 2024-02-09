@@ -5,231 +5,183 @@
     <link>https://blog.cklau.cc/tags/</link>
     <description>Recent content in Tags on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 08 Feb 2024 00:15:00 +0000</lastBuildDate><atom:link href="https://blog.cklau.cc/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Thu, 08 Feb 2024 00:15:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.cklau.cc/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Artificial Intelligence</title>
       <link>https://blog.cklau.cc/tags/artificial-intelligence/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/artificial-intelligence/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>long-read</title>
       <link>https://blog.cklau.cc/tags/long-read/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/long-read/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>multi-modality</title>
       <link>https://blog.cklau.cc/tags/multi-modality/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/multi-modality/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>text-image</title>
       <link>https://blog.cklau.cc/tags/text-image/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/text-image/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Coding</title>
       <link>https://blog.cklau.cc/tags/coding/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/coding/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Deep Learing</title>
       <link>https://blog.cklau.cc/tags/deep-learing/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/deep-learing/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Management</title>
       <link>https://blog.cklau.cc/tags/management/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/management/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>github</title>
       <link>https://blog.cklau.cc/tags/github/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/github/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>homelab</title>
       <link>https://blog.cklau.cc/tags/homelab/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/homelab/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>proxy</title>
       <link>https://blog.cklau.cc/tags/proxy/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/proxy/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Fundus Image</title>
       <link>https://blog.cklau.cc/tags/fundus-image/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/fundus-image/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Medical Image</title>
       <link>https://blog.cklau.cc/tags/medical-image/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/medical-image/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>containerd</title>
       <link>https://blog.cklau.cc/tags/containerd/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/containerd/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>docker</title>
       <link>https://blog.cklau.cc/tags/docker/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/docker/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k3s</title>
       <link>https://blog.cklau.cc/tags/k3s/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/k3s/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>kubernetes</title>
       <link>https://blog.cklau.cc/tags/kubernetes/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/kubernetes/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>hardware</title>
       <link>https://blog.cklau.cc/tags/hardware/</link>
       <pubDate>Tue, 24 Jan 2023 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/hardware/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>BGP</title>
       <link>https://blog.cklau.cc/tags/bgp/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/bgp/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>experimental network</title>
       <link>https://blog.cklau.cc/tags/experimental-network/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/experimental-network/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>networking</title>
       <link>https://blog.cklau.cc/tags/networking/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/networking/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>wireguard</title>
       <link>https://blog.cklau.cc/tags/wireguard/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/wireguard/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>registry</title>
       <link>https://blog.cklau.cc/tags/registry/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/registry/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ufw</title>
       <link>https://blog.cklau.cc/tags/ufw/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/ufw/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Image Synthesis</title>
       <link>https://blog.cklau.cc/tags/image-synthesis/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/image-synthesis/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Style Tranfer</title>
       <link>https://blog.cklau.cc/tags/style-tranfer/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.cklau.cc/tags/style-tranfer/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

@@ -2,41 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.cklau.cc/post/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
-    <priority>0</priority>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://blog.cklau.cc/zh/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.cklau.cc/post/"
-                />
-  </url><url>
-    <loc>https://blog.cklau.cc/post/scientia/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
-    <priority>0</priority>
-  </url><url>
     <loc>https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/artificial-intelligence/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/long-read/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/multi-modality/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/series/multi-modality/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/series/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -49,7 +31,7 @@
                 />
   </url><url>
     <loc>https://blog.cklau.cc/tags/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -62,10 +44,10 @@
                 />
   </url><url>
     <loc>https://blog.cklau.cc/tags/text-image/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/</loc>
-    <lastmod>2024-02-08T16:49:45+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -120,10 +102,6 @@
   </url><url>
     <loc>https://blog.cklau.cc/post/specification/</loc>
     <lastmod>2024-02-08T16:47:33+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/post/tech/</loc>
-    <lastmod>2024-02-08T16:47:33+00:00</lastmod>
-    <priority>0</priority>
   </url><url>
     <loc>https://blog.cklau.cc/tags/github/</loc>
     <lastmod>2024-02-08T16:47:33+00:00</lastmod>
@@ -216,7 +194,7 @@
     <lastmod>2024-02-08T16:47:33+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/about/</loc>
-    <lastmod>2024-02-08T16:47:33+00:00</lastmod>
+    <lastmod>2024-02-09T02:57:43+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -249,11 +227,30 @@
     <loc>https://blog.cklau.cc/post/tech/my-homelab-1/</loc>
     <lastmod>2024-02-08T16:47:33+00:00</lastmod>
   </url><url>
+    <loc>https://blog.cklau.cc/post/</loc>
+    <lastmod>2024-02-08T14:28:52+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://blog.cklau.cc/zh/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.cklau.cc/post/"
+                />
+  </url><url>
     <loc>https://blog.cklau.cc/post/develop-environ/</loc>
-    <priority>0</priority>
+    <lastmod>2024-02-08T16:47:33+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/post/scientia/</loc>
+    <lastmod>2024-02-08T14:28:52+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/post/scientia/stat/</loc>
-    <priority>0</priority>
+    <lastmod>2024-02-08T14:28:52+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/post/tech/</loc>
+    <lastmod>2024-02-08T14:28:52+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/post/scientia/machine-learning/dl-gan-1/</loc>
     <lastmod>2024-02-08T16:47:33+00:00</lastmod>
