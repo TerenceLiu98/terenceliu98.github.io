@@ -1477,13 +1477,6 @@
         "given": "Steven"
       }
     ],
-    "issued": {
-      "date-parts": [
-        [
-          2022
-        ]
-      ]
-    },
     "id": "li_blip_nodate",
     "keyword": "/unread",
     "title": "BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation",
@@ -1542,13 +1535,6 @@
         "given": "Ilya"
       }
     ],
-    "issued": {
-      "date-parts": [
-        [
-          2021
-        ]
-      ]
-    },
     "id": "radford_learning_nodate",
     "title": "Learning Transferable Visual Models From Natural Language Supervision",
     "type": "article-journal"
