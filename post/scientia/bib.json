@@ -2193,5 +2193,145 @@
     "title": "InstructBLIP: Towards general-purpose vision-language models with instruction tuning",
     "title-short": "InstructBLIP",
     "type": ""
+  },
+  {
+    "author": [
+      {
+        "family": "Vaswani",
+        "given": "Ashish"
+      },
+      {
+        "family": "Shazeer",
+        "given": "Noam"
+      },
+      {
+        "family": "Parmar",
+        "given": "Niki"
+      },
+      {
+        "family": "Uszkoreit",
+        "given": "Jakob"
+      },
+      {
+        "family": "Jones",
+        "given": "Llion"
+      },
+      {
+        "family": "Gomez",
+        "given": "Aidan N"
+      },
+      {
+        "family": "Kaiser",
+        "given": "Łukasz"
+      },
+      {
+        "family": "Polosukhin",
+        "given": "Illia"
+      }
+    ],
+    "container-title": "Advances in neural information processing systems",
+    "id": "vaswani2017attention",
+    "issued": {
+      "date-parts": [
+        [
+          2017
+        ]
+      ]
+    },
+    "title": "Attention is all you need",
+    "type": "article-journal",
+    "volume": "30"
+  },
+  {
+    "URL": "https://arxiv.org/abs/1711.00937",
+    "author": [
+      {
+        "dropping-particle": "van den",
+        "family": "Oord",
+        "given": "Aaron"
+      },
+      {
+        "family": "Vinyals",
+        "given": "Oriol"
+      },
+      {
+        "family": "Kavukcuoglu",
+        "given": "Koray"
+      }
+    ],
+    "id": "oord2018neural",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "title": "Neural discrete representation learning",
+    "type": "article-journal"
+  },
+  {
+    "URL": "https://arxiv.org/abs/2304.10592",
+    "author": [
+      {
+        "family": "Zhu",
+        "given": "Deyao"
+      },
+      {
+        "family": "Chen",
+        "given": "Jun"
+      },
+      {
+        "family": "Shen",
+        "given": "Xiaoqian"
+      },
+      {
+        "family": "Li",
+        "given": "Xiang"
+      },
+      {
+        "family": "Elhoseiny",
+        "given": "Mohamed"
+      }
+    ],
+    "id": "zhu2023minigpt4",
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    },
+    "title": "MiniGPT-4: Enhancing vision-language understanding with advanced large language models",
+    "title-short": "MiniGPT-4",
+    "type": "article-journal"
+  },
+  {
+    "URL": "https://arxiv.org/abs/2310.02239",
+    "author": [
+      {
+        "family": "Zheng",
+        "given": "Kaizhi"
+      },
+      {
+        "family": "He",
+        "given": "Xuehai"
+      },
+      {
+        "family": "Wang",
+        "given": "Xin Eric"
+      }
+    ],
+    "id": "zheng2023minigpt5",
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    },
+    "title": "MiniGPT-5: Interleaved vision-and-language generation via generative vokens",
+    "title-short": "MiniGPT-5",
+    "type": "article-journal"
   }
 ]
