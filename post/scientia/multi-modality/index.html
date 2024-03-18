@@ -297,10 +297,7 @@ if (!doNotTrack) {
 <h2 id="clip-learning-transferable-visual-models-from-natural-language-supervision">CLIP: Learning Transferable Visual Models From Natural Language Supervision</h2>
 <p>CLIP&rsquo;s key contribution is its ability to map text and image into a shared embedding space based on the seperated text/image encoder. This shared multimodal embedding space makes text-to-image and image-to-text tasks so much easier. Not meaning that it can directly used in these tasks, but providing a idea that how to do the multimodal representation.</p>
 <div class="semwebdemostyle" style="width: 100%;"><figure class="figure_box txt_center">
-      <div><a href="https://blog.cklau.cc" rel="">
-          <picture><source srcset="https://blog.cklau.cc/image_1881611846882928792_hucb52bd991ea5ad84c0398ddcc4540233_0_2330x864_resize_q75_h2_box_3.webp" type="image/webp" /><img src="https://blog.cklau.cc/image_1881611846882928792.png" alt="ALT" type="image/png" style="max-width: 100%;" loading="lazy" decoding="async" />
-          </picture>
-          </a></div>
+      <div></div>
       <figcaption class="attribution_caption txt_center">
         
         <p><i>Fig. 1. The architecture of CLIP model</i></p><p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
@@ -440,10 +437,7 @@ where $I_N$ is the identity matrix, and $\mathcal{F} \circ I_N$ is the matrix&rs
 </ol>
 <p>Based on these two research gap, they proposed the Multimodel mixture of Encoder-Decoder(MED) architecture, shown in Fig. 2.</p>
 <div class="semwebdemostyle" style="width: 100%;"><figure class="figure_box txt_center">
-      <div><a href="https://blog.cklau.cc" rel="">
-          <picture><source srcset="https://blog.cklau.cc/image_16529421465121511918_hube63236cc42f7292387d716841c71cf6_0_2596x1086_resize_q75_h2_box_3.webp" type="image/webp" /><img src="https://blog.cklau.cc/image_16529421465121511918.png" alt="ALT" type="image/png" style="max-width: 100%;" loading="lazy" decoding="async" />
-          </picture>
-          </a></div>
+      <div></div>
       <figcaption class="attribution_caption txt_center">
         
         <p><i>Fig. 2. The Architecture of &lsquo;Multimodel mixture of Encoder-Decoder&rsquo; (MED) architecture</i></p><p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
@@ -480,10 +474,7 @@ where $I_N$ is the identity matrix, and $\mathcal{F} \circ I_N$ is the matrix&rs
 </ol>
 <p>To leverage the multi-task learning process, all the blocks with the same color are shareing the same parameters. This MED architecture shares some common modules with the ALBEF[<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-5" title="J. Li, R. Selvaraju, A. Gotmare, S. Joty, C. Xiong, and S. Hoi, Align before fuse: Vision and language representation learning with momentum distillation, Advances in neural information processing systems, vol. 34, pp. 9694–9705, 2021. ">5</a>] and VLMO [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-7" title="H. Bao, W. Wang, L. Dong, Q. Liu, O. Mohammed, K. Aggarwal, S. Som, S. Piao, and F. Wei, Vlmo: Unified vision-language pre-training with mixture-of-modality-experts, Advances in Neural Information Processing Systems, vol. 35, pp. 32897–32912, 2022. ">7</a>] where the ITC is adapted from the CLIP while the ITM can be seen as the refinement ore the constrastive learning, as it take the hardest negative samples (from the ITC) as the negative samples in ITM; and the LM is for the text generation, which is the same as the VLMO.</p>
 <div class="semwebdemostyle" style="width: 100%;"><figure class="figure_box txt_center">
-      <div><a href="https://blog.cklau.cc" rel="">
-          <picture><source srcset="https://blog.cklau.cc/image_911893906670887453_hu5ede98d7bdc2ebc0cf9725c421ebad41_0_2710x912_resize_q75_h2_box_3.webp" type="image/webp" /><img src="https://blog.cklau.cc/image_911893906670887453.png" alt="ALT" type="image/png" style="max-width: 100%;" loading="lazy" decoding="async" />
-          </picture>
-          </a></div>
+      <div></div>
       <figcaption class="attribution_caption txt_center">
         
         <p><i>Fig. 3. The CapFilt module for solving the noisy supervision signal</i></p><p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
@@ -548,10 +539,7 @@ Since the self-attention layer is shared, which may insure the coherence between
 </li>
 </ol>
 <div class="semwebdemostyle" style="width: 100%;"><figure class="figure_box txt_center">
-      <div><a href="https://blog.cklau.cc" rel="">
-          <picture><source srcset="https://blog.cklau.cc/BLIP2_12918848847556169132_hu369eeb32a116bcd91912a9adffbca855_0_2334x933_resize_q75_h2_box_3.webp" type="image/webp" /><img src="https://blog.cklau.cc/BLIP2_12918848847556169132.png" alt="ALT" type="image/png" style="max-width: 100%;" loading="lazy" decoding="async" />
-          </picture>
-          </a></div>
+      <div></div>
       <figcaption class="attribution_caption txt_center">
         
         <p><i>Fig. 4. The overviewe of BLIP-2&rsquo;s framework</i></p><p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
