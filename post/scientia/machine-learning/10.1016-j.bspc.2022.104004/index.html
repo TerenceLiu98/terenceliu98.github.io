@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="🥼 RetiGAN: A GAN-based model on retinal Image synthesis - 特倫蘇的日與夜">
     <meta name="author" content="Junjie(Terence) LIU">
-    <link rel="canonical" href="https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/">
+    <link rel="canonical" href="https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/">
         <meta name="google-site-verification" content="GTM-MC97JQPW">
 
     
@@ -25,9 +25,9 @@ if (!doNotTrack) {
     <meta property="og:title" content="🥼 RetiGAN: A GAN-based model on retinal Image synthesis" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-04-02T00:13:00+08:00" />
-<meta property="article:modified_time" content="2024-02-11T19:37:16+00:00" />
+<meta property="article:modified_time" content="2024-04-15T15:25:33+01:00" />
 
 
 
@@ -50,14 +50,20 @@ if (!doNotTrack) {
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "Scientia",
+      "name": "",
       "item": "https://blog.cklau.cc/post/scientia/"
     }, 
     {
       "@type": "ListItem",
       "position":  4 ,
+      "name": "Machine Learning/Deep Learning with Us",
+      "item": "https://blog.cklau.cc/post/scientia/machine-learning/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
       "name": "🥼 RetiGAN: A GAN-based model on retinal Image synthesis",
-      "item": "https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/"
+      "item": "https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/"
     }
   ]
 }
@@ -76,14 +82,14 @@ if (!doNotTrack) {
   "wordCount" : "2595",
   "inLanguage": "en",
   "datePublished": "2023-04-02T00:13:00+08:00",
-  "dateModified": "2024-02-11T19:37:16Z",
+  "dateModified": "2024-04-15T15:25:33+01:00",
   "author":{
     "@type": "Person",
     "name": "Junjie(Terence) LIU"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/"
+    "@id": "https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/"
   },
   "publisher": {
     "@type": "Organization",
@@ -140,7 +146,7 @@ if (!doNotTrack) {
     
     
     
-    <link rel="stylesheet" href="/css/main.min.ba43e469675cd3c20d9505dd369cdb9b90f180e533133bba2d49075370a64062.css" integrity="sha256-ukPkaWdc08INlQXdNpzbm5DxgOUzEzu6LUkHU3CmQGI=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/main.min.2ea55aaafa2a39230056f2d122a89dd2aa2a3883be0a592340a1091d201175f9.css" integrity="sha256-LqVaqvoqOSMAVvLRIqid0qoqOIO&#43;ClkjQKEJHSARdfk=" crossorigin="anonymous" media="screen" />
     
 
 
@@ -155,7 +161,8 @@ if (!doNotTrack) {
     
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 </head>
-<body><nav class="navigation">
+<body>
+      <main class="wrapper"><nav class="navigation">
     <section class="container">
         <a class="navigation-brand" href="/">
             CKLAU&#39;s WEBSITE
@@ -223,8 +230,7 @@ if (!doNotTrack) {
         
     </section>
 </nav>
-<main class="wrapper">
-        <div id="content">
+<div id="content">
 <article class="blog-single">
   <header class="blog-title">
     <h1>🥼 RetiGAN: A GAN-based model on retinal Image synthesis</h1>
@@ -244,14 +250,27 @@ if (!doNotTrack) {
   </small>
   <br>
   <small>
-    Published On: <u>April 2, 2023</u> (Last updated on: <u>February 11, 2024)</u> <br>
+    Published On: <u>April 2, 2023</u> (Last updated on: <u>April 15, 2024)</u> <br>
     2595 words&nbsp;· 13 min</small>
 </p>
 
 
 
   <div class="blog-toc">
-    
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#before-tldr">Before (TL;DR)</a></li>
+    <li><a href="#a-novel-retinal-image-generation-model-with-the-preservation-of-structural-similarity-and-high-resolution">A novel retinal image generation model with the preservation of structural similarity and high-resolution</a>
+      <ul>
+        <li><a href="#u-net">U-Net</a></li>
+        <li><a href="#generator-g">Generator $G$</a></li>
+        <li><a href="#discriminator-d">Discriminator $D$</a></li>
+        <li><a href="#vgg-perceptual-information-extraction">VGG (Perceptual Information Extraction)</a></li>
+        <li><a href="#loss-function">Loss function</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
   </div>
 
   <section class="blog-content"><h2 id="before-tldr">Before (TL;DR)</h2>
@@ -663,21 +682,8 @@ if (!doNotTrack) {
     
   </div>
   
-  
-  
-  
 
-<div class="related-resources">
-  <h3>Related Resources</h3>
   
-    
-    
-    
-  
-</div>
-
-
-
   
     
 <div class="comments">
@@ -698,16 +704,26 @@ if (!doNotTrack) {
 
     
   
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+  
+</div>
+
 
 </article>
 
-        </div>
-      </main><footer class="footer">
+        </div><footer class="footer">
+<center>
   <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
-    
-        <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
-    
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a>
 ️  </p>
+</center>
 </footer>
 
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
@@ -762,7 +778,8 @@ if (!doNotTrack) {
         });
         codeblock.parentNode.appendChild(copybutton);
     });
-</script></body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <script>
       const images = Array.from(document.querySelectorAll(".blog-content img"));

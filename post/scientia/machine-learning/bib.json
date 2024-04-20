@@ -48,7 +48,7 @@
     "publisher": "arXiv",
     "title": "MSGNet: Learning Multi-Scale Inter-Series Correlations for Multivariate Time Series Forecasting",
     "title-short": "MSGNet",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2110.02999",
@@ -90,7 +90,7 @@
     "note": "arXiv:2110.02999 [cs]",
     "publisher": "arXiv",
     "title": "Generative Modeling with Optimal Transport Maps",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2401.12665",
@@ -145,7 +145,7 @@
     "publisher": "arXiv",
     "title": "ClipSAM: CLIP and SAM Collaboration for Zero-Shot Anomaly Segmentation",
     "title-short": "ClipSAM",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2203.05813",
@@ -186,7 +186,7 @@
     "note": "arXiv:2203.05813 [cs, stat]",
     "publisher": "arXiv",
     "title": "Averaging Spatio-temporal Signals using Optimal Transport and Soft Alignments",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "abstract": "Comparing data deﬁned over space and time is notoriously hard. It involves quantifying both spatial and temporal variability while taking into account the chronological structure of the data. Dynamic Time Warping (DTW) computes a minimal cost alignment between time series that preserves the chronological order but is inherently blind to spatiotemporal shifts. In this paper, we propose Spatio-Temporal Alignments (STA), a new diﬀerentiable formulation of DTW that captures spatial and temporal variability. Spatial diﬀerences between time samples are captured using regularized Optimal transport. While temporal alignment cost exploits a smooth variant of DTW called soft-DTW. We show how smoothing DTW leads to alignment costs that increase quadratically with time shifts. The costs are expressed using an unbalanced Wasserstein distance to cope with observations that are not probabilities. Experiments on handwritten letters and brain imaging data conﬁrm our theoretical ﬁndings and illustrate the eﬀectiveness of STA as a dissimilarity for spatio-temporal data.",
@@ -327,7 +327,7 @@
     "note": "arXiv:1702.03584 [cs]",
     "publisher": "arXiv",
     "title": "Similarity Preserving Representation Learning for Time Series Clustering",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2105.08179",
@@ -384,7 +384,7 @@
     "note": "arXiv:2105.08179 [cs]",
     "publisher": "arXiv",
     "title": "Learning Disentangled Representations for Time Series",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2202.13196",
@@ -430,7 +430,7 @@
     "note": "arXiv:2202.13196 [cs]",
     "publisher": "arXiv",
     "title": "Toward Interpretable Semantic Textual Similarity via Optimal Transport-based Contrastive Sentence Learning",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2401.13919",
@@ -492,7 +492,7 @@
     "publisher": "arXiv",
     "title": "WebVoyager: Building an End-to-End Web Agent with Large Multimodal Models",
     "title-short": "WebVoyager",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2310.19852",
@@ -623,12 +623,12 @@
     "publisher": "arXiv",
     "title": "AI Alignment: A Comprehensive Survey",
     "title-short": "AI Alignment",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "id": "noauthor_addon_nodate",
     "title": "Addon Item",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "DOI": "10.1609/aaai.v36i8.20881",
@@ -809,7 +809,7 @@
     "note": "arXiv:2305.03517 [cs]",
     "publisher": "arXiv",
     "title": "Few-shot Domain-Adaptive Visually-fused Event Detection from Text",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/2306.08966",
@@ -858,7 +858,7 @@
     "note": "arXiv:2306.08966 [cs]",
     "publisher": "arXiv",
     "title": "Training Multimedia Event Extraction With Generated Images and Captions",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "DOI": "10.18653/v1/2022.emnlp-main.60",
@@ -988,7 +988,7 @@
     "note": "arXiv:2203.08308 [cs]",
     "publisher": "arXiv",
     "title": "Multilingual Generative Language Models for Zero-Shot Cross-Lingual Event Argument Extraction",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "DOI": "10.18653/v1/2022.naacl-main.400",
@@ -1211,7 +1211,7 @@
     "publisher": "arXiv",
     "title": "Text2Event: Controllable Sequence-to-Structure Generation for End-to-end Event Extraction",
     "title-short": "Text2Event",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "DOI": "10.1016/j.knosys.2020.105695",
@@ -1583,7 +1583,7 @@
     "publisher": "arXiv",
     "title": "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models",
     "title-short": "BLIP-2",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "DOI": "10.18653/v1/2020.acl-demos.11",
@@ -1818,7 +1818,7 @@
     "note": "arXiv:2204.06125 [cs]",
     "publisher": "arXiv",
     "title": "Hierarchical Text-Conditional Image Generation with CLIP Latents",
-    "type": "article-journal"
+    "type": ""
   },
   {
     "URL": "http://arxiv.org/abs/1705.09406",
@@ -1860,478 +1860,6 @@
     "publisher": "arXiv",
     "title": "Multimodal Machine Learning: A Survey and Taxonomy",
     "title-short": "Multimodal Machine Learning",
-    "type": "article-journal"
-  },
-  {
-    "author": [
-      {
-        "family": "Alayrac",
-        "given": "Jean-Baptiste"
-      },
-      {
-        "family": "Donahue",
-        "given": "Jeff"
-      },
-      {
-        "family": "Luc",
-        "given": "Pauline"
-      },
-      {
-        "family": "Miech",
-        "given": "Antoine"
-      },
-      {
-        "family": "Barr",
-        "given": "Iain"
-      },
-      {
-        "family": "Hasson",
-        "given": "Yana"
-      },
-      {
-        "family": "Lenc",
-        "given": "Karel"
-      },
-      {
-        "family": "Mensch",
-        "given": "Arthur"
-      },
-      {
-        "family": "Millican",
-        "given": "Katherine"
-      },
-      {
-        "family": "Reynolds",
-        "given": "Malcolm"
-      },
-      {
-        "literal": "others"
-      }
-    ],
-    "container-title": "Advances in Neural Information Processing Systems",
-    "id": "alayrac2022flamingo",
-    "issued": {
-      "date-parts": [
-        [
-          2022
-        ]
-      ]
-    },
-    "page": "23716-23736",
-    "title": "Flamingo: A visual language model for few-shot learning",
-    "title-short": "Flamingo",
-    "type": "article-journal",
-    "volume": "35"
-  },
-  {
-    "author": [
-      {
-        "family": "Bao",
-        "given": "Hangbo"
-      },
-      {
-        "family": "Wang",
-        "given": "Wenhui"
-      },
-      {
-        "family": "Dong",
-        "given": "Li"
-      },
-      {
-        "family": "Liu",
-        "given": "Qiang"
-      },
-      {
-        "family": "Mohammed",
-        "given": "Owais Khan"
-      },
-      {
-        "family": "Aggarwal",
-        "given": "Kriti"
-      },
-      {
-        "family": "Som",
-        "given": "Subhojit"
-      },
-      {
-        "family": "Piao",
-        "given": "Songhao"
-      },
-      {
-        "family": "Wei",
-        "given": "Furu"
-      }
-    ],
-    "container-title": "Advances in Neural Information Processing Systems",
-    "id": "bao2022vlmo",
-    "issued": {
-      "date-parts": [
-        [
-          2022
-        ]
-      ]
-    },
-    "page": "32897-32912",
-    "title": "Vlmo: Unified vision-language pre-training with mixture-of-modality-experts",
-    "title-short": "Vlmo",
-    "type": "article-journal",
-    "volume": "35"
-  },
-  {
-    "author": [
-      {
-        "family": "Li",
-        "given": "Junnan"
-      },
-      {
-        "family": "Selvaraju",
-        "given": "Ramprasaath"
-      },
-      {
-        "family": "Gotmare",
-        "given": "Akhilesh"
-      },
-      {
-        "family": "Joty",
-        "given": "Shafiq"
-      },
-      {
-        "family": "Xiong",
-        "given": "Caiming"
-      },
-      {
-        "family": "Hoi",
-        "given": "Steven Chu Hong"
-      }
-    ],
-    "container-title": "Advances in neural information processing systems",
-    "id": "li2021align",
-    "issued": {
-      "date-parts": [
-        [
-          2021
-        ]
-      ]
-    },
-    "page": "9694-9705",
-    "title": "Align before fuse: Vision and language representation learning with momentum distillation",
-    "title-short": "Align before fuse",
-    "type": "article-journal",
-    "volume": "34"
-  },
-  {
-    "author": [
-      {
-        "family": "Dosovitskiy",
-        "given": "Alexey"
-      },
-      {
-        "family": "Beyer",
-        "given": "Lucas"
-      },
-      {
-        "family": "Kolesnikov",
-        "given": "Alexander"
-      },
-      {
-        "family": "Weissenborn",
-        "given": "Dirk"
-      },
-      {
-        "family": "Zhai",
-        "given": "Xiaohua"
-      },
-      {
-        "family": "Unterthiner",
-        "given": "Thomas"
-      },
-      {
-        "family": "Dehghani",
-        "given": "Mostafa"
-      },
-      {
-        "family": "Minderer",
-        "given": "Matthias"
-      },
-      {
-        "family": "Heigold",
-        "given": "Georg"
-      },
-      {
-        "family": "Gelly",
-        "given": "Sylvain"
-      },
-      {
-        "literal": "others"
-      }
-    ],
-    "container-title": "arXiv preprint arXiv:2010.11929",
-    "id": "dosovitskiy2020image",
-    "issued": {
-      "date-parts": [
-        [
-          2020
-        ]
-      ]
-    },
-    "title": "An image is worth 16x16 words: Transformers for image recognition at scale",
-    "title-short": "An image is worth 16x16 words",
-    "type": "article-journal"
-  },
-  {
-    "author": [
-      {
-        "family": "Devlin",
-        "given": "Jacob"
-      },
-      {
-        "family": "Chang",
-        "given": "Ming-Wei"
-      },
-      {
-        "family": "Lee",
-        "given": "Kenton"
-      },
-      {
-        "family": "Toutanova",
-        "given": "Kristina"
-      }
-    ],
-    "container-title": "arXiv preprint arXiv:1810.04805",
-    "id": "devlin2018bert",
-    "issued": {
-      "date-parts": [
-        [
-          2018
-        ]
-      ]
-    },
-    "title": "Bert: Pre-training of deep bidirectional transformers for language understanding",
-    "title-short": "Bert",
-    "type": "article-journal"
-  },
-  {
-    "author": [
-      {
-        "family": "Li",
-        "given": "Junnan"
-      },
-      {
-        "family": "Li",
-        "given": "Dongxu"
-      },
-      {
-        "family": "Savarese",
-        "given": "Silvio"
-      },
-      {
-        "family": "Hoi",
-        "given": "Steven"
-      }
-    ],
-    "container-title": "arXiv preprint arXiv:2301.12597",
-    "id": "li2023blip",
-    "issued": {
-      "date-parts": [
-        [
-          2023
-        ]
-      ]
-    },
-    "title": "Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models",
-    "title-short": "Blip-2",
-    "type": "article-journal"
-  },
-  {
-    "URL": "https://arxiv.org/abs/2305.06500",
-    "author": [
-      {
-        "family": "Dai",
-        "given": "Wenliang"
-      },
-      {
-        "family": "Li",
-        "given": "Junnan"
-      },
-      {
-        "family": "Li",
-        "given": "Dongxu"
-      },
-      {
-        "family": "Tiong",
-        "given": "Anthony Meng Huat"
-      },
-      {
-        "family": "Zhao",
-        "given": "Junqi"
-      },
-      {
-        "family": "Wang",
-        "given": "Weisheng"
-      },
-      {
-        "family": "Li",
-        "given": "Boyang"
-      },
-      {
-        "family": "Fung",
-        "given": "Pascale"
-      },
-      {
-        "family": "Hoi",
-        "given": "Steven"
-      }
-    ],
-    "id": "dai2023instructblip",
-    "issued": {
-      "date-parts": [
-        [
-          2023
-        ]
-      ]
-    },
-    "title": "InstructBLIP: Towards general-purpose vision-language models with instruction tuning",
-    "title-short": "InstructBLIP",
     "type": ""
-  },
-  {
-    "author": [
-      {
-        "family": "Vaswani",
-        "given": "Ashish"
-      },
-      {
-        "family": "Shazeer",
-        "given": "Noam"
-      },
-      {
-        "family": "Parmar",
-        "given": "Niki"
-      },
-      {
-        "family": "Uszkoreit",
-        "given": "Jakob"
-      },
-      {
-        "family": "Jones",
-        "given": "Llion"
-      },
-      {
-        "family": "Gomez",
-        "given": "Aidan N"
-      },
-      {
-        "family": "Kaiser",
-        "given": "Łukasz"
-      },
-      {
-        "family": "Polosukhin",
-        "given": "Illia"
-      }
-    ],
-    "container-title": "Advances in neural information processing systems",
-    "id": "vaswani2017attention",
-    "issued": {
-      "date-parts": [
-        [
-          2017
-        ]
-      ]
-    },
-    "title": "Attention is all you need",
-    "type": "article-journal",
-    "volume": "30"
-  },
-  {
-    "URL": "https://arxiv.org/abs/1711.00937",
-    "author": [
-      {
-        "dropping-particle": "van den",
-        "family": "Oord",
-        "given": "Aaron"
-      },
-      {
-        "family": "Vinyals",
-        "given": "Oriol"
-      },
-      {
-        "family": "Kavukcuoglu",
-        "given": "Koray"
-      }
-    ],
-    "id": "oord2018neural",
-    "issued": {
-      "date-parts": [
-        [
-          2018
-        ]
-      ]
-    },
-    "title": "Neural discrete representation learning",
-    "type": "article-journal"
-  },
-  {
-    "URL": "https://arxiv.org/abs/2304.10592",
-    "author": [
-      {
-        "family": "Zhu",
-        "given": "Deyao"
-      },
-      {
-        "family": "Chen",
-        "given": "Jun"
-      },
-      {
-        "family": "Shen",
-        "given": "Xiaoqian"
-      },
-      {
-        "family": "Li",
-        "given": "Xiang"
-      },
-      {
-        "family": "Elhoseiny",
-        "given": "Mohamed"
-      }
-    ],
-    "id": "zhu2023minigpt4",
-    "issued": {
-      "date-parts": [
-        [
-          2023
-        ]
-      ]
-    },
-    "title": "MiniGPT-4: Enhancing vision-language understanding with advanced large language models",
-    "title-short": "MiniGPT-4",
-    "type": "article-journal"
-  },
-  {
-    "URL": "https://arxiv.org/abs/2310.02239",
-    "author": [
-      {
-        "family": "Zheng",
-        "given": "Kaizhi"
-      },
-      {
-        "family": "He",
-        "given": "Xuehai"
-      },
-      {
-        "family": "Wang",
-        "given": "Xin Eric"
-      }
-    ],
-    "id": "zheng2023minigpt5",
-    "issued": {
-      "date-parts": [
-        [
-          2023
-        ]
-      ]
-    },
-    "title": "MiniGPT-5: Interleaved vision-and-language generation via generative vokens",
-    "title-short": "MiniGPT-5",
-    "type": "article-journal"
   }
 ]

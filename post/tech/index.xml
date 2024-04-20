@@ -8,6 +8,13 @@
     <language>en</language>
     <atom:link href="https://blog.cklau.cc/post/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>🔐 Authentik - An alternative of self-hosted Single-Sign-On Module That you might Need </title>
+      <link>https://blog.cklau.cc/post/tech/authentik/</link>
+      <pubDate>Mon, 15 Apr 2024 00:12:00 +0000</pubDate>
+      <guid>https://blog.cklau.cc/post/tech/authentik/</guid>
+      <description>If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.</description>
+    </item>
+    <item>
       <title>Homelab: A self-hosted GitHub Accelerator</title>
       <link>https://blog.cklau.cc/post/tech/my-homelab-extra-1/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
