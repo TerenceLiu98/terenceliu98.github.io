@@ -27,7 +27,7 @@ if (!doNotTrack) {
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/tech/lnet-1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-10-18T00:11:21+08:00" />
-<meta property="article:modified_time" content="2024-04-15T15:25:33+01:00" />
+<meta property="article:modified_time" content="2024-07-14T23:49:15+01:00" />
 <meta property="og:see_also" content="https://blog.cklau.cc/post/tech/lnet-3/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/tech/lnet-2/" />
 
 
@@ -76,7 +76,7 @@ if (!doNotTrack) {
   "wordCount" : "1848",
   "inLanguage": "en",
   "datePublished": "2022-10-18T00:11:21+08:00",
-  "dateModified": "2024-04-15T15:25:33+01:00",
+  "dateModified": "2024-07-14T23:49:15+01:00",
   "author":{
     "@type": "Person",
     "name": "Junjie(Terence) LIU"
@@ -244,7 +244,7 @@ if (!doNotTrack) {
   </small>
   <br>
   <small>
-    Published On: <u>October 18, 2022</u> (Last updated on: <u>April 15, 2024)</u> <br>
+    Published On: <u>October 18, 2022</u> (Last updated on: <u>July 14, 2024)</u> <br>
     1848 words&nbsp;· 9 min</small>
 </p>
 
@@ -281,7 +281,6 @@ if (!doNotTrack) {
 <p>We are using the <code>Wireguard</code> to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: <code>a1</code> is the router of the cluster <code>A</code> and <code>b</code> is the central router of the whole L-Net and <code>A</code>’s IP address is <code>172.12.1.0/24</code> , then we need an extra IP address(an extra Wireguard tunnel) for <code>a → b</code>.</p>
 <p>Under this circumstance, we can connect the nodes inside the <code>A (a2, a3, …)</code>  to <code>b</code>, and other nodes  from <code>C (c1, c2, c3, …)</code> can also connect to <code>A</code>.</p>
 <p>Here is the topology of my design:</p>
-<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/dc88ca70-d652-4d2b-9360-931c852ea1b3/LNet.drawio.png" alt="topology"></p>
 <p>Those bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.</p>
 <h2 id="network-configuration">Network Configuration</h2>
 <h3 id="loc-1---mainland-china">Loc 1 - Mainland, China</h3>
@@ -612,7 +611,6 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># check route table</span>
 </span></span><span style="display:flex;"><span>sudo birdc show route
 </span></span></code></pre></div><p>With the above configuration, <code>cn-router</code> and <code>sg-router</code> can communicate and exchange routing table, the next step is to propagate <code>cn</code> and to <code>sg</code>&rsquo;s node. We can still use <code>OSPF</code> for routing.</p>
-<p><img src="https://s3.cklau.cc/outline/uploads/f96d0f35-cf0a-46bd-aeca-b1a1ac9052c9/18362fae-26e4-403b-9c54-79b1fe7539e9/ospf-lnet.png" alt="ospf routing"></p>
 <p>As you can see, two LAN OSPF can sharing the local routing table to each other via the <code>sgcn</code> and <code>sgjp</code>.</p>
 <h4 id="ibgp---interior-border-gateway-protocol">iBGP - Interior Border Gateway Protocol</h4>
 <p>IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.</p>
