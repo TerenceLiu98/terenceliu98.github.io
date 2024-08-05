@@ -16,14 +16,14 @@
       <description>If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.</description>
     </item>
     <item>
-      <title>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title>
+      <title>🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title>
       <link>https://blog.cklau.cc/post/k8s-setup-2/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
       <guid>https://blog.cklau.cc/post/k8s-setup-2/</guid>
       <description></description>
     </item>
     <item>
-      <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</title>
+      <title>🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</title>
       <link>https://blog.cklau.cc/post/k8s-setup-1/</link>
       <pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate>
       <guid>https://blog.cklau.cc/post/k8s-setup-1/</guid>
