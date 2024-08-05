@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特倫蘇的日與夜</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Homelab: My Devices - 特倫蘇的日與夜">
+    <meta name="author" content="Junjie LIU">
+    <link rel="canonical" href="https://blog.cklau.cc/post/my-homelab-1/">
+        <meta name="google-site-verification" content="GTM-MC97JQPW">
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
+}
+</script>
+
+
+
+    <meta property="og:title" content="Homelab: My Devices" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-07-20T00:11:21+08:00" />
+<meta property="article:modified_time" content="2024-08-05T13:43:06+01:00" />
+<meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-extra-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-6/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-5/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-4/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-3/" />
+
+
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Homelab: My Devices"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Homelab: My Devices",
+      "item": "https://blog.cklau.cc/post/my-homelab-1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Homelab: My Devices",
+  "name": "Homelab: My Devices",
+  "description": "",
+  "keywords": [
+    "homelab", "networking", "hardware"
+  ],
+  "articleBody": "For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.\nWhy Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.\nHere is the list of my bare metal device:\nDevice Location Configuration System Network DELL EMC R730 Zhuhai, China E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP Ubuntu 20.04 LTS 500Mbps DELL Precision T1700 Zhuhai, China i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti Arch Linux 500Mbps Homebuilt PC Zhongshan, China i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP Arch Linux 500Mbps Homebuilt NAS Shenzhen, China AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD Ubuntu 20.04 LTS 1Gbps ARM Router Shenzhen, China rk3568 + 2GB Mem + 8GB EMMC iStoreOS (based on OpenWrt) 1Gbps ARM Router Shenzhen, China rk3399 + 1GB Mem + 1GB + 16GB EMMC Ubuntu 20.04 LTS 1Gbps ARM Router (In future) Guangzhou, China rk3399 + 1GB Mem + 1GB + 16GB EMMC Ubuntu 20.04 LTS 100Mbps Not only the bare metal, I also own a bunch of VPS/VPC/VM/Lighthouse, here is the list\nDevice Location Configuration System Network A Lighthouse server Tencent Cloud - Guangzhou 1C2G Ubuntu 20.04 LTS 3Mbps A Lighthouse server Tencent Cloud - Shuanghai 2C4G Ubuntu 20.04 LTS 3Mbps A Lighthouse server Tencent Cloud - Shuanghai 4C8G Ubuntu 20.04 LTS 3Mbps A Lighthouse server Tencent Cloud - Shuanghai 2C2G Ubuntu 20.04 LTS 3Mbps A Lighthouse server Tencent Cloud - HKSAR 2C4G Ubuntu 20.04 LTS 30Mbps A Lighthouse server Tencent Cloud - HKSAR 2C4G Ubuntu 20.04 LTS 30Mbps A Lighthouse server Tencent Cloud - Singapore 2C2G Ubuntu 20.04 LTS 30Mbps A VM server Oracle Cloud - Japan 1C1G Ubuntu 20.04 LTS 500Mbps A VM server Oracle Cloud - Japan 1C1G Ubuntu 20.04 LTS 500Mbps A VM server CubeCloud - HKSAR 1C512M Ubuntu 20.04 LTS 1Gbps After the listing, you may know why I need a distributed solution.\nPossible solution Docker Swarm Kubernetes Docker Swarm refers to a container orchestration tool that allows user to manage multiple containers within multiple nodes (a cluster). The document can be found in here\nKubernetes, a.k. K8s, is an open-source system for automating deployment, scaling and managerment of containerized applications. The introduction can be found in here\nIn general, Kubernetes is more suitable for those complex applications within the complex development/production environment, and the Docker Swarm is designed for ease of use. Based on the introduction and comparison, I design to use them simultaneously, parts of the device will be used in Docker Swarm (Dhe DS cluster) and others will be used in K8s, those who need persistance will be deployed in DS cluster and the K8s cluster is used for studying.\nAfter the platform architecture, we need a networking solution for putting up these devices into a LAN. Intuitively, I need a VPN(Virtual Private Network) software as these device can be accessed via the WAN. Based on the VPN software, I may develop my own SD-WAN. Here are some SDN (Sofware-Defined Networking) solutions:\nZerotier Tailscale: based on Wireguard Nebula: A scalable overlay networking tool by Slack n2n: peer-to-peer VPN After the comparison, for my home devices, I will choose Tailscale as its performance in my experiment, and for those two cluster, I will use Wireguard as I don’t need to pay any fee for occupation.\n",
+  "wordCount" : "613",
+  "inLanguage": "en",
+  "datePublished": "2022-07-20T00:11:21+08:00",
+  "dateModified": "2024-08-05T13:43:06+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Junjie LIU"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/my-homelab-1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "特倫蘇的日與夜",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/logo.svg">
+
+<link rel="manifest" href="/images/logo.svg">
+    
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.2ea55aaafa2a39230056f2d122a89dd2aa2a3883be0a592340a1091d201175f9.css" integrity="sha256-LqVaqvoqOSMAVvLRIqid0qoqOIO&#43;ClkjQKEJHSARdfk=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s WEBSITE
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Posts</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post/scientia">Scientia</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+            </li>
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>Homelab: My Devices</h1>
+  </header>
+
+  <p>
+  <small>
+    
+    
+    
+    <u># <a href="https://blog.cklau.cc/tags/homelab/">homelab</a></u>
+    
+    <u># <a href="https://blog.cklau.cc/tags/networking/">networking</a></u>
+    
+    <u># <a href="https://blog.cklau.cc/tags/hardware/">hardware</a></u>
+    
+  </small>
+  <br>
+  <small>
+    Published On: <u>July 20, 2022</u> (Last updated on: <u>August 5, 2024)</u> <br>
+    613 words&nbsp;· 3 min</small>
+</p>
+
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-distributed">Why Distributed</a></li>
+    <li><a href="#possible-solution">Possible solution</a></li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><p>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.</p>
+<h2 id="why-distributed">Why Distributed</h2>
+<p>Since I am wandering around the <a href="https://en.wikipedia.org/wiki/Guangdong%E2%80%93Hong_Kong%E2%80%93Macao_Greater_Bay_Area">big bay area</a>, multiple different devices are scattered.  Thus, I have to build a distributed cluster.</p>
+<p>Here is the list of my bare metal device:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Device</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
+<th style="text-align:center">Network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DELL EMC R730</td>
+<td style="text-align:center">Zhuhai, China</td>
+<td style="text-align:center">E5-2650V4 + 128GB + 240GB SSD + 600GB HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">DELL Precision T1700</td>
+<td style="text-align:center">Zhuhai, China</td>
+<td style="text-align:center">i7-4790 + 16GB + 256GB SSD + 1T SATA HDD + NVIDIA RTX 2060Ti</td>
+<td style="text-align:center">Arch Linux</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">Homebuilt PC</td>
+<td style="text-align:center">Zhongshan, China</td>
+<td style="text-align:center">i5-9400f + 16GB + 256GB SSD + 256GB SSD + 2T SATA HDD + NVIDIA TITAN XP</td>
+<td style="text-align:center">Arch Linux</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">Homebuilt NAS</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">AMD A8-5550M + 6G DDR3 + 128G SSD + 3T SATA HDD</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+<tr>
+<td style="text-align:center">ARM Router</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">rk3568 + 2GB Mem + 8GB EMMC</td>
+<td style="text-align:center">iStoreOS (based on OpenWrt)</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+<tr>
+<td style="text-align:center">ARM Router</td>
+<td style="text-align:center">Shenzhen, China</td>
+<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+<tr>
+<td style="text-align:center">ARM Router (In future)</td>
+<td style="text-align:center">Guangzhou, China</td>
+<td style="text-align:center">rk3399 + 1GB Mem + 1GB + 16GB EMMC</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">100Mbps</td>
+</tr>
+</tbody>
+</table>
+<p>Not only the bare metal, I also own a bunch of VPS/VPC/VM/<a href="https://www.tencentcloud.com/products/lighthouse">Lighthouse</a>, here is the list</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Device</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Configuration</th>
+<th style="text-align:center">System</th>
+<th style="text-align:center">Network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Guangzhou</td>
+<td style="text-align:center">1C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">4C8G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Shuanghai</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - HKSAR</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - HKSAR</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A Lighthouse server</td>
+<td style="text-align:center">Tencent Cloud - Singapore</td>
+<td style="text-align:center">2C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">30Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">Oracle Cloud - Japan</td>
+<td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">Oracle Cloud - Japan</td>
+<td style="text-align:center">1C1G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">500Mbps</td>
+</tr>
+<tr>
+<td style="text-align:center">A VM server</td>
+<td style="text-align:center">CubeCloud - HKSAR</td>
+<td style="text-align:center">1C512M</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">1Gbps</td>
+</tr>
+</tbody>
+</table>
+<p>After the listing, you may know why I need a distributed solution.</p>
+<h2 id="possible-solution">Possible solution</h2>
+<ol>
+<li>Docker Swarm</li>
+<li>Kubernetes</li>
+</ol>
+<p>Docker Swarm refers to a container orchestration tool that allows user to manage multiple containers within multiple nodes (a cluster). The document can be found in <a href="https://docs.docker.com/engine/swarm/">here</a></p>
+<p>Kubernetes, a.k. K8s, is an open-source system for automating deployment, scaling and managerment of containerized applications. The introduction can be found in <a href="https://kubernetes.io/docs/home/">here</a></p>
+<p>In general, Kubernetes is more suitable for those complex applications within the complex development/production environment, and the Docker Swarm is designed for ease of use. Based on the introduction and comparison, I design to use them simultaneously, parts of the device will be used in Docker Swarm (Dhe DS cluster) and others will be used in K8s, those who need persistance will be deployed in DS cluster and the K8s cluster is used for studying.</p>
+<p>After the platform architecture, we need a networking solution for putting up these devices into a LAN. Intuitively, I need a VPN(Virtual Private Network) software as these device can be accessed via the WAN. Based on the VPN software, I may develop my own <a href="https://en.wikipedia.org/wiki/Software-defined_networking">SD-WAN</a>. Here are some SDN (Sofware-Defined Networking) solutions:</p>
+<ol>
+<li><a href="https://www.zerotier.com/">Zerotier</a></li>
+<li><a href="http://tailscale.com/">Tailscale</a>: based on Wireguard</li>
+<li><a href="https://github.com/slackhq/nebula">Nebula</a>: A scalable overlay networking tool by Slack</li>
+<li><a href="https://github.com/ntop/n2n">n2n</a>: peer-to-peer VPN</li>
+</ol>
+<p>After the comparison, for my home devices, I will choose Tailscale as its performance in my experiment, and for those two cluster, I will use Wireguard as I don&rsquo;t need to pay any fee for occupation.</p></section>
+
+  
+  
+  <div class="paginator">
+    
+    <a class="prev" href="https://blog.cklau.cc/post/my-homelab-3/"><span>&larr;&nbsp;&nbsp;</span><span>Homelab: My Network setup</span></a>
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/scientia/dl-gan-1/"><span>👨‍💻 Style Transfer and Synthesis (1/3): Style Transfer in Image Synthesis</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+  
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+      <nav>
+        <ul>
+        
+        
+          
+            <li>
+              <a href="/post/my-homelab-extra-1/">Homelab: A self-hosted GitHub Accelerator</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-6/">Homelab: My Distributed Homelab (2)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-5/">Homelab: How to build a AIO home-server</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-4/">Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-2/">Homelab: My Distributed Homelab</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/my-homelab-3/">Homelab: My Network setup</a>
+            </li>
+          
+        
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+<center>
+  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a>
+️  </p>
+</center>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

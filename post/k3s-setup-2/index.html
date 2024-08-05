@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特倫蘇的日與夜</title>
+    <meta charset="utf-8">
+    <meta name="description" content="K3s/Kubernetes - Set up a K3s Cluster with your VPS (2) - 特倫蘇的日與夜">
+    <meta name="author" content="Junjie LIU">
+    <link rel="canonical" href="https://blog.cklau.cc/post/k3s-setup-2/">
+        <meta name="google-site-verification" content="GTM-MC97JQPW">
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
+}
+</script>
+
+
+
+    <meta property="og:title" content="K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/k3s-setup-2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-09-26T00:11:21+08:00" />
+<meta property="article:modified_time" content="2024-08-05T13:43:06+01:00" />
+<meta property="og:see_also" content="https://blog.cklau.cc/post/k8s-setup-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k8s-setup-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k3s-setup-extra-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k3s-setup-1/" />
+
+
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)",
+      "item": "https://blog.cklau.cc/post/k3s-setup-2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)",
+  "name": "K3s\/Kubernetes - Set up a K3s Cluster with your VPS (2)",
+  "description": "",
+  "keywords": [
+    "k3s", "kubernetes"
+  ],
+  "articleBody": "Generating a basic K3s cluster is quite easy by following the K3s’s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:\nHigh Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd) I chose the second one - with Embedded DB.\nEnviornment Here is the list of my device:\nNode Name Location Specification OS Network IP hilbert(master) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP + Wireguard 1.xx.xx.xx + 192.168.36.1 cantor(master) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP + Wireguard 110.xx.xx.xx + 192.168.36.2 newton(agent) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20.04 LTS Pbulic IP + Wireguard 119.xx.xx.xx + 192.168.36.3 K3s Installation K3s Server Node To set up the Server, I follow the instruction from K3s with a little modification, since I want to customize the network and node name. Here is the command I used for server-installation:\ncurl -sfL https://get.k3s.io | K3S_TOKEN= INSTALL_K3S_EXEC=\"server \\ --node-ip $(ip addr show eth0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --token $(openssl rand --hex 16) \\ --advertise-address $(ip addr show eth0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --node-external-ip $(ip addr show eth0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --flannel-iface eth0 \\ --node-name $HOSTNAME \\ --cluster-init\" sh - where you can see that --node-ip is the ip address to advertise for node; --advertise-address is the ip address that apiserver user to advertise to members of the cluster; --node-external-ip is the external ip address to advertise for node; --flannel-iface is to override the default flannel interface.\nFor whom can not access Google and GitHub fluently, you may try:\n# for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_EXEC=\"server \\ --node-ip $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --token $(openssl rand --hex 16) \\ --advertise-address $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --node-external-ip $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --flannel-iface wg0 \\ --node-name $HOSTNAME \\ --cluster-init\" sh - To generate the token, I used openssl rand --hex 16.\nSimilarly, for the second server, you can use the same configuration above with IPs’ substitution.\nK3s node For the K3s node, you can simply reuse the above command with a modification: change server to agent:\ncurl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_EXEC=\"agent \\ --server https://:6443 \\ --token \\ --node-ip $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --flannel-iface wg0 \\ --node-name $HOSTNAME\" sh - After the installation of the server and node, you may check whether the server can reach the node correctly:\nsudo kubectl get nodes -o wide # NAME STATUS ROLES AGE VERSION INTERNAL-IP EXTERNAL-IP OS-IMAGE KERNEL-VERSION CONTAINER-RUNTIME # cantor Ready control-plane,etcd,master 9h v1.24.6+k3s1 10.210.120.2 xxx.xxx.xxx.xxx Ubuntu 20.04 LTS 5.4.0-126-generic containerd://1.6.8-k3s1 # hilbert Ready control-plane,etcd,master 9h v1.24.6+k3s1 10.210.120.1 xxx.xxx.xxx.xxx Ubuntu 20.04 LTS 5.4.0-126-generic containerd://1.6.8-k3s1 # newton Ready worker 9h v1.24.6+k3s1 10.210.120.3 10.210.120.3 Ubuntu 20.04 LTS 5.4.0-126-generic containerd://1.6.8-k3s1 sudo kubectl top nodes # NAME CPU(cores) CPU% MEMORY(bytes) MEMORY% # cantor 445m 22% 2451Mi 71% # hilbert 300m 7% 3942Mi 52% # newton 90m 9% 1118Mi 56% Helm Installlation Helm is the package manager of kubernetes, where usually we can use it to download and install pre-packed applications to our cluster. To install it, we can go to helm’s GitHub release to find the compiled binary file and download it. Here is an example for the Linux amd64:\nwget https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz -O helm.tar.gz tar -xvf helm.tar.gz sudo mv linux-amd64/helm /usr/local/bi helm version # version.BuildInfo{Version:\"v3.10.0\", GitCommit:\"ce66412a723e4d89555dc67217607c6579ffcb21\", GitTreeState:\"clean\", GoVersion:\"go1.18.6\"} Change the mirrors for Containerd (Optional) For some reason, the China region’s network may be stuck and cannot connect (or very slow) to some of the website, sadly, gcr.ioandquay.io` are inside the list. Thus, we may need to change to the China’s mirrors.\nFor example: we can subsitute the quay.io with https://quay-mirror.qiniu.com and gcr.io we can use https://registry.aliyuncs.com. For the docker, we can use the Daocloud’s script to update the mirrors. This may help speeding up the installication process in the after step.\nCert-Manager Installation and Configuration Cert-Manager is a cloud-native certificate management tool which can help us automatically sign SSL/TLC certificate from Let’s Encrypt with ACME. Typically, Cert-Manager offers two challenge validations - HTTP01 and DNS01 challenges. In here, we use DNS01, but for now, let us install the Cert-Manager first.\nAdd the helm repository and update repo: sudo helm repo add jetstack https://charts.jetstack.io \u0026\u0026 sudo helm repo update 1 Install the cert-manager: helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.9.1 --set installCRDs=true (create a NS; cert-manager’s version is v1.9.1; install the CRD resources) Check the cert-manager’s status: sudo kubectl get pods --namespace cert-manager After installing the cert-manager, we need to go to [Cloudflare’s dashboard(https://dash.cloudflare.com/profile) to create a API token with “Edit zone DNS” template, set permission: Zone - DNS - Edit and Zone - Zone - Read, other can be default. Remember that the API will only show onee, you may need to copy it before turn of the tab.\nCreate a yaml (cloudflare-api-token-secret.yaml and you may change the file name) and start a new Issuer:\napiVersion: v1 kind: Secret metadata: name: cloudflare-api-token-secret # you may change the name namespace: cert-manager type: Opaque stringData: api-token: Create another yaml (ClusterIssuer.yaml):\napiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-dns01 spec: acme: privateKeySecretRef: name: letsencrypt-dns01 email: server: https://acme-v02.api.letsencrypt.org/directory solvers: - dns01: cloudflare: email: apiTokenSecretRef: name: cloudflare-api-token-secret # need to be same with the above yaml metadata's name key: api-token Create the third yaml (Certificate.yaml):\napiVersion: cert-manager.io/v1 kind: Certificate metadata: name: # you may change the name namespace: default spec: dnsNames: - example.com - \"*.example.com\" issuerRef: kind: ClusterIssuer name: letsencrypt-dns01 # Cite ClusterIssuer and use DNS01 for the challenge secretName: # the certificate with store in this cecret and you may change it Then, apply these three yaml file, and wait for a while. Use sudo kubectl describe certificate to check the status.\nsudo kubectl describe certificate NAME READY SECRET AGE True 1m If it is ready, it means that the certificate is Issued.\nRancher Installation It is easy to install the Rancher, Rancher is a complete software stack for teams adopting containers. It addresses the operational and security challenges of managing multiple Kubernetes clusters, while providing DevOps teams with integrated tools for running containerized workloads.\nSimilar to the installation of Cert-Manager:\nsudo helm repo add rancher-latest https://releases.rancher.com/server-charts/latest # add sudo helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname=rancher.k3s.cklau.ml --set bootstrapPassword=admin --set ingress.tls.source=secret Then, we need to create a certificate and an ingress for Rancher where we can use our domain to access:\napiVersion: cert-manager.io/v1 kind: Certificate metadata: name: tls-rancher-ingress namespace: cattle-system spec: secretName: commonName: '*.example.com' dnsNames: - '*.example.com' issuerRef: name: letsencrypt kind: ClusterIssuer --- apiVersion: networking.k8s.io/v1 kind: Ingress metadata: name: rancher namespace: cattle-system annotations: cert-manager.io/cluster-issuer: letsencrypt-dns01 spec: rules: - host: rancher.example.com http: paths: - backend: service: name: rancher port: number: 80 pathType: ImplementationSpecific tls: - hosts: - rancher.example.com secretName: After apply the yaml, we may check whether the rancher install properly: sudo kubectl get pods --namespace cattle-system and check rancher.example.com.\nFor some reason, I met some problems with helm but they all correlated to the KUBECONFIG. Thus, you may copy the KUBECONFIG to ~/.kube/config and this may solve your problem: sudo cat /etc/rancher/k3s/k3s.yaml \u003e ~/.kube/config ↩︎\n",
+  "wordCount" : "1243",
+  "inLanguage": "en",
+  "datePublished": "2022-09-26T00:11:21+08:00",
+  "dateModified": "2024-08-05T13:43:06+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Junjie LIU"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/k3s-setup-2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "特倫蘇的日與夜",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/logo.svg">
+
+<link rel="manifest" href="/images/logo.svg">
+    
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.2ea55aaafa2a39230056f2d122a89dd2aa2a3883be0a592340a1091d201175f9.css" integrity="sha256-LqVaqvoqOSMAVvLRIqid0qoqOIO&#43;ClkjQKEJHSARdfk=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s WEBSITE
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Posts</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post/scientia">Scientia</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+            </li>
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</h1>
+  </header>
+
+  <p>
+  <small>
+    
+    
+    
+    <u># <a href="https://blog.cklau.cc/tags/k3s/">k3s</a></u>
+    
+    <u># <a href="https://blog.cklau.cc/tags/kubernetes/">kubernetes</a></u>
+    
+  </small>
+  <br>
+  <small>
+    Published On: <u>September 26, 2022</u> (Last updated on: <u>August 5, 2024)</u> <br>
+    1243 words&nbsp;· 6 min</small>
+</p>
+
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#enviornment">Enviornment</a></li>
+    <li><a href="#k3s-installation">K3s Installation</a>
+      <ul>
+        <li><a href="#k3s-server-node">K3s Server Node</a></li>
+        <li><a href="#k3s-node">K3s node</a></li>
+      </ul>
+    </li>
+    <li><a href="#helm-installlation">Helm Installlation</a></li>
+    <li><a href="#change-the-mirrors-for-containerd-optional">Change the mirrors for Containerd (Optional)</a></li>
+    <li><a href="#cert-manager-installation-and-configuration">Cert-Manager Installation and Configuration</a></li>
+    <li><a href="#rancher-installation">Rancher Installation</a></li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><p>Generating a basic K3s cluster is quite easy by following the <a href="https://doc.k3s.io">K3s&rsquo;s Doc</a>. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:</p>
+<ol>
+<li>High Availability with an External DB (for example, <a href="https://www.postgresql.org/">PostgreSQL</a>, <a href="https://www.mysql.com/">MySQL</a>,  <a href="https://mariadb.org/">MariaDB</a>)</li>
+<li>High Availability with Embedded DB (<a href="https://etcd.io/">etcd</a>)</li>
+</ol>
+<p>I chose the second one - with Embedded DB.</p>
+<h2 id="enviornment">Enviornment</h2>
+<p>Here is the list of my device:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Node Name</th>
+<th style="text-align:center">Location</th>
+<th style="text-align:center">Specification</th>
+<th style="text-align:center">OS</th>
+<th style="text-align:center">Network</th>
+<th style="text-align:center">IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">hilbert(master)</td>
+<td style="text-align:center">Tencent Cloud (SH-CN)</td>
+<td style="text-align:center">4C8G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">1.xx.xx.xx + 192.168.36.1</td>
+</tr>
+<tr>
+<td style="text-align:center">cantor(master)</td>
+<td style="text-align:center">Tencent Cloud (SH-CN)</td>
+<td style="text-align:center">2C4G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">110.xx.xx.xx + 192.168.36.2</td>
+</tr>
+<tr>
+<td style="text-align:center">newton(agent)</td>
+<td style="text-align:center">Tencent Cloud (GZ-CN)</td>
+<td style="text-align:center">1C2G</td>
+<td style="text-align:center">Ubuntu 20.04 LTS</td>
+<td style="text-align:center">Pbulic IP + Wireguard</td>
+<td style="text-align:center">119.xx.xx.xx + 192.168.36.3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="k3s-installation">K3s Installation</h2>
+<h3 id="k3s-server-node">K3s Server Node</h3>
+<p>To set up the Server, I follow the instruction from <a href="https://k3s.io">K3s</a> with a little modification, since I want to customize the network and node name. Here is the command I used for server-installation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -sfL https://get.k3s.io | K3S_TOKEN<span style="color:#f92672">=</span>&lt;token&gt;  INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-ip </span><span style="color:#66d9ef">$(</span>ip addr show eth0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --token </span><span style="color:#66d9ef">$(</span>openssl rand --hex 16<span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --advertise-address </span><span style="color:#66d9ef">$(</span>ip addr show eth0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-external-ip </span><span style="color:#66d9ef">$(</span>ip addr show eth0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">  \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --flannel-iface eth0   \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-name </span>$HOSTNAME<span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --cluster-init&#34;</span> sh -
+</span></span></code></pre></div><p>where you can see that <code>--node-ip</code> is the ip address to advertise for node; <code>--advertise-address</code> is the ip address that apiserver user to advertise to members of the cluster; <code>--node-external-ip</code> is the external ip address to advertise for node; <code>--flannel-iface</code> is to override the default flannel interface.</p>
+<p>For whom can not access Google and GitHub fluently, you may try:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># for whom can not access Google and Github fluently, you may try:</span>
+</span></span><span style="display:flex;"><span>curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;server \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-ip </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --token </span><span style="color:#66d9ef">$(</span>openssl rand --hex 16<span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --advertise-address </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-external-ip </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">  \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --flannel-iface wg0   \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-name </span>$HOSTNAME<span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --cluster-init&#34;</span> sh -
+</span></span></code></pre></div><p>To generate the token, I used <code>openssl rand --hex 16</code>.</p>
+<p>Similarly, for the second server, you can use the same configuration above with IPs&rsquo; substitution.</p>
+<h3 id="k3s-node">K3s node</h3>
+<p>For the K3s node, you can simply reuse the above command with a modification: change <code>server</code> to <code>agent</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn INSTALL_K3S_EXEC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;agent \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --server https://&lt;server-ip&gt;:6443 \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --token &lt;token&gt; \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-ip </span><span style="color:#66d9ef">$(</span>ip addr show wg0 | sed -n <span style="color:#e6db74">&#39;/inet /{s/^.*inet \([0-9.]\+\).*$/\1/;p}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --flannel-iface wg0 \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --node-name </span>$HOSTNAME<span style="color:#e6db74">&#34;</span> sh -
+</span></span></code></pre></div><p>After the installation of the server and node, you may check whether the server can reach the node correctly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo kubectl get nodes -o wide
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NAME      STATUS   ROLES                       AGE   VERSION        INTERNAL-IP    EXTERNAL-IP     OS-IMAGE           KERNEL-VERSION      CONTAINER-RUNTIME</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cantor    Ready    control-plane,etcd,master   9h    v1.24.6+k3s1   10.210.120.2   xxx.xxx.xxx.xxx   Ubuntu 20.04 LTS   5.4.0-126-generic   containerd://1.6.8-k3s1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># hilbert   Ready    control-plane,etcd,master   9h    v1.24.6+k3s1   10.210.120.1   xxx.xxx.xxx.xxx   Ubuntu 20.04 LTS   5.4.0-126-generic   containerd://1.6.8-k3s1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># newton    Ready    worker                      9h    v1.24.6+k3s1   10.210.120.3   10.210.120.3    Ubuntu 20.04 LTS   5.4.0-126-generic   containerd://1.6.8-k3s1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo kubectl top nodes
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NAME      CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cantor    445m         22%    2451Mi          71%</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># hilbert   300m         7%     3942Mi          52%</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># newton    90m          9%     1118Mi          56%</span>
+</span></span></code></pre></div><h2 id="helm-installlation">Helm Installlation</h2>
+<p><a href="https://helm.sh">Helm</a> is the package manager of kubernetes, where usually we can use it to download and install pre-packed applications to our cluster. To install it, we can go to helm&rsquo;s GitHub release to find the compiled binary file and download it. Here is an example for the Linux amd64:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz -O helm.tar.gz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tar -xvf helm.tar.gz
+</span></span><span style="display:flex;"><span>sudo mv linux-amd64/helm /usr/local/bi
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>helm version
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># version.BuildInfo{Version:&#34;v3.10.0&#34;, GitCommit:&#34;ce66412a723e4d89555dc67217607c6579ffcb21&#34;, GitTreeState:&#34;clean&#34;, GoVersion:&#34;go1.18.6&#34;}</span>
+</span></span></code></pre></div><h2 id="change-the-mirrors-for-containerd-optional">Change the mirrors for Containerd (Optional)</h2>
+<p>For some reason, the China region&rsquo;s network may be stuck and cannot connect (or very slow) to some of the website, sadly, gcr.io<code>and</code>quay.io` are inside the list. Thus, we may need to change to the China&rsquo;s mirrors.</p>
+<p>For example: we can subsitute the <code>quay.io</code> with <code>https://quay-mirror.qiniu.com</code> and <code>gcr.io</code> we can use <code>https://registry.aliyuncs.com</code>. For the docker, we can use the <a href="https://www.daocloud.io/">Daocloud</a>&rsquo;s script to update the mirrors. This may help speeding up the installication process in the after step.</p>
+<h2 id="cert-manager-installation-and-configuration">Cert-Manager Installation and Configuration</h2>
+<p><a href="https://cert-manager.io/">Cert-Manager</a> is a cloud-native certificate management tool which can help us automatically sign SSL/TLC certificate from Let&rsquo;s Encrypt with ACME. Typically, Cert-Manager offers two challenge validations - HTTP01 and DNS01 challenges. In here, we use DNS01, but for now, let us install the Cert-Manager first.</p>
+<ol>
+<li>Add the helm repository and update repo: <code>sudo helm repo add jetstack https://charts.jetstack.io &amp;&amp; sudo helm repo update</code> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>Install the cert-manager: <code>helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.9.1 --set installCRDs=true</code> (create a NS; cert-manager&rsquo;s version is v1.9.1; install the CRD resources)</li>
+<li>Check the cert-manager&rsquo;s status: <code>sudo kubectl get pods --namespace cert-manager</code></li>
+</ol>
+<p>After installing the cert-manager, we need to go to [Cloudflare&rsquo;s dashboard(https://dash.cloudflare.com/profile) to create a API token with &ldquo;Edit zone DNS&rdquo; template, set permission: <code>Zone - DNS - Edit</code> and <code>Zone - Zone - Read</code>, other can be default. Remember that the API will only show onee, you may need to copy it before turn of the tab.</p>
+<p>Create a yaml (<code>cloudflare-api-token-secret.yaml</code> and you may change the file name) and start a new Issuer:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cloudflare-api-token-secret</span> <span style="color:#75715e"># you may change the name</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cert-manager</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">Opaque</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">stringData</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">api-token</span>: <span style="color:#ae81ff">&lt;CF-API-TOKEN&gt;</span>
+</span></span></code></pre></div><p>Create another yaml (<code>ClusterIssuer.yaml</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterIssuer</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">letsencrypt-dns01</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">acme</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">privateKeySecretRef</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">letsencrypt-dns01</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">email</span>: <span style="color:#ae81ff">&lt;your-email-addr&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://acme-v02.api.letsencrypt.org/directory</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">solvers</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">dns01</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">cloudflare</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">email</span>: <span style="color:#ae81ff">&lt;your-cf-account-email-addr&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">apiTokenSecretRef</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cloudflare-api-token-secret</span> <span style="color:#75715e"># need to be same with the above yaml metadata&#39;s name</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">key</span>: <span style="color:#ae81ff">api-token</span>
+</span></span></code></pre></div><p>Create the third yaml (<code>Certificate.yaml</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Certificate</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">name</span>: <span style="color:#ae81ff">&lt;domain-name&gt;</span> <span style="color:#75715e"># you may change the name</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">dnsNames</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">example.com</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;*.example.com&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">issuerRef</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterIssuer</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">name</span>: <span style="color:#ae81ff">letsencrypt-dns01</span> <span style="color:#75715e"># Cite ClusterIssuer and use DNS01 for the challenge</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;secret-name&gt;</span> <span style="color:#75715e"># the certificate with store in this cecret and you may change it </span>
+</span></span></code></pre></div><p>Then, apply these three yaml file, and wait for a while. Use <code>sudo kubectl describe certificate</code> to check the status.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo kubectl describe certificate
+</span></span><span style="display:flex;"><span>NAME           READY    SECRET       AGE
+</span></span><span style="display:flex;"><span>&lt;domain-name&gt;   True    &lt;secret&gt;      1m
+</span></span></code></pre></div><p>If it is ready, it means that the certificate is Issued.</p>
+<h2 id="rancher-installation">Rancher Installation</h2>
+<p>It is easy to install the Rancher, Rancher is a complete software stack for teams adopting containers. It addresses the operational and security challenges of managing multiple Kubernetes clusters, while providing DevOps teams with integrated tools for running containerized workloads.</p>
+<p>Similar to the installation of Cert-Manager:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo helm repo add rancher-latest https://releases.rancher.com/server-charts/latest <span style="color:#75715e"># add </span>
+</span></span><span style="display:flex;"><span>sudo helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname<span style="color:#f92672">=</span>rancher.k3s.cklau.ml --set bootstrapPassword<span style="color:#f92672">=</span>admin --set ingress.tls.source<span style="color:#f92672">=</span>secret
+</span></span></code></pre></div><p>Then, we need to create a certificate and an ingress for Rancher where we can use our domain to access:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Certificate</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tls-rancher-ingress</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cattle-system</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;secret-name&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">commonName</span>: <span style="color:#e6db74">&#39;*.example.com&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">dnsNames</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#39;*.example.com&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">issuerRef</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">letsencrypt</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterIssuer</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rancher</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cattle-system</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cert-manager.io/cluster-issuer</span>: <span style="color:#ae81ff">letsencrypt-dns01</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">host</span>: <span style="color:#ae81ff">rancher.example.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">http</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">backend</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rancher</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">port</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">number</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">pathType</span>: <span style="color:#ae81ff">ImplementationSpecific</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tls</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">rancher.example.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;secret-name&gt;</span>
+</span></span></code></pre></div><p>After apply the yaml, we may check whether the rancher install properly: <code>sudo kubectl get pods --namespace cattle-system</code> and check <code>rancher.example.com</code>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>For some reason, I met some problems with helm but they all correlated to the <code>KUBECONFIG</code>. Thus, you may copy the <code>KUBECONFIG</code> to <code>~/.kube/config</code> and this may solve your problem: <code>sudo cat /etc/rancher/k3s/k3s.yaml &gt; ~/.kube/config</code>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></section>
+
+  
+  
+  <div class="paginator">
+    
+    <a class="prev" href="https://blog.cklau.cc/post/k3s-setup-extra-1/"><span>&larr;&nbsp;&nbsp;</span><span>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</span></a>
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/k3s-setup-1/"><span>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+  
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+      <nav>
+        <ul>
+        
+        
+          
+            <li>
+              <a href="/post/k8s-setup-2/">K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/k8s-setup-1/">K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/post/k3s-setup-extra-1/">K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</a>
+            </li>
+          
+        
+          
+        
+          
+            <li>
+              <a href="/post/k3s-setup-1/">K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</a>
+            </li>
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+<center>
+  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a>
+️  </p>
+</center>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

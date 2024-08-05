@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特倫蘇的日與夜</title>
+    <meta charset="utf-8">
+    <meta name="description" content="🥼 RetiGAN: A GAN-based model on retinal Image synthesis - 特倫蘇的日與夜">
+    <meta name="author" content="Junjie LIU">
+    <link rel="canonical" href="https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/">
+        <meta name="google-site-verification" content="GTM-MC97JQPW">
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
+}
+</script>
+
+
+
+    <meta property="og:title" content="🥼 RetiGAN: A GAN-based model on retinal Image synthesis" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-04-02T00:13:00+08:00" />
+<meta property="article:modified_time" content="2024-08-05T13:43:06+01:00" />
+
+
+
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="🥼 RetiGAN: A GAN-based model on retinal Image synthesis"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://blog.cklau.cc/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Machine Learning/Deep Learning with Us",
+      "item": "https://blog.cklau.cc/post/scientia/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "🥼 RetiGAN: A GAN-based model on retinal Image synthesis",
+      "item": "https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "🥼 RetiGAN: A GAN-based model on retinal Image synthesis",
+  "name": "🥼 RetiGAN: A GAN-based model on retinal Image synthesis",
+  "description": "",
+  "keywords": [
+    "Artificial Intelligence", "Medical Image", "Fundus Image"
+  ],
+  "articleBody": "Before (TL;DR) The field of medical imaging is rapidly adopting artificial intelligence (AI) as a promising technology, with a particular focus on deep learning techniques. These AI methods have the potential to be applied across a range of tasks in medical imaging, from image acquisition and reconstruction to analysis and interpretation. For instance, Computed Tomography(CT), Magnetic Resonance Imaging, Positron Emission Tomography (PET), Mammography, Ultrasound, and X-ray, haved be used for early detection, diagnosis, and treatment of diseases. In the clinic, medical image interpretation in the clinic has relied on human experts, such as radiologists and physicians. However, due to the wide range of pathologies and the risk of human fatigue, researchers and doctors have started to explore the potential of computer-assisted interventions. While progress in computational medical image analysis has not been as rapid as in medical imaging technologies, the situation is improving with the introduction of machine learning techniques.\nMachine learning techniques, such as deep learning, have shown promise in assisting human experts in medical image interpretation. By training algorithms on large datasets of medical images, these techniques can help identify patterns and features that are difficult for human experts to detect. As a result, they have the potential to improve diagnostic accuracy and reduce the risk of errors.\nAs the field of machine learning continues to evolve, it is likely that we will see more applications of these techniques in medical imaging. While they will not replace the need for human experts, they can provide valuable assistance and help improve patient outcomes.\nAs the very first blog on Medical CV/Medical Image processing, I am trying to introduce a paper working on retinal image synthesis, The authors of this paper have combined multiple classical deep learning techniques that were developed before 2021.\nFor those who are new to the field of deep learning and medical computer vision, the content of the paper is easily understandable. The authors have used these techniques to synthesize retinal images, which has the potential to aid in the diagnosis and treatment of various eye diseases.\nOverall, this paper highlights the potential of deep learning techniques in medical image processing and provides a valuable contribution to the field. As a newcomer to this field, it is an excellent resource for gaining a better understanding of the applications of deep learning in medical computer vision.\nA novel retinal image generation model with the preservation of structural similarity and high-resolution The paper can be found in 10.1016/j.bspc.2022.104004.\nIn this paper, the proposed a new retinal image generation model call RetiGAN based on the adversarial learning. The goal of this model is to generate high-resolution synthetic images that preserve the structual similarity of the original images. To achieve this, they embed the VGG network into their RetiGAN to guarantee the high-level semantic information can be extracted and used in the content loss to guide the model to retain the semantic contents of the original image. To solved the problem of blurring and incpomplete edge, the embed the smoothed images into the training set to improve the edge sharpness of the generated images.\nIn general, the RetiGAN can be divied into four modules:\nU-Net: for the Vessel tree segmentation Generator $G$: learns to generate plausible retinal image Discriminator $D$: learns to distinguish the generator’s fake image from real image VGG modules: perform high-level feature extraction on the generated retinal image and the original image. In this way, the global semantic features of the retinal image can be well preserved. Basically, the idea/architecture of the $G$ and $D$ are from the pix2pixHD\nU-Net The U-Net network is based on a fully convolutional neural network, whose characteristic is that a small amount of training images can be used to obtain a good segmentation effect, very suitable for the field of medical images. The architecture of U-Net is similar to the encoder-decoder architecture, where the left-side of the “U” is the encoder block, and the right-side is the decoder block1.\nEncoder: is a 4-layer architecture: extracts a meaningful feature map from the input image each layer includes two convolution layers and one max-pooling for the down-sampling Decoder: is a 4-layer architecture: up-sampling the feature map each layer includes two convolution layers for each layer, it concatenates the corresponding encoder’s features (using torchvision.transforms.CenterCrop to maintain the size) In this article, they use U-Net as the tool to separate the background and the vessel tree, as the vessel tree is treated as the input for the generator $G$.\n# code example for the U-Net class DualConv(nn.Module): def __init__(self, in_channel, out_channel): super(DualConv, self).__init__() self.conv = nn.Sequential( nn.ReflectionPad2d(padding=2), nn.Conv2d(in_channel, out_channel, kernel_size=3, padding=0), nn.InstanceNorm2d(out_channel, affine=False), nn.ReLU(inplace=True), nn.Conv2d(out_channel, out_channel, kernel_size=3, padding=0), nn.InstanceNorm2d(out_channel, affine=False), nn.ReLU(inplace=True) ) def forward(self, x): x = self.conv(x) return x class Encoder(nn.Module): # 3 is for RGB, 1 is for grayscale def __init__(self, channels = [3, 64, 128, 256, 512, 1024]): super(Encoder, self).__init__() self.encblocks = nn.ModuleList([DualConv(channels[i], channels[i+1]) for i in range(len(channels) - 1)]) self.maxpool2d = nn.MaxPool2d(2) def forward(self, x): output = [] for encblock in self.encblocks: x = encblock(x) output.append(x) x = self.maxpool2d(x) return output class Decoder(nn.Module): def __init__(self, channels=[1024, 512, 256, 128, 64], mode=\"trans\"): super().__init__() self.channels = channels if mode == \"bilinear\": self.upsampling = nn.ModuleList([nn.Sequential(nn.Upsample(scale_factor=2, mode=\"bilinear\", align_corners=True), nn.Conv2d(channels[i], channels[i+1], kernel_size=1)) for i in range(len(channels)-1)]) else: self.upsampling = nn.ModuleList([nn.ConvTranspose2d(channels[i], channels[i+1], kernel_size=2, stride=2) for i in range(len(channels)-1)]) self.decblocks = nn.ModuleList([DualConv(channels[i], channels[i+1]) for i in range(len(channels)-1)]) def forward(self, x, encoder_features): for i in range(len(self.channels)-1): x = self.upsampling[i](x) enc_ftrs = self.crop(encoder_features[i], x) x = torch.cat([x, enc_ftrs], dim=1) x = self.decblocks[i](x) return x def crop(self, enc_ftrs, x): _, _, H, W = x.shape enc_ftrs = torchvision.transforms.CenterCrop([H, W])(enc_ftrs) return enc_ftrs class UNet(nn.Module): def __init__(self, enc_channels=[3, 64, 128, 256, 512, 1024], dec_channels=[1024, 512, 256, 128, 64], num_class=1, mode=\"trans\"): super(UNet, self).__init__() self.encoder = Encoder(channels=enc_channels) self.decoder = Decoder(channels=dec_channels, mode=mode) self.output = nn.Sequential(nn.Conv2d(dec_channels[-1], num_class, 1), nn.Sigmoid()) def forward(self, x): enc_out = self.encoder(x) out = self.decoder(enc_out[::-1][0], enc_out[::-1][1:]) out = self.output(out) return out Generator $G$ The gneerator is is a standard encoder-decoder architecture, which can be seperated into three parts:\ndown-sampling module residual blocks up-sampling module where it is the GlobalGenerator in pix2pixHD model, focusing on the coarse high-resolution image. In pix2pixHD, they have seconde generator called LocalEnhancer, focusing on the feature encoding and decoding enhancement. The LocalEnhancer is used to refine the image by adding more details to improve the image quality. The input of the GlobalGenerator in pix2pixHD is the downsampled label map $s_{\\text{down}}$, and the output is the corse generated image $\\hat{x}_{\\text{down}}$. With the addition operation with the feature map $Enc_{\\text{L}}(s)$: $(Enc_{\\text{L}}(s) + \\hat{x}_{\\text{down}})$, the LocalEnhancer output the final $\\hat{x}$.\nIn RetiGAN, the simply using the GlobalGenerator as the generator, since the retinal image are more simplier than the image using in pix2pixHD, where the fundus image are all indomain information, thus, using one generator can reduce model complexity.\n## ResBlock ## class ResBlock(nn.Module): def __init__(self, in_channel): super(ResBlock, self).__init__() self.resblock = nn.Sequential( nn.Conv2d(in_channel, in_channel, kernel_size=3, stride=1, padding=1, padding_mode=\"reflect\"), nn.InstanceNorm2d(in_channel), nn.ReLU(inplace=True), nn.Conv2d(in_channel, in_channel, kernel_size=3, stride=1, padding=1, padding_mode=\"reflect\"), nn.InstanceNorm2d(in_channel) ) def forward(self, x): out = x + self.resblock(x) return out ## Generator ## class GlobalGenerator(nn.Module): def __init__(self, in_channel=3, out_channel=3, filters=64, n_enc=3, n_bottle=9, mode=\"trans\"): super(GlobalGenerator, self).__init__() encoder = nn.ModuleList([ nn.Conv2d(in_channels=in_channel, out_channels=filters, kernel_size=7, stride=1, padding=3, padding_mode=\"reflect\"), nn.InstanceNorm2d(filters, affine=False), nn.ReLU(inplace=True) ]) for i in range(n_enc): multiplier = filters * (2 ** i) encoder.append(nn.Conv2d(in_channels=multiplier, out_channels=multiplier * 2, kernel_size=3, stride=2, padding=1, padding_mode=\"reflect\")) encoder.append(nn.InstanceNorm2d(multiplier * 2, affine=False)) encoder.append(nn.ReLU(inplace=True)) resblocks = nn.ModuleList([]) for i in range(n_bottle): resblocks.append(ResBlock(multiplier * 2)) decoder = nn.ModuleList([]) #multiplier = multiplier * 2 for i in range(n_enc): multiplier = int(filters * (2 ** (n_enc - i))) if mode == \"trans\": decoder.append(nn.ConvTranspose2d(in_channels=multiplier, out_channels=int(multiplier / 2), kernel_size=3, stride=2, padding=1, output_padding=1)) elif mode == \"shuffle\": decoder.append(nn.Conv2d(in_channels=multiplier, out_channels=int(multiplier / 2) * (2 ** 2), kernel_size=3, stride=1, padding=1)) decoder.append(nn.PixelShuffle(2)) else: decoder.append(nn.Upsample(scale_factor=2, mode=\"bilinear\", align_corners=True)) decoder.append(nn.Conv2d(in_channels=multiplier, out_channels=int(multiplier / 2), kernel_size=1)) decoder.append(nn.InstanceNorm2d(int(multiplier / 2), affine=False)) decoder.append(nn.ReLU(inplace=True)) decoder.append(nn.Conv2d(in_channels=int(multiplier / 2), out_channels=out_channel, kernel_size=7, stride=1, padding=3, padding_mode=\"reflect\")) decoder.append(nn.Tanh()) model = encoder + resblocks + decoder self.model = nn.Sequential(*model) def forward(self, x): out = self.model(x) return out class LocalEnhancer(nn.Module): def __init__(self, in_channel=3, out_channel=3, filters=64, n_enc=3, n_bottle=9): super(LocalEnhancer, self).__init__() # G2 Encoder encoder = nn.ModuleList([ nn.Conv2d(in_channels=in_channel, out_channels=int(filters / 2), kernel_size=7, stride=1, padding=3, padding_mode=\"reflect\"), nn.InstanceNorm2d(int(filters / 2), affine=False), nn.ReLU(inplace=True), ]) encoder.append(nn.Conv2d(in_channels=int(filters / 2), out_channels=filters, kernel_size=3, stride=2, padding=1, padding_mode=\"reflect\")) encoder.append(nn.InstanceNorm2d(filters, affine=False)) encoder.append(nn.ReLU(inplace=True)) self.encoder = nn.Sequential(*encoder) # G1 Encoder-Decoder self.generator = GlobalGenerator(in_channel=in_channel, out_channel=out_channel, filters=64, n_enc=3, n_bottle=9).model[:-3] # G2 ResBlock resblocks = nn.ModuleList([]) for i in range(3): resblocks.append(ResBlock(filters)) self.resblocks = nn.Sequential(*resblocks) # G2 Decoder decoder = nn.ModuleList([ nn.ConvTranspose2d(in_channels=filters, out_channels=int(filters / 2), kernel_size=3, stride=2, padding=1, output_padding=1), nn.Conv2d(in_channels=int(filters / 2), out_channels=out_channel, kernel_size=7, stride=1, padding=3, padding_mode=\"reflect\"), nn.Tanh() ]) self.decoder = nn.Sequential(*decoder) # Downsampling for G1 self.downsample = nn.AvgPool2d(3, stride=2, padding=1, count_include_pad=False) def forward(self, x): enc_out = self.encoder(x) gen_out = self.generator(self.downsample(x)) res_out = self.resblocks(torch.add(enc_out, gen_out)) out = self.decoder(res_out) return out Discriminator $D$ The basic idea of the discriminator is following this two equation $D(\\hat{s}, \\hat{x}) \\mapsto \\mathbf{0}$, and $D(s, x) \\mapsto \\mathbf{1}$, where $D$ measures the distance between fake image pairs with zero, and real image pairs with one.\nIn this paper (or in pix2pixHD), they adapted the discriminator architecutre proposed by PatchGAN, where the PatchGAN discriminator takes in image patches rather than an entire image. These patches are typically small square regions of the input image, such as 70x70 or 256x256 pixels. The PatchGAN discriminator produces a matrix of scalar values that represent the probability of each patch being real or fake. By operating at the patch level, the PatchGAN discriminator is able to capture more fine-grained details of the image and provide more precise feedback to the generator. This can lead to higher quality image generation.\nInstead of using one discriminator, they use two discriminator, $D_1$ is for the original size images and $D_2$ is for the down-sampled images.\n## PatchDiscriminator class PatchDiscriminator(nn.Module): def __init__(self, in_channel=3, filters=64, n_blocks=3): super(PatchDiscriminator, self).__init__() self.model = nn.ModuleList([ nn.Conv2d(in_channels=in_channel, out_channels=filters, kernel_size=4, stride=2, padding=2), nn.LeakyReLU(0.2, inplace=True) ]) for i in range(n_blocks-1): multiplier = filters * (2 ** i) self.model.append(nn.Conv2d(multiplier, multiplier * 2, kernel_size=4, stride=2, padding=2)) self.model.append(nn.InstanceNorm2d(multiplier * 2, affine=False)) self.model.append(nn.LeakyReLU(0.2, inplace=True)) self.model.append(nn.Conv2d(multiplier * 2, multiplier * 4, kernel_size=4, stride=1, padding=2)) self.model.append(nn.Conv2d(multiplier * 4, 1, kernel_size=4, stride=1, padding=2)) self.model = nn.Sequential(*self.model) def forward(self, x): out = self.model(x) return out ## MultiScaleDiscriminator class MultiScaleDiscriminator(nn.Module): ''' By default, there are three separate sub-discriminator(D1, D2, D3) to generate prediction They all have the same architectures but D2 and D3 operate on inputs downsampled by 2x and 4x, respectively ''' def __init__(self, in_channel=3, filters=64, n_blocks=3, n_dim=3): super(MultiScaleDiscriminator, self).__init__() self.n_dim = n_dim self.downsample = nn.AvgPool2d(kernel_size=3, stride=2, padding=1, count_include_pad=False) model_template = PatchDiscriminator(in_channel=in_channel, filters=filters, n_blocks=n_blocks) for i in range(n_dim): setattr(self, \"model{}\".format(i), model_template) def forward(self, x): out = [] for i in range(self.n_dim): model = getattr(self, \"model{}\".format(i)) if i != 0: x = self.downsample(x) out.append(model(x)) return out VGG (Perceptual Information Extraction) The VGG architecture consists of a series of convolutional layers with small 3x3 filters, followed by max pooling layers. The number of filters in each convolutional layer is gradually increased as the network gets deeper. The final layers of the network consist of fully connected layers that perform the classification task.\nVGG is often used in conjunction with perceptual loss in deep learning applications, particularly in image synthesis and style transfer tasks.\nPerceptual loss2 is a type of loss function that is based on the idea of using a pre-trained deep neural network, such as VGG, to measure the similarity between two images. In the context of image synthesis, the goal is to generate an image that is visually similar to a target image. Perceptual loss can be used to measure the difference between the generated image and the target image in terms of their high-level features, such as texture, color, and object structure.\nclass Perception(nn.Module): ''' Compute the perceptual information based on VGG pretained model \\begin{align*} \\mathcal{L}_{\\text{VGG}} = \\mathbb{E}_{s,x}\\left[\\sum_{i=1}^N\\dfrac{1}{M_i}\\left|\\left|F^i(x) - F^i(G(s))\\right|\\right|_1\\right] \\end{align*} ''' def __init__(self): super(Perception, self).__init__() vgg19 = torchvision.models.vgg19(weights=\"DEFAULT\").features self.models = nn.ModuleList([ vgg19[:2], vgg19[2:7], vgg19[7:12], vgg19[12:21], vgg19[21:30] ]) # no need to update the parameters for param in self.parameters(): param.requires_grad = False def forward(self, x): out = [] out.append(x) for model in self.models: x = model(x) out.append(x) return out Loss function In general, there are two losses: Generato Loss $\\mathcal{L}_G$ and Discriminator Loss $\\mathcal{L}_D$.\nThe Generator Loss includes these three sub-loss:\nAdversarial loss: $\\mathcal{L}_{\\text{adv}}$: is used to train the generator network by making it generate synthetic data that can fool the discriminator network into thinking that it is real data. The adversarial loss is computed based on the output of the discriminator network.$\\mathcal{L}_{\\text{adv}}= \\left|\\left|D(G(s)), 1\\right|\\right|_2$\nFeature Matching Loss $\\mathcal{L}_{\\text{FM}}$: In pix2pixHD, the authors found this to stabilize training. In this case, this forces the generator to produce natural statistics at multiple scales. This feature-matching loss is similar to StyleGAN’s3 perceptual loss. For some semantic label maps s and corresponding image $x$: $\\mathcal{L}_{\\text{FM}} = \\mathbb{E}_{s,x}\\left[\\sum_{i=1}^T\\dfrac{1}{N_i}\\left|\\left|D^{(i)}_k(s, x) - D^{(i)}_k(s, G(s))\\right|\\right|_1\\right]$, where $T$ is the total number of layers, $N_i$ is the number of elements at layer $i$ and $D_k^{(i)}$ denotes the $i$-th layer in discriminator $k$.\nPeceptual Loss $\\mathcal{L}_{\\text{VGG}}$: In pix2pixHD, the authors report minor performance improvements when adding perceptual loss, formulated as $\\mathcal{L}_{\\text{VGG}} = \\mathbb{E}_{s,x}\\left[\\sum_{i=1}^N\\dfrac{1}{M_i}\\left|\\left|F^i(x) - F^i(G(s))\\right|\\right|_1\\right]$, where $F^i$ denotes the $i$th layer with $M_i$ elements of the VGG19 network.\nOverall, $\\mathcal{L}_G = \\lambda_0\\mathcal{L}_{\\text{GAN}} + \\lambda_1 \\mathcal{L}_{\\text{FM}} + \\lambda_2 \\mathcal{L}_{\\text{VGG}}$, where $\\lambda_i$ are the parameters.\nThe Discriminator Loss in this paper is similar to the PatchGAN’s. However, to solve the blurring and incomplete edges, they include an additional set of images $x_b$ , where $x_b$ are generated by removing precise edges in training images x (Canny edge detector \u0026 Gaussian filter). After the smoothed images x_b are included into the training set, the main task for the discriminator is not only to improve the ability of discriminating the generated from the real ones, but also to discriminate the smoothed and the clear ones.\n$\\mathcal{L}_D = \\mathbb{E}[logD(x)] + \\mathbb{E}[log(1 - D(\\hat{x}))] + \\mathbb{E}[log(1 - D(\\hat{x_b}))]$\n## Perceptual Loss class PerceptualLoss(nn.Module): \"\"\" compute perceptual loss with VGG network from both real and fake images (updating the Generator) \"\"\" def __init__(self, device=\"cpu\"): super(PerceptualLoss, self).__init__() self.model = Perception().to(device) self.criterion = nn.L1Loss() self.LAMBDA = [1/32, 1/16, 1/8, 1/4, 1] def forward(self, predict, target): loss = 0.0 for real, fake, weight in zip(self.model(target), self.model(predict), self.LAMBDA): loss += weight * self.criterion(real.detach(), fake) return loss ## Adversarial Loss class AdversarialLoss(nn.Module): \"\"\" computes adversarial loss from nested list of fakes outputs from discriminator. (updating the Generator) \"\"\" def __init__(self): super(AdversarialLoss, self).__init__() self.criterion = nn.MSELoss() def forward(self, predict, is_real=True): loss = 0.0 target = torch.ones_like if is_real else torch.zeros_like for preds in predict: loss += self.criterion(preds, target(preds)) return loss class FeatureMatchLoss(nn.Module): ''' Compute feature matching loss from nested lists of fake and real outputs from discriminator. (updating the Ganerator) https://proceedings.neurips.cc/paper/2016/file/8a3363abe792db2d8761d6403605aeb7-Paper.pdf \\begin{align*} \\mathcal{L}_{\\text{FM}} = \\mathbb{E}_{s,x}\\left[\\sum_{i=1}^T\\dfrac{1}{N_i}\\left|\\left|D^{(i)}_k(s, x) - D^{(i)}_k(s, G(s))\\right|\\right|_1\\right] \\end{align*} ''' def __init__(self): super(FeatureMatchLoss, self).__init__() self.criterion = nn.L1Loss() def forward(self, predict, target): loss = 0.0 for real_feature, fake_feature in zip(target, predict): for real, fake in zip(real_feature, fake_feature): loss += self.criterion(real.detach(), fake) return loss class GeneratorLoss(nn.Module): ''' Combine the Adversarial-Loss, Feature Maching Loss, and Perceptual Loss together with different weights ''' def __init__(self, LAMBDA0=1, LAMBDA1=100, LAMBDA2=10, n_dim=3): super(GeneratorLoss, self).__init__() SCALE = LAMBDA0 + LAMBDA1 + LAMBDA2 self.LAMBDA = [LAMBDA0 / SCALE, LAMBDA1 / SCALE, LAMBDA2 / SCALE] self.n_dim = n_dim self.adv_loss = AdversarialLoss() self.per_loss = PerceptualLoss() self.fm_loss = FeatureMatchLoss() def forward(self, fake, real, predict, target): loss = self.LAMBDA[0] * self.adv_loss(predict=predict, is_real=True) + \\ self.LAMBDA[1] * self.per_loss(predict=fake, target=real) + \\ self.LAMBDA[2] * self.fm_loss(predict=predict, target=target) / self.n_dim return loss The U-Net is not a encoder-decoder architecture, as it does not contain a “latant” layer, however, the shapes are similar, to simply, I just call it as encoder-decoder. ↩︎\nTo see more about perceptual loss, you may check Perceptual Losses for Real-Time Style Transfer and Super-Resolution ↩︎\nStyleGAN, from 1 to 3 ↩︎\n",
+  "wordCount" : "2595",
+  "inLanguage": "en",
+  "datePublished": "2023-04-02T00:13:00+08:00",
+  "dateModified": "2024-08-05T13:43:06+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Junjie LIU"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "特倫蘇的日與夜",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.cklau.cc/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/logo.svg">
+
+<link rel="manifest" href="/images/logo.svg">
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/main.min.2ea55aaafa2a39230056f2d122a89dd2aa2a3883be0a592340a1091d201175f9.css" integrity="sha256-LqVaqvoqOSMAVvLRIqid0qoqOIO&#43;ClkjQKEJHSARdfk=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/">
+            CKLAU&#39;s WEBSITE
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post">Posts</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/post/scientia">Scientia</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/friends">Friends</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+            </li>
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+            
+            
+            
+            
+            
+            
+            <li class="navigation-item navigation-language">
+                <a href="https://blog.cklau.cc/zh/">中</a>
+            </li>
+            
+            
+            
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>🥼 RetiGAN: A GAN-based model on retinal Image synthesis</h1>
+  </header>
+
+  <p>
+  <small>
+    
+    
+    
+    <u># <a href="https://blog.cklau.cc/tags/artificial-intelligence/">Artificial Intelligence</a></u>
+    
+    <u># <a href="https://blog.cklau.cc/tags/medical-image/">Medical Image</a></u>
+    
+    <u># <a href="https://blog.cklau.cc/tags/fundus-image/">Fundus Image</a></u>
+    
+  </small>
+  <br>
+  <small>
+    Published On: <u>April 2, 2023</u> (Last updated on: <u>August 5, 2024)</u> <br>
+    2595 words&nbsp;· 13 min</small>
+</p>
+
+
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#before-tldr">Before (TL;DR)</a></li>
+    <li><a href="#a-novel-retinal-image-generation-model-with-the-preservation-of-structural-similarity-and-high-resolution">A novel retinal image generation model with the preservation of structural similarity and high-resolution</a>
+      <ul>
+        <li><a href="#u-net">U-Net</a></li>
+        <li><a href="#generator-g">Generator $G$</a></li>
+        <li><a href="#discriminator-d">Discriminator $D$</a></li>
+        <li><a href="#vgg-perceptual-information-extraction">VGG (Perceptual Information Extraction)</a></li>
+        <li><a href="#loss-function">Loss function</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><h2 id="before-tldr">Before (TL;DR)</h2>
+<p>The field of medical imaging is rapidly adopting artificial intelligence (AI) as a promising technology, with a particular focus on deep learning techniques. These AI methods have the potential to be applied across a range of tasks in medical imaging, from image acquisition and reconstruction to analysis and interpretation. For instance, Computed Tomography(CT), Magnetic Resonance Imaging, Positron Emission Tomography (PET), Mammography, Ultrasound, and X-ray, haved be used for early detection, diagnosis, and treatment of diseases. In the clinic, medical image interpretation in the clinic has relied on human experts, such as radiologists and physicians. However, due to the wide range of pathologies and the risk of human fatigue, researchers and doctors have started to explore the potential of computer-assisted interventions. While progress in computational medical image analysis has not been as rapid as in medical imaging technologies, the situation is improving with the introduction of machine learning techniques.</p>
+<p>Machine learning techniques, such as deep learning, have shown promise in assisting human experts in medical image interpretation. By training algorithms on large datasets of medical images, these techniques can help identify patterns and features that are difficult for human experts to detect. As a result, they have the potential to improve diagnostic accuracy and reduce the risk of errors.</p>
+<p>As the field of machine learning continues to evolve, it is likely that we will see more applications of these techniques in medical imaging. While they will not replace the need for human experts, they can provide valuable assistance and help improve patient outcomes.</p>
+<p>As the very first blog on Medical CV/Medical Image processing, I am trying to introduce a paper working on retinal image synthesis, The authors of this paper have combined multiple classical deep learning techniques that were developed before 2021.</p>
+<p>For those who are new to the field of deep learning and medical computer vision, the content of the paper is easily understandable. The authors have used these techniques to synthesize retinal images, which has the potential to aid in the diagnosis and treatment of various eye diseases.</p>
+<p>Overall, this paper highlights the potential of deep learning techniques in medical image processing and provides a valuable contribution to the field. As a newcomer to this field, it is an excellent resource for gaining a better understanding of the applications of deep learning in medical computer vision.</p>
+<h2 id="a-novel-retinal-image-generation-model-with-the-preservation-of-structural-similarity-and-high-resolution">A novel retinal image generation model with the preservation of structural similarity and high-resolution</h2>
+<p>The paper can be found in <a href="https://doi.org/10.1016/j.bspc.2022.104004">10.1016/j.bspc.2022.104004</a>.</p>
+<p>In this paper, the proposed a new retinal image generation model call <strong>RetiGAN</strong> based on the adversarial learning. The goal of this model is to <strong>generate high-resolution synthetic images</strong> that preserve the structual similarity of the original images. To achieve this, they embed the VGG network into their RetiGAN to guarantee the high-level semantic information can be extracted and used in the content loss to guide the model to retain the semantic contents of the original image. To solved the problem of blurring and incpomplete edge, the embed the smoothed images into the training set to improve the edge sharpness of the generated images.</p>
+<p>In general, the RetiGAN can be divied into four modules:</p>
+<ol>
+<li>U-Net: for the Vessel tree segmentation</li>
+<li>Generator $G$: learns to generate plausible retinal image</li>
+<li>Discriminator $D$: learns to distinguish the generator&rsquo;s fake image from real image</li>
+<li>VGG modules: perform high-level feature extraction on the generated retinal image and the original image. In this way, the global semantic features of the retinal image can be well preserved.</li>
+</ol>
+<p>Basically, the idea/architecture of the $G$ and $D$ are from the <a href="https://tcwang0509.github.io/pix2pixHD/">pix2pixHD</a></p>
+<h3 id="u-net">U-Net</h3>
+<p>The U-Net network is based on a fully convolutional neural network, whose characteristic is that a small amount of training images can be used to obtain a good segmentation effect, very suitable for the field of medical images. The architecture of U-Net is similar to the <em>encoder-decoder</em> architecture, where the left-side of the &ldquo;U&rdquo; is the encoder block, and the right-side is the decoder block<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<ul>
+<li>Encoder: is a 4-layer architecture:
+<ul>
+<li>extracts a meaningful feature map from the input image</li>
+<li>each layer includes two convolution layers and one max-pooling for the down-sampling</li>
+</ul>
+</li>
+<li>Decoder: is a 4-layer architecture:
+<ul>
+<li>up-sampling the feature map</li>
+<li>each layer includes two convolution layers</li>
+<li>for each layer, it concatenates the corresponding encoder&rsquo;s features (using <code>torchvision.transforms.CenterCrop</code> to maintain the size)</li>
+</ul>
+</li>
+</ul>
+<p>In this article, they use U-Net as the tool to separate the background and the vessel tree, as the vessel tree is treated as the input for the generator $G$.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># code example for the U-Net</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DualConv</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, in_channel, out_channel):
+</span></span><span style="display:flex;"><span>        super(DualConv, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>conv <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ReflectionPad2d(padding<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(in_channel, out_channel, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>InstanceNorm2d(out_channel, affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(out_channel, out_channel, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>InstanceNorm2d(out_channel, affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>conv(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> x
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Encoder</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 3 is for RGB, 1 is for grayscale</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, channels <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">1024</span>]):
+</span></span><span style="display:flex;"><span>        super(Encoder, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>encblocks <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([DualConv(channels[i], channels[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(channels) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)])
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>maxpool2d <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>MaxPool2d(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        output <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> encblock <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>encblocks:
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> encblock(x)
+</span></span><span style="display:flex;"><span>            output<span style="color:#f92672">.</span>append(x)
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>maxpool2d(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> output
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Decoder</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, channels<span style="color:#f92672">=</span>[<span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">64</span>], mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;trans&#34;</span>):
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>channels <span style="color:#f92672">=</span> channels
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;bilinear&#34;</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>upsampling <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([nn<span style="color:#f92672">.</span>Sequential(nn<span style="color:#f92672">.</span>Upsample(scale_factor<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bilinear&#34;</span>, align_corners<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>), 
+</span></span><span style="display:flex;"><span>                                                            nn<span style="color:#f92672">.</span>Conv2d(channels[i], channels[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(channels)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>upsampling <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([nn<span style="color:#f92672">.</span>ConvTranspose2d(channels[i], channels[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(channels)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)])
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>decblocks <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([DualConv(channels[i], channels[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(channels)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)]) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x, encoder_features):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(self<span style="color:#f92672">.</span>channels)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>upsampling[i](x)
+</span></span><span style="display:flex;"><span>            enc_ftrs <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>crop(encoder_features[i], x)
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat([x, enc_ftrs], dim<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>decblocks[i](x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> x
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">crop</span>(self, enc_ftrs, x):
+</span></span><span style="display:flex;"><span>        _, _, H, W <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span>        enc_ftrs   <span style="color:#f92672">=</span> torchvision<span style="color:#f92672">.</span>transforms<span style="color:#f92672">.</span>CenterCrop([H, W])(enc_ftrs)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> enc_ftrs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UNet</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, enc_channels<span style="color:#f92672">=</span>[<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">1024</span>], dec_channels<span style="color:#f92672">=</span>[<span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">64</span>], num_class<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;trans&#34;</span>):
+</span></span><span style="display:flex;"><span>        super(UNet, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>encoder <span style="color:#f92672">=</span> Encoder(channels<span style="color:#f92672">=</span>enc_channels)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>decoder <span style="color:#f92672">=</span> Decoder(channels<span style="color:#f92672">=</span>dec_channels, mode<span style="color:#f92672">=</span>mode)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>output <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(nn<span style="color:#f92672">.</span>Conv2d(dec_channels[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], num_class, <span style="color:#ae81ff">1</span>), nn<span style="color:#f92672">.</span>Sigmoid())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        enc_out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>encoder(x)
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>decoder(enc_out[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>], enc_out[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>:])
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>output(out)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span></code></pre></div><h3 id="generator-g">Generator $G$</h3>
+<p>The gneerator is is a standard encoder-decoder architecture, which can be seperated into three parts:</p>
+<ol>
+<li>down-sampling module</li>
+<li>residual blocks</li>
+<li>up-sampling module</li>
+</ol>
+<p>where it is the <em>GlobalGenerator</em> in pix2pixHD model, focusing on the coarse high-resolution image. In pix2pixHD, they have seconde generator called <em>LocalEnhancer</em>, focusing on the feature encoding and decoding enhancement. The <em>LocalEnhancer</em> is used to refine the image by adding more details to improve the image quality. The input of the <em>GlobalGenerator</em> in pix2pixHD is the downsampled label map $s_{\text{down}}$, and the output is the corse generated image $\hat{x}_{\text{down}}$. With the addition operation with the feature map $Enc_{\text{L}}(s)$: $(Enc_{\text{L}}(s) + \hat{x}_{\text{down}})$, the <em>LocalEnhancer</em> output the final $\hat{x}$.</p>
+<p>In RetiGAN, the simply using the <em>GlobalGenerator</em> as the generator, since the retinal image are more simplier than the image using in pix2pixHD, where the fundus image are all indomain information, thus, using one generator can reduce model complexity.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## ResBlock ##</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ResBlock</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, in_channel):
+</span></span><span style="display:flex;"><span>        super(ResBlock, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>resblock <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(in_channel, in_channel, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>InstanceNorm2d(in_channel),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(in_channel, in_channel, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>InstanceNorm2d(in_channel)
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>resblock(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Generator ##</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GlobalGenerator</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, in_channel<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, out_channel<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, filters<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span>, n_enc<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, n_bottle<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;trans&#34;</span>):
+</span></span><span style="display:flex;"><span>        super(GlobalGenerator, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        encoder <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>in_channel, out_channels<span style="color:#f92672">=</span>filters, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>InstanceNorm2d(filters, affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        ])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_enc):
+</span></span><span style="display:flex;"><span>            multiplier <span style="color:#f92672">=</span> filters <span style="color:#f92672">*</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">**</span> i)
+</span></span><span style="display:flex;"><span>            encoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>multiplier, out_channels<span style="color:#f92672">=</span>multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>))
+</span></span><span style="display:flex;"><span>            encoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>InstanceNorm2d(multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
+</span></span><span style="display:flex;"><span>            encoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        resblocks <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_bottle):
+</span></span><span style="display:flex;"><span>            resblocks<span style="color:#f92672">.</span>append(ResBlock(multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        decoder <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([])
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#multiplier = multiplier * 2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_enc):
+</span></span><span style="display:flex;"><span>            multiplier <span style="color:#f92672">=</span> int(filters <span style="color:#f92672">*</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">**</span> (n_enc <span style="color:#f92672">-</span> i)))
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;trans&#34;</span>:
+</span></span><span style="display:flex;"><span>                decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>ConvTranspose2d(in_channels<span style="color:#f92672">=</span>multiplier, out_channels<span style="color:#f92672">=</span>int(multiplier <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, output_padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;shuffle&#34;</span>:
+</span></span><span style="display:flex;"><span>                decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>multiplier, out_channels<span style="color:#f92672">=</span>int(multiplier <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>), kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>                decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>PixelShuffle(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Upsample(scale_factor<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bilinear&#34;</span>, align_corners<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))
+</span></span><span style="display:flex;"><span>                decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>multiplier, out_channels<span style="color:#f92672">=</span>int(multiplier <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>            decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>InstanceNorm2d(int(multiplier <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
+</span></span><span style="display:flex;"><span>            decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))
+</span></span><span style="display:flex;"><span>        decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>int(multiplier <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), out_channels<span style="color:#f92672">=</span>out_channel, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>))
+</span></span><span style="display:flex;"><span>        decoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Tanh())
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> encoder <span style="color:#f92672">+</span> resblocks <span style="color:#f92672">+</span> decoder
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(<span style="color:#f92672">*</span>model)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LocalEnhancer</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, in_channel<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, out_channel<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, filters<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span>, n_enc<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, n_bottle<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>):
+</span></span><span style="display:flex;"><span>        super(LocalEnhancer, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># G2 Encoder </span>
+</span></span><span style="display:flex;"><span>        encoder <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>in_channel, out_channels<span style="color:#f92672">=</span>int(filters <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>InstanceNorm2d(int(filters <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>),
+</span></span><span style="display:flex;"><span>        ])
+</span></span><span style="display:flex;"><span>        encoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>int(filters <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), out_channels<span style="color:#f92672">=</span>filters, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>))
+</span></span><span style="display:flex;"><span>        encoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>InstanceNorm2d(filters, affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
+</span></span><span style="display:flex;"><span>        encoder<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>ReLU(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>encoder <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(<span style="color:#f92672">*</span>encoder)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># G1 Encoder-Decoder</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>generator <span style="color:#f92672">=</span> GlobalGenerator(in_channel<span style="color:#f92672">=</span>in_channel, out_channel<span style="color:#f92672">=</span>out_channel, filters<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span>, n_enc<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, n_bottle<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>)<span style="color:#f92672">.</span>model[:<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># G2 ResBlock</span>
+</span></span><span style="display:flex;"><span>        resblocks <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>            resblocks<span style="color:#f92672">.</span>append(ResBlock(filters))
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>resblocks <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(<span style="color:#f92672">*</span>resblocks)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># G2 Decoder</span>
+</span></span><span style="display:flex;"><span>        decoder <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ConvTranspose2d(in_channels<span style="color:#f92672">=</span>filters, out_channels<span style="color:#f92672">=</span>int(filters <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, output_padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>int(filters <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), out_channels<span style="color:#f92672">=</span>out_channel, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, padding_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reflect&#34;</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Tanh()
+</span></span><span style="display:flex;"><span>        ])
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>decoder <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(<span style="color:#f92672">*</span>decoder)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Downsampling for G1</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>downsample <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>AvgPool2d(<span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, count_include_pad<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        enc_out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>encoder(x)
+</span></span><span style="display:flex;"><span>        gen_out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>generator(self<span style="color:#f92672">.</span>downsample(x))
+</span></span><span style="display:flex;"><span>        res_out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>resblocks(torch<span style="color:#f92672">.</span>add(enc_out, gen_out))
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>decoder(res_out)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span></code></pre></div><h3 id="discriminator-d">Discriminator $D$</h3>
+<p>The basic idea of the discriminator is following this two equation $D(\hat{s}, \hat{x}) \mapsto \mathbf{0}$, and $D(s, x) \mapsto \mathbf{1}$, where $D$ measures the distance between fake image pairs with zero, and real image pairs with one.</p>
+<p>In this paper (or in pix2pixHD), they adapted the discriminator architecutre proposed by <a href="https://arxiv.org/abs/1611.07004v3">PatchGAN</a>, where the PatchGAN discriminator takes in image patches rather than an entire image. These patches are typically small square regions of the input image, such as 70x70 or 256x256 pixels. The PatchGAN discriminator produces a matrix of scalar values that represent the probability of each patch being real or fake. By operating at the patch level, the PatchGAN discriminator is able to capture more fine-grained details of the image and provide more precise feedback to the generator. This can lead to higher quality image generation.</p>
+<p>Instead of using one discriminator, they use two discriminator, $D_1$ is for the original size images and $D_2$ is for the down-sampled images.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## PatchDiscriminator</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PatchDiscriminator</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, in_channel<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, filters<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span>, n_blocks<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>        super(PatchDiscriminator, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Conv2d(in_channels<span style="color:#f92672">=</span>in_channel, out_channels<span style="color:#f92672">=</span>filters, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>LeakyReLU(<span style="color:#ae81ff">0.2</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        ])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_blocks<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>            multiplier <span style="color:#f92672">=</span> filters <span style="color:#f92672">*</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">**</span> i)
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(multiplier, multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>InstanceNorm2d(multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, affine<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>LeakyReLU(<span style="color:#ae81ff">0.2</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span>, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>append(nn<span style="color:#f92672">.</span>Conv2d(multiplier <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>, kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(<span style="color:#f92672">*</span>self<span style="color:#f92672">.</span>model)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## MultiScaleDiscriminator</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MultiScaleDiscriminator</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    By default, there are three separate sub-discriminator(D1, D2, D3) to generate prediction
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    They all have the same architectures but D2 and D3 operate on inputs downsampled by 2x and 4x, respectively
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, in_channel<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, filters<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span>, n_blocks<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, n_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>        super(MultiScaleDiscriminator, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n_dim <span style="color:#f92672">=</span> n_dim
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>downsample <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>AvgPool2d(kernel_size<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, stride<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, padding<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, count_include_pad<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>        model_template <span style="color:#f92672">=</span> PatchDiscriminator(in_channel<span style="color:#f92672">=</span>in_channel, filters<span style="color:#f92672">=</span>filters, n_blocks<span style="color:#f92672">=</span>n_blocks)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_dim):
+</span></span><span style="display:flex;"><span>            setattr(self, <span style="color:#e6db74">&#34;model</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i), model_template)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>n_dim):
+</span></span><span style="display:flex;"><span>            model <span style="color:#f92672">=</span> getattr(self, <span style="color:#e6db74">&#34;model</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i))
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> i <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>downsample(x)
+</span></span><span style="display:flex;"><span>            out<span style="color:#f92672">.</span>append(model(x))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span></code></pre></div><h3 id="vgg-perceptual-information-extraction">VGG (Perceptual Information Extraction)</h3>
+<p>The VGG architecture consists of a series of convolutional layers with small 3x3 filters, followed by max pooling layers. The number of filters in each convolutional layer is gradually increased as the network gets deeper. The final layers of the network consist of fully connected layers that perform the classification task.</p>
+<p>VGG is often used in conjunction with perceptual loss in deep learning applications, particularly in image synthesis and style transfer tasks.</p>
+<p>Perceptual loss<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> is a type of loss function that is based on the idea of using a pre-trained deep neural network, such as VGG, to measure the similarity between two images. In the context of image synthesis, the goal is to generate an image that is visually similar to a target image. Perceptual loss can be used to measure the difference between the generated image and the target image in terms of their high-level features, such as texture, color, and object structure.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Perception</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Compute the perceptual information based on VGG pretained model 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    </span><span style="color:#ae81ff">\b</span><span style="color:#e6db74">egin{align*}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        \mathcal</span><span style="color:#e6db74">{L}</span><span style="color:#e6db74">_{</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">ext</span><span style="color:#e6db74">{VGG}</span><span style="color:#e6db74">} = \mathbb</span><span style="color:#e6db74">{E}</span><span style="color:#e6db74">_{s,x}\left[\sum_{i=1}^N\dfrac</span><span style="color:#e6db74">{1}{M_i}</span><span style="color:#e6db74">\left|\left|F^i(x) - F^i(G(s))</span><span style="color:#ae81ff">\r</span><span style="color:#e6db74">ight|</span><span style="color:#ae81ff">\r</span><span style="color:#e6db74">ight|_1</span><span style="color:#ae81ff">\r</span><span style="color:#e6db74">ight]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    \end{align*}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        super(Perception, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        vgg19 <span style="color:#f92672">=</span> torchvision<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>vgg19(weights<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DEFAULT&#34;</span>)<span style="color:#f92672">.</span>features
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>models <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([
+</span></span><span style="display:flex;"><span>            vgg19[:<span style="color:#ae81ff">2</span>],
+</span></span><span style="display:flex;"><span>            vgg19[<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">7</span>],
+</span></span><span style="display:flex;"><span>            vgg19[<span style="color:#ae81ff">7</span>:<span style="color:#ae81ff">12</span>],
+</span></span><span style="display:flex;"><span>            vgg19[<span style="color:#ae81ff">12</span>:<span style="color:#ae81ff">21</span>],
+</span></span><span style="display:flex;"><span>            vgg19[<span style="color:#ae81ff">21</span>:<span style="color:#ae81ff">30</span>]
+</span></span><span style="display:flex;"><span>        ])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># no need to update the parameters</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> param <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>parameters():
+</span></span><span style="display:flex;"><span>            param<span style="color:#f92672">.</span>requires_grad <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        out<span style="color:#f92672">.</span>append(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> model <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>models:
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> model(x)
+</span></span><span style="display:flex;"><span>            out<span style="color:#f92672">.</span>append(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span></code></pre></div><h3 id="loss-function">Loss function</h3>
+<p>In general, there are two losses: <em>Generato Loss</em> $\mathcal{L}_G$ and <em>Discriminator Loss</em> $\mathcal{L}_D$.</p>
+<p>The <em>Generator Loss</em> includes these three sub-loss:</p>
+<ol>
+<li>
+<p>Adversarial loss: $\mathcal{L}_{\text{adv}}$: is used to train the generator network by making it generate synthetic data that can fool the discriminator network into thinking that it is real data. The adversarial loss is computed based on the output of the discriminator network.$\mathcal{L}_{\text{adv}}= \left|\left|D(G(s)), 1\right|\right|_2$</p>
+</li>
+<li>
+<p>Feature Matching Loss $\mathcal{L}_{\text{FM}}$: In pix2pixHD, the authors found this to stabilize training. In this case, this forces the generator to produce natural statistics at multiple scales. This feature-matching loss is similar to StyleGAN’s<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> perceptual loss. For some semantic label maps s and corresponding image $x$: $\mathcal{L}_{\text{FM}} = \mathbb{E}_{s,x}\left[\sum_{i=1}^T\dfrac{1}{N_i}\left|\left|D^{(i)}_k(s, x) - D^{(i)}_k(s, G(s))\right|\right|_1\right]$, where $T$ is the total number of layers, $N_i$ is the number of elements at layer $i$ and $D_k^{(i)}$ denotes the $i$-th layer in discriminator $k$.</p>
+</li>
+<li>
+<p>Peceptual Loss $\mathcal{L}_{\text{VGG}}$: In pix2pixHD, the authors report minor performance improvements when adding perceptual loss, formulated as $\mathcal{L}_{\text{VGG}} = \mathbb{E}_{s,x}\left[\sum_{i=1}^N\dfrac{1}{M_i}\left|\left|F^i(x) - F^i(G(s))\right|\right|_1\right]$, where $F^i$ denotes the $i$th layer with $M_i$ elements of the VGG19 network.</p>
+</li>
+</ol>
+<p>Overall, $\mathcal{L}_G = \lambda_0\mathcal{L}_{\text{GAN}} + \lambda_1 \mathcal{L}_{\text{FM}} + \lambda_2 \mathcal{L}_{\text{VGG}}$, where $\lambda_i$ are the parameters.</p>
+<p>The Discriminator Loss in this paper is similar to the PatchGAN’s. However, to solve the blurring and incomplete edges, they include an additional set of images $x_b$ , where $x_b$ are generated by removing precise edges in training images x (Canny edge detector &amp; Gaussian filter). After the smoothed images x_b are included into the training set, the main task for the discriminator is not only to improve the ability of discriminating the generated from the real ones, but also to discriminate the smoothed and the clear ones.</p>
+<p>$\mathcal{L}_D = \mathbb{E}[logD(x)] + \mathbb{E}[log(1 - D(\hat{x}))] + \mathbb{E}[log(1 - D(\hat{x_b}))]$</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## Perceptual Loss</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PerceptualLoss</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    compute perceptual loss with VGG network from both real and fake images (updating the Generator)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, device<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cpu&#34;</span>):
+</span></span><span style="display:flex;"><span>        super(PerceptualLoss, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> Perception()<span style="color:#f92672">.</span>to(device)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>criterion <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>L1Loss()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>LAMBDA <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, predict, target):
+</span></span><span style="display:flex;"><span>        loss <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> real, fake, weight <span style="color:#f92672">in</span> zip(self<span style="color:#f92672">.</span>model(target), self<span style="color:#f92672">.</span>model(predict), self<span style="color:#f92672">.</span>LAMBDA):
+</span></span><span style="display:flex;"><span>            loss <span style="color:#f92672">+=</span> weight <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>criterion(real<span style="color:#f92672">.</span>detach(), fake)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> loss
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Adversarial Loss </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdversarialLoss</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    computes adversarial loss from nested list of fakes outputs from discriminator. (updating the Generator)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        super(AdversarialLoss, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>criterion <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>MSELoss()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, predict, is_real<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
+</span></span><span style="display:flex;"><span>        loss <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>        target <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>ones_like <span style="color:#66d9ef">if</span> is_real <span style="color:#66d9ef">else</span> torch<span style="color:#f92672">.</span>zeros_like
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> preds <span style="color:#f92672">in</span> predict:
+</span></span><span style="display:flex;"><span>            loss <span style="color:#f92672">+=</span> self<span style="color:#f92672">.</span>criterion(preds, target(preds))
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> loss
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FeatureMatchLoss</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Compute feature matching loss from nested lists of fake and real outputs from discriminator. (updating the Ganerator)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    https://proceedings.neurips.cc/paper/2016/file/8a3363abe792db2d8761d6403605aeb7-Paper.pdf
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    </span><span style="color:#ae81ff">\b</span><span style="color:#e6db74">egin{align*}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        \mathcal</span><span style="color:#e6db74">{L}</span><span style="color:#e6db74">_{</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">ext</span><span style="color:#e6db74">{FM}</span><span style="color:#e6db74">} = \mathbb</span><span style="color:#e6db74">{E}</span><span style="color:#e6db74">_{s,x}\left[\sum_{i=1}^T\dfrac</span><span style="color:#e6db74">{1}{N_i}</span><span style="color:#e6db74">\left|\left|D^{(i)}_k(s, x) - D^{(i)}_k(s, G(s))</span><span style="color:#ae81ff">\r</span><span style="color:#e6db74">ight|</span><span style="color:#ae81ff">\r</span><span style="color:#e6db74">ight|_1</span><span style="color:#ae81ff">\r</span><span style="color:#e6db74">ight]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    \end{align*}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        super(FeatureMatchLoss, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>criterion <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>L1Loss()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, predict, target):
+</span></span><span style="display:flex;"><span>        loss <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> real_feature, fake_feature <span style="color:#f92672">in</span> zip(target, predict):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> real, fake <span style="color:#f92672">in</span> zip(real_feature, fake_feature):
+</span></span><span style="display:flex;"><span>                loss <span style="color:#f92672">+=</span> self<span style="color:#f92672">.</span>criterion(real<span style="color:#f92672">.</span>detach(), fake)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> loss
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GeneratorLoss</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Combine the Adversarial-Loss, Feature Maching Loss, and Perceptual Loss together with different weights
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, LAMBDA0<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, LAMBDA1<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, LAMBDA2<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, n_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>        super(GeneratorLoss, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        SCALE <span style="color:#f92672">=</span> LAMBDA0 <span style="color:#f92672">+</span> LAMBDA1 <span style="color:#f92672">+</span> LAMBDA2
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>LAMBDA <span style="color:#f92672">=</span> [LAMBDA0 <span style="color:#f92672">/</span> SCALE, LAMBDA1 <span style="color:#f92672">/</span> SCALE, LAMBDA2 <span style="color:#f92672">/</span> SCALE]
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n_dim <span style="color:#f92672">=</span> n_dim
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>adv_loss <span style="color:#f92672">=</span> AdversarialLoss()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>per_loss <span style="color:#f92672">=</span> PerceptualLoss()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fm_loss <span style="color:#f92672">=</span> FeatureMatchLoss()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, fake, real, predict, target):
+</span></span><span style="display:flex;"><span>        loss <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>LAMBDA[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>adv_loss(predict<span style="color:#f92672">=</span>predict, is_real<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>) <span style="color:#f92672">+</span> \
+</span></span><span style="display:flex;"><span>         self<span style="color:#f92672">.</span>LAMBDA[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>per_loss(predict<span style="color:#f92672">=</span>fake, target<span style="color:#f92672">=</span>real) <span style="color:#f92672">+</span> \
+</span></span><span style="display:flex;"><span>         self<span style="color:#f92672">.</span>LAMBDA[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>fm_loss(predict<span style="color:#f92672">=</span>predict, target<span style="color:#f92672">=</span>target) <span style="color:#f92672">/</span> self<span style="color:#f92672">.</span>n_dim
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> loss
+</span></span></code></pre></div><div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>The U-Net is not a <em>encoder-decoder</em> architecture, as it does not contain a &ldquo;latant&rdquo; layer, however, the shapes are similar, to simply, I just call it as <em>encoder-decoder</em>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>To see more about perceptual loss, you may check <a href="https://arxiv.org/abs/1603.08155">Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://nvlabs.github.io/stylegan2/versions.html">StyleGAN, from 1 to 3</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></section>
+
+  
+  
+  <div class="paginator">
+    
+    <a class="prev" href="https://blog.cklau.cc/post/my-homelab-extra-1/"><span>&larr;&nbsp;&nbsp;</span><span>Homelab: A self-hosted GitHub Accelerator</span></a>
+    
+    
+    <a class="next" href="https://blog.cklau.cc/post/k8s-setup-2/"><span>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</span><span>&nbsp;&nbsp;&rarr;</span></a>
+    
+  </div>
+  
+
+  
+  
+    
+<div class="comments">
+  <script>
+      const getTheme = window.localStorage && window.localStorage.getItem("theme");
+      let theme = getTheme === 'dark' ? 'github-dark' : 'github-light';
+      let s = document.createElement('script');
+      s.src = 'https://utteranc.es/client.js';
+      s.setAttribute('repo', 'TerenceLiu98\/terenceliu98.github.io');
+      s.setAttribute('issue-term', 'url');
+      s.setAttribute('theme', theme);
+      s.setAttribute('crossorigin', 'anonymous');
+      s.setAttribute('async', '');
+      document.querySelector('div.comments').innerHTML = '';
+      document.querySelector('div.comments').appendChild(s);
+  </script>
+</div>
+
+    
+  
+  
+
+<div class="related-resources">
+  <h3>Related Resources</h3>
+  
+    
+    
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+<center>
+  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a>
+️  </p>
+</center>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</a>
+
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="258px" height="328px" viewBox="0 0 258 328" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Untitled</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#000000" transform="translate(179.7578, 174.4163) rotate(50) translate(-179.7578, -174.4163)" x="157.257813" y="91.4163234" width="45" height="166" rx="21.5"></rect>
+        <rect id="Rectangle" fill="#000000" transform="translate(78.7578, 256.4163) rotate(50) translate(-78.7578, -256.4163)" x="56.2578125" y="173.416323" width="45" height="166" rx="21.5"></rect>
+        <rect id="Rectangle" fill="#000000" transform="translate(78.7578, 156.4163) rotate(50) translate(-78.7578, -156.4163)" x="56.2578125" y="73.4163234" width="45" height="166" rx="21.5"></rect>
+        <rect id="Rectangle" fill="#000000" transform="translate(179.7578, 71.4163) rotate(50) translate(-179.7578, -71.4163)" x="157.257813" y="-11.5836766" width="45" height="166" rx="21.5"></rect>
+        <rect id="Rectangle" fill="#000000" x="9" y="174" width="45" height="143" rx="21"></rect>
+        <rect id="Rectangle" fill="#000000" x="205" y="13" width="45" height="143" rx="21"></rect>
+        <rect id="Rectangle" fill="#000000" transform="translate(176.5273, 256.0687) rotate(-50) translate(-176.5273, -256.0687)" x="154.027344" y="173.068667" width="45" height="166" rx="21.5"></rect>
+        <rect id="Rectangle" fill="#000000" transform="translate(176.5273, 156.0687) rotate(-50) translate(-176.5273, -156.0687)" x="154.027344" y="73.0686671" width="45" height="166" rx="21.5"></rect>
+        <rect id="Rectangle" fill="#000000" x="201" y="174" width="45" height="143" rx="21"></rect>
+        <rect id="Rectangle" fill="#000000" x="105" y="93" width="45" height="143" rx="21"></rect>
+    </g>
+</svg>

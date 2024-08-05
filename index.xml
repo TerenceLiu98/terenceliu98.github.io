@@ -10,16 +10,16 @@
     <atom:link href="https://blog.cklau.cc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🔐 Authentik - An alternative of self-hosted Single-Sign-On Module That you might Need </title>
-      <link>https://blog.cklau.cc/post/tech/authentik/</link>
+      <link>https://blog.cklau.cc/post/authentik/</link>
       <pubDate>Mon, 15 Apr 2024 00:12:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/authentik/</guid>
+      <guid>https://blog.cklau.cc/post/authentik/</guid>
       <description>If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.</description>
     </item>
     <item>
       <title>🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image</title>
-      <link>https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/</link>
+      <link>https://blog.cklau.cc/post/scientia/multi-modality/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/machine-learning/multi-modality/</guid>
+      <guid>https://blog.cklau.cc/post/scientia/multi-modality/</guid>
       <description>Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.</description>
     </item>
     <item>
@@ -30,13 +30,6 @@
       <description>Junde Yhi Linux expert, IoT practitioner https://yhi.moe Reijie Deng Full-stack developer https://www.drjchn.com/ Laurence Luo Developer, geek https://www.lzc.app/ ECWU Assistant Instructur, focusing on NLP &amp; Medical imaging research, PhD student in UCD(Ireland) https://ecwuuuuu.com/ Kirin Baka New generation UICHCC bellwether https://9baka.moe/ Junru Zhong PhD candidate in Chinese University of Hong Kong https://junru.dev/ Yifu Qiu PhD candidate in The University of Edinburgh and Cambridge University, 2023 Apple Scholars, Fans of Liverpool https://yfqiu.netlify.app/ Hao Tian Student in BNU-HKBU UIC, studying Media and Communication Studies https://www.</description>
     </item>
     <item>
-      <title> ⚙️ Gadgets</title>
-      <link>https://blog.cklau.cc/gadgets/</link>
-      <pubDate>Mon, 14 Aug 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/gadgets/</guid>
-      <description> Tip&#xA;Here are some tools I used in monitoring my cluster/server or accelerate the image pull&#xA;Service Monitoring：Service Status &amp;amp; Cluster Status Proxy：Mirrors For Container &amp;amp; GitHub Proxy Code Hosting：My self-hosted Git Service </description>
-    </item>
-    <item>
       <title>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</title>
       <link>https://blog.cklau.cc/post/specification/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
@@ -45,79 +38,72 @@
     </item>
     <item>
       <title>Homelab: A self-hosted GitHub Accelerator</title>
-      <link>https://blog.cklau.cc/post/tech/my-homelab-extra-1/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-extra-1/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/my-homelab-extra-1/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid>
       <description></description>
     </item>
     <item>
       <title>🥼 RetiGAN: A GAN-based model on retinal Image synthesis</title>
-      <link>https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/</link>
+      <link>https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/machine-learning/10.1016-j.bspc.2022.104004/</guid>
+      <guid>https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/</guid>
       <description></description>
     </item>
     <item>
       <title>K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title>
-      <link>https://blog.cklau.cc/post/tech/k8s-setup-2/</link>
+      <link>https://blog.cklau.cc/post/k8s-setup-2/</link>
       <pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/k8s-setup-2/</guid>
+      <guid>https://blog.cklau.cc/post/k8s-setup-2/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab: My Distributed Homelab (2)</title>
-      <link>https://blog.cklau.cc/post/tech/my-homelab-6/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-6/</link>
       <pubDate>Tue, 24 Jan 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/my-homelab-6/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-6/</guid>
       <description></description>
     </item>
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
-      <link>https://blog.cklau.cc/post/tech/lnet-3/</link>
+      <link>https://blog.cklau.cc/post/lnet-3/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/lnet-3/</guid>
+      <guid>https://blog.cklau.cc/post/lnet-3/</guid>
       <description></description>
     </item>
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
-      <link>https://blog.cklau.cc/post/tech/lnet-2/</link>
+      <link>https://blog.cklau.cc/post/lnet-2/</link>
       <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/lnet-2/</guid>
+      <guid>https://blog.cklau.cc/post/lnet-2/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab: How to build a AIO home-server</title>
-      <link>https://blog.cklau.cc/post/tech/my-homelab-5/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-5/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/my-homelab-5/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-5/</guid>
       <description></description>
     </item>
     <item>
       <title>K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</title>
-      <link>https://blog.cklau.cc/post/tech/k8s-setup-1/</link>
+      <link>https://blog.cklau.cc/post/k8s-setup-1/</link>
       <pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/k8s-setup-1/</guid>
+      <guid>https://blog.cklau.cc/post/k8s-setup-1/</guid>
       <description></description>
     </item>
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net</title>
-      <link>https://blog.cklau.cc/post/tech/lnet-1/</link>
+      <link>https://blog.cklau.cc/post/lnet-1/</link>
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/lnet-1/</guid>
+      <guid>https://blog.cklau.cc/post/lnet-1/</guid>
       <description></description>
     </item>
     <item>
-      <title>Projects</title>
-      <link>https://blog.cklau.cc/projects/</link>
-      <pubDate>Tue, 04 Oct 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/projects/</guid>
-      <description>Personal Project: My HomeLab and My Cluster These articles are inside my projects: My Disbributed HomeLab and My HA K3s cluster&#xA;Homelab: My Devices Homelab: My Distributed Homelab Homelab: My Network setup Homelab: Don&amp;rsquo;t Let the Docker escape from the ufw&amp;rsquo;s control Homelab: How to build a AIO home-server Homelab: My Distributed Homelab (2) Homelab: A self-hosted GitHub Accelerator Homelab: Authentikc - An alternative of self-hosted SSO Module that you might need K3s/Kubernetes: A quick setup for single machine K3s/Kubernetes: A quick setup for HA K3s/Kubernetes: A self-hosted registry K3s/Kubernetes: How GitOps works - Coming soon K3s/Kubernetes: From K3s to Kubernetes: Set up a Kubernetes in a nutshell K3s/Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm Personal Project: Personal Experimental Network: L-Net These articles are inside my projects: Build a Experimental Network with your VPS</description>
-    </item>
-    <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title>
-      <link>https://blog.cklau.cc/post/tech/k3s-setup-extra-1/</link>
+      <link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link>
       <pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/k3s-setup-extra-1/</guid>
+      <guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid>
       <description></description>
     </item>
     <item>
@@ -129,51 +115,51 @@
     </item>
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</title>
-      <link>https://blog.cklau.cc/post/tech/k3s-setup-2/</link>
+      <link>https://blog.cklau.cc/post/k3s-setup-2/</link>
       <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/k3s-setup-2/</guid>
+      <guid>https://blog.cklau.cc/post/k3s-setup-2/</guid>
       <description></description>
     </item>
     <item>
       <title>K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</title>
-      <link>https://blog.cklau.cc/post/tech/k3s-setup-1/</link>
+      <link>https://blog.cklau.cc/post/k3s-setup-1/</link>
       <pubDate>Sat, 24 Sep 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/k3s-setup-1/</guid>
+      <guid>https://blog.cklau.cc/post/k3s-setup-1/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
-      <link>https://blog.cklau.cc/post/tech/my-homelab-4/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-4/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/my-homelab-4/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-4/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab: My Distributed Homelab</title>
-      <link>https://blog.cklau.cc/post/tech/my-homelab-2/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-2/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/my-homelab-2/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-2/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab: My Network setup</title>
-      <link>https://blog.cklau.cc/post/tech/my-homelab-3/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-3/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/my-homelab-3/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-3/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab: My Devices</title>
-      <link>https://blog.cklau.cc/post/tech/my-homelab-1/</link>
+      <link>https://blog.cklau.cc/post/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/tech/my-homelab-1/</guid>
+      <guid>https://blog.cklau.cc/post/my-homelab-1/</guid>
       <description></description>
     </item>
     <item>
       <title>👨‍💻 Style Transfer and Synthesis (1/3): Style Transfer in Image Synthesis</title>
-      <link>https://blog.cklau.cc/post/scientia/machine-learning/dl-gan-1/</link>
+      <link>https://blog.cklau.cc/post/scientia/dl-gan-1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/machine-learning/dl-gan-1/</guid>
+      <guid>https://blog.cklau.cc/post/scientia/dl-gan-1/</guid>
       <description></description>
     </item>
   </channel>
