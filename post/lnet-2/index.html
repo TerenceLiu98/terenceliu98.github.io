@@ -1,34 +1,24 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>特倫蘇的日與夜</title>
-    <meta charset="utf-8">
-    <meta name="description" content="👨‍💻 My Personal Experimental Network: L-Net 1.1 - 特倫蘇的日與夜">
-    <meta name="author" content="Junjie LIU">
-    <link rel="canonical" href="https://blog.cklau.cc/post/lnet-2/">
-        <meta name="google-site-verification" content="GTM-MC97JQPW">
+<html lang="en">
 
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
-}
-</script>
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>👨‍💻 My Personal Experimental Network: L-Net 1.1 | 特倫蘇的日與夜</title>
+<meta name="title" content="👨‍💻 My Personal Experimental Network: L-Net 1.1" />
+<meta name="description" content="" />
+<meta name="keywords" content="networking,wireguard,BGP,experimental network," />
 
 
-
-    <meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.1" />
+<meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.1" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/lnet-2/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-12-26T00:16:21+08:00" />
-<meta property="article:modified_time" content="2024-08-05T13:43:06+01:00" />
-<meta property="og:see_also" content="https://blog.cklau.cc/post/lnet-3/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/lnet-1/" />
+<meta property="article:modified_time" content="2022-12-26T00:16:21+08:00" />
+
 
 
 
@@ -36,67 +26,257 @@ if (!doNotTrack) {
 <meta name="twitter:description" content=""/>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Post",
-      "item": "https://blog.cklau.cc/post/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "👨‍💻 My Personal Experimental Network: L-Net 1.1",
-      "item": "https://blog.cklau.cc/post/lnet-2/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "👨‍💻 My Personal Experimental Network: L-Net 1.1",
-  "name": "👨‍💻 My Personal Experimental Network: L-Net 1.1",
-  "description": "",
-  "keywords": [
-    "networking", "wireguard", "BGP", "experimental network"
-  ],
-  "articleBody": "Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:\nHere, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192.168.103.0/24. As you can see, I draw three routers in the diagram, but it is four, and I will explain why. For the backbone network, For Mainland China $\\Leftrightarrow$ HKSAR is 10.255.101.0/24, Mainland China $\\Leftrightarrow$ Japan is 10.255.102.0/24 and Japan $\\Leftrightarrow$ HKSAR is 10.255.103.0/24. One more thing, I combine my Singapore server into the “Southeast-Asia-HK“ network as I only have one server in South Asia, and the combination can reduce multiple configurations.\nHOWTO Wireguard Yes, I still use my script wgtools to generate the Wireguard configuration. However, if we try to use iBGP inside the network area, we need to create a star-shaped network and disable changing the routing table. Here is an example:\n################################# #### Configuration of router #### ################################# [Interface] Address = 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128 ListenPort = 51820 PrivateKey = Table = off [Peer] # Name = node-1 PublicKey = AllowedIPs = 192.168.101.2/32,fd4f:3f1f:d743:0:f8e3:c5be:c0fa:dd2f/128 PersistentKeepalive = 25 Endpoint = :51820 [Peer] # Name = node-2 PublicKey = AllowedIPs = 192.168.101.3/32,fd4f:3f1f:d743:0:8174:fd0f:3627:4c50/128 PersistentKeepalive = 25 Endpoint = :51820 ################################# #### Configuration of node-1 #### ################################# [Interface] Address = 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128 ListenPort = 51820 PrivateKey = Table = off [Peer] # Name = router PublicKey = AllowedIPs = 0.0.0.0/0,::/0 PersistentKeepalive = 25 Endpoint = :51820 As you can see that we set Table = off For routers, we need to set the connection to other nodes; for other nodes, we need to set the AllowedIPs = 0.0.0.0/0, ::/0 to allow routing based on the iBGP.\neBGP and iBGP After setting up the Wirewuard, we need to set up the eBGP and iBGP. Let’s set up the iBGP first:\nsudo apt-get install bird2 # install bird2 in both routers and nodes Create template sudo vim /etc/bird/template.conf, by creating a template we can import the template for duplicated setting:\n# https://bird.network.cz/?get_doc define LOCAL_ASN = ; define NET = [] # mark down all the ip in all the net area template bgp tpl_ibgp { local as LOCAL_ASN; # med metric on; path metric on; error wait time 5, 10; # Minimum and maximum delay in seconds between a protocol failure (either local or reported by the peer) and automatic restart. Doesn not apply when disable after error is configured. If consecutive errors happen, the delay is increased exponentially until it reaches the maximum. Default: 60, 300. error forget time 20; # Maximum time in seconds between two protocol failures to treat them as a error sequence which makes error wait time increase exponentially. multihop 1; graceful restart on; ipv4 { import filter { if net ~ NET then accept; reject; }; export filter { if net ~ NET then accept; reject; }; next hop self; gateway recursive; # since we are using multihop we cannot use gateway direct }; } Set up the /etc/bird/bird.conf:\n############# # for router: router id ; include \"/etc/bird/template.conf\"; protocol device { scan time 5; } protocol kernel { ipv4 { import all; export all; }; merge paths on; } protocol direct { ipv4; interface \"\"; } protocol static cn { ipv4; route via \"\"; route via \"\"; } protocol bgp cantor from tpl_ibgp { neighbor internal; rr client; } ############# # for node 1: router id ; include \"/etc/bird/template.conf\"; protocol device { scan time 5; } protocol kernel { ipv4 { import all; export all; }; merge paths on; } protocol direct { ipv4; interface \"\"; } protocol static cn { ipv4; route via \"\"; } protocol bgp cantor from tpl_ibgp { neighbor internal; rr client; } Here you can see that we create a static route between the router and node-1, and this could be seen as the PostUp = ip addr add peer dev %i in Wireguard configuration. After the configuration of bird we can simply use sudo birdc c \u0026\u0026 sudo birc show protocols to check whether the iBGP is established.\nFor the eBGP part, it is similar to the iBGP part, we need a template and settings:\n### At Template in Both router-1 and router-2 # https://bird.network.cz/?get_doc define LOCAL_ASN = ; define NET = [] # mark down all the ip in all the net area template bgp tpl_ebgp { local as LOCAL_ASN; path metric 1; direct; graceful restart on; ipv4 { import filter { if net ~ NET then accept; reject; }; export filter { if net ~ NET then accept; reject; }; next hop self; gateway direct; }; } For the settings:\n############# /etc/bird/bird.conf # for router-1: # ... add a new protocol bgp protocol bgp area1_area_2 from tpl_ebgp { neighbor as router2_ASN; } ############# /etc/bird/bird.conf # for router-2: # ... add a new protocol bgp protocol bgp area_2_area_1 from tpl_ebgp { neighbor as router1_ASN; } After the configuration, we can easily build a link-local and pseudo-link-global network by using the BGP protocol. In these configurations, I use IP address as the filter, you may try ASN as the filter, here is an example,\nfilter FILTER_ASN int set accept_asn; { accept_asn = [area1_ASN, area2_ASN, area3_ASN]; if bgp_path.last ~ accept_asn then { accept; } reject; } template bgp tpl_ebgp { local as LOCAL_ASN; path metric 1; direct; graceful restart on; ipv4 { import filter FILTER_ASN; export filter FILTER_ASN; next hop self; gateway direct; }; } Here are some points you may concern about:\nIf your router is needed to be attached, the backbone network’s CIDR needs to be accepted by the BGP, I try multiple times but I did not fix this issue. Inside a network area, all nodes are in a star topology network and the router is the root node. This means if the router is down, the connections between nodes are also down. You may use wgsd to establish a direct connection inside the network area. Wireguard multiplexing? In the standard Wireguard, each interface corresponds to one port and if we have multiple different settings configuration we may lost in the port selection or just do not remember the which port percisely link to the interface. Under this circumstance, I use gost to aggregate the interfaces’ ports into one port.\n# download the latest version from github wget https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz gzip -d gost-linux-amd64-2.11.4.gz sudo mv gost-linux-amd64-2.11.4 /usr/local/bin/gost \u0026\u0026 sudo chmow +x /usr/local/bin/gost sudo cat \u003e /etc/systemd/system/gost.service \u003c\u003c EOF [Unit] Description=Gost Proxy After=network.target Wants=network.target [Service] Type=simple ExecStart=/usr/local/bin/gost -C /etc/gost/config.json Restart=always [Install] WantedBy=multi-user.target EOF mkdir /etc/gost cat \u003e /etc/gost/config.json \u003c\u003c EOF { \"Debug\": true, \"Retries\": 0, \"ServeNodes\": [ \"udp://:51820/127.0.0.1:51821,127.0.0.1:51822,127.0.0.1:21823\" ] } EOF sudo systemctl enable --now gost Then, we can use 51820 for all three interface’s connection.\n",
-  "wordCount" : "1156",
-  "inLanguage": "en",
-  "datePublished": "2022-12-26T00:16:21+08:00",
-  "dateModified": "2024-08-05T13:43:06+01:00",
-  "author":{
-    "@type": "Person",
-    "name": "Junjie LIU"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://blog.cklau.cc/post/lnet-2/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "特倫蘇的日與夜",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blog.cklau.cc/favicon.ico"
-    }
+
+<meta itemprop="name" content="👨‍💻 My Personal Experimental Network: L-Net 1.1">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2022-12-26T00:16:21+08:00" />
+<meta itemprop="dateModified" content="2022-12-26T00:16:21+08:00" />
+<meta itemprop="wordCount" content="1156">
+<meta itemprop="keywords" content="networking,wireguard,BGP,experimental network," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
   }
-}
-</script>
-    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
 
-<link rel="apple-touch-icon" href="/images/logo.svg">
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
 
-<link rel="manifest" href="/images/logo.svg">
-    
-    
-        <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+
+   
+
+
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
+
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
+
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
@@ -128,129 +308,34 @@ if (!doNotTrack) {
             }
         });
     });
-</script>
-    
+</script></head>
 
-    
-    
-    
-    <link rel="stylesheet" href="/css/main.min.4de88e9c74c966b71943696dedc7f269456bfa7175438e09a90e305a42a99bd8.css" integrity="sha256-TeiOnHTJZrcZQ2lt7cfyaUVr&#43;nF1Q44JqQ4wWkKpm9g=" crossorigin="anonymous" media="screen" />
-    
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
 
+<a href="/post">[Blog]</a>
 
-    
-    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+<a href="/post/scientia">[Scientia]</a>
 
-    
-    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
-    <script>hljs.highlightAll();</script>
+<a href="/friends">[Friends]</a>
 
-    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
-    
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-</head>
-<body><nav class="navigation">
-    <section class="container">
-        <a class="navigation-brand" href="/">
-            CKLAU&#39;s WEBSITE
-        </a>
-        <input type="checkbox" id="menu-toggle" />
-        <label class="menu-button float-right" for="menu-toggle">
-            <span></span><span></span><span></span>
-        </label>
-        
-        <ul class="navigation-list" id="navigation-list">
-            
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post">Blog</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post/scientia">Scientia</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/friends">Friends</a>
-            </li>
-            
-            
-
-            <li class="navigation-item menu-separator">
-                <span>|</span>
-            </li>
-
-            
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
-            </li>
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
-            </li>
-            
-            
-
-            <li class="navigation-item navigation-dark">
-                <button id="mode" type="button" aria-label="toggle user light or dark theme">
-                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
-                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
-                </button>
-            </li>
-
-            
-            
-            
-            
-            
-            
-            
-            <li class="navigation-item navigation-language">
-                <a href="https://blog.cklau.cc/zh/">中</a>
-            </li>
-            
-            
-            
-            
-        </ul>
-        
-    </section>
 </nav>
-<main class="wrapper">
-        <div id="content">
-<article class="blog-single">
-  <header class="blog-title">
-    <h1>👨‍💻 My Personal Experimental Network: L-Net 1.1</h1>
-  </header>
-
-  <p>
-  <small>
-    
-    
-    
-    <u># <a href="https://blog.cklau.cc/tags/networking/">networking</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/wireguard/">wireguard</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/bgp/">BGP</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/experimental-network/">experimental network</a></u>
-    
-  </small>
-  <br>
-  <small>
-    Published On: <u>December 26, 2022</u> (Last updated on: <u>August 5, 2024)</u> <br>
-    1156 words&nbsp;· 6 min</small>
+</header>
+  <main>
+<h1>👨‍💻 My Personal Experimental Network: L-Net 1.1</h1>
+<p>
+  <i>
+    <time datetime='2022-12-26' pubdate>
+      26 Dec, 2022
+    </time>
+  </i>
 </p>
 
-
-
-  <div class="blog-toc">
-    
-  </div>
-
-  <section class="blog-content"><h2 id="before">Before</h2>
+<content>
+  <h2 id="before">Before</h2>
 <p>In the previous project: <a href="https://blog.cklau.cc/post/lnet-1/" title="My Personal Experimental Network">Homelab</a>, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth,  route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:</p>
 <p>Here, as usual, I made three network areas, “East-Asia-CN” is <code>192.168.101.0/24</code> , “Southeast-Asia-HKSAR“ is <code>192.168.102.0/24</code>, and “East-Aisa-JP“ is <code>192.168.103.0/24</code>.  As you can see, I draw three routers in the diagram, but it is four, and I will explain why. For the backbone network, For Mainland China $\Leftrightarrow$ HKSAR is <code>10.255.101.0/24</code>,  Mainland China $\Leftrightarrow$ Japan is <code>10.255.102.0/24</code> and Japan $\Leftrightarrow$ HKSAR  is <code>10.255.103.0/24</code>. One more thing, I combine my Singapore server into the “Southeast-Asia-HK“ network as I only have one server in South Asia, and the combination can reduce multiple configurations.</p>
 <h2 id="howto">HOWTO</h2>
@@ -503,134 +588,37 @@ protocol bgp cantor from tpl_ibgp {
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>sudo systemctl enable --now gost
-</span></span></code></pre></div><p>Then, we can use <code>51820</code> for all three interface&rsquo;s connection.</p></section>
+</span></span></code></pre></div><p>Then, we can use <code>51820</code> for all three interface&rsquo;s connection.</p>
+</content>
 
+<p>
   
+  <a href="https://blog.cklau.cc/tags/networking/">#networking</a>
   
-  <div class="paginator">
-    
-    <a class="prev" href="https://blog.cklau.cc/post/lnet-3/"><span>&larr;&nbsp;&nbsp;</span><span>👨‍💻 My Personal Experimental Network: L-Net 1.2</span></a>
-    
-    
-    <a class="next" href="https://blog.cklau.cc/post/my-homelab-5/"><span>🧑🏿‍💻 Homelab: How to build a AIO home-server</span><span>&nbsp;&nbsp;&rarr;</span></a>
-    
-  </div>
+  <a href="https://blog.cklau.cc/tags/wireguard/">#wireguard</a>
   
+  <a href="https://blog.cklau.cc/tags/bgp/">#BGP</a>
   
+  <a href="https://blog.cklau.cc/tags/experimental-network/">#experimental network</a>
   
-  
+</p>
 
-<div class="related-resources">
-  <h3>Related Resources</h3>
-  
-    
-    
-    
-      <nav>
-        <ul>
-        
-        
-          
-            <li>
-              <a href="/post/lnet-3/">👨‍💻 My Personal Experimental Network: L-Net 1.2</a>
-            </li>
-          
-        
-          
-        
-          
-            <li>
-              <a href="/post/lnet-1/">👨‍💻 My Personal Experimental Network: L-Net</a>
-            </li>
-          
-        
-        </ul>
-      </nav>
-    
-  
-</div>
+  </main>
+  <footer>
 
 
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
 
-  
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/feed" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Tech stack: <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
 
-</article>
-
-        </div>
-      </main><footer class="footer">
-  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
-    
-        <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
-    
-️  </p>
 </footer>
 
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-</a>
+    
+</body>
 
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-</script>
-
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'Copy';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'Copied';
-            setTimeout(() => {
-                copybutton.innerHTML = 'Copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-        codeblock.parentNode.appendChild(copybutton);
-    });
-</script></body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <script>
-      const images = Array.from(document.querySelectorAll(".blog-content img"));
-      images.forEach(img => {
-          mediumZoom(img, {
-              margin: 10,  
-              scrollOffset: 40,  
-              container: null,  
-              template: null,  
-              background: 'rgba(0, 0, 0, 0.5)'
-          });
-      });
-  </script>
-
-  
-  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>
+</html>

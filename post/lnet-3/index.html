@@ -1,34 +1,24 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>特倫蘇的日與夜</title>
-    <meta charset="utf-8">
-    <meta name="description" content="👨‍💻 My Personal Experimental Network: L-Net 1.2 - 特倫蘇的日與夜">
-    <meta name="author" content="Junjie LIU">
-    <link rel="canonical" href="https://blog.cklau.cc/post/lnet-3/">
-        <meta name="google-site-verification" content="GTM-MC97JQPW">
+<html lang="en">
 
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
-}
-</script>
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>👨‍💻 My Personal Experimental Network: L-Net 1.2 | 特倫蘇的日與夜</title>
+<meta name="title" content="👨‍💻 My Personal Experimental Network: L-Net 1.2" />
+<meta name="description" content="" />
+<meta name="keywords" content="networking,wireguard,BGP,experimental network," />
 
 
-
-    <meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.2" />
+<meta property="og:title" content="👨‍💻 My Personal Experimental Network: L-Net 1.2" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/lnet-3/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-01-03T00:16:21+08:00" />
-<meta property="article:modified_time" content="2024-08-05T13:43:06+01:00" />
-<meta property="og:see_also" content="https://blog.cklau.cc/post/lnet-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/lnet-1/" />
+<meta property="article:modified_time" content="2023-01-03T00:16:21+08:00" />
+
 
 
 
@@ -36,67 +26,257 @@ if (!doNotTrack) {
 <meta name="twitter:description" content=""/>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Post",
-      "item": "https://blog.cklau.cc/post/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "👨‍💻 My Personal Experimental Network: L-Net 1.2",
-      "item": "https://blog.cklau.cc/post/lnet-3/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "👨‍💻 My Personal Experimental Network: L-Net 1.2",
-  "name": "👨‍💻 My Personal Experimental Network: L-Net 1.2",
-  "description": "",
-  "keywords": [
-    "networking", "wireguard", "BGP", "experimental network"
-  ],
-  "articleBody": "Before In the previous project: Homelab, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.\nHowever, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.\nVXLAN VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments. It uses a VLAN-like encapsulation technique to encapsulate OSI layer 2 Ethernet frames within layer 4 UDP datagrams, using 4789 as the default IANA-assigned destination UDP port number.\nIn short, it is a extension for VLAN where VLAN only use 12 bit and can only cantains 4094 VLANs, however, VXLAN use 24-bit (VNI, vxlan network identfier) which can allows more vlan as it has a large MAC address tables. However, in my scenario, I build vxlan over wireguard just because vxlan interface is on layer 2 where it contains MAC address which provide more flexibility, e.g. multicast, broadcast, and etc..\nPoint to Point VXLAN Assumes that there are two machines: A wth 192.168.100.100/32 and B with 192.168.100.101/32, and we want to create a overlay CIDR 10.100.0.0/24. To do so, first we need to create the vxlan interface vxlanAB in each machine, assign the ip to the interface and set up the interace:\n# for machine A ip link add vxlanAB type vxlan id 42 dstport 4789 remote 192.168.100.101 local 192.168.100.100 dev eth0 ip addr add 10.100.0.1/24 dev vxlanAB ip link set vxlanAB up # for machine B ip link add vxlanAB type vxlan id 42 dstport 4789 remote 192.168.100.100 local 192.168.100.101 dev eth0 ip addr add 10.100.0.2/24 dev vxlanAB ip link set vxlanAB up # try to ping from A to B ping 10.100.0.2 Multicast VXLAN If we have three machines, A wth 192.168.100.100/32, B with 192.168.100.101/32 and C with 192.168.100.102/32. We can us VXLAN’s multicast for auto dscovery by adding the vtep into the multicast group\n# for machine A ip link add vxlanABC type vxlan id 42 dstport 4789 group 239.1.1.1 dev eth0 ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up # for machine B ip link add vxlanABC type vxlan id 42 dstport 4789 group 239.1.1.1 dev eth0 ip addr add 10.100.0.2/24 dev vxlanABC ip link set vxlanABC up # for machine C ip link add vxlanABC type vxlan id 42 dstport 4789 group 239.1.1.1 dev eth0 ip addr add 10.100.0.3/24 dev vxlanABC ip link set vxlanABC up # try to ping from A to B/C ping 192.168.0.{2, 3} Multicast VXLAN has multiple benefits, for example, auto discovery of other VTEPs shareingthe same multicast group, group bandwidth usage (packets are replaced as late as possible). However, since Wireguard is a Layer 3 tunnel, which means we cannot multicast or broadcast via it. With ifconfig, it shows: wg0: flags=209 mtu 1420. In this way we can only build the tunnel with unicast addresses, which can be easily done by using iproute2. We keep the assumption of machines’ name and ip, and develop a unicast flooding:\nMachine A will send a ARP package asking who is 10.100.0.2 this package will send to all machines’ VTEP # for machine A ip link add vxlanABC type vxlan id 42 dstport 4789 dev eth0 bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up # for machine B ip link add vxlanABC type vxlan id 42 dstport 4789 dev eth0 bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up # for machine C ip link add vxlanABC type vxlan id 42 dstport 4789 dev eth0 bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC ip addr add 10.100.0.1/24 dev vxlanABC ip link set vxlanABC up In this scheme, we set up a unknown-unicast traffic, where a machine recives unicast traffic intended to be delivered to a destination that is not in its forwarding information base, which means every machine in the network will receive the VXLAN message, we can use tcpdump -vni vxlanABC to check this message:\n20:19:56.674410 ARP, Ethernet (len 6), IPv4 (len 4), Request who-has 10.100.0.1 tell 10.100.0.2, length 28 20:19:56.706706 ARP, Ethernet (len 6), IPv4 (len 4), Reply 10.100.0.1 is-at 4e:b8:1f:b5:df:6f, length 28 With this solution, the machine can receives all the MAC-IP to FDB after a while.\nL-Net 1.2 Previously, I set up multiple wireguard tunnels for establishing the backbone network. However, dozen of interfaces is ok but not elegant. Also, if we want to develop a full-mesh network, we need $2n-2$ tunnels for $n$ nodes. With the implemenetation of VXLAN over Wireguard, the underlay full-mesh network(wireguard) can be easily developed.\nIn wireguard configuration, we can use PreUp/PostUp - PreDown/PostDown command to set up ip route before/after the wireguard interface up/down. Thus, we can set up the vxlan configuration inside the wireguard configuration. Under this configuration, we no longer care about the wireguard’s ip addr, instead, we are using the vxlan’s ip addr. Here is an example:\n[Interface] Address = 192.168.228.166/24 ListenPort = 51820 PrivateKey = Table = off PostUp = ip link add v%i type vxlan id 49371 dstport 4789 ttl 1 dev %i PostUp = bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.128 dev v%i PostUp = bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.60 dev v%i PostUp = ip address add 192.168.102.1/24 dev v%i PostUp = ip address add fde9:632e:2c3f:0:62bb:bbe3:3778:37ad/64 dev v%i PostUp = ip link set v%i up PreDown = ip link set v%i down PreDown = ip link delete v%i [Peer] # Name = gauss PublicKey = AllowedIPs = 192.168.228.128/32 PersistentKeepalive = 25 Endpoint = xxx.xxx.xxx.xxx:51820 [Peer] # Name = hilbert PublicKey = AllowedIPs = 192.168.228.60/32 PersistentKeepalive = 25 Endpoint = xxx.xxx.xxx.xxx:51820 Since, the vxlan’s traffic is over wireguard’s interface, intuitively, I use PostUp in the configuration. By following the unicast flooding configuration, we can set up the vxlan inside the wireguard config file. For the router, we can keep iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE in the PostUp as we are trying to use it as the gateway for network traffic.\nBased on the experience above, I modify the wgtools to fit the demands. In the new branch, we did not care about the wireguard’s addr, instead, we focus on the vxlan’s addr. Thus, I just use 192.168.200.0/16 for generate the wg connection. For the rest part are basically the same from the previous.\n",
-  "wordCount" : "1111",
-  "inLanguage": "en",
-  "datePublished": "2023-01-03T00:16:21+08:00",
-  "dateModified": "2024-08-05T13:43:06+01:00",
-  "author":{
-    "@type": "Person",
-    "name": "Junjie LIU"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://blog.cklau.cc/post/lnet-3/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "特倫蘇的日與夜",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blog.cklau.cc/favicon.ico"
-    }
+
+<meta itemprop="name" content="👨‍💻 My Personal Experimental Network: L-Net 1.2">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-01-03T00:16:21+08:00" />
+<meta itemprop="dateModified" content="2023-01-03T00:16:21+08:00" />
+<meta itemprop="wordCount" content="1111">
+<meta itemprop="keywords" content="networking,wireguard,BGP,experimental network," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
   }
-}
-</script>
-    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
 
-<link rel="apple-touch-icon" href="/images/logo.svg">
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
 
-<link rel="manifest" href="/images/logo.svg">
-    
-    
-        <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+
+   
+
+
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
+
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
+
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
@@ -128,129 +308,34 @@ if (!doNotTrack) {
             }
         });
     });
-</script>
-    
+</script></head>
 
-    
-    
-    
-    <link rel="stylesheet" href="/css/main.min.4de88e9c74c966b71943696dedc7f269456bfa7175438e09a90e305a42a99bd8.css" integrity="sha256-TeiOnHTJZrcZQ2lt7cfyaUVr&#43;nF1Q44JqQ4wWkKpm9g=" crossorigin="anonymous" media="screen" />
-    
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
 
+<a href="/post">[Blog]</a>
 
-    
-    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+<a href="/post/scientia">[Scientia]</a>
 
-    
-    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
-    <script>hljs.highlightAll();</script>
+<a href="/friends">[Friends]</a>
 
-    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
-    
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-</head>
-<body><nav class="navigation">
-    <section class="container">
-        <a class="navigation-brand" href="/">
-            CKLAU&#39;s WEBSITE
-        </a>
-        <input type="checkbox" id="menu-toggle" />
-        <label class="menu-button float-right" for="menu-toggle">
-            <span></span><span></span><span></span>
-        </label>
-        
-        <ul class="navigation-list" id="navigation-list">
-            
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post">Blog</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post/scientia">Scientia</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/friends">Friends</a>
-            </li>
-            
-            
-
-            <li class="navigation-item menu-separator">
-                <span>|</span>
-            </li>
-
-            
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
-            </li>
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
-            </li>
-            
-            
-
-            <li class="navigation-item navigation-dark">
-                <button id="mode" type="button" aria-label="toggle user light or dark theme">
-                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
-                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
-                </button>
-            </li>
-
-            
-            
-            
-            
-            
-            
-            
-            <li class="navigation-item navigation-language">
-                <a href="https://blog.cklau.cc/zh/">中</a>
-            </li>
-            
-            
-            
-            
-        </ul>
-        
-    </section>
 </nav>
-<main class="wrapper">
-        <div id="content">
-<article class="blog-single">
-  <header class="blog-title">
-    <h1>👨‍💻 My Personal Experimental Network: L-Net 1.2</h1>
-  </header>
-
-  <p>
-  <small>
-    
-    
-    
-    <u># <a href="https://blog.cklau.cc/tags/networking/">networking</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/wireguard/">wireguard</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/bgp/">BGP</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/experimental-network/">experimental network</a></u>
-    
-  </small>
-  <br>
-  <small>
-    Published On: <u>January 3, 2023</u> (Last updated on: <u>August 5, 2024)</u> <br>
-    1111 words&nbsp;· 6 min</small>
+</header>
+  <main>
+<h1>👨‍💻 My Personal Experimental Network: L-Net 1.2</h1>
+<p>
+  <i>
+    <time datetime='2023-01-03' pubdate>
+      03 Jan, 2023
+    </time>
+  </i>
 </p>
 
-
-
-  <div class="blog-toc">
-    
-  </div>
-
-  <section class="blog-content"><h2 id="before">Before</h2>
+<content>
+  <h2 id="before">Before</h2>
 <p>In the previous project: <a href="https://blog.cklau.cc/post/lnet-2/" title="My Personal Experimental Network">Homelab</a>, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.</p>
 <p>However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.</p>
 <h2 id="vxlan">VXLAN</h2>
@@ -352,134 +437,37 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
 </span></span><span style="display:flex;"><span>Endpoint <span style="color:#f92672">=</span> xxx.xxx.xxx.xxx:51820
 </span></span></code></pre></div><p>Since, the vxlan&rsquo;s traffic is over wireguard&rsquo;s interface, intuitively, I use <code>PostUp</code> in the configuration. By following the <em>unicast flooding</em> configuration, we can set up the vxlan inside the wireguard config file. For the router, we can keep <code>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</code> in the <code>PostUp</code> as we are trying to use it as the gateway for network traffic.</p>
-<p>Based on the experience above, I modify the <a href="https://github.com/TerenceLiu98/wgtools/tree/vxlan">wgtools</a> to fit the demands. In the new branch, we did not care about the wireguard&rsquo;s addr, instead, we focus on the vxlan&rsquo;s addr. Thus, I just use <code>192.168.200.0/16</code> for generate the wg connection. For the rest part are basically the same from the previous.</p></section>
+<p>Based on the experience above, I modify the <a href="https://github.com/TerenceLiu98/wgtools/tree/vxlan">wgtools</a> to fit the demands. In the new branch, we did not care about the wireguard&rsquo;s addr, instead, we focus on the vxlan&rsquo;s addr. Thus, I just use <code>192.168.200.0/16</code> for generate the wg connection. For the rest part are basically the same from the previous.</p>
+</content>
 
+<p>
   
+  <a href="https://blog.cklau.cc/tags/networking/">#networking</a>
   
-  <div class="paginator">
-    
-    <a class="prev" href="https://blog.cklau.cc/post/my-homelab-6/"><span>&larr;&nbsp;&nbsp;</span><span>🧑🏿‍💻 Homelab: My Distributed Homelab (2)</span></a>
-    
-    
-    <a class="next" href="https://blog.cklau.cc/post/lnet-2/"><span>👨‍💻 My Personal Experimental Network: L-Net 1.1</span><span>&nbsp;&nbsp;&rarr;</span></a>
-    
-  </div>
+  <a href="https://blog.cklau.cc/tags/wireguard/">#wireguard</a>
   
+  <a href="https://blog.cklau.cc/tags/bgp/">#BGP</a>
   
+  <a href="https://blog.cklau.cc/tags/experimental-network/">#experimental network</a>
   
-  
+</p>
 
-<div class="related-resources">
-  <h3>Related Resources</h3>
-  
-    
-    
-    
-      <nav>
-        <ul>
-        
-        
-          
-        
-          
-            <li>
-              <a href="/post/lnet-2/">👨‍💻 My Personal Experimental Network: L-Net 1.1</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/lnet-1/">👨‍💻 My Personal Experimental Network: L-Net</a>
-            </li>
-          
-        
-        </ul>
-      </nav>
-    
-  
-</div>
+  </main>
+  <footer>
 
 
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
 
-  
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/feed" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Tech stack: <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
 
-</article>
-
-        </div>
-      </main><footer class="footer">
-  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
-    
-        <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
-    
-️  </p>
 </footer>
 
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-</a>
+    
+</body>
 
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-</script>
-
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'Copy';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'Copied';
-            setTimeout(() => {
-                copybutton.innerHTML = 'Copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-        codeblock.parentNode.appendChild(copybutton);
-    });
-</script></body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <script>
-      const images = Array.from(document.querySelectorAll(".blog-content img"));
-      images.forEach(img => {
-          mediumZoom(img, {
-              margin: 10,  
-              scrollOffset: 40,  
-              container: null,  
-              template: null,  
-              background: 'rgba(0, 0, 0, 0.5)'
-          });
-      });
-  </script>
-
-  
-  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>
+</html>

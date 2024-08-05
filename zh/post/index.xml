@@ -2,79 +2,79 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>文章 on 特倫蘇的日與夜</title>
-    <link>https://blog.cklau.cc/zh/post/</link>
+    <link>http://localhost:1313/zh/post/</link>
     <description>Recent content in 文章 on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <atom:link href="https://blog.cklau.cc/zh/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/zh/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🛜 境内外 CDN 分流配置</title>
-      <link>https://blog.cklau.cc/zh/post/cdn-divertor/</link>
+      <link>http://localhost:1313/zh/post/cdn-divertor/</link>
       <pubDate>Mon, 29 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/cdn-divertor/</guid>
+      <guid>http://localhost:1313/zh/post/cdn-divertor/</guid>
       <description>&lt;p&gt;本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。&lt;/p&gt;</description>
     </item>
     <item>
       <title>💻 从白苹果到黑苹果 - SER5 MAX 的骇金塔之旅</title>
-      <link>https://blog.cklau.cc/zh/post/hackintosh/</link>
+      <link>http://localhost:1313/zh/post/hackintosh/</link>
       <pubDate>Thu, 18 Jan 2024 00:12:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/hackintosh/</guid>
+      <guid>http://localhost:1313/zh/post/hackintosh/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;💡 For learning and communication purposes only. Commercial use is strictly prohibited.&lt;/p&gt;&#xA;&lt;p&gt;💡 此文为技术实践记录和个人学习用途，并在实验后卸载及删除相关文件，包括且不限 EFI 文件和镜像。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;一台-mini-pc&#34;&gt;一台 mini PC&lt;/h2&gt;&#xA;&lt;p&gt;笔者目前的工作和生活在不知不觉之中已经浸润在 iOS + iPadOS + macOS 之中，「搞机多年，归来仍是 Apple」在当年的我看来似乎未来是会一定的，也亦然实现了。而苹果公司的「金内存，银固态」策略让我这个收入尚不如 Homeless 的人抬不起头。不得已，在互联网冲浪中，冥冥之中，让我看到了这一台 mini PC：Beelink SER5 MAX，由零刻公司开发的一台巴掌小主机。具体配置如下: AMD Ryzen 7 5800H + 32GB DDR4 + 1T NVME SSD，作为一个懒人，并没有购买准系统，而 32GB 已经可以满足个人日常使用。至于系统的选择，如果可以和笔者其他设备进行「十物互联」那便是最好的&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。从这里，引出了 Hackintosh。&lt;/p&gt;</description>
     </item>
     <item>
       <title>👨‍🎓 读多少书和学多少习</title>
-      <link>https://blog.cklau.cc/zh/post/edu-in-child/</link>
+      <link>http://localhost:1313/zh/post/edu-in-child/</link>
       <pubDate>Sun, 03 Dec 2023 23:58:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/edu-in-child/</guid>
+      <guid>http://localhost:1313/zh/post/edu-in-child/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;有两种读书：一种是职业的读书，一种是嗜好的读书。大多数人的阅读，属于后者。 &amp;ndash; 鲁迅&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>📻 收音机，你还能活多久</title>
-      <link>https://blog.cklau.cc/zh/post/podcast/</link>
+      <link>http://localhost:1313/zh/post/podcast/</link>
       <pubDate>Sun, 15 Oct 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/podcast/</guid>
+      <guid>http://localhost:1313/zh/post/podcast/</guid>
       <description>&lt;p&gt;初中开始，广播就伴随着我的很多个日日夜夜，虽然当时的我不太懂什么是「壮阳药」、「男性永远的痛」，「三个疗程就见效」，但是我大概知道了广播是在没落了。&lt;/p&gt;</description>
     </item>
     <item>
       <title>📘 从理科到文科 - 2023 Fall 小记</title>
-      <link>https://blog.cklau.cc/zh/post/phd-application/</link>
+      <link>http://localhost:1313/zh/post/phd-application/</link>
       <pubDate>Sat, 03 Jun 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/phd-application/</guid>
+      <guid>http://localhost:1313/zh/post/phd-application/</guid>
       <description>&lt;p&gt;2023 Fall 申请算是落下帷幕，从一开始打算留在 UIC/HKBU 继续做 Medical Image 和 Mathematical Modelling 到现在准备前往 Trinity College Dublin 做 Political Science，也在此总结一下这一年的流程。&lt;/p&gt;</description>
     </item>
     <item>
       <title>社群的生老病死</title>
-      <link>https://blog.cklau.cc/zh/post/hcc-survival-die/</link>
+      <link>http://localhost:1313/zh/post/hcc-survival-die/</link>
       <pubDate>Thu, 05 Aug 2021 05:58:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/hcc-survival-die/</guid>
+      <guid>http://localhost:1313/zh/post/hcc-survival-die/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;筆者注：人生百態並不是“勸喻”大家看開後躺平，而是看遍百態，依然保持向光的希望。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>2020 小结</title>
-      <link>https://blog.cklau.cc/zh/post/summary-2020/</link>
+      <link>http://localhost:1313/zh/post/summary-2020/</link>
       <pubDate>Sat, 02 Jan 2021 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/summary-2020/</guid>
+      <guid>http://localhost:1313/zh/post/summary-2020/</guid>
       <description>&lt;p&gt;2021/01/02，突然想写下 2020 的总结，也不能算是总结，流水一下，记录 2020 的“悲惨”人生。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2019 小结</title>
-      <link>https://blog.cklau.cc/zh/post/summary-2019/</link>
+      <link>http://localhost:1313/zh/post/summary-2019/</link>
       <pubDate>Sat, 28 Dec 2019 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/summary-2019/</guid>
+      <guid>http://localhost:1313/zh/post/summary-2019/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;己亥为干支之一，顺序为第36个。前一位是戊戌，后一位是庚子。論陰陽五行，天干之己屬陰之土，地支之亥屬陰之水，是土尅水相尅。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>⚖️ 題目暫定為胡言亂語之何謂公平</title>
-      <link>https://blog.cklau.cc/zh/post/not-fair/</link>
+      <link>http://localhost:1313/zh/post/not-fair/</link>
       <pubDate>Mon, 20 Aug 2018 00:10:44 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/not-fair/</guid>
+      <guid>http://localhost:1313/zh/post/not-fair/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;社會本身是不公平的，爭取的就只是相對公平，從來沒有絕對公平。劉少奇曾經講過：分配問題是長期性的問題，是社會主義社會的制度上產生的新的問題。——社會主義制度下的分配問題（一九五七年三月二十四日）&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>我们的目标： 没有蛀牙 - 2017 小結</title>
-      <link>https://blog.cklau.cc/zh/post/summary-2017/</link>
+      <link>http://localhost:1313/zh/post/summary-2017/</link>
       <pubDate>Wed, 27 Dec 2017 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/summary-2017/</guid>
+      <guid>http://localhost:1313/zh/post/summary-2017/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;筆者註：本文為開始公眾號後的第一個年度小結&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;這個公眾號已經活了 161 天了。&lt;/p&gt;&#xA;&lt;p&gt;2017年7月19日，第一篇文章《日與夜》的推送，到今天的這一條《我們的目標》應該已有十三篇了，其中有關於自己的，也有關於 ingress 的； 大都是自己對外界的看法。&lt;/p&gt;&#xA;&lt;p&gt;年末了，作為一個完全沒有知名度的個人公眾號，照例該做一下年總總結。&lt;/p&gt;</description>
     </item>
   </channel>

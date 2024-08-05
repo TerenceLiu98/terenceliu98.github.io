@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>homelab on 特倫蘇的日與夜</title>
-    <link>https://blog.cklau.cc/series/homelab/</link>
-    <description>Recent content in homelab on 特倫蘇的日與夜</description>
+    <title>Homelab on 特倫蘇的日與夜</title>
+    <link>http://localhost:1313/series/homelab/</link>
+    <description>Recent content in Homelab on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate>
-    <atom:link href="https://blog.cklau.cc/series/homelab/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Aug 2024 14:54:54 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/series/homelab/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</title>
-      <link>https://blog.cklau.cc/post/my-homelab-extra-1/</link>
+      <link>http://localhost:1313/post/my-homelab-extra-1/</link>
       <pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/my-homelab-extra-1/</guid>
+      <description>In general, there are multiple ways for you to accelerate the git pull / git push or download the release/source code from GitHub:&#xA;You may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port] You may use a public github-proxy, e.g. ghproxy.com or gh-proxy.com You can also build a self-hosted ghproxy-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:</description>
     </item>
     <item>
       <title>🧑🏿‍💻 Homelab: My Distributed Homelab (2)</title>
-      <link>https://blog.cklau.cc/post/my-homelab-6/</link>
+      <link>http://localhost:1313/post/my-homelab-6/</link>
       <pubDate>Tue, 24 Jan 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/my-homelab-6/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/my-homelab-6/</guid>
+      <description>Before I built a distributed Homelab, which is not good enough, where I set up multiple endpoints to forfill the connection of Mainland China&amp;rsquo;s connection and other countries&amp;rsquo; with two CDN (Tencent CDN and Cloudflare) The network bottleneck is in the BGP router, where the machine in GZ is only 6Mbps Distributed storage, but not connected Some of them are running Docker, and some are running K3s, which is not</description>
     </item>
     <item>
       <title>🧑🏿‍💻 Homelab: How to build a AIO home-server</title>
-      <link>https://blog.cklau.cc/post/my-homelab-5/</link>
+      <link>http://localhost:1313/post/my-homelab-5/</link>
       <pubDate>Mon, 24 Oct 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/my-homelab-5/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/my-homelab-5/</guid>
+      <description>Before I buy this machine for multiple reasons, but must importantly, the previous NAS is built on a very old machine and the disk are &amp;ldquo;second-hand&amp;rdquo;, thus, I am not sure the stability of the old guy. And I got my bonus of the previous project, so I just spent the money on this bunch of hardware. For this time, I don&amp;rsquo;t want it be a pure NAS, and it should be a ALL-IN-ONE machine.</description>
     </item>
     <item>
       <title>🧑🏿‍💻 Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</title>
-      <link>https://blog.cklau.cc/post/my-homelab-4/</link>
+      <link>http://localhost:1313/post/my-homelab-4/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/my-homelab-4/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/my-homelab-4/</guid>
+      <description>&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.&#xA;Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:&#xA;ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports.</description>
     </item>
     <item>
       <title>🧑🏿‍💻 Homelab: My Distributed Homelab</title>
-      <link>https://blog.cklau.cc/post/my-homelab-2/</link>
+      <link>http://localhost:1313/post/my-homelab-2/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/my-homelab-2/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/my-homelab-2/</guid>
+      <description>Networking For the homelab, I would like to choose a commerical company&amp;rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&amp;rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.&#xA;Service For the homelab, I would like to docker as it is very covinence and can set up easily.</description>
     </item>
     <item>
       <title>🧑🏿‍💻 Homelab: My Network setup</title>
-      <link>https://blog.cklau.cc/post/my-homelab-3/</link>
+      <link>http://localhost:1313/post/my-homelab-3/</link>
       <pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/my-homelab-3/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/my-homelab-3/</guid>
+      <description>In General Tools I use I choose Wireguard since it’s fast because of its light design, and it’s secure because it uses the best cryptographic tools available. However, for each time, the user may need to consider a SUBNET for the wireguard and a IP for each node, for me, it is every annoyed, as I have too many subnet need to be configured. Thus, I build a little tool: wgtools</description>
     </item>
     <item>
       <title>🧑🏿‍💻 Homelab: My Devices</title>
-      <link>https://blog.cklau.cc/post/my-homelab-1/</link>
+      <link>http://localhost:1313/post/my-homelab-1/</link>
       <pubDate>Wed, 20 Jul 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/my-homelab-1/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/my-homelab-1/</guid>
+      <description>For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.&#xA;Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.</description>
     </item>
   </channel>
 </rss>

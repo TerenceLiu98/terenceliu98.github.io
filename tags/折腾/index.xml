@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>折腾 | 特倫蘇的日與夜</title>
+    <link>https://blog.cklau.cc/tags/%E6%8A%98%E8%85%BE/</link>
+      <atom:link href="https://blog.cklau.cc/tags/%E6%8A%98%E8%85%BE/index.xml" rel="self" type="application/rss+xml" />
+    <description>折腾</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Thu, 18 Jan 2024 00:12:00 +0000</lastBuildDate>
+    <item>
+      <title>💻 从白苹果到黑苹果 - SER5 MAX 的骇金塔之旅</title>
+      <link>https://blog.cklau.cc/post/hackintosh.zh/</link>
+      <pubDate>Thu, 18 Jan 2024 00:12:00 +0000</pubDate>
+      <guid>https://blog.cklau.cc/post/hackintosh.zh/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;💡 For learning and communication purposes only. Commercial use is strictly prohibited.&lt;/p&gt;
+&lt;p&gt;💡 此文为技术实践记录和个人学习用途，并在实验后卸载及删除相关文件，包括且不限 EFI 文件和镜像。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;一台-mini-pc&#34;&gt;一台 mini PC&lt;/h2&gt;
+&lt;p&gt;笔者目前的工作和生活在不知不觉之中已经浸润在 iOS + iPadOS + macOS 之中，「搞机多年，归来仍是 Apple」在当年的我看来似乎未来是会一定的，也亦然实现了。而苹果公司的「金内存，银固态」策略让我这个收入尚不如 Homeless 的人抬不起头。不得已，在互联网冲浪中，冥冥之中，让我看到了这一台 mini PC：Beelink SER5 MAX，由零刻公司开发的一台巴掌小主机。具体配置如下: AMD Ryzen 7 5800H + 32GB DDR4 + 1T NVME SSD，作为一个懒人，并没有购买准系统，而 32GB 已经可以满足个人日常使用。至于系统的选择，如果可以和笔者其他设备进行「十物互联」那便是最好的&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。从这里，引出了 Hackintosh。&lt;/p&gt;
+&lt;h2 id=&#34;如何赶上潮流&#34;&gt;如何赶上潮流&lt;/h2&gt;
+&lt;p&gt;「黑苹果」是指在一台没有苹果 Logo 的电脑上运行麦金塔系统的行为，历史详见这里：&lt;a href=&#34;https://zh.wikipedia.org/wiki/Hackintosh&#34;&gt;Hackintosh&lt;/a&gt;。根据「型号 + 黑苹果」的关键词进行搜索，我找到了一系列大多是在 2023 年中前期发布的文章和视频，我根据其中总结出几个字：可以装但是不算好用。顺藤摸瓜，我找到了黑苹果“总部”：&lt;a href=&#34;https://blog.daliansky.net/&#34;&gt;黑果小兵的部落阁&lt;/a&gt;。在大致了解了黑苹果的安装方式后，我果断选择了最稳妥的方式，下载别人制作好的带 EFI 的镜像，Big Sur 的系统似乎也不太古早，也足够使用。&lt;/p&gt;
+&lt;p&gt;在一系列折腾后，Big Sur 已经满足不了我的使用了，比如，因为人在海外，并不太能很方便的购入网络摄像头&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，所以，乘着苹果的&lt;a href=&#34;https://support.apple.com/en-gb/102546&#34;&gt;春风&lt;/a&gt;，我把 Big Sur 升级到了 Ventura&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;。这样以来，我就可以使用我的 iPhone 作为网络摄像头用来开会&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;。在升级的过程中，实际上也是遇到了一些阻滞，比如一开始我是想从从 Big Sur 升级到 Monterey，但是在使用 OC Auxiliary Tool 更新完 OpenCore 和 Kext 后发现我没有办法在启动 Monterey 勾选 &lt;a href=&#34;https://chefkissinc.github.io/nred/&#34;&gt;NootedRed&lt;/a&gt;，这可不太好，因为失去了核显就等于失去了所有。在一顿折腾后，我决定尝试一下 Ventura 如果不行的话，就待在 Big Sur 算了。&lt;/p&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料&lt;/h2&gt;
+&lt;p&gt;所有的参考资料均来自互联网，详见下面的附件栏。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;「十物互联」是本人魔改的词汇，意指个人的电子设备可以相互连接。&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;也不想因为这个而买一个低分辨率的摄像头&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;即便 Ventura 的部分操作逻辑真的不像是电脑，我也决定忍受。&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;虽然至今不理解为什么鬼佬喜欢开会喜欢开摄像头，脸和肢体语言不是最重要的好吗。&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

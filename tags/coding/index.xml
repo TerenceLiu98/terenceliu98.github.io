@@ -1,19 +1,235 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Coding on 特倫蘇的日與夜</title>
+    <title>Coding | 特倫蘇的日與夜</title>
     <link>https://blog.cklau.cc/tags/coding/</link>
-    <description>Recent content in Coding on 特倫蘇的日與夜</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate>
-    <atom:link href="https://blog.cklau.cc/tags/coding/index.xml" rel="self" type="application/rss+xml" />
+      <atom:link href="https://blog.cklau.cc/tags/coding/index.xml" rel="self" type="application/rss+xml" />
+    <description>Coding</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate>
     <item>
       <title>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</title>
       <link>https://blog.cklau.cc/post/specification/</link>
       <pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate>
       <guid>https://blog.cklau.cc/post/specification/</guid>
-      <description>&lt;p&gt;There are multiple articles have illustruated that the project(code) management is important:&lt;/p&gt;</description>
+      <description>&lt;p&gt;There are multiple articles have illustruated that the project(code) management is important:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://neptune.ai/blog/how-to-organize-deep-learning-projects-best-practices&#34;&gt;neptune.ai - how to organize deep learning projects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.zhihu.com/question/269707221/answer/350542551&#34;&gt;深度学习科研，如何高效进行代码和实验管理？&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In this guideline, I would mainly shows you how I manage my project&amp;rsquo;s code and link the new knowledge to the knowledge base.&lt;/p&gt;
+&lt;h2 id=&#34;in-general&#34;&gt;In General&lt;/h2&gt;
+&lt;p&gt;A lifecyle of a project may includes this five points&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Planning and project setup
+&lt;ul&gt;
+&lt;li&gt;Define the task and scope out requirements&lt;/li&gt;
+&lt;li&gt;Determine project feasibility&lt;/li&gt;
+&lt;li&gt;Discuss general model tradeoffs (accuracy vs speed)&lt;/li&gt;
+&lt;li&gt;Set up project codebase&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Data collection and labelling
+&lt;ul&gt;
+&lt;li&gt;Define ground truth (create labeling documentation)&lt;/li&gt;
+&lt;li&gt;Build data ingestion pipeline&lt;/li&gt;
+&lt;li&gt;Validate quality of data&lt;/li&gt;
+&lt;li&gt;Label data and ensure ground truth is well-definend&lt;/li&gt;
+&lt;li&gt;Revisit Step 1 and ensure data is sufficient for the task&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Model exploration
+&lt;ul&gt;
+&lt;li&gt;Establish baselines for model performance&lt;/li&gt;
+&lt;li&gt;Start with a simple model using initial data pipeline&lt;/li&gt;
+&lt;li&gt;Overfit simple model to training data&lt;/li&gt;
+&lt;li&gt;Stay nimble and try many parallel (isolated) ideas during early stages&lt;/li&gt;
+&lt;li&gt;Find SoTA model for your problem domain (if available) and reproduce results, then apply to your dataset as a second baseline&lt;/li&gt;
+&lt;li&gt;Revisit Step 1 and ensure feasibility&lt;/li&gt;
+&lt;li&gt;Revisit Step 2 and ensure data quality is sufficient&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Model refinement
+&lt;ul&gt;
+&lt;li&gt;Perform model-specific optimizations (ie. hyperparameter tuning)&lt;/li&gt;
+&lt;li&gt;Iteratively debug model as complexity is added&lt;/li&gt;
+&lt;li&gt;Perform error analysis to uncover common failure modes&lt;/li&gt;
+&lt;li&gt;Revisit Step 2 for targeted data collection and labeling of observed failure modes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Testing and evaluation
+&lt;ul&gt;
+&lt;li&gt;Evaluate model on test distribution; understand differences between train and test set distributions (how is “data in the wild” different than what you trained on)&lt;/li&gt;
+&lt;li&gt;Revisit model evaluation metric; ensure that this metric drives desirable downstream user behavior&lt;/li&gt;
+&lt;li&gt;Write tests for:
+&lt;ul&gt;
+&lt;li&gt;Input data pipeline&lt;/li&gt;
+&lt;li&gt;Model inference functionality&lt;/li&gt;
+&lt;li&gt;Model inference performance on validation data&lt;/li&gt;
+&lt;li&gt;Explicit scenarios expected in production (model is evaluated on a curated set of observations)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For each part of the project, there are multiple different tools we may use:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Planning and project step, in specific, it could be treated as the project tracking, thus, all the tracking tools can be used in the step, e.g., Confluence, YouTrack, Jira, Trello, etc..&lt;/li&gt;
+&lt;li&gt;Data collection and labelling: If we are using the public dataset, we may ignore the labelling problem; however, if we are collecting and labelling our own dataset, we may consider these &lt;a href=&#34;https://github.com/HumanSignal/awesome-data-labeling&#34;&gt;awesome-labelling-tools&lt;/a&gt;; the next question for the data storage and collection is the versioning problem, we may consider these tools:
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://neptune.ai/&#34;&gt;Neptune&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wandb.ai/&#34;&gt;WandB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://dvc.org/&#34;&gt;DVC&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://lakefs.io/&#34;&gt;LakeFS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://git-lfs.com/&#34;&gt;Git LFS&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Log tracing
+&lt;ol&gt;
+&lt;li&gt;We can use &lt;code&gt;loggings&lt;/code&gt; or &lt;code&gt;tensorboard&lt;/code&gt; to store the log to the local directory&lt;/li&gt;
+&lt;li&gt;We can also use &lt;code&gt;wandb&lt;/code&gt;, &lt;code&gt;neptune&lt;/code&gt; and other tools to store the log to both the local directory or the cloud&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;project-specification&#34;&gt;Project Specification&lt;/h2&gt;
+&lt;p&gt;The project specification includes two aspects:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;project files specification&lt;/li&gt;
+&lt;li&gt;git branche specification&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;project-files-specification&#34;&gt;Project files Specification&lt;/h3&gt;
+&lt;p&gt;Here is the architecuture of a project&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Files/Catalogue&lt;/th&gt;
+&lt;th&gt;Detail&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;README.md&lt;/td&gt;
+&lt;td&gt;Instruction of the project and the folder architecture&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;train.py&lt;/td&gt;
+&lt;td&gt;Model Traning and Validation&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;test.py&lt;/td&gt;
+&lt;td&gt;Model Testing&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;src/{model-name}.py&lt;/td&gt;
+&lt;td&gt;Statement and Source code of the Model (For single model)&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;src/{model-name}.py&lt;/td&gt;
+&lt;td&gt;Statement and Source code of the Model (For multiple models)&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;src/{modules-name}/{model-name}}.py&lt;/td&gt;
+&lt;td&gt;Statement and Source code of the Model (For multiple submodules &amp;amp; single model)&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;src/{modules-name}/{model-name}.py&lt;/td&gt;
+&lt;td&gt;Statement and Source code of the Model (For multiple submodules &amp;amp; multiple models)&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;utils/loss.py&lt;/td&gt;
+&lt;td&gt;Implementation of loss function&lt;/td&gt;
+&lt;td&gt;NO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;utils/base.py&lt;/td&gt;
+&lt;td&gt;utilities file&lt;/td&gt;
+&lt;td&gt;NO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;data/data.py&lt;/td&gt;
+&lt;td&gt;Dataset and DataLoader Implemenetation&lt;/td&gt;
+&lt;td&gt;NO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;data/train.txt&lt;/td&gt;
+&lt;td&gt;manifest file of training set&lt;/td&gt;
+&lt;td&gt;NO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;data/validate.txt&lt;/td&gt;
+&lt;td&gt;manifest of validation set&lt;/td&gt;
+&lt;td&gt;NO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;data/test.txt&lt;/td&gt;
+&lt;td&gt;manifest of testing set&lt;/td&gt;
+&lt;td&gt;NO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;experiment/{exp-name}/params.yaml&lt;/td&gt;
+&lt;td&gt;configuration of the experiment&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;experiment/{exp-name}/log/&lt;/td&gt;
+&lt;td&gt;folder to store the log file produced by the experiment&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;experiment/{exp-name}/model/&lt;/td&gt;
+&lt;td&gt;folder to store the binary file of the trained models&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;experiment/{exp-name}/result/&lt;/td&gt;
+&lt;td&gt;folder to store the model output (images, csv, etc.)&lt;/td&gt;
+&lt;td&gt;YES&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;git-branch-specification&#34;&gt;Git Branch Specification&lt;/h3&gt;
+&lt;p&gt;Every projects may face a problem: how to perform multiple experiments in parallel? We adopt the solution of git branch:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Each experiment has a corresponding git branch&lt;/li&gt;
+&lt;li&gt;Three kinds of branches:
+&lt;ol&gt;
+&lt;li&gt;Temporary branches: start with &lt;code&gt;TEMP_&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Long-term branches: start with &lt;code&gt;MAIN_&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Project Introduction/Demo branch: &lt;code&gt;main&lt;/code&gt;: include the basic information of the project in the branch&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;The branches&amp;rsquo; name should includes:
+&lt;ol&gt;
+&lt;li&gt;Main purpose of the branch, i.e. model&amp;rsquo;s name&lt;/li&gt;
+&lt;li&gt;Dataset it use: i.e., dataset&amp;rsquo;s name&lt;/li&gt;
+&lt;li&gt;Others: whether the experiment include augmentation or other configuration&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here are two examples:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;TEMP_PIX2PIX_DRIVE_NOAUG&lt;/code&gt; represents a temporary branch with &lt;code&gt;pix2pix&lt;/code&gt; model using &lt;code&gt;DRIVE&lt;/code&gt; dataset with no augmentation in data preprocessing&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MAIN_PIX2PIX_MESSIDOR_AUG&lt;/code&gt; represents a long-term branch with &lt;code&gt;pix2pix&lt;/code&gt; model using &lt;code&gt;MESSIDOR&lt;/code&gt; dataset with augmentation in  data proprocessing&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;There are some extra steps, you may check them in &lt;a href=&#34;https://www.jeremyjordan.me/ml-projects-guide/&#34;&gt;Jeremey Jordan&amp;rsquo;s Blog&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;For more detail, please check &lt;a href=&#34;https://git.cklau.cc/terenceliu/specification/&#34;&gt;CKLAU&amp;rsquo;s GitLab - Specification&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description>
     </item>
+    
   </channel>
 </rss>

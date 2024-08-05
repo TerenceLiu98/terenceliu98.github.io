@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>学业 on 特倫蘇的日與夜</title>
-    <link>https://blog.cklau.cc/zh/tags/%E5%AD%A6%E4%B8%9A/</link>
+    <link>http://localhost:1313/zh/tags/%E5%AD%A6%E4%B8%9A/</link>
     <description>Recent content in 学业 on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 03 Jun 2023 00:11:21 +0800</lastBuildDate>
-    <atom:link href="https://blog.cklau.cc/zh/tags/%E5%AD%A6%E4%B8%9A/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Apr 2024 15:25:33 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/zh/tags/%E5%AD%A6%E4%B8%9A/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>📘 从理科到文科 - 2023 Fall 小记</title>
-      <link>https://blog.cklau.cc/zh/post/phd-application/</link>
+      <link>http://localhost:1313/zh/post/phd-application/</link>
       <pubDate>Sat, 03 Jun 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/phd-application/</guid>
+      <guid>http://localhost:1313/zh/post/phd-application/</guid>
       <description>&lt;p&gt;2023 Fall 申请算是落下帷幕，从一开始打算留在 UIC/HKBU 继续做 Medical Image 和 Mathematical Modelling 到现在准备前往 Trinity College Dublin 做 Political Science，也在此总结一下这一年的流程。&lt;/p&gt;</description>
     </item>
   </channel>

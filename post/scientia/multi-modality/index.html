@@ -1,33 +1,23 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>特倫蘇的日與夜</title>
-    <meta charset="utf-8">
-    <meta name="description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.">
-    <meta name="author" content="Junjie LIU">
-    <link rel="canonical" href="https://blog.cklau.cc/post/scientia/multi-modality/">
-        <meta name="google-site-verification" content="GTM-MC97JQPW">
+<html lang="en">
 
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
-}
-</script>
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image | 特倫蘇的日與夜</title>
+<meta name="title" content="🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image" />
+<meta name="description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio." />
+<meta name="keywords" content="Artificial Intelligence,text-image,multi-modality,long-read," />
 
 
-
-    <meta property="og:title" content="🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image" />
+<meta property="og:title" content="🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image" />
 <meta property="og:description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/scientia/multi-modality/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2024-02-08T00:15:00+00:00" />
-<meta property="article:modified_time" content="2024-08-05T13:43:06+01:00" />
+<meta property="article:modified_time" content="2024-02-08T00:15:00+00:00" />
 
 
 
@@ -36,73 +26,257 @@ if (!doNotTrack) {
 <meta name="twitter:description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio."/>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Post",
-      "item": "https://blog.cklau.cc/post/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Scientia",
-      "item": "https://blog.cklau.cc/post/scientia/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image",
-      "item": "https://blog.cklau.cc/post/scientia/multi-modality/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image",
-  "name": "🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image",
-  "description": "Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.",
-  "keywords": [
-    "Artificial Intelligence", "text-image", "multi-modality", "long-read"
-  ],
-  "articleBody": "Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.\nHowever, different data mode has different representation, especially for the machine, i.e., different mode of data has different representation. Some of the modality can be approximated by the others, e.g. audio can be transformed into images via the Fourier Transformation 1.\nUsually, the multimodal learning includes these five aspects [1]:\nRepresentation: It is important for us to know how to represent each unimodality or multimodality Translation: This is the mapping from one data mode to another, e.g. using spectrogram to transform audio to image Alignment or Registration: This is the direct relation between elements from two or more different modalities. If they are in the same modality, we would call it registration. Fusion: It is to join information from two or more modalities to perform a downstream task. Co-learning: Transforming knowledge from different modalities For this series, we are not shaped by the five main aspects, instead, we would organized by modalities. In this post, we are focusing on the Text and Image, with such amounts of researchs and works, I decided to follow on the two papers: CLIP [2] and BLIP [3], some of their variants would be mentioned.\nCLIP: Learning Transferable Visual Models From Natural Language Supervision CLIP’s key contribution is its ability to map text and image into a shared embedding space based on the seperated text/image encoder. This shared multimodal embedding space makes text-to-image and image-to-text tasks so much easier. Not meaning that it can directly used in these tasks, but providing a idea that how to do the multimodal representation.\nFigure 1 shows the approach of CLIP model. Text and image are encoded by two different encoders $f_{\\theta_i}$ and $g_{\\theta_t}$, let $\\mathbf{x} \\in \\mathbb{R}^{N \\times H \\times W \\times C}$ as one batch of image, $\\mathbf{y} \\in \\mathbb{R}^{N \\times S}$ as one batch of text data, the embedding of $\\mathbf{x}$ and $\\mathbf{y}$ then can be denoted as:\n$$\\begin{aligned} \\mathbf{f} \u0026= f_{\\theta_i}(\\mathbf{x}) \\in \\mathbf{R}^{N \\times D_i} \\Rightarrow \\mathbf{f}^e = L_i(\\mathbf{f}) \\cr \\mathbf{g} \u0026= g_{\\theta_t}(\\mathbf{y}) \\in \\mathbf{R}^{N \\times D_t} \\Rightarrow \\mathbf{g}^e = L_t(\\mathbf{g}) \\end{aligned}$$\nwhere $D_i$ and $D_t$ are the dimension of the image and text embedding, respectively. linear projectors $L_i$ and $L_t$ are used for mapping two embedding into the same dimension. The dot product between the image and text embedding is used to calculate the similarity between the text and image, i.e., $\\mathcal{F} = \\mathbf{f} \\cdot \\mathbf{g}$, where $\\mathcal{F} \\in \\mathbb{R}^{N \\times N}$ is the similarity matrix and the $\\mathcal{F} \\circ I_N$ is the positive sample set, and the others are the negative samples (In total, there are $N^2 - N$ negatives samples). The pseudocode of the CLIP model is shown in Figure 2 (original papers). The idea of CLIP model is relative naive, as it is a classic negative sampling method called batch negative sampling. However, intuitively, it is hard for us to do the model explanation, i.e., why does it work? Still, we could explan that the corresponding text and image are sharing the same ontology, but this kind of explanation is not grounded. More or less, the main contribution is that they create a huge dataset with the text and image pairs, including 400 million (image, text) pairs collected form of a variety of publicly available sources on the Internet. With this dataset, they don’t even need the pretrained encoder as the encoder can be trained simultaneously with the downstream alignment.\nImplementation Here is the simple implementation of CLIP:\nImplementation of Encoders import torch import torch.nn as nn from transformers import AutoConfig, AutoModel, AutoModelForImageClassification import numpy as np class TextEncoder(nn.Module): def __init__(self, model_name=\"FacebookAI/roberta-base\":str, device=\"cpu\":str, pretrained=True:bool, freeze=False:bool): super(TextEncoder).__init__() self.model = {True: AutoModel.from_pretrained(model_name), False: AutoModel.from_config(AutoConfig.from_pretrained(model_name))} self.out_dim = AutoConfig.from_pretrained(model_name).hidden_size # 768 self.freeze = freeze if freeze: for name ,param in self.model.named_parameters(): param.requires_grad = False def forward(self, inputs): if self.freeze: self.model.eval() else: pass feature = nn.functional.normalize(torch.mean(self.model(**inputs).last_hidden_state, axis=1), dim=1) return feature class ImageEncoder(nn.Module): def __init__(self, model_name=\"google/vit-base-patch16-224\":str, device=\"cpu\":str, pretrained=True:bool, freeze=False:bool): super(TextEncoder).__init__() self.model = {True: AutoModelForImageClassification.from_pretrained(model_name), False: AutoModelForImageClassification.from_config(AutoConfig.from_pretrained(model_name))} self.out_dim = 1000 # ViT is trained with ImageNet self.freeze = freeze if freeze: for name ,param in self.model.named_parameters(): param.requires_grad = False def forward(self, inputs): feature = self.model(**inputs).logits feature = F.normalize(feature, dim=-1) return feature Implementation of Linear Projection class LinearProject(nn.Module): def __init__(self, in_features, out_features): super(LinearProject).__init__() self.projection == nn.Sequential([ nn.Linear(in_features, out_features), nn.GELU(), nn.LayerNorm(out_features) ]) def forward(self, x): output = self.projection(x) return output Implementation of CLIP Model class CLIPModel(nn.Module): def __init__(self, model_name = {\"TEXT\":\"FacebookAI/roberta-base\", \"IMG\":\"google/vit-base-patch16-224\"}:dict, device=\"cpu\":str, pretrained=True:bool, freeze=False:bool, hidden_dim=256:int): super(CLIPModel).__init__() self.enc_t = TextEncoder(model_name=model_name[\"TEXT\"], device=device, freeze=freeze) self.enc_i = ImageEncoder(model_name=model_name[\"IMG\"], device=device, freeze=freeze) self.proj_t = LinearProject(self.enc_t.out_dim, hidden_dim) self.proj_i = LinearProject(self.enc_i.out_dim, hidden_dim) self.logit_scale = nn.Parameter(torch.ones([])) self.init_parameters() def init_parameters(self): # turn temperature into a learnable parameter nn.init.constant_(self.logit_scale, np.log(1 / 0.07)) def criterion(self, text, image): CE = nn.functional.cross_entropy labels = torch.arange(text.shape[0], device=str(text.device), dtype=torch.long) logits_t = text @ image.T * self.logit_scale.exp() logits_i = image @ text.T * self.logit_scale.exp() loss = (CE(logits_t, labels) + CE(logits_i, labels)) / 2 return loss def forward(self, text, image): feature_t, feature_i = self.proj_t(self.enc_t(text)), self.proj_i(self.enc_i(image)) loss = self.criterion(feature_t, feature_i) return feature_t, feature_i, self.logit_scale, loss Applications The first application of CLIP is classification. Since the CLIP model is relatively similar to the reitrival model, it can be easily implemented into the classification with zero-shot learning. The zero-shot learning is a task that the model can classify the unseen classes without any training data. See the second part of Figure 1, where for a given image, the model can classify the similarity between the given image and the prompted text, by calculating the similarity of image and each given sentence we could get the classification, vice versa. This can be seen as classification, or retrieval.\nThe second application is the generation. The CLIP model can be used to generate the image from the given text. Although it cannot generate the image directly since it does not have any decoder, however, the CLIP can be seen as the backbone and provide the embedding for image or text generation. After the CLIP came out, OpenAI also released the DALL-E2, where they provide a model called unCLIP [4], it is a text-to-image generation model2.\nBLIP: Hierarchical Text-Conditional Image Generation with CLIP Latents Empirical Research Reference T. Baltrušaitis, C. Ahuja, and L. Morency, Multimodal Machine Learning: A Survey and Taxonomy. arXiv, 2017. [Online]. Available: http://arxiv.org/abs/1705.09406 [Accessed: Feb. 8, 2024]. A. Radford, J. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, G. Krueger, and I. Sutskever, Learning Transferable Visual Models From Natural Language Supervision, . J. Li, D. Li, C. Xiong, and S. Hoi, BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation, . A. Ramesh, P. Dhariwal, A. Nichol, C. Chu, and M. Chen, Hierarchical Text-Conditional Image Generation with CLIP Latents. arXiv, 2022. [Online]. Available: http://arxiv.org/abs/2204.06125 [Accessed: Feb. 8, 2024]. For more information, pleace check Spectrogram and Mel Spectrogram ↩︎\nWe would talk about the “downstream” research in the “Empirical Research” section. ↩︎\n",
-  "wordCount" : "1183",
-  "inLanguage": "en",
-  "datePublished": "2024-02-08T00:15:00Z",
-  "dateModified": "2024-08-05T13:43:06+01:00",
-  "author":{
-    "@type": "Person",
-    "name": "Junjie LIU"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://blog.cklau.cc/post/scientia/multi-modality/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "特倫蘇的日與夜",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blog.cklau.cc/favicon.ico"
-    }
+
+<meta itemprop="name" content="🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image">
+<meta itemprop="description" content="Before For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio."><meta itemprop="datePublished" content="2024-02-08T00:15:00+00:00" />
+<meta itemprop="dateModified" content="2024-02-08T00:15:00+00:00" />
+<meta itemprop="wordCount" content="1183">
+<meta itemprop="keywords" content="Artificial Intelligence,text-image,multi-modality,long-read," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
   }
-}
-</script>
-    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
 
-<link rel="apple-touch-icon" href="/images/logo.svg">
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
 
-<link rel="manifest" href="/images/logo.svg">
-    
-    
-        <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+
+   
+
+
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
+
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
+
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
@@ -134,129 +308,34 @@ if (!doNotTrack) {
             }
         });
     });
-</script>
-    
+</script></head>
 
-    
-    
-    
-    <link rel="stylesheet" href="/css/main.min.4de88e9c74c966b71943696dedc7f269456bfa7175438e09a90e305a42a99bd8.css" integrity="sha256-TeiOnHTJZrcZQ2lt7cfyaUVr&#43;nF1Q44JqQ4wWkKpm9g=" crossorigin="anonymous" media="screen" />
-    
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
 
+<a href="/post">[Blog]</a>
 
-    
-    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+<a href="/post/scientia">[Scientia]</a>
 
-    
-    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
-    <script>hljs.highlightAll();</script>
+<a href="/friends">[Friends]</a>
 
-    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
-    
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-</head>
-<body><nav class="navigation">
-    <section class="container">
-        <a class="navigation-brand" href="/">
-            CKLAU&#39;s WEBSITE
-        </a>
-        <input type="checkbox" id="menu-toggle" />
-        <label class="menu-button float-right" for="menu-toggle">
-            <span></span><span></span><span></span>
-        </label>
-        
-        <ul class="navigation-list" id="navigation-list">
-            
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post">Blog</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post/scientia">Scientia</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/friends">Friends</a>
-            </li>
-            
-            
-
-            <li class="navigation-item menu-separator">
-                <span>|</span>
-            </li>
-
-            
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
-            </li>
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
-            </li>
-            
-            
-
-            <li class="navigation-item navigation-dark">
-                <button id="mode" type="button" aria-label="toggle user light or dark theme">
-                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
-                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
-                </button>
-            </li>
-
-            
-            
-            
-            
-            
-            
-            
-            <li class="navigation-item navigation-language">
-                <a href="https://blog.cklau.cc/zh/">中</a>
-            </li>
-            
-            
-            
-            
-        </ul>
-        
-    </section>
 </nav>
-<main class="wrapper">
-        <div id="content">
-<article class="blog-single">
-  <header class="blog-title">
-    <h1>🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image</h1>
-  </header>
-
-  <p>
-  <small>
-    
-    
-    
-    <u># <a href="https://blog.cklau.cc/tags/artificial-intelligence/">Artificial Intelligence</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/text-image/">text-image</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/multi-modality/">multi-modality</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/long-read/">long-read</a></u>
-    
-  </small>
-  <br>
-  <small>
-    Published On: <u>February 8, 2024</u> (Last updated on: <u>August 5, 2024)</u> <br>
-    1183 words&nbsp;· 6 min</small>
+</header>
+  <main>
+<h1>🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image</h1>
+<p>
+  <i>
+    <time datetime='2024-02-08' pubdate>
+      08 Feb, 2024
+    </time>
+  </i>
 </p>
 
-
-
-  <div class="blog-toc">
-    
-  </div>
-
-  <section class="blog-content"><h2 id="before">Before</h2>
+<content>
+  <h2 id="before">Before</h2>
 <p>For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.</p>
 <p>However, different data mode has different representation, especially for the machine, i.e., different mode of data has different representation. Some of the modality can be approximated by the others, e.g. audio can be transformed into images via the Fourier Transformation <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <p>Usually, the multimodal learning includes these five aspects [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-1" title="T. Baltrušaitis, C. Ahuja, and L. Morency, Multimodal Machine Learning: A Survey and Taxonomy. arXiv, 2017. [Online]. Available: http://arxiv.org/abs/1705.09406 [Accessed: Feb. 8, 2024]. ">1</a>]:</p>
@@ -383,132 +462,37 @@ Feb. 8, 2024].
 </li>
 </ol>
 </div>
-</section>
 
-  
-  
-  <div class="paginator">
-    
-    <a class="prev" href="https://blog.cklau.cc/post/authentik/"><span>&larr;&nbsp;&nbsp;</span><span>🔐 Authentik - An alternative of self-hosted Single-Sign-On Module That you might Need </span></a>
-    
-    
-    <a class="next" href="https://blog.cklau.cc/post/specification/"><span>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</span><span>&nbsp;&nbsp;&rarr;</span></a>
-    
-  </div>
-  
-  
-  
-  
+</content>
 
-<div class="related-resources">
-  <h3>Related Resources</h3>
+<p>
   
-    
-    
-    
+  <a href="https://blog.cklau.cc/tags/artificial-intelligence/">#Artificial Intelligence</a>
   
-</div>
+  <a href="https://blog.cklau.cc/tags/text-image/">#text-image</a>
+  
+  <a href="https://blog.cklau.cc/tags/multi-modality/">#multi-modality</a>
+  
+  <a href="https://blog.cklau.cc/tags/long-read/">#long-read</a>
+  
+</p>
+
+  </main>
+  <footer>
 
 
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
 
-  
-    
-<div class="comments">
-  <script>
-      const getTheme = window.localStorage && window.localStorage.getItem("theme");
-      let theme = getTheme === 'dark' ? 'github-dark' : 'github-light';
-      let s = document.createElement('script');
-      s.src = 'https://utteranc.es/client.js';
-      s.setAttribute('repo', 'TerenceLiu98\/terenceliu98.github.io');
-      s.setAttribute('issue-term', 'url');
-      s.setAttribute('theme', theme);
-      s.setAttribute('crossorigin', 'anonymous');
-      s.setAttribute('async', '');
-      document.querySelector('div.comments').innerHTML = '';
-      document.querySelector('div.comments').appendChild(s);
-  </script>
-</div>
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/feed" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Tech stack: <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
 
-    
-  
-
-</article>
-
-        </div>
-      </main><footer class="footer">
-  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
-    
-        <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
-    
-️  </p>
 </footer>
 
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-</a>
+    
+</body>
 
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-</script>
-
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'Copy';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'Copied';
-            setTimeout(() => {
-                copybutton.innerHTML = 'Copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-        codeblock.parentNode.appendChild(copybutton);
-    });
-</script></body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <script>
-      const images = Array.from(document.querySelectorAll(".blog-content img"));
-      images.forEach(img => {
-          mediumZoom(img, {
-              margin: 10,  
-              scrollOffset: 40,  
-              container: null,  
-              template: null,  
-              background: 'rgba(0, 0, 0, 0.5)'
-          });
-      });
-  </script>
-
-  
-  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>
+</html>

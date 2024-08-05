@@ -1,34 +1,24 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>特倫蘇的日與夜</title>
-    <meta charset="utf-8">
-    <meta name="description" content="🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2) - 特倫蘇的日與夜">
-    <meta name="author" content="Junjie LIU">
-    <link rel="canonical" href="https://blog.cklau.cc/post/k3s-setup-2/">
-        <meta name="google-site-verification" content="GTM-MC97JQPW">
+<html lang="en">
 
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
-}
-</script>
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2) | 特倫蘇的日與夜</title>
+<meta name="title" content="🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)" />
+<meta name="description" content="" />
+<meta name="keywords" content="k3s,kubernetes," />
 
 
-
-    <meta property="og:title" content="🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)" />
+<meta property="og:title" content="🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/k3s-setup-2/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-09-26T00:11:21+08:00" />
-<meta property="article:modified_time" content="2024-08-05T14:54:54+01:00" />
-<meta property="og:see_also" content="https://blog.cklau.cc/post/k8s-setup-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k8s-setup-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k3s-setup-extra-1/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/k3s-setup-1/" />
+<meta property="article:modified_time" content="2022-09-26T00:11:21+08:00" />
+
 
 
 
@@ -36,183 +26,316 @@ if (!doNotTrack) {
 <meta name="twitter:description" content=""/>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Post",
-      "item": "https://blog.cklau.cc/post/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)",
-      "item": "https://blog.cklau.cc/post/k3s-setup-2/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)",
-  "name": "🧑🏿‍💻 K3s\/Kubernetes - Set up a K3s Cluster with your VPS (2)",
-  "description": "",
-  "keywords": [
-    "k3s", "kubernetes"
-  ],
-  "articleBody": "Generating a basic K3s cluster is quite easy by following the K3s’s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:\nHigh Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd) I chose the second one - with Embedded DB.\nEnviornment Here is the list of my device:\nNode Name Location Specification OS Network IP hilbert(master) Tencent Cloud (SH-CN) 4C8G Ubuntu 20.04 LTS Pbulic IP + Wireguard 1.xx.xx.xx + 192.168.36.1 cantor(master) Tencent Cloud (SH-CN) 2C4G Ubuntu 20.04 LTS Pbulic IP + Wireguard 110.xx.xx.xx + 192.168.36.2 newton(agent) Tencent Cloud (GZ-CN) 1C2G Ubuntu 20.04 LTS Pbulic IP + Wireguard 119.xx.xx.xx + 192.168.36.3 K3s Installation K3s Server Node To set up the Server, I follow the instruction from K3s with a little modification, since I want to customize the network and node name. Here is the command I used for server-installation:\ncurl -sfL https://get.k3s.io | K3S_TOKEN= INSTALL_K3S_EXEC=\"server \\ --node-ip $(ip addr show eth0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --token $(openssl rand --hex 16) \\ --advertise-address $(ip addr show eth0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --node-external-ip $(ip addr show eth0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --flannel-iface eth0 \\ --node-name $HOSTNAME \\ --cluster-init\" sh - where you can see that --node-ip is the ip address to advertise for node; --advertise-address is the ip address that apiserver user to advertise to members of the cluster; --node-external-ip is the external ip address to advertise for node; --flannel-iface is to override the default flannel interface.\nFor whom can not access Google and GitHub fluently, you may try:\n# for whom can not access Google and Github fluently, you may try: curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_EXEC=\"server \\ --node-ip $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --token $(openssl rand --hex 16) \\ --advertise-address $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --node-external-ip $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --flannel-iface wg0 \\ --node-name $HOSTNAME \\ --cluster-init\" sh - To generate the token, I used openssl rand --hex 16.\nSimilarly, for the second server, you can use the same configuration above with IPs’ substitution.\nK3s node For the K3s node, you can simply reuse the above command with a modification: change server to agent:\ncurl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_EXEC=\"agent \\ --server https://:6443 \\ --token \\ --node-ip $(ip addr show wg0 | sed -n '/inet /{s/^.*inet \\([0-9.]\\+\\).*$/\\1/;p}') \\ --flannel-iface wg0 \\ --node-name $HOSTNAME\" sh - After the installation of the server and node, you may check whether the server can reach the node correctly:\nsudo kubectl get nodes -o wide # NAME STATUS ROLES AGE VERSION INTERNAL-IP EXTERNAL-IP OS-IMAGE KERNEL-VERSION CONTAINER-RUNTIME # cantor Ready control-plane,etcd,master 9h v1.24.6+k3s1 10.210.120.2 xxx.xxx.xxx.xxx Ubuntu 20.04 LTS 5.4.0-126-generic containerd://1.6.8-k3s1 # hilbert Ready control-plane,etcd,master 9h v1.24.6+k3s1 10.210.120.1 xxx.xxx.xxx.xxx Ubuntu 20.04 LTS 5.4.0-126-generic containerd://1.6.8-k3s1 # newton Ready worker 9h v1.24.6+k3s1 10.210.120.3 10.210.120.3 Ubuntu 20.04 LTS 5.4.0-126-generic containerd://1.6.8-k3s1 sudo kubectl top nodes # NAME CPU(cores) CPU% MEMORY(bytes) MEMORY% # cantor 445m 22% 2451Mi 71% # hilbert 300m 7% 3942Mi 52% # newton 90m 9% 1118Mi 56% Helm Installlation Helm is the package manager of kubernetes, where usually we can use it to download and install pre-packed applications to our cluster. To install it, we can go to helm’s GitHub release to find the compiled binary file and download it. Here is an example for the Linux amd64:\nwget https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz -O helm.tar.gz tar -xvf helm.tar.gz sudo mv linux-amd64/helm /usr/local/bi helm version # version.BuildInfo{Version:\"v3.10.0\", GitCommit:\"ce66412a723e4d89555dc67217607c6579ffcb21\", GitTreeState:\"clean\", GoVersion:\"go1.18.6\"} Change the mirrors for Containerd (Optional) For some reason, the China region’s network may be stuck and cannot connect (or very slow) to some of the website, sadly, gcr.ioandquay.io` are inside the list. Thus, we may need to change to the China’s mirrors.\nFor example: we can subsitute the quay.io with https://quay-mirror.qiniu.com and gcr.io we can use https://registry.aliyuncs.com. For the docker, we can use the Daocloud’s script to update the mirrors. This may help speeding up the installication process in the after step.\nCert-Manager Installation and Configuration Cert-Manager is a cloud-native certificate management tool which can help us automatically sign SSL/TLC certificate from Let’s Encrypt with ACME. Typically, Cert-Manager offers two challenge validations - HTTP01 and DNS01 challenges. In here, we use DNS01, but for now, let us install the Cert-Manager first.\nAdd the helm repository and update repo: sudo helm repo add jetstack https://charts.jetstack.io \u0026\u0026 sudo helm repo update 1 Install the cert-manager: helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.9.1 --set installCRDs=true (create a NS; cert-manager’s version is v1.9.1; install the CRD resources) Check the cert-manager’s status: sudo kubectl get pods --namespace cert-manager After installing the cert-manager, we need to go to [Cloudflare’s dashboard(https://dash.cloudflare.com/profile) to create a API token with “Edit zone DNS” template, set permission: Zone - DNS - Edit and Zone - Zone - Read, other can be default. Remember that the API will only show onee, you may need to copy it before turn of the tab.\nCreate a yaml (cloudflare-api-token-secret.yaml and you may change the file name) and start a new Issuer:\napiVersion: v1 kind: Secret metadata: name: cloudflare-api-token-secret # you may change the name namespace: cert-manager type: Opaque stringData: api-token: Create another yaml (ClusterIssuer.yaml):\napiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-dns01 spec: acme: privateKeySecretRef: name: letsencrypt-dns01 email: server: https://acme-v02.api.letsencrypt.org/directory solvers: - dns01: cloudflare: email: apiTokenSecretRef: name: cloudflare-api-token-secret # need to be same with the above yaml metadata's name key: api-token Create the third yaml (Certificate.yaml):\napiVersion: cert-manager.io/v1 kind: Certificate metadata: name: # you may change the name namespace: default spec: dnsNames: - example.com - \"*.example.com\" issuerRef: kind: ClusterIssuer name: letsencrypt-dns01 # Cite ClusterIssuer and use DNS01 for the challenge secretName: # the certificate with store in this cecret and you may change it Then, apply these three yaml file, and wait for a while. Use sudo kubectl describe certificate to check the status.\nsudo kubectl describe certificate NAME READY SECRET AGE True 1m If it is ready, it means that the certificate is Issued.\nRancher Installation It is easy to install the Rancher, Rancher is a complete software stack for teams adopting containers. It addresses the operational and security challenges of managing multiple Kubernetes clusters, while providing DevOps teams with integrated tools for running containerized workloads.\nSimilar to the installation of Cert-Manager:\nsudo helm repo add rancher-latest https://releases.rancher.com/server-charts/latest # add sudo helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname=rancher.k3s.cklau.ml --set bootstrapPassword=admin --set ingress.tls.source=secret Then, we need to create a certificate and an ingress for Rancher where we can use our domain to access:\napiVersion: cert-manager.io/v1 kind: Certificate metadata: name: tls-rancher-ingress namespace: cattle-system spec: secretName: commonName: '*.example.com' dnsNames: - '*.example.com' issuerRef: name: letsencrypt kind: ClusterIssuer --- apiVersion: networking.k8s.io/v1 kind: Ingress metadata: name: rancher namespace: cattle-system annotations: cert-manager.io/cluster-issuer: letsencrypt-dns01 spec: rules: - host: rancher.example.com http: paths: - backend: service: name: rancher port: number: 80 pathType: ImplementationSpecific tls: - hosts: - rancher.example.com secretName: After apply the yaml, we may check whether the rancher install properly: sudo kubectl get pods --namespace cattle-system and check rancher.example.com.\nFor some reason, I met some problems with helm but they all correlated to the KUBECONFIG. Thus, you may copy the KUBECONFIG to ~/.kube/config and this may solve your problem: sudo cat /etc/rancher/k3s/k3s.yaml \u003e ~/.kube/config ↩︎\n",
-  "wordCount" : "1243",
-  "inLanguage": "en",
-  "datePublished": "2022-09-26T00:11:21+08:00",
-  "dateModified": "2024-08-05T14:54:54+01:00",
-  "author":{
-    "@type": "Person",
-    "name": "Junjie LIU"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://blog.cklau.cc/post/k3s-setup-2/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "特倫蘇的日與夜",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blog.cklau.cc/favicon.ico"
-    }
+
+<meta itemprop="name" content="🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="dateModified" content="2022-09-26T00:11:21+08:00" />
+<meta itemprop="wordCount" content="1243">
+<meta itemprop="keywords" content="k3s,kubernetes," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
   }
-}
-</script>
-    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
 
-<link rel="apple-touch-icon" href="/images/logo.svg">
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
 
-<link rel="manifest" href="/images/logo.svg">
-    
-    
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
 
-    
-    
-    
-    <link rel="stylesheet" href="/css/main.min.4de88e9c74c966b71943696dedc7f269456bfa7175438e09a90e305a42a99bd8.css" integrity="sha256-TeiOnHTJZrcZQ2lt7cfyaUVr&#43;nF1Q44JqQ4wWkKpm9g=" crossorigin="anonymous" media="screen" />
-    
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
 
 
-    
-    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+   
 
-    
-    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
-    <script>hljs.highlightAll();</script>
 
-    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
-    
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-</head>
-<body><nav class="navigation">
-    <section class="container">
-        <a class="navigation-brand" href="/">
-            CKLAU&#39;s WEBSITE
-        </a>
-        <input type="checkbox" id="menu-toggle" />
-        <label class="menu-button float-right" for="menu-toggle">
-            <span></span><span></span><span></span>
-        </label>
-        
-        <ul class="navigation-list" id="navigation-list">
-            
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post">Blog</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post/scientia">Scientia</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/friends">Friends</a>
-            </li>
-            
-            
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
 
-            <li class="navigation-item menu-separator">
-                <span>|</span>
-            </li>
+</style>
 
-            
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
-            </li>
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
-            </li>
-            
-            
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
 
-            <li class="navigation-item navigation-dark">
-                <button id="mode" type="button" aria-label="toggle user light or dark theme">
-                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
-                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
-                </button>
-            </li>
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
             
             
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
             
-            
-            
-            
-            
-            <li class="navigation-item navigation-language">
-                <a href="https://blog.cklau.cc/zh/">中</a>
-            </li>
-            
-            
-            
-            
-        </ul>
-        
-    </section>
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script></head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/post">[Blog]</a>
+
+<a href="/post/scientia">[Scientia]</a>
+
+<a href="/friends">[Friends]</a>
+
 </nav>
-<main class="wrapper">
-        <div id="content">
-<article class="blog-single">
-  <header class="blog-title">
-    <h1>🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</h1>
-  </header>
-
-  <p>
-  <small>
-    
-    
-    
-    <u># <a href="https://blog.cklau.cc/tags/k3s/">k3s</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/kubernetes/">kubernetes</a></u>
-    
-  </small>
-  <br>
-  <small>
-    Published On: <u>September 26, 2022</u> (Last updated on: <u>August 5, 2024)</u> <br>
-    1243 words&nbsp;· 6 min</small>
+</header>
+  <main>
+<h1>🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (2)</h1>
+<p>
+  <i>
+    <time datetime='2022-09-26' pubdate>
+      26 Sep, 2022
+    </time>
+  </i>
 </p>
 
-
-
-  <div class="blog-toc">
-    
-  </div>
-
-  <section class="blog-content"><p>Generating a basic K3s cluster is quite easy by following the <a href="https://doc.k3s.io">K3s&rsquo;s Doc</a>. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:</p>
+<content>
+  <p>Generating a basic K3s cluster is quite easy by following the <a href="https://doc.k3s.io">K3s&rsquo;s Doc</a>. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:</p>
 <ol>
 <li>High Availability with an External DB (for example, <a href="https://www.postgresql.org/">PostgreSQL</a>, <a href="https://www.mysql.com/">MySQL</a>,  <a href="https://mariadb.org/">MariaDB</a>)</li>
 <li>High Availability with Embedded DB (<a href="https://etcd.io/">etcd</a>)</li>
@@ -418,146 +541,33 @@ if (!doNotTrack) {
 <p>For some reason, I met some problems with helm but they all correlated to the <code>KUBECONFIG</code>. Thus, you may copy the <code>KUBECONFIG</code> to <code>~/.kube/config</code> and this may solve your problem: <code>sudo cat /etc/rancher/k3s/k3s.yaml &gt; ~/.kube/config</code>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</div></section>
-
-  
-  
-  <div class="paginator">
-    
-    <a class="prev" href="https://blog.cklau.cc/post/k3s-setup-extra-1/"><span>&larr;&nbsp;&nbsp;</span><span>🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</span></a>
-    
-    
-    <a class="next" href="https://blog.cklau.cc/post/k3s-setup-1/"><span>🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</span><span>&nbsp;&nbsp;&rarr;</span></a>
-    
-  </div>
-  
-  
-  
-  
-
-<div class="related-resources">
-  <h3>Related Resources</h3>
-  
-    
-    
-    
-      <nav>
-        <ul>
-        
-        
-          
-            <li>
-              <a href="/post/k8s-setup-2/">🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/k8s-setup-1/">🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/k3s-setup-extra-1/">🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</a>
-            </li>
-          
-        
-          
-        
-          
-            <li>
-              <a href="/post/k3s-setup-1/">🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (1)</a>
-            </li>
-          
-        
-        </ul>
-      </nav>
-    
-  
 </div>
+</content>
 
-
-
+<p>
   
+  <a href="https://blog.cklau.cc/tags/k3s/">#k3s</a>
+  
+  <a href="https://blog.cklau.cc/tags/kubernetes/">#kubernetes</a>
+  
+</p>
 
-</article>
+  </main>
+  <footer>
 
-        </div>
-      </main><footer class="footer">
-  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
-    
-        <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
-    
-️  </p>
+
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
+
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/feed" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Tech stack: <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
+
 </footer>
 
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-</a>
+    
+</body>
 
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-</script>
-
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'Copy';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'Copied';
-            setTimeout(() => {
-                copybutton.innerHTML = 'Copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-        codeblock.parentNode.appendChild(copybutton);
-    });
-</script></body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <script>
-      const images = Array.from(document.querySelectorAll(".blog-content img"));
-      images.forEach(img => {
-          mediumZoom(img, {
-              margin: 10,  
-              scrollOffset: 40,  
-              container: null,  
-              template: null,  
-              background: 'rgba(0, 0, 0, 0.5)'
-          });
-      });
-  </script>
-
-  
-  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>
+</html>

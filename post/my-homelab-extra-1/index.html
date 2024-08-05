@@ -1,34 +1,24 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>特倫蘇的日與夜</title>
-    <meta charset="utf-8">
-    <meta name="description" content="🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator - 特倫蘇的日與夜">
-    <meta name="author" content="Junjie LIU">
-    <link rel="canonical" href="https://blog.cklau.cc/post/my-homelab-extra-1/">
-        <meta name="google-site-verification" content="GTM-MC97JQPW">
+<html lang="en">
 
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB7GSCQBT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-PXB7GSCQBT', { 'anonymize_ip': false });
-}
-</script>
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator | 特倫蘇的日與夜</title>
+<meta name="title" content="🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator" />
+<meta name="description" content="" />
+<meta name="keywords" content="homelab,proxy,github," />
 
 
-
-    <meta property="og:title" content="🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator" />
+<meta property="og:title" content="🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-extra-1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-06-17T00:11:21+08:00" />
-<meta property="article:modified_time" content="2024-08-05T14:54:54+01:00" />
-<meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-6/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-5/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-4/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-2/" /><meta property="og:see_also" content="https://blog.cklau.cc/post/my-homelab-3/" />
+<meta property="article:modified_time" content="2023-06-17T00:11:21+08:00" />
+
 
 
 
@@ -36,67 +26,257 @@ if (!doNotTrack) {
 <meta name="twitter:description" content=""/>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Post",
-      "item": "https://blog.cklau.cc/post/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator",
-      "item": "https://blog.cklau.cc/post/my-homelab-extra-1/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator",
-  "name": "🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator",
-  "description": "",
-  "keywords": [
-    "homelab", "proxy", "github"
-  ],
-  "articleBody": "In general, there are multiple ways for you to accelerate the git pull / git push or download the release/source code from GitHub:\nYou may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port] You may use a public github-proxy, e.g. ghproxy.com or gh-proxy.com You can also build a self-hosted ghproxy-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:\nversion: \"3\" services: gh-proxy: image: stilleshan/gh-proxy container_name: gh-proxy ports: - 12345:80 restart: always With nginx you can proxy the service to a sub-domain:\n# Upstream where your authentik server is hosted. upstream ghproxy { server 127.0.0.1:12345; # Improve performance by keeping some connections alive. keepalive 10; } # Upgrade WebSocket if requested, otherwise use keepalive map $http_upgrade $connection_upgrade_keepalive { default upgrade; '' ''; } server { # HTTP server config listen 80; server_name ghproxy.example.com; # 301 redirect to HTTPS location / { return 301 https://$host$request_uri; } } server { # HTTPS server config listen 443 ssl http2; server_name ghproxy.example.com; # TLS certificates ssl_certificate /var/www/ssl/example.com.crt; ssl_certificate_key /var/www/ssl/example.com.key; # Proxy site location / { proxy_pass http://ghproxy; proxy_http_version 1.1; proxy_set_header X-Forwarded-Proto $scheme; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header Host $host; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection $connection_upgrade_keepalive; } } ",
-  "wordCount" : "208",
-  "inLanguage": "en",
-  "datePublished": "2023-06-17T00:11:21+08:00",
-  "dateModified": "2024-08-05T14:54:54+01:00",
-  "author":{
-    "@type": "Person",
-    "name": "Junjie LIU"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://blog.cklau.cc/post/my-homelab-extra-1/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "特倫蘇的日與夜",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blog.cklau.cc/favicon.ico"
-    }
+
+<meta itemprop="name" content="🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-06-17T00:11:21+08:00" />
+<meta itemprop="dateModified" content="2023-06-17T00:11:21+08:00" />
+<meta itemprop="wordCount" content="208">
+<meta itemprop="keywords" content="homelab,proxy,github," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
   }
-}
-</script>
-    <link rel="icon" type="image/png" href="/images/logo.svg" sizes="16x16">
 
-<link rel="apple-touch-icon" href="/images/logo.svg">
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
 
-<link rel="manifest" href="/images/logo.svg">
-    
-    
-        <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+
+   
+
+
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
+
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
+
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
@@ -128,127 +308,34 @@ if (!doNotTrack) {
             }
         });
     });
-</script>
-    
+</script></head>
 
-    
-    
-    
-    <link rel="stylesheet" href="/css/main.min.4de88e9c74c966b71943696dedc7f269456bfa7175438e09a90e305a42a99bd8.css" integrity="sha256-TeiOnHTJZrcZQ2lt7cfyaUVr&#43;nF1Q44JqQ4wWkKpm9g=" crossorigin="anonymous" media="screen" />
-    
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
 
+<a href="/post">[Blog]</a>
 
-    
-    <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+<a href="/post/scientia">[Scientia]</a>
 
-    
-    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
-    <script>hljs.highlightAll();</script>
+<a href="/friends">[Friends]</a>
 
-    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
-    
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-</head>
-<body><nav class="navigation">
-    <section class="container">
-        <a class="navigation-brand" href="/">
-            CKLAU&#39;s WEBSITE
-        </a>
-        <input type="checkbox" id="menu-toggle" />
-        <label class="menu-button float-right" for="menu-toggle">
-            <span></span><span></span><span></span>
-        </label>
-        
-        <ul class="navigation-list" id="navigation-list">
-            
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post">Blog</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/post/scientia">Scientia</a>
-            </li>
-            
-            <li class="navigation-item navigation-menu">
-                <a class="navigation-link" href="/friends">Friends</a>
-            </li>
-            
-            
-
-            <li class="navigation-item menu-separator">
-                <span>|</span>
-            </li>
-
-            
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://terenceliu98.github.io/index.xml"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
-            </li>
-            
-            <li class="navigation-item navigation-social">
-                <a class="navigation-link" href="https://github.com/TerenceLiu98"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
-            </li>
-            
-            
-
-            <li class="navigation-item navigation-dark">
-                <button id="mode" type="button" aria-label="toggle user light or dark theme">
-                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
-                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
-                </button>
-            </li>
-
-            
-            
-            
-            
-            
-            
-            
-            <li class="navigation-item navigation-language">
-                <a href="https://blog.cklau.cc/zh/">中</a>
-            </li>
-            
-            
-            
-            
-        </ul>
-        
-    </section>
 </nav>
-<main class="wrapper">
-        <div id="content">
-<article class="blog-single">
-  <header class="blog-title">
-    <h1>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</h1>
-  </header>
-
-  <p>
-  <small>
-    
-    
-    
-    <u># <a href="https://blog.cklau.cc/tags/homelab/">homelab</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/proxy/">proxy</a></u>
-    
-    <u># <a href="https://blog.cklau.cc/tags/github/">github</a></u>
-    
-  </small>
-  <br>
-  <small>
-    Published On: <u>June 17, 2023</u> (Last updated on: <u>August 5, 2024)</u> <br>
-    208 words&nbsp;· One minute</small>
+</header>
+  <main>
+<h1>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</h1>
+<p>
+  <i>
+    <time datetime='2023-06-17' pubdate>
+      17 Jun, 2023
+    </time>
+  </i>
 </p>
 
-
-
-  <div class="blog-toc">
-    
-  </div>
-
-  <section class="blog-content"><p>In general, there are multiple ways for you to accelerate the <code>git pull / git push</code> or download the release/source code from <a href="https://github.com">GitHub</a>:</p>
+<content>
+  <p>In general, there are multiple ways for you to accelerate the <code>git pull / git push</code> or download the release/source code from <a href="https://github.com">GitHub</a>:</p>
 <ol>
 <li>You may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal <code>export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port]</code></li>
 <li>You may use a public <code>github-proxy</code>, e.g. <a href="https://ghproxy.com">ghproxy.com</a> or <a href="https://gh-proxy.com">gh-proxy.com</a></li>
@@ -307,158 +394,35 @@ server {
         proxy_set_header Connection $connection_upgrade_keepalive;
     }
 }
-</code></pre></section>
+</code></pre>
+</content>
 
+<p>
   
+  <a href="https://blog.cklau.cc/tags/homelab/">#homelab</a>
   
-  <div class="paginator">
-    
-    <a class="prev" href="https://blog.cklau.cc/post/specification/"><span>&larr;&nbsp;&nbsp;</span><span>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</span></a>
-    
-    
-    <a class="next" href="https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/"><span>🥼 RetiGAN: A GAN-based model on retinal Image synthesis</span><span>&nbsp;&nbsp;&rarr;</span></a>
-    
-  </div>
+  <a href="https://blog.cklau.cc/tags/proxy/">#proxy</a>
   
+  <a href="https://blog.cklau.cc/tags/github/">#github</a>
   
-  
-  
+</p>
 
-<div class="related-resources">
-  <h3>Related Resources</h3>
-  
-    
-    
-    
-      <nav>
-        <ul>
-        
-        
-          
-        
-          
-            <li>
-              <a href="/post/my-homelab-6/">🧑🏿‍💻 Homelab: My Distributed Homelab (2)</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/my-homelab-5/">🧑🏿‍💻 Homelab: How to build a AIO home-server</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/my-homelab-4/">🧑🏿‍💻 Homelab: Don&#39;t Let the Docker escape from the ufw&#39;s control</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/my-homelab-2/">🧑🏿‍💻 Homelab: My Distributed Homelab</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/my-homelab-3/">🧑🏿‍💻 Homelab: My Network setup</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/post/my-homelab-1/">🧑🏿‍💻 Homelab: My Devices</a>
-            </li>
-          
-        
-        </ul>
-      </nav>
-    
-  
-</div>
+  </main>
+  <footer>
 
 
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
 
-  
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/feed" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Tech stack: <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
 
-</article>
-
-        </div>
-      </main><footer class="footer">
-  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
-    
-        <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
-    
-️  </p>
 </footer>
 
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-</a>
+    
+</body>
 
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-</script>
-
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'Copy';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'Copied';
-            setTimeout(() => {
-                copybutton.innerHTML = 'Copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-        codeblock.parentNode.appendChild(copybutton);
-    });
-</script></body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <script>
-      const images = Array.from(document.querySelectorAll(".blog-content img"));
-      images.forEach(img => {
-          mediumZoom(img, {
-              margin: 10,  
-              scrollOffset: 40,  
-              container: null,  
-              template: null,  
-              background: 'rgba(0, 0, 0, 0.5)'
-          });
-      });
-  </script>
-
-  
-  <script src="/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>🛜 境内外 CDN 分流配置 | 特倫蘇的日與夜</title>
+<meta name="title" content="🛜 境内外 CDN 分流配置" />
+<meta name="description" content="本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。" />
+<meta name="keywords" content="网络配置,博客," />
+
+
+<meta property="og:title" content="🛜 境内外 CDN 分流配置" />
+<meta property="og:description" content="本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/cdn-divertor.zh/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2024-01-29T00:00:00+08:00" />
+<meta property="article:modified_time" content="2024-01-29T00:00:00+08:00" />
+
+
+
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="🛜 境内外 CDN 分流配置"/>
+<meta name="twitter:description" content="本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。"/>
+
+
+
+<meta itemprop="name" content="🛜 境内外 CDN 分流配置">
+<meta itemprop="description" content="本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。"><meta itemprop="datePublished" content="2024-01-29T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2024-01-29T00:00:00+08:00" />
+<meta itemprop="wordCount" content="170">
+<meta itemprop="keywords" content="网络配置,博客," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+
+   
+
+
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
+
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
+
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script></head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/post">[Blog]</a>
+
+<a href="/post/scientia">[Scientia]</a>
+
+<a href="/friends">[Friends]</a>
+
+</nav>
+</header>
+  <main>
+<h1>🛜 境内外 CDN 分流配置</h1>
+<p>
+  <i>
+    <time datetime='2024-01-29' pubdate>
+      29 Jan, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。</p>
+<h2 id="前置条件">前置条件</h2>
+<ol>
+<li>我的静态博客是托管在 <a href="https://pages.github.com">GitHub Page</a>，并且使用了 <a href="https://www.cloudflare.com">Cloudflare</a> 的 CDN 服务。</li>
+<li>我拥有一台境内服务器，并且有一个已备案域名，可以满足国内 CDN 的要求。</li>
+</ol>
+<h2 id="境内外-cdn-分流">境内外 CDN 分流</h2>
+<h3 id="网站运行">网站运行</h3>
+<p>我的网站部署流程是这样的：</p>
+<ol>
+<li>在本地编写博客内容，使用 <a href="https://gohugo.io">Hugo</a> 生成静态网页进行内容渲染进行检查。</li>
+<li>将 source file 推动到 <a href="https://github.com/terenceliu98.github.io.source">TerenceLiu98.github.io.source</a> 仓库，使用 GitHub Action 进行自动部署。</li>
+<li>在 GitHub Action 中，使用 Hugo 生成静态网页，并将生成的网页推送到 <a href="https://github.com/terenceliu98.github.io">TerenceLiu98.github.io</a></li>
+<li>在 Cloudflare 中，将 <a href="https://github.com/terenceliu98.github.io">TerenceLiu98.github.io</a> 仓库的内容进行 CDN 加速。</li>
+</ol>
+<h3 id="具体配置">具体配置</h3>
+<p>你需要在国内的服务器上搭建一个 HTTP 服务，用于分流境内的请求。这里我使用了 <a href="https://www.nginx.com">Nginx</a> 作为 HTTP 服务，因为我从一开始就在使用 nginx 所以相对熟悉。不过你也可以使用其他 HTTP 服务，比如 <a href="https://caddyserver.com">Caddy</a>，Caddy 有一个很好的特性，就是可以自动申请 HTTPS 证书，这样你就不需要自己去申请证书了。我这里使用 ACME 进行证书申请，所以就不再使用 Caddy 了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>       	listen 80;
+</span></span><span style="display:flex;"><span>      	listen <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:80;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      	server_name blog.rho.ac.cn;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> https://$host$request_uri;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        listen <span style="color:#ae81ff">443</span> ssl;
+</span></span><span style="display:flex;"><span>        server_name blog.rho.ac.cn;
+</span></span><span style="display:flex;"><span>        ssl_certificate /home/ubuntu/acme-script/ssl/rho.ac.cn.pem;
+</span></span><span style="display:flex;"><span>        ssl_certificate_key /home/ubuntu/acme-script/ssl/rho.ac.cn.key;
+</span></span><span style="display:flex;"><span>	root /var/www/terenceliu98.github.io;
+</span></span><span style="display:flex;"><span>	index index.php index.html index.htm;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  	try_files $uri $uri/ <span style="color:#f92672">=</span>404;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>其中，<code>server_name</code> 是准备的备案后域名，<code>root</code> 指向的是我存储博客内容的地方，<code>index</code> 指定了默认的首页。<code>ssl_certificate</code> 和 <code>ssl_certificate_key</code> 指定了 HTTPS 证书的位置。你也可以对 nginx 配置文件进行定制，这里不再赘述。在准备好这些以后，可以尝试运行网站，如果没有问题，那么就可以进行下一步了。</p>
+<p>当然，这里应该会遇到一个域名错误的问题，因为在 Hugo 里我们配置了 CNAME，所以它在渲染的时候会将域名替换成 CNAME 中指定的域名，这样就会出现域名不匹配的问题。这里我使用了一个很蠢的方式解决，就是在 Hugo 渲染之后，进行域名替换。这里我使用了一个 Bash 脚本，将域名替换成了我准备的备案后域名。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git restore . <span style="color:#f92672">&amp;&amp;</span> git pull
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> file in <span style="color:#66d9ef">$(</span>find -iname <span style="color:#e6db74">&#39;*.html&#39;</span><span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	sed -i <span style="color:#e6db74">&#39;s/blog.cklau.cc/blog.rho.ac.cn/g&#39;</span> $file
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p>在网站可以正常运行后，我们仅需要在腾讯云的 CDN 控制台里添加自己的域名即可，将域名解析到提供的 CNAME，主源站指向自己国内的服务器 IP，配置好回源 Host 即可<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。其他平台也是一样的方法，这里不再赘述。</p>
+<p>Cloudflare 的配置也十分简单，仅需要在 Rules 里添加一个规则，我这里选择的是根据国家进行分流，这样虽然是一刀切，但是确实保证了用户的使用体验（也是因为我买不起 GeoDNS）。</p>
+<h3 id="后续">后续</h3>
+<p>因为腾讯云 CDN 的 HTTPS 需要自己提供证书（也需要付费），所以我将刚才申请到的 ACME 证书添加到了指定的地方，不知道是否有可以自动化的方法，不然就需要三个月更新一次证书了 🥹 。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>HOST 就填自己的域名即可，不需要填 IP，因为我们已经配置了 HTTP 服务，所以需要域名进行分流。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+</content>
+
+<p>
+  
+  <a href="https://blog.cklau.cc/tags/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">#网络配置</a>
+  
+  <a href="https://blog.cklau.cc/tags/%E5%8D%9A%E5%AE%A2/">#博客</a>
+  
+</p>
+
+  </main>
+  <footer>
+
+
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
+
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/feed" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Tech stack: <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
+
+</footer>
+
+    
+</body>
+
+</html>

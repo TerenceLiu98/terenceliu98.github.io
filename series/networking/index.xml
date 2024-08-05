@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>networking on 特倫蘇的日與夜</title>
-    <link>https://blog.cklau.cc/series/networking/</link>
-    <description>Recent content in networking on 特倫蘇的日與夜</description>
+    <title>Networking on 特倫蘇的日與夜</title>
+    <link>http://localhost:1313/series/networking/</link>
+    <description>Recent content in Networking on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate>
-    <atom:link href="https://blog.cklau.cc/series/networking/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Aug 2024 13:43:06 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/series/networking/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title>
-      <link>https://blog.cklau.cc/post/lnet-3/</link>
+      <link>http://localhost:1313/post/lnet-3/</link>
       <pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/lnet-3/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/lnet-3/</guid>
+      <description>Before In the previous project: Homelab, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.&#xA;However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.&#xA;VXLAN VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments.</description>
     </item>
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title>
-      <link>https://blog.cklau.cc/post/lnet-2/</link>
+      <link>http://localhost:1313/post/lnet-2/</link>
       <pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/lnet-2/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/lnet-2/</guid>
+      <description>Before In the previous project: Homelab, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:&#xA;Here, as usual, I made three network areas, “East-Asia-CN” is 192.168.101.0/24 , “Southeast-Asia-HKSAR“ is 192.168.102.0/24, and “East-Aisa-JP“ is 192.</description>
     </item>
     <item>
       <title>👨‍💻 My Personal Experimental Network: L-Net</title>
-      <link>https://blog.cklau.cc/post/lnet-1/</link>
+      <link>http://localhost:1313/post/lnet-1/</link>
       <pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/lnet-1/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/lnet-1/</guid>
+      <description>Before In the previous project: Homelab, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.&#xA;However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters.</description>
     </item>
   </channel>
 </rss>

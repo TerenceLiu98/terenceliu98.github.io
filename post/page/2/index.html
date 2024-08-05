@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>特倫蘇的日與夜</title>
     <meta charset="utf-8">
     <meta name="description" content="Post - 特倫蘇的日與夜">
     <meta name="author" content="Junjie LIU">
-    <link rel="canonical" href="https://blog.cklau.cc/post/">
+    <link rel="canonical" href="http://localhost:1313/post/">
         <meta name="google-site-verification" content="GTM-MC97JQPW">
 
     
@@ -25,8 +25,7 @@ if (!doNotTrack) {
     <meta property="og:title" content="Post" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.cklau.cc/post/" />
-
+<meta property="og:url" content="http://localhost:1313/post/" />
 
 
 <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Post"/>
@@ -37,12 +36,12 @@ if (!doNotTrack) {
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Post",
-      "item": "https://blog.cklau.cc/post/"
+      "item": "http://localhost:1313/post/"
     }
   ]
 }
@@ -58,7 +57,7 @@ if (!doNotTrack) {
     
     
     
-    <link rel="stylesheet" href="/css/main.min.4de88e9c74c966b71943696dedc7f269456bfa7175438e09a90e305a42a99bd8.css" integrity="sha256-TeiOnHTJZrcZQ2lt7cfyaUVr&#43;nF1Q44JqQ4wWkKpm9g=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/main.css" media="screen">
     
 
 
@@ -66,7 +65,7 @@ if (!doNotTrack) {
     <link rel="stylesheet" href="/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
 
     
-    <script src="/js/highlight.min.min.894ca9c68afab956438c4926a0dc7f5293e04e08595bd27abdb123e94801f684.js"></script>
+    <script src="/js/highlight.min.min.c607d6febd16934a82eb61d3a896ed9d869f54373cc63ce95864ed5488fe3128.js"></script>
     <script>hljs.highlightAll();</script>
 
     <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
@@ -129,7 +128,7 @@ if (!doNotTrack) {
             
             
             <li class="navigation-item navigation-language">
-                <a href="https://blog.cklau.cc/zh/post/">中</a>
+                <a href="http://localhost:1313/zh/post/">中</a>
             </li>
             
             
@@ -157,13 +156,13 @@ if (!doNotTrack) {
     
     
     
-    <u># <a href="https://blog.cklau.cc/tags/k3s/">k3s</a></u>
+    <u># <a href="http://localhost:1313/tags/k3s/">K3s</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/kubernetes/">kubernetes</a></u>
+    <u># <a href="http://localhost:1313/tags/kubernetes/">Kubernetes</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/docker/">docker</a></u>
+    <u># <a href="http://localhost:1313/tags/docker/">Docker</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/registry/">registry</a></u>
+    <u># <a href="http://localhost:1313/tags/registry/">Registry</a></u>
     
   </small>
   <br>
@@ -172,7 +171,9 @@ if (!doNotTrack) {
     650 words&nbsp;· 4 min</small>
 </p>
 
-          
+          As I have mentioned in K3s Setup 2, usually, it is not easy for the China&rsquo;s user to access https://gcr.io, https://k8s.gcr.io or https://ghcr.io. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.
+Some options DockerHub provide a &ldquo;offical&rdquo; package called Docker Registry where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.
+Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.
         </div>
       </article>
       
@@ -184,9 +185,9 @@ if (!doNotTrack) {
     
     
     
-    <u># <a href="https://blog.cklau.cc/tags/k3s/">k3s</a></u>
+    <u># <a href="http://localhost:1313/tags/k3s/">K3s</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/kubernetes/">kubernetes</a></u>
+    <u># <a href="http://localhost:1313/tags/kubernetes/">Kubernetes</a></u>
     
   </small>
   <br>
@@ -195,7 +196,8 @@ if (!doNotTrack) {
     1243 words&nbsp;· 6 min</small>
 </p>
 
-          
+          Generating a basic K3s cluster is quite easy by following the K3s&rsquo;s Doc. let try to modify it into High Availability Cluster. Single server cluster can meet a variety of use cases, but for environments where uptime of the Kubenetes control plane is critical, where we need the High Availability configuration. There are two ways for High Availability:
+High Availability with an External DB (for example, PostgreSQL, MySQL, MariaDB) High Availability with Embedded DB (etcd) I chose the second one - with Embedded DB.
         </div>
       </article>
       
@@ -207,11 +209,11 @@ if (!doNotTrack) {
     
     
     
-    <u># <a href="https://blog.cklau.cc/tags/k3s/">k3s</a></u>
+    <u># <a href="http://localhost:1313/tags/k3s/">K3s</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/kubernetes/">kubernetes</a></u>
+    <u># <a href="http://localhost:1313/tags/kubernetes/">Kubernetes</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/wireguard/">wireguard</a></u>
+    <u># <a href="http://localhost:1313/tags/wireguard/">Wireguard</a></u>
     
   </small>
   <br>
@@ -220,7 +222,8 @@ if (!doNotTrack) {
     382 words&nbsp;· 2 min</small>
 </p>
 
-          
+          Before K3s is a lightweight Kubernetes which is more suitable for the Edge/IoT/CI/ARM scenario/devices. Usually, for person, we do not have multiple high-performance device like 24c server or even higher. Hence, K3s is a way we can learn how to set up a kubernetes cluster.
+For me, I am a bare metal fanatic many year ago, but I changed into a Docker user after I know more about virtualization and containers.
         </div>
       </article>
       
@@ -232,13 +235,13 @@ if (!doNotTrack) {
     
     
     
-    <u># <a href="https://blog.cklau.cc/tags/homelab/">homelab</a></u>
+    <u># <a href="http://localhost:1313/tags/homelab/">Homelab</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/networking/">networking</a></u>
+    <u># <a href="http://localhost:1313/tags/networking/">Networking</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/docker/">docker</a></u>
+    <u># <a href="http://localhost:1313/tags/docker/">Docker</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/ufw/">ufw</a></u>
+    <u># <a href="http://localhost:1313/tags/ufw/">Ufw</a></u>
     
   </small>
   <br>
@@ -247,7 +250,9 @@ if (!doNotTrack) {
     377 words&nbsp;· 2 min</small>
 </p>
 
-          
+          &ldquo;Uncomplicated firewall&rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &ldquo;uncomplicated&rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.
+Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:
+ubuntu@myserver:~$ sudo ufw status Status: active To Action From -- ------ ---- 80 ALLOW Anywhere 443 ALLOW Anywhere 22 ALLOW Anywhere 80 (v6) ALLOW Anywhere (v6) 443 (v6) ALLOW Anywhere (v6) 22 (v6) ALLOW Anywhere (v6) In ufw list, I only allow the SSH port and HTTP/HTTPS ports.
         </div>
       </article>
       
@@ -259,11 +264,11 @@ if (!doNotTrack) {
     
     
     
-    <u># <a href="https://blog.cklau.cc/tags/homelab/">homelab</a></u>
+    <u># <a href="http://localhost:1313/tags/homelab/">Homelab</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/networking/">networking</a></u>
+    <u># <a href="http://localhost:1313/tags/networking/">Networking</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/hardware/">hardware</a></u>
+    <u># <a href="http://localhost:1313/tags/hardware/">Hardware</a></u>
     
   </small>
   <br>
@@ -272,7 +277,8 @@ if (!doNotTrack) {
     1482 words&nbsp;· 7 min</small>
 </p>
 
-          
+          Networking For the homelab, I would like to choose a commerical company&rsquo;s product, as the service can be guaranteed by the company reputation. All my devices can connect to the WAN via NAT1 such that I don&rsquo;t need the nat passthrough solution. I choose Tailscale as I mentioned, it performs well under my testing. Just follow the instruction and the networking problem is solved.
+Service For the homelab, I would like to docker as it is very covinence and can set up easily.
         </div>
       </article>
       
@@ -284,11 +290,11 @@ if (!doNotTrack) {
     
     
     
-    <u># <a href="https://blog.cklau.cc/tags/homelab/">homelab</a></u>
+    <u># <a href="http://localhost:1313/tags/homelab/">Homelab</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/networking/">networking</a></u>
+    <u># <a href="http://localhost:1313/tags/networking/">Networking</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/wireguard/">wireguard</a></u>
+    <u># <a href="http://localhost:1313/tags/wireguard/">Wireguard</a></u>
     
   </small>
   <br>
@@ -297,7 +303,7 @@ if (!doNotTrack) {
     239 words&nbsp;· 2 min</small>
 </p>
 
-          
+          In General Tools I use I choose Wireguard since it’s fast because of its light design, and it’s secure because it uses the best cryptographic tools available. However, for each time, the user may need to consider a SUBNET for the wireguard and a IP for each node, for me, it is every annoyed, as I have too many subnet need to be configured. Thus, I build a little tool: wgtools
         </div>
       </article>
       
@@ -309,11 +315,11 @@ if (!doNotTrack) {
     
     
     
-    <u># <a href="https://blog.cklau.cc/tags/homelab/">homelab</a></u>
+    <u># <a href="http://localhost:1313/tags/homelab/">Homelab</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/networking/">networking</a></u>
+    <u># <a href="http://localhost:1313/tags/networking/">Networking</a></u>
     
-    <u># <a href="https://blog.cklau.cc/tags/hardware/">hardware</a></u>
+    <u># <a href="http://localhost:1313/tags/hardware/">Hardware</a></u>
     
   </small>
   <br>
@@ -322,7 +328,8 @@ if (!doNotTrack) {
     613 words&nbsp;· 3 min</small>
 </p>
 
-          
+          For a long time, I held many different digital gadgets, however, I did not consider putting them into a cluster, or more precisely, setting up a platform where I can easily manage them. In this summer vacation, I started thinking of a possibility of setting up a distributed homelab.
+Why Distributed Since I am wandering around the big bay area, multiple different devices are scattered. Thus, I have to build a distributed cluster.
         </div>
       </article>
       </div>
@@ -339,7 +346,7 @@ if (!doNotTrack) {
 
         </div>
       </main><footer class="footer">
-  <p>&copy; 2024 <a href="https://blog.cklau.cc">特倫蘇的日與夜</a> &nbsp;
+  <p>&copy; 2024 <a href="http://localhost:1313/">特倫蘇的日與夜</a> &nbsp;
     
         <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
     

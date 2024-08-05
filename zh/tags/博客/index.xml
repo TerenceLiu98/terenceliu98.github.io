@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>博客 on 特倫蘇的日與夜</title>
-    <link>https://blog.cklau.cc/zh/tags/%E5%8D%9A%E5%AE%A2/</link>
+    <link>http://localhost:1313/zh/tags/%E5%8D%9A%E5%AE%A2/</link>
     <description>Recent content in 博客 on 特倫蘇的日與夜</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 29 Jan 2024 00:00:00 +0800</lastBuildDate>
-    <atom:link href="https://blog.cklau.cc/zh/tags/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Aug 2024 14:54:54 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/zh/tags/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🛜 境内外 CDN 分流配置</title>
-      <link>https://blog.cklau.cc/zh/post/cdn-divertor/</link>
+      <link>http://localhost:1313/zh/post/cdn-divertor/</link>
       <pubDate>Mon, 29 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/zh/post/cdn-divertor/</guid>
+      <guid>http://localhost:1313/zh/post/cdn-divertor/</guid>
       <description>&lt;p&gt;本文纯属个人记录，不保证是最优解决方案，仅供参考。 对于博客的境内外 CDN 分流有很多更加优雅的方式，而我选择了最蠢的「跳转」。&lt;/p&gt;</description>
     </item>
   </channel>
