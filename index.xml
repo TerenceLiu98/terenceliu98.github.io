@@ -12,7 +12,14 @@
       <pubDate>Mon, 15 Apr 2024 00:12:00 +0000</pubDate>
       <guid>https://blog.cklau.cc/post/authentik/</guid>
       <description>&lt;p&gt;If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.&lt;/p&gt;
-</description>
+&lt;p&gt;本身 Authentik 的文档和很多资料都是用英文制作的，而中文环境中似乎还没有一个很好的集合。很巧，&lt;a href=&#34;https://ecwuuuuu.com&#34;&gt;@ECWU&lt;/a&gt; 制作了一系列关于 Authentik 的教程，目前来看，应该是中文互联网的第一套比较完成的教程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://ecwuuuuu.com/series/authentik/&#34;&gt;Series: Authentik&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.bilibili.com/video/BV1pm41167WK/&#34;&gt;Authentik 教程系列 - 部署自己的开源身份验证服务 - 介绍、安装和配置&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;center&gt;
+  &lt;img src=&#34;https://32cf906.webp.li/2024/08/ecwu-authentik.png&#34; width=70%&gt;
+&lt;/center&gt;</description>
     </item>
     
     <item>
@@ -208,7 +215,7 @@ Feb. 8, 2024].
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id=&#34;fn:1&#34;&gt;
-&lt;p&gt;HOST 就填自己的域名即可，不需要填 IP，因为我们已经配置了 HTTP 服务，所以需要域名进行分流。&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;回源 HOST 就填自己的域名即可，不需要填 IP，因为我们已经配置了 HTTP 服务，所以需要域名进行分流。&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;</description>
@@ -665,7 +672,7 @@ img {
 
 &lt;/style&gt;
 &lt;div class=&#34;container&#34;&gt;
-&lt;table width=&#34;50%&#34; border=&#34;0&#34; cellpadding=&#34;10&#34; cellspacing=&#34;0&#34;&gt;
+&lt;table width=&#34;100%&#34; border=&#34;0&#34; cellpadding=&#34;5&#34; cellspacing=&#34;0&#34;&gt;
   &lt;tr&gt;
     &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/jyhi&#34;&gt;&lt;/div&gt;&lt;/td&gt;
     &lt;td&gt;Junde Yhi&lt;/td&gt;
@@ -2821,118 +2828,6 @@ protocol bgp cantor from tpl_ibgp {
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;</description>
-    </item>
-    
-    <item>
-      <title>👋 Hello World - About Me</title>
-      <link>https://blog.cklau.cc/about/</link>
-      <pubDate>Mon, 26 Sep 2022 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/about/</guid>
-      <description>&lt;p&gt;👨‍💻 Hi, I am &lt;ruby &gt;
-    &lt;span&gt;Junjie Liu&lt;/span&gt;
-    &lt;rp&gt;(&lt;/rp&gt;&lt;rt &gt;
-            劉駿傑&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;
-&lt;/ruby&gt;, a PhD student at Trinity College Dublin. Before that, I spent most of my time in &lt;a href=&#34;https://english.www.gov.cn/news/202402/19/content_WS65d2b021c6d0868f4e8e422e.html&#34;&gt;GHMGBA&lt;/a&gt;:&lt;/p&gt;
-&lt;center&gt;
-    &lt;img src=&#34;https://32cf906.webp.li/2024/08/GHMGBA.jpg&#34; width=&#34;80%&#34;&gt;
-&lt;/center&gt;
-&lt;div class=&#34;flink&#34;&gt;
-&lt;div class=&#34;info-list-div&#34; &gt;
-&lt;p&gt;&lt;style type=&#34;text/css&#34;&gt;
-	.nobull {
-		list-style-type: none;
-		margin-top: auto;
-		margin-bottom: auto;
-	}
-&lt;/style&gt;
-
-
-&lt;div class=&#34;info-div&#34; style=&#34;text-indent:25px&#34;&gt;
-	&lt;span class=&#34;info-info&#34;&gt;🎓  PhD Student in Political Science&lt;/span&gt;
-	&lt;span class=&#34;info-info&#34;&gt;(2023 -- 2027)&lt;/span&gt;
-	&lt;br&gt;
-	&lt;small&gt;
-		&lt;ul class=&#34;nobull&#34;&gt;
-			&lt;li&gt;Institution: 
-				&lt;a target=&#34;_blank&#34; href=https://www.tcd.ie/ title=Trinity&amp;#32;College&amp;#32;Dubin&gt;
-					&lt;span class=&#34;info-info&#34;&gt;Trinity College Dubin&lt;/span&gt;
-				&lt;/a&gt;
-			&lt;/li&gt;
-			&lt;li&gt;Advisor: 
-				&lt;a target=&#34;_blank&#34; href=https://chadefaux.github.io/ title=Prof.Thomas&amp;#32;Chadefaux &gt;
-					&lt;span class=&#34;info-info&#34;&gt;Prof.Thomas Chadefaux&lt;/span&gt;
-				&lt;/a&gt;
-			&lt;/li&gt;
-		&lt;/ul&gt;
-	&lt;/small&gt;
-&lt;/div&gt;
-
-&lt;style type=&#34;text/css&#34;&gt;
-	.nobull {
-		list-style-type: none;
-		margin-top: auto;
-		margin-bottom: auto;
-	}
-&lt;/style&gt;
-
-
-&lt;div class=&#34;info-div&#34; style=&#34;text-indent:25px&#34;&gt;
-	&lt;span class=&#34;info-info&#34;&gt;🎓  Mphil in Probability and Mathematical Statistics &lt;/span&gt;
-	&lt;span class=&#34;info-info&#34;&gt;(2021 -- 2023)&lt;/span&gt;
-	&lt;br&gt;
-	&lt;small&gt;
-		&lt;ul class=&#34;nobull&#34;&gt;
-			&lt;li&gt;Institution: 
-				&lt;a target=&#34;_blank&#34; href=https://uic.edu.cn/ title=Hong&amp;#32;Kong&amp;#32;Baptist&amp;#32;University&amp;#32;(BNU-HKBU&amp;#32;United&amp;#32;International&amp;#32;College)&gt;
-					&lt;span class=&#34;info-info&#34;&gt;Hong Kong Baptist University (BNU-HKBU United International College)&lt;/span&gt;
-				&lt;/a&gt;
-			&lt;/li&gt;
-			&lt;li&gt;Advisor: 
-				&lt;a target=&#34;_blank&#34; href=https://staff.uic.edu.cn/ivandeng/en title=Prof.Yuhui&amp;#32;Deng &gt;
-					&lt;span class=&#34;info-info&#34;&gt;Prof.Yuhui Deng&lt;/span&gt;
-				&lt;/a&gt;
-			&lt;/li&gt;
-		&lt;/ul&gt;
-	&lt;/small&gt;
-&lt;/div&gt;
-
-&lt;style type=&#34;text/css&#34;&gt;
-	.nobull {
-		list-style-type: none;
-		margin-top: auto;
-		margin-bottom: auto;
-	}
-&lt;/style&gt;
-
-
-&lt;div class=&#34;info-div&#34; style=&#34;text-indent:25px&#34;&gt;
-	&lt;span class=&#34;info-info&#34;&gt;🎓  Bachelor of Science (Honour) in Statistics&lt;/span&gt;
-	&lt;span class=&#34;info-info&#34;&gt;(2016 -- 2020)&lt;/span&gt;
-	&lt;br&gt;
-	&lt;small&gt;
-		&lt;ul class=&#34;nobull&#34;&gt;
-			&lt;li&gt;Institution: 
-				&lt;a target=&#34;_blank&#34; href=https://uic.edu.cn/ title=Hong&amp;#32;Kong&amp;#32;Baptist&amp;#32;University&amp;#32;(BNU-HKBU&amp;#32;United&amp;#32;International&amp;#32;College)&gt;
-					&lt;span class=&#34;info-info&#34;&gt;Hong Kong Baptist University (BNU-HKBU United International College)&lt;/span&gt;
-				&lt;/a&gt;
-			&lt;/li&gt;
-			&lt;li&gt;Advisor: 
-				&lt;a target=&#34;_blank&#34; href=https://dblp.org/pid/221/8919.html title=Prof.Kang-Too&amp;#32;Tsang&amp;#32;(Retired) &gt;
-					&lt;span class=&#34;info-info&#34;&gt;Prof.Kang-Too Tsang (Retired)&lt;/span&gt;
-				&lt;/a&gt;
-			&lt;/li&gt;
-		&lt;/ul&gt;
-	&lt;/small&gt;
-&lt;/div&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;⚙️ About this site&lt;/p&gt;
-&lt;p&gt;This site is powerfully built by Hugo. The Hugo&amp;rsquo;s version can be checked in: &lt;a href=&#34;https://github.com/TerenceLiu98/terenceliu98.github.io.source/blob/f8327d16f7880ec098bc56ead9f488b5ca18d104/.github/workflows/hugo.yml#L19&#34;&gt;workflows/hugo.yml&lt;/a&gt;; It is automatically built by GitHub Action and deployed on GitHub Pages, which means in some specific regions it may be suffered by the network when you are openning this site. The website theme is built based on &lt;a href=&#34;https://github.com/guangzhengli/hugo-theme-ladder&#34;&gt;hugo-theme-ladder&lt;/a&gt;. I would like to express my gratitude to the author 🙏; the fontface I used in this site is &lt;a href=&#34;https://zhuanlan.zhihu.com/p/637491623&#34;&gt;京華老宋体&lt;/a&gt;, a free commercial Chinese font. The discovery of this font was also a coincidence, and the choice of this font was a coincidence.&lt;/p&gt;
-&lt;p&gt;🫡 For more information:&lt;/p&gt;
-&lt;p&gt;  📚 Academic: &lt;a href=&#34;https://scholar.google.com/citations?user=GaoaZ1kAAAAJ&#34;&gt;Google Scholar&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://terencelau-my.sharepoint.com/:b:/g/personal/terencelau_terencelau_onmicrosoft_com/ESH1R1joUSxOghfIGc1r9-UBL36zElJeNgYwazTSi7LNog?e=Ecmvdy&#34;&gt;My Resumé&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;  📫 My E-mail: &lt;a href=&#34;mailto:bWVAY2tsYXUuY2M=&#34;&gt;bWVAY2tsYXUuY2M=&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;  🔑 GPG Key: &lt;code&gt;BDF4 7D3A 6BE5 17A6 18E8 6CC8 0724 485A 2A49 EC40&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     
     <item>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>container | 特倫蘇的日與夜</title>
+    <link>https://blog.cklau.cc/tags/container/</link>
+      <atom:link href="https://blog.cklau.cc/tags/container/index.xml" rel="self" type="application/rss+xml" />
+    <description>container</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Mon, 15 Apr 2024 00:12:00 +0000</lastBuildDate>
+    <item>
+      <title>🔐 Authentik - An alternative of self-hosted Single-Sign-On Module That you might Need </title>
+      <link>https://blog.cklau.cc/post/authentik/</link>
+      <pubDate>Mon, 15 Apr 2024 00:12:00 +0000</pubDate>
+      <guid>https://blog.cklau.cc/post/authentik/</guid>
+      <description>&lt;p&gt;If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.&lt;/p&gt;
+&lt;p&gt;本身 Authentik 的文档和很多资料都是用英文制作的，而中文环境中似乎还没有一个很好的集合。很巧，&lt;a href=&#34;https://ecwuuuuu.com&#34;&gt;@ECWU&lt;/a&gt; 制作了一系列关于 Authentik 的教程，目前来看，应该是中文互联网的第一套比较完成的教程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://ecwuuuuu.com/series/authentik/&#34;&gt;Series: Authentik&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.bilibili.com/video/BV1pm41167WK/&#34;&gt;Authentik 教程系列 - 部署自己的开源身份验证服务 - 介绍、安装和配置&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;center&gt;
+  &lt;img src=&#34;https://32cf906.webp.li/2024/08/ecwu-authentik.png&#34; width=70%&gt;
+&lt;/center&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

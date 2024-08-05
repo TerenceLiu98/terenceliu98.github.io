@@ -5,16 +5,7 @@
     <link>https://blog.cklau.cc/tags/containerd/</link>
       <atom:link href="https://blog.cklau.cc/tags/containerd/index.xml" rel="self" type="application/rss+xml" />
     <description>containerd</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Mon, 15 Apr 2024 00:12:00 +0000</lastBuildDate>
-    <item>
-      <title>🔐 Authentik - An alternative of self-hosted Single-Sign-On Module That you might Need </title>
-      <link>https://blog.cklau.cc/post/authentik/</link>
-      <pubDate>Mon, 15 Apr 2024 00:12:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/post/authentik/</guid>
-      <description>&lt;p&gt;If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.&lt;/p&gt;
-</description>
-    </item>
-    
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sun, 19 Feb 2023 22:42:17 +0800</lastBuildDate>
     <item>
       <title>🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title>
       <link>https://blog.cklau.cc/post/k8s-setup-2/</link>
