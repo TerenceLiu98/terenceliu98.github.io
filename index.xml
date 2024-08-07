@@ -641,97 +641,6 @@ server {
     </item>
     
     <item>
-      <title>👯 朋辈</title>
-      <link>https://blog.cklau.cc/friends/</link>
-      <pubDate>Sat, 03 Jun 2023 00:11:21 +0800</pubDate>
-      <guid>https://blog.cklau.cc/friends/</guid>
-      <description>&lt;style&gt;
-ul {
-    list-style-type: none;
-}
-
-img {
-  border-radius: 25%;
-  width: 50px;
-}
-
-.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.container {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-}
-
-.table tr {
-  text-align: center
-}
-
-&lt;/style&gt;
-&lt;div class=&#34;container&#34;&gt;
-&lt;table width=&#34;100%&#34; border=&#34;0&#34; cellpadding=&#34;5&#34; cellspacing=&#34;0&#34;&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/jyhi&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;Junde Yhi&lt;/td&gt;
-    &lt;td&gt;Linux 专家， IoT 从业人员&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://yhi.moe&#34;&gt;https://yhi.moe&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/DRJ31&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;Reijie Deng&lt;/td&gt;
-    &lt;td&gt;全栈开发专家&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://www.drjchn.com/&#34;&gt;https://www.drjchn.com/&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;/tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/lzcapp&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;Laurence Luo&lt;/td&gt;
-    &lt;td&gt;极客/保持着一颗赤诚的心 🔥&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://www.lzc.app/&#34;&gt;https://www.lzc.app/&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;/tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/ECWU&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;ECWU&lt;/td&gt;
-    &lt;td&gt;Assistant 高等教育/算法/人工智能/云原生, UCD(Ireland) 博士生（云计算方向）&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://ecwuuuuu.com/&#34;&gt;https://ecwuuuuu.com/&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;/tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/ninekirin&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;Kirin Baka&lt;/td&gt;
-    &lt;td&gt;新世代 UICHCC 掌门人 🫡&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://9baka.moe/&#34;&gt;https://9baka.moe/&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;/tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/billzhonggz&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;Junru Zhong&lt;/td&gt;
-    &lt;td&gt;香港中文大学博士生（计算机视觉方向），交通工具迷&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://junru.dev/&#34;&gt;https://junru.dev/&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;/tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/yfqiu98&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;Yifu Qiu&lt;/td&gt;
-    &lt;td&gt;剑桥大学+爱丁堡大学联培博士生（自然语言处理方向）, 2023 年苹果学者&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://yfqiu.netlify.app/&#34;&gt;https://yfqiu.netlify.app/&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;/tr&gt;
-    &lt;td&gt;&lt;div class=&#34;image&#34;&gt;&lt;img src=&#34;https://avatars-githubusercontent.webp.se/HaoTian22&#34;&gt;&lt;/div&gt;&lt;/td&gt;
-    &lt;td&gt;Hao Tian&lt;/td&gt;
-    &lt;td&gt;BNU-HKBU UIC 新闻与传播学学生&lt;/td&gt;
-    &lt;td&gt;&lt;a href=&#34;https://www.haotian22.top/&#34;&gt;https://www.haotian22.top/&lt;/a&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;🫡  互加友链？请在下面评论区提供如下信息：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;希望被呈现的名称&lt;/li&gt;
-&lt;li&gt;博客 URL&lt;/li&gt;
-&lt;li&gt;一句话介绍自己&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-    </item>
-    
-    <item>
       <title>📘 从理科到文科 - 2023 Fall 小记</title>
       <link>https://blog.cklau.cc/post/phd-application.zh/</link>
       <pubDate>Sat, 03 Jun 2023 00:11:21 +0800</pubDate>
@@ -824,6 +733,93 @@ img {
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Links</title>
+      <link>https://blog.cklau.cc/links/</link>
+      <pubDate>Sat, 03 Jun 2023 00:11:21 +0800</pubDate>
+      <guid>https://blog.cklau.cc/links/</guid>
+      <description>&lt;h2 id=&#34;-blogs-that-i-read&#34;&gt;🤓 Blogs that I read&lt;/h2&gt;
+&lt;p&gt;&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://yhi.moe class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/jyhi&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;Junde Yhi &amp;nbsp &lt;span&gt;https://yhi.moe&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;Proficient in computer tech (specializing in IoT), open source evangelist.&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://ecwuuuuu.com/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/ECWU&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;ECWU &amp;nbsp &lt;span&gt;https://ecwuuuuu.com/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;Assistant Instructur, PhD student in  🇮🇪 UCD,  focusing on NLP, Medical imaging, &amp;amp; cloud-native&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://junru.dev/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/billzhonggz&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;Junru Zhong &amp;nbsp &lt;span&gt;https://junru.dev/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;PhD candidate in Chinese University of Hong Kong&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://yfqiu.netlify.app/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/yfqiu98&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;Yifu Qiu &amp;nbsp &lt;span&gt;https://yfqiu.netlify.app/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;PhD candidate in The University of Edinburgh and Cambridge University, 2023 Apple Scholars&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://www.drjchn.com/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/DRJ31&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;Reijie Deng &amp;nbsp &lt;span&gt;https://www.drjchn.com/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;Full-stack developer&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://www.lzc.app/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/lzcapp&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;Laurence Luo &amp;nbsp &lt;span&gt;https://www.lzc.app/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;Developer, geek&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://9baka.moe/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/ninekirin&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;Kirin Baka &amp;nbsp &lt;span&gt;https://9baka.moe/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;New generation UICHCC bellwether&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://www.haotian22.top/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://avatars-githubusercontent.webp.se/HaoTian22&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;Hao Tian &amp;nbsp &lt;span&gt;https://www.haotian22.top/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;Student in UIC, studying Media and Communication Studies&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;🫡  互加友链？请在下面评论区提供如下信息：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;希望被呈现的名称&lt;/li&gt;
+&lt;li&gt;博客 URL&lt;/li&gt;
+&lt;li&gt;一句话介绍自己&lt;/li&gt;
+&lt;/ol&gt;
+</description>
     </item>
     
     <item>

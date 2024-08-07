@@ -289,6 +289,118 @@
   .chroma .gl { text-decoration: underline }
   .chroma .w { color: #bbbbbb }
 
+
+ 
+.sidenote {
+    font-size: 80%;         
+    font-weight: normal;
+    color: var(--theme-hl1-color);
+    position: relative;     
+}
+ 
+@media (min-width: 1400px) {
+    .sidenote {
+        float: right;
+        clear: right;            
+        text-align: left;
+
+         
+            
+        top: -3rem;             
+        width: 20vw;            
+        margin-right: -23vw;     
+        margin-top: 1rem;       
+    }
+}
+ 
+ 
+@media (max-width: 1400px) {
+    .sidenote {
+         
+        float: right;
+        text-align: left;
+
+            
+        width: 100%;  
+        margin: 1rem 0;
+        padding-left: 5%;  
+    }
+}
+ 
+ 
+body {
+    counter-reset: sidenote-counter;
+}
+.sidenote-number {
+    counter-increment: sidenote-counter;
+}
+ 
+.sidenote::before {
+    content: "\2020";
+    position: relative;
+    vertical-align: super;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+ 
+.sidenote-number::after {
+    content: "\2020";
+    position: relative;
+    vertical-align: super;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--theme-body-color);
+    display: inline;
+    margin-right: 0.2rem;
+}
+@media (min-width: 1400px) {
+     
+    .sidenote-number:hover .sidenote {
+        background-color: var(--theme-color-light);
+    }
+}
+
+  
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    gap: 5px;  
+    padding: 5px;
+}
+
+.card {
+    width: 80%;  
+    box-shadow: 0 0px 0px rgba(0,0,0,0.1);  
+    display: flex;
+    align-items: center;  
+    padding: 10px;
+    background: white;  
+    text-decoration: none;  
+    color: inherit;  
+}
+
+.card img {
+    width: 80px;  
+    height: 80px;
+    border-radius: 50%;  
+    margin-right: 20px;  
+}
+
+.card .info h2 {
+    margin: 0;
+    font-size: 1.2em;  
+}
+
+.card .info p {
+    margin: 5px 0 0;  
+    font-size: 0.9em;
+    color: #444;  
+}
+.card .info span{
+    font-size: 0.5em;
+    color: #666;
+}
 </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -340,7 +452,7 @@
 
 <a href="/post/scientia">[Scientia]</a>
 
-<a href="/friends">[Friends]</a>
+<a href="/links">[Links]</a>
 
 </nav>
 </header>

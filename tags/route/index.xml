@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Route | 特倫蘇的日與夜</title>
+    <link>http://localhost:1313/tags/route/</link>
+      <atom:link href="http://localhost:1313/tags/route/index.xml" rel="self" type="application/rss+xml" />
+    <description>Route</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sun, 04 Aug 2024 00:00:00 +0800</lastBuildDate>
+    <item>
+      <title>Powerful self-hosted Authoritative DNS</title>
+      <link>http://localhost:1313/post/self-hosted-powerdns/</link>
+      <pubDate>Sun, 04 Aug 2024 00:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/post/self-hosted-powerdns/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
