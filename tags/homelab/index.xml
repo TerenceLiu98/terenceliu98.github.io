@@ -5,7 +5,114 @@
     <link>https://blog.cklau.cc/tags/homelab/</link>
       <atom:link href="https://blog.cklau.cc/tags/homelab/index.xml" rel="self" type="application/rss+xml" />
     <description>homelab</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sat, 10 Aug 2024 00:11:21 +0800</lastBuildDate>
+    <item>
+      <title>🧑🏿‍💻 Homelab: CloudFlare is All you Need</title>
+      <link>https://blog.cklau.cc/post/my-homelab-7/</link>
+      <pubDate>Sat, 10 Aug 2024 00:11:21 +0800</pubDate>
+      <guid>https://blog.cklau.cc/post/my-homelab-7/</guid>
+      <description>&lt;p&gt;回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)&lt;/p&gt;
+&lt;p&gt;何为企业级方案?&lt;/p&gt;
+&lt;p&gt;大致来说，就是很稳，非常稳，十分有十二分的稳。至少是正向推理的时候是这样的，至于意外情况，不列入考虑范围&lt;span class=&#34;sidenote-number&#34;&gt;
+	&lt;small class=&#34;sidenote&#34;&gt;
+	作为企业级方案，自然需要是需要应急预案，至于能不能遇上就再议
+	&lt;/small&gt;
+&lt;/span&gt;。 那么作为一个 &lt;code&gt;yaml&lt;/code&gt; 玩家，自然而然的选择就只会落在 Kubernetes 之上，至于如何通过 &lt;code&gt;kubeadm&lt;/code&gt; 搭建高可用的 K8s 集群，不在本文讨论范围之内，请参考以前的文章。 当然，为了&lt;ruby &gt;
+    &lt;span&gt;增加可访问性&lt;/span&gt;
+    &lt;rp&gt;(&lt;/rp&gt;&lt;rt &gt;
+            绕过域名备案&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;
+&lt;/ruby&gt;，我的第一选择当时是选择地处香港的服务器作为集群的主控节点。无法否认的是，AWS/Azure/GCP 的服务器是我等穷学生无法负担得起的，而小众商家又有着概率跑路/较高概率被攻击，本着「起夜级」的思想，最终将集群的主控节点定在了吃灰中的腾讯云广州轻量应用服务器（稳定且低延迟）。&lt;/p&gt;
+&lt;p&gt;在经过很多年的大浪淘沙之后，手里仅剩下两台机器&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，一台作为主存储节点 (Riemann)，而另外一台则是计算节点 (Nexus)，比较有意思的是，计算节点上其实也插了一些存储用的硬盘而存储节点上也有一些计算资源。为了不浪费存储且完成「起夜」级的中心思想，我选择了 GlusterFS 作为主要的文件系统。诚然， Ceph 才是主流，GlusterFS 这种牛夫人才是&lt;del&gt;稳定可靠之选&lt;/del&gt;。&lt;/p&gt;
+&lt;p&gt;一切部署完毕以后，如何让身处 UTC 的我快速访问 CST 的内容则成为了下一个企业级难题。对于真正的企业来说，当然不难：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IPLC/IEPL 直接拉专线；但，横跨亚欧大陆，我相信也不是多少企业可以承担得起这样的专线&lt;/li&gt;
+&lt;li&gt;SD-WAN  依托服务商提供的全球传输网络，通过 SDN 技术到达不同的 POP 点&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;考虑到孑然一人的我并没有太宽裕的经费，最终没有选择十分复杂的方案，而是依托赛博菩萨&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;的全球加速网络实现 SD-WAN 的部分功能。当然，并不是全程企业级，而是一半企业级。先来说说说「起夜」级部分：&lt;/p&gt;
+&lt;p&gt;考虑到赛博菩萨在 CST 地区的作用有限，在筛选了许久后，我选择了几个中转点：HKG/AMS/LAX。在这些地方选择廉价且响应迅速的机器，接入到我的节点之中，作为出站第一步。注意，这些机器并没有接入集群之中，只是作为中转，在一定程度上做到了隔离，因为即使这些机器沦陷/服务商跑路我的集群也不会收到太大的牵连&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;。至于如何中转，则是 Wireguard+VxLAN 一把梭再加一点点的 TCP 以应对全球 ISP 对 UDP 的劣化。并且，我并没有将主控节点与海外机器互联，这样也降低了主控节点被攻破的风险。而至于为什么这样可以访问，就全靠 K8S 的 External IP 了:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在配置 MetalLB 的时候，我们需要创建 External IP 池，常规设置中，我们一般会把那些公网可达的 IP 放进去，比如我这里的腾讯云的 IP；但在我这套方案中，仅需要把 worker 的内网 IP 放入即可：
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;apiVersion&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;metallb.io/v1beta1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;kind&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;IPAddressPool&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;metadata&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;ip-pool&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;namespace&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;metallb-system&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;spec&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;addresses&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  - &lt;span style=&#34;color:#ae81ff&#34;&gt;192.168.101.101-192.168.101.102&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Riemann 和 Nexus 的内网 IP，需要主控节点也可以访问的 IP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;---
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;apiVersion&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;metallb.io/v1beta1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;kind&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;L2Advertisement&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;metadata&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;public-ip&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;namespace&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;metallb-system&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;spec&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;ipAddressPools&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  - &lt;span style=&#34;color:#ae81ff&#34;&gt;ip-pool&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;配置 Ingress Controller，我目前选择的是官方的 &lt;a href=&#34;https://github.com/kubernetes/ingress-nginx&#34;&gt;ingress-nginx-controller&lt;/a&gt;；如果想要充分利用 IP 池中的所有 IP， 我们则需要分别创建两个 ingress controller：
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 每一个 ingress controller 都是 Load Balancer， 所以一共可以拿到两个 IP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;helm upgrade --install ingress-nginx-a ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx-a --create-namespace
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;helm upgrade --install ingress-nginx-b ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx-b --create-namespace
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IPTABLES&lt;/code&gt; 一把梭，让外部服务器进行端口转发，当然，也可以选择其他工具：
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;net.ipv4.ip_forward = 1&amp;#34;&lt;/span&gt; | sudo tee /etc/sysctl.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo iptables -t nat -A PREROUTING -p tcp -m multiport --dport 80,443 -j DNAT --to-destination 192.168.101.101:80
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo iptables -t nat -A POSTROUTING -p tcp -d 192.168.101.101 -m multiport --dport 80,443 -j SNAT --to-source 192.168.101.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;三步走以后，「起夜」级的链路就构造完成了，这时只需要我们将域名解析到外部服务器的 IP 上即可访问集群内部部署的 web 服务。不过，只有三个节点怎么服务全球，还是不够全面。一个企业级的方案一定要做到全球覆盖。那此时就邀请到赛博菩萨登场了。Cloudflare 给每个用户都提供了一个隧道服务叫做 &lt;a href=&#34;https://www.cloudflare.com/products/tunnel/&#34;&gt;「Cloudflare Tunnel」&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Cloudflare Tunnel provides you with a secure way to connect your resources to Cloudflare without a publicly routable IP address. With Tunnel, you do not send traffic to an external IP — instead, a lightweight daemon in your infrastructure (cloudflared) creates outbound-only connections to Cloudflare’s global network. Cloudflare Tunnel can connect HTTP web servers, SSH servers, remote desktops, and other protocols safely to Cloudflare. This way, your origins can serve traffic through Cloudflare without being vulnerable to attacks that bypass Cloudflare.
+摘自 &lt;a href=&#34;https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/&#34;&gt;Cloudflare Tunnel 官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里提到，Cloudflare 实际上是从内网直接到 Cloudflare 的边缘节点，而不需要服务部署在一个公网可达的服务器上，但是在这里，我在直将三个公网可达的服务器作为连接边缘节点和源服务器的中间跳板，而其中的跳板就是 CF Tunnel。这样布置的好处是，我们的回源路径不需要经过纷繁复杂的公网经过无数的 pop 和无尽的绕路，被 BGP 转的晕头转向，最终遗失在太平洋；流量在进入 CF Tunnel 会去寻找离自己最近的“源”站，然后下一跳就是”源“站（集群）了&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;。 Tunnel 会自动寻找最近的“源”站也是官方文档提及的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;By design, replicas(是指 cloudflared replicas) do not offer any level of traffic steering (random, hash, or round-robin). Instead, when a request arrives to Cloudflare, &lt;strong&gt;it will be forwarded to the replica that is geographically closest&lt;/strong&gt;. If that distance calculation is unsuccessful or the connection fails, we will retry others, but there is no guarantee about which connection is chosen.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对于 Cloudflare 来说，可能付费用户需要的是 traffic steering，但实际上，我需要的是 geo steering。自此：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;美洲用户大概率会进入隧道到达 LAX，然后跨越太平洋回源；&lt;/li&gt;
+&lt;li&gt;欧洲和部分亚细亚用户会到 AMS，然后走京德线路回源；&lt;/li&gt;
+&lt;li&gt;其他亚细亚和大洋洲用户会到达 HKG，然后回源；&lt;/li&gt;
+&lt;li&gt;目前，没有测试过非洲的体验，所以暂且没有结果。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;理论上似乎会有加速，那实际上测试呢？我用 &lt;a href=&#34;https://www.dotcom-tools.com/&#34;&gt;dotcom-tools&lt;/a&gt; 对网站打开速度进行测试，选取了马德里、华盛顿和香港进行测试，效果如下图，可以看到三地平均访问速度确实是有所提升，而其中华盛顿地区的测试不升反降，这个可能是本身测试节点到“源”站的路由比 CF 的好吧，也有可能 CF 带这些流量去了欧洲，这就不得而知了。不过总体而言，实验应当算作成功。&lt;/p&gt;
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;img src=&#34;https://32cf906.webp.li/2024/08/media-before-cf.png&#34; /&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;img src=&#34;https://32cf906.webp.li/2024/08/media-cf-speedup.png&#34;/&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;center&gt;Before&lt;/center&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;center&gt;After&lt;/center&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;自此，全球加速部分到此结束。大概的有点有如下几条：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;任意添加接入点：我们仅需要让新增节点和集群建立通畅连接，即可随时增（删）接入点，主要目的是用来应对不同网络波动和 VPS 服务商 SLA 情况。&lt;/li&gt;
+&lt;li&gt;隐藏源站和降低费用：如果使用 GeoDNS 和 CDN 进行加速，则需要支付 DNS 分区解析和对应 CDN 的费用。总所周知，赛博菩萨的 DNS 没有分区解析，Geo steering 需要付费。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当然，实际上方案依旧存在缺陷，例如，接入点和集群连接需要手动配置，CF 路由黑箱。当然，前者是我的问题，后者也是我的问题。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;实际上有些后悔，为什么不是存储节点叫做 Nexus 计算节点 Riemann，这样才符合人设。&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;赛博菩萨之所以是菩萨，是因为善。&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;这也是为什么我选择腾讯云的服务器作为主控节点的原因，毕竟是大厂。&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;这里提到的「下一跳」是指 overlay 网络里的，实际上还是需要经过很多 pop，只不过因为都在这个大内网里不会被展示出来。&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</title>
       <link>https://blog.cklau.cc/post/my-homelab-extra-1/</link>

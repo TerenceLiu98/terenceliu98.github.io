@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>🧑🏿‍💻 Homelab: CloudFlare is All you Need | 特倫蘇的日與夜</title>
+<meta name="title" content="🧑🏿‍💻 Homelab: CloudFlare is All you Need" />
+<meta name="description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)" />
+<meta name="keywords" content="homelab,networking,hardware,网络,存储,NAS," />
+
+
+<meta property="og:title" content="🧑🏿‍💻 Homelab: CloudFlare is All you Need" />
+<meta property="og:description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-7/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2024-08-10T00:11:21+08:00" />
+<meta property="article:modified_time" content="2024-08-10T00:11:21+08:00" />
+
+
+
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="🧑🏿‍💻 Homelab: CloudFlare is All you Need"/>
+<meta name="twitter:description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)"/>
+
+
+
+<meta itemprop="name" content="🧑🏿‍💻 Homelab: CloudFlare is All you Need">
+<meta itemprop="description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)"><meta itemprop="datePublished" content="2024-08-10T00:11:21+08:00" />
+<meta itemprop="dateModified" content="2024-08-10T00:11:21+08:00" />
+<meta itemprop="wordCount" content="415">
+<meta itemprop="keywords" content="homelab,networking,hardware,网络,存储,NAS," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+
+   
+
+
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
+
+
+ 
+.sidenote {
+    font-size: 80%;         
+    font-weight: normal;
+    color: var(--theme-hl1-color);
+    position: relative;     
+}
+ 
+@media (min-width: 1400px) {
+    .sidenote {
+        float: right;
+        clear: right;            
+        text-align: left;
+
+         
+            
+        top: -3rem;             
+        width: 20vw;            
+        margin-right: -23vw;     
+        margin-top: 1rem;       
+    }
+}
+ 
+ 
+@media (max-width: 1400px) {
+    .sidenote {
+         
+        float: right;
+        text-align: left;
+
+            
+        width: 100%;  
+        margin: 1rem 0;
+        padding-left: 5%;  
+    }
+}
+ 
+ 
+body {
+    counter-reset: sidenote-counter;
+}
+.sidenote-number {
+    counter-increment: sidenote-counter;
+}
+ 
+.sidenote::before {
+    content: "\2020";
+    position: relative;
+    vertical-align: super;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+ 
+.sidenote-number::after {
+    content: "\2020";
+    position: relative;
+    vertical-align: super;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--theme-body-color);
+    display: inline;
+    margin-right: 0.2rem;
+}
+@media (min-width: 1400px) {
+     
+    .sidenote-number:hover .sidenote {
+        background-color: var(--theme-color-light);
+    }
+}
+
+  
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    gap: 5px;  
+    padding: 5px;
+}
+
+.card {
+    width: 80%;  
+    box-shadow: 0 0px 0px rgba(0,0,0,0.1);  
+    display: flex;
+    align-items: center;  
+    padding: 10px;
+    background: white;  
+    text-decoration: none;  
+    color: inherit;  
+}
+
+.card img {
+    width: 80px;  
+    height: 80px;
+    border-radius: 50%;  
+    margin-right: 20px;  
+}
+
+.card .info h2 {
+    margin: 0;
+    font-size: 1.2em;  
+}
+
+.card .info p {
+    margin: 5px 0 0;  
+    font-size: 0.9em;
+    color: #444;  
+}
+.card .info span{
+    font-size: 0.5em;
+    color: #666;
+}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
+<link rel="alternate" type="application/rss+xml" href="https://blog.cklau.cc/feed.xml" title="特倫蘇的日與夜">
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/post">[Blog]</a>
+
+<a href="/post/scientia">[Scientia]</a>
+
+<a href="/links">[Links]</a>
+
+</nav>
+</header>
+  <main>
+<h1>🧑🏿‍💻 Homelab: CloudFlare is All you Need</h1>
+<p>
+  <i>
+    <time datetime='2024-08-10' pubdate>
+      10 Aug, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)</p>
+<p>何为企业级方案?</p>
+<p>大致来说，就是很稳，非常稳，十分有十二分的稳。至少是正向推理的时候是这样的，至于意外情况，不列入考虑范围<span class="sidenote-number">
+	<small class="sidenote">
+	作为企业级方案，自然需要是需要应急预案，至于能不能遇上就再议
+	</small>
+</span>。 那么作为一个 <code>yaml</code> 玩家，自然而然的选择就只会落在 Kubernetes 之上，至于如何通过 <code>kubeadm</code> 搭建高可用的 K8s 集群，不在本文讨论范围之内，请参考以前的文章。 当然，为了<ruby >
+    <span>增加可访问性</span>
+    <rp>(</rp><rt >
+            绕过域名备案</rt><rp>)</rp>
+</ruby>，我的第一选择当时是选择地处香港的服务器作为集群的主控节点。无法否认的是，AWS/Azure/GCP 的服务器是我等穷学生无法负担得起的，而小众商家又有着概率跑路/较高概率被攻击，本着「起夜级」的思想，最终将集群的主控节点定在了吃灰中的腾讯云广州轻量应用服务器（稳定且低延迟）。</p>
+<p>在经过很多年的大浪淘沙之后，手里仅剩下两台机器<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>，一台作为主存储节点 (Riemann)，而另外一台则是计算节点 (Nexus)，比较有意思的是，计算节点上其实也插了一些存储用的硬盘而存储节点上也有一些计算资源。为了不浪费存储且完成「起夜」级的中心思想，我选择了 GlusterFS 作为主要的文件系统。诚然， Ceph 才是主流，GlusterFS 这种牛夫人才是<del>稳定可靠之选</del>。</p>
+<p>一切部署完毕以后，如何让身处 UTC 的我快速访问 CST 的内容则成为了下一个企业级难题。对于真正的企业来说，当然不难：</p>
+<ol>
+<li>IPLC/IEPL 直接拉专线；但，横跨亚欧大陆，我相信也不是多少企业可以承担得起这样的专线</li>
+<li>SD-WAN  依托服务商提供的全球传输网络，通过 SDN 技术到达不同的 POP 点</li>
+</ol>
+<p>考虑到孑然一人的我并没有太宽裕的经费，最终没有选择十分复杂的方案，而是依托赛博菩萨<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>的全球加速网络实现 SD-WAN 的部分功能。当然，并不是全程企业级，而是一半企业级。先来说说说「起夜」级部分：</p>
+<p>考虑到赛博菩萨在 CST 地区的作用有限，在筛选了许久后，我选择了几个中转点：HKG/AMS/LAX。在这些地方选择廉价且响应迅速的机器，接入到我的节点之中，作为出站第一步。注意，这些机器并没有接入集群之中，只是作为中转，在一定程度上做到了隔离，因为即使这些机器沦陷/服务商跑路我的集群也不会收到太大的牵连<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>。至于如何中转，则是 Wireguard+VxLAN 一把梭再加一点点的 TCP 以应对全球 ISP 对 UDP 的劣化。并且，我并没有将主控节点与海外机器互联，这样也降低了主控节点被攻破的风险。而至于为什么这样可以访问，就全靠 K8S 的 External IP 了:</p>
+<ol>
+<li>在配置 MetalLB 的时候，我们需要创建 External IP 池，常规设置中，我们一般会把那些公网可达的 IP 放进去，比如我这里的腾讯云的 IP；但在我这套方案中，仅需要把 worker 的内网 IP 放入即可：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">metallb.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">IPAddressPool</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ip-pool</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">metallb-system</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addresses</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">192.168.101.101-192.168.101.102</span> <span style="color:#75715e"># Riemann 和 Nexus 的内网 IP，需要主控节点也可以访问的 IP</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">metallb.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">L2Advertisement</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">public-ip</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">metallb-system</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ipAddressPools</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ip-pool</span>
+</span></span></code></pre></div></li>
+<li>配置 Ingress Controller，我目前选择的是官方的 <a href="https://github.com/kubernetes/ingress-nginx">ingress-nginx-controller</a>；如果想要充分利用 IP 池中的所有 IP， 我们则需要分别创建两个 ingress controller：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 每一个 ingress controller 都是 Load Balancer， 所以一共可以拿到两个 IP</span>
+</span></span><span style="display:flex;"><span>helm upgrade --install ingress-nginx-a ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx-a --create-namespace
+</span></span><span style="display:flex;"><span>helm upgrade --install ingress-nginx-b ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx-b --create-namespace
+</span></span></code></pre></div></li>
+<li><code>IPTABLES</code> 一把梭，让外部服务器进行端口转发，当然，也可以选择其他工具：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;net.ipv4.ip_forward = 1&#34;</span> | sudo tee /etc/sysctl.conf
+</span></span><span style="display:flex;"><span>sudo iptables -t nat -A PREROUTING -p tcp -m multiport --dport 80,443 -j DNAT --to-destination 192.168.101.101:80
+</span></span><span style="display:flex;"><span>sudo iptables -t nat -A POSTROUTING -p tcp -d 192.168.101.101 -m multiport --dport 80,443 -j SNAT --to-source 192.168.101.2
+</span></span></code></pre></div></li>
+</ol>
+<p>三步走以后，「起夜」级的链路就构造完成了，这时只需要我们将域名解析到外部服务器的 IP 上即可访问集群内部部署的 web 服务。不过，只有三个节点怎么服务全球，还是不够全面。一个企业级的方案一定要做到全球覆盖。那此时就邀请到赛博菩萨登场了。Cloudflare 给每个用户都提供了一个隧道服务叫做 <a href="https://www.cloudflare.com/products/tunnel/">「Cloudflare Tunnel」</a>:</p>
+<blockquote>
+<p>Cloudflare Tunnel provides you with a secure way to connect your resources to Cloudflare without a publicly routable IP address. With Tunnel, you do not send traffic to an external IP — instead, a lightweight daemon in your infrastructure (cloudflared) creates outbound-only connections to Cloudflare’s global network. Cloudflare Tunnel can connect HTTP web servers, SSH servers, remote desktops, and other protocols safely to Cloudflare. This way, your origins can serve traffic through Cloudflare without being vulnerable to attacks that bypass Cloudflare.
+摘自 <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/">Cloudflare Tunnel 官方文档</a></p>
+</blockquote>
+<p>这里提到，Cloudflare 实际上是从内网直接到 Cloudflare 的边缘节点，而不需要服务部署在一个公网可达的服务器上，但是在这里，我在直将三个公网可达的服务器作为连接边缘节点和源服务器的中间跳板，而其中的跳板就是 CF Tunnel。这样布置的好处是，我们的回源路径不需要经过纷繁复杂的公网经过无数的 pop 和无尽的绕路，被 BGP 转的晕头转向，最终遗失在太平洋；流量在进入 CF Tunnel 会去寻找离自己最近的“源”站，然后下一跳就是”源“站（集群）了<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>。 Tunnel 会自动寻找最近的“源”站也是官方文档提及的：</p>
+<blockquote>
+<p>By design, replicas(是指 cloudflared replicas) do not offer any level of traffic steering (random, hash, or round-robin). Instead, when a request arrives to Cloudflare, <strong>it will be forwarded to the replica that is geographically closest</strong>. If that distance calculation is unsuccessful or the connection fails, we will retry others, but there is no guarantee about which connection is chosen.</p>
+</blockquote>
+<p>对于 Cloudflare 来说，可能付费用户需要的是 traffic steering，但实际上，我需要的是 geo steering。自此：</p>
+<ol>
+<li>美洲用户大概率会进入隧道到达 LAX，然后跨越太平洋回源；</li>
+<li>欧洲和部分亚细亚用户会到 AMS，然后走京德线路回源；</li>
+<li>其他亚细亚和大洋洲用户会到达 HKG，然后回源；</li>
+<li>目前，没有测试过非洲的体验，所以暂且没有结果。</li>
+</ol>
+<p>理论上似乎会有加速，那实际上测试呢？我用 <a href="https://www.dotcom-tools.com/">dotcom-tools</a> 对网站打开速度进行测试，选取了马德里、华盛顿和香港进行测试，效果如下图，可以看到三地平均访问速度确实是有所提升，而其中华盛顿地区的测试不升反降，这个可能是本身测试节点到“源”站的路由比 CF 的好吧，也有可能 CF 带这些流量去了欧洲，这就不得而知了。不过总体而言，实验应当算作成功。</p>
+<table>
+    <tr>
+        <td><img src="https://32cf906.webp.li/2024/08/media-before-cf.png" /></td>
+        <td><img src="https://32cf906.webp.li/2024/08/media-cf-speedup.png"/></td>
+    </tr>
+    <tr>
+        <td><center>Before</center></td>
+        <td><center>After</center></td>
+    </tr>
+</table>
+<p>自此，全球加速部分到此结束。大概的有点有如下几条：</p>
+<ol>
+<li>任意添加接入点：我们仅需要让新增节点和集群建立通畅连接，即可随时增（删）接入点，主要目的是用来应对不同网络波动和 VPS 服务商 SLA 情况。</li>
+<li>隐藏源站和降低费用：如果使用 GeoDNS 和 CDN 进行加速，则需要支付 DNS 分区解析和对应 CDN 的费用。总所周知，赛博菩萨的 DNS 没有分区解析，Geo steering 需要付费。</li>
+</ol>
+<p>当然，实际上方案依旧存在缺陷，例如，接入点和集群连接需要手动配置，CF 路由黑箱。当然，前者是我的问题，后者也是我的问题。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>实际上有些后悔，为什么不是存储节点叫做 Nexus 计算节点 Riemann，这样才符合人设。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>赛博菩萨之所以是菩萨，是因为善。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>这也是为什么我选择腾讯云的服务器作为主控节点的原因，毕竟是大厂。&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>这里提到的「下一跳」是指 overlay 网络里的，实际上还是需要经过很多 pop，只不过因为都在这个大内网里不会被展示出来。&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+</content>
+
+<p>
+  
+  <a href="https://blog.cklau.cc/tags/homelab/">#homelab</a>
+  
+  <a href="https://blog.cklau.cc/tags/networking/">#networking</a>
+  
+  <a href="https://blog.cklau.cc/tags/hardware/">#hardware</a>
+  
+  <a href="https://blog.cklau.cc/tags/%E7%BD%91%E7%BB%9C/">#网络</a>
+  
+  <a href="https://blog.cklau.cc/tags/%E5%AD%98%E5%82%A8/">#存储</a>
+  
+  <a href="https://blog.cklau.cc/tags/nas/">#NAS</a>
+  
+</p>
+
+  </main>
+  <footer>
+
+
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
+
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Hosting and images served by <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
+
+</footer>
+
+    
+</body>
+
+</html>
