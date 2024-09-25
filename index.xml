@@ -847,7 +847,7 @@ server {
       <link>https://blog.cklau.cc/links/</link>
       <pubDate>Sat, 03 Jun 2023 00:11:21 +0800</pubDate>
       <guid>https://blog.cklau.cc/links/</guid>
-      <description>&lt;h2 id=&#34;-blogs-that-i-read&#34;&gt;🤓 Blogs that I read&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;-blogs-that-i-might-read&#34;&gt;🤓 Blogs that I might read&lt;/h2&gt;
 &lt;p&gt;&lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://yhi.moe class=&#34;card&#34;&gt;
 	  &lt;img src=https://avatars-githubusercontent.webp.se/jyhi&gt;
@@ -919,13 +919,25 @@ server {
 		  &lt;p&gt;Student in UIC, studying Media and Communication Studies&lt;/p&gt;
 	  &lt;/div&gt;
 	&lt;/a&gt;
+&lt;/div&gt;&lt;br&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://zlicdt.github.io class=&#34;card&#34;&gt;
+	  &lt;img src=https://zlicdt.github.io/img/avatar.png&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;zlicdt &amp;nbsp &lt;span&gt;https://zlicdt.github.io&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;なに？？&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&#34;card-container&#34;&gt;
+	&lt;a href=https://chrdsite.rinchord.studio/ class=&#34;card&#34;&gt;
+	  &lt;img src=https://chrdsite.rinchord.studio/content/images/size/w256h256/format/jpeg/2024/09/1000023288.jpg&gt;
+	  &lt;div class=&#34;info&#34;&gt;
+		  &lt;h2&gt;渺宙凛娴 &amp;nbsp &lt;span&gt;https://chrdsite.rinchord.studio/&lt;/span&gt;&lt;/h2&gt;
+		  &lt;p&gt;渺之舟，宇之奏&lt;/p&gt;
+	  &lt;/div&gt;
+	&lt;/a&gt;
 &lt;/div&gt;&lt;/p&gt;
-&lt;p&gt;🫡  互加友链？请在下面评论区提供如下信息：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;希望被呈现的名称&lt;/li&gt;
-&lt;li&gt;博客 URL&lt;/li&gt;
-&lt;li&gt;一句话介绍自己&lt;/li&gt;
-&lt;/ol&gt;
 </description>
     </item>
     
