@@ -34,7 +34,7 @@
 <meta itemprop="description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
 在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。"><meta itemprop="datePublished" content="2024-09-19T00:11:21+08:00" />
 <meta itemprop="dateModified" content="2024-09-19T00:11:21+08:00" />
-<meta itemprop="wordCount" content="1678">
+<meta itemprop="wordCount" content="1693">
 <meta itemprop="keywords" content="homelab,oauth2-proxy,nginx-ingress-controller,GeoDNS,Authoritative DNS,安全,零信任,存储,权威 DNS," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -945,6 +945,11 @@ body {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>至此，我们已经完成了从 client 到 entrance 再到 source 的两步走流程。当然，选择 nginx 的原因不仅仅是 TCP 加速，更是因为可以根据域名进行不同后端的分流，这些应该是 IPTABLES/REALM 这些工具无法达到的。而至于为什么不用 HAProxy 则是因为本人不善于使用它，是我的错。</p>
+<h2 id="参考">参考</h2>
+<ol>
+<li><a href="https://u.sb/debian-install-powerdns/">Debian12/Ubuntu24.04 安装 PowerDNS 和 PowerDNS-Admin 自建权威 DNS 教程</a></li>
+<li><a href="https://lantian.pub/article/modify-website/powerdns-lua-diy-geodns.lantian/">使用 PowerDNS 的 Lua 功能自建分地区解析 GeoDNS</a></li>
+</ol>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
