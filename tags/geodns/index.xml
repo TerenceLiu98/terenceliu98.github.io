@@ -519,8 +519,8 @@
 &lt;p&gt;通过 stream 模块，我们就可以通过 nginx 对 TCP/UDP 流量进行转发，同时，还可以通过 SNI proxy 来转发 HTTPS 流量到源站，这里我给出一个样例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;stream &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    upstream cluster &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        server 192.168.101.151:443;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        server 192.168.101.152:443;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        server 192.168.101.101:443;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        server 192.168.101.102:443;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    map $ssl_preread_server_name $upstream_server &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
@@ -535,6 +535,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;至此，我们已经完成了从 client 到 entrance 再到 source 的两步走流程。当然，选择 nginx 的原因不仅仅是 TCP 加速，更是因为可以根据域名进行不同后端的分流，这些应该是 IPTABLES/REALM 这些工具无法达到的。而至于为什么不用 HAProxy 则是因为本人不善于使用它，是我的错。&lt;/p&gt;
+&lt;p&gt;回到集群里，我们这个时候就可以设置 &lt;code&gt;ingress-nginx-a&lt;/code&gt; 和 &lt;code&gt;ingress-nginx-b&lt;/code&gt; 两个 ingress-controller，分别对应 &lt;code&gt;192.168.101.101&lt;/code&gt; 和 &lt;code&gt;192.168.101.102&lt;/code&gt; 两个 External IP。做到任意一个宕机都可以随时切换。&lt;/p&gt;
 &lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;https://u.sb/debian-install-powerdns/&#34;&gt;Debian12/Ubuntu24.04 安装 PowerDNS 和 PowerDNS-Admin 自建权威 DNS 教程&lt;/a&gt;&lt;/li&gt;

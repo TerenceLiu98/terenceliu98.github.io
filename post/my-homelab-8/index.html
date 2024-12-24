@@ -34,7 +34,7 @@
 <meta itemprop="description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
 在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。"><meta itemprop="datePublished" content="2024-09-19T00:11:21+08:00" />
 <meta itemprop="dateModified" content="2024-09-19T00:11:21+08:00" />
-<meta itemprop="wordCount" content="1693">
+<meta itemprop="wordCount" content="1705">
 <meta itemprop="keywords" content="homelab,oauth2-proxy,nginx-ingress-controller,GeoDNS,Authoritative DNS,安全,零信任,存储,权威 DNS," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -929,8 +929,8 @@ body {
 <p>通过 stream 模块，我们就可以通过 nginx 对 TCP/UDP 流量进行转发，同时，还可以通过 SNI proxy 来转发 HTTPS 流量到源站，这里我给出一个样例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>stream <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    upstream cluster <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        server 192.168.101.151:443;
-</span></span><span style="display:flex;"><span>        server 192.168.101.152:443;
+</span></span><span style="display:flex;"><span>        server 192.168.101.101:443;
+</span></span><span style="display:flex;"><span>        server 192.168.101.102:443;
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    map $ssl_preread_server_name $upstream_server <span style="color:#f92672">{</span>
@@ -945,6 +945,7 @@ body {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>至此，我们已经完成了从 client 到 entrance 再到 source 的两步走流程。当然，选择 nginx 的原因不仅仅是 TCP 加速，更是因为可以根据域名进行不同后端的分流，这些应该是 IPTABLES/REALM 这些工具无法达到的。而至于为什么不用 HAProxy 则是因为本人不善于使用它，是我的错。</p>
+<p>回到集群里，我们这个时候就可以设置 <code>ingress-nginx-a</code> 和 <code>ingress-nginx-b</code> 两个 ingress-controller，分别对应 <code>192.168.101.101</code> 和 <code>192.168.101.102</code> 两个 External IP。做到任意一个宕机都可以随时切换。</p>
 <h2 id="参考">参考</h2>
 <ol>
 <li><a href="https://u.sb/debian-install-powerdns/">Debian12/Ubuntu24.04 安装 PowerDNS 和 PowerDNS-Admin 自建权威 DNS 教程</a></li>
