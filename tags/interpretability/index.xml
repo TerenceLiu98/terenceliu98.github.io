@@ -25,11 +25,11 @@
 	&lt;small class=&#34;sidenote&#34;&gt;
 	where the dirac delta distribution assigns probability $1$ to $z\_i$ while $0$ to all other elements. As the retriction of we only focus on the single datapoint or perturbation
 	&lt;/small&gt;
-&lt;/span&gt; at $z_i$  and $\epsilon$ si the weight of the pertubation, with $\epsilon \to 0$. Thus, the &lt;strong&gt;Influence Function(IF)&lt;/strong&gt; of $z_i$ is defined as the derivative(&lt;span class=&#34;sidenote-number&#34;&gt;
+&lt;/span&gt; at $z_i$  and $\epsilon$ si the weight of the pertubation, with $\epsilon \to 0$. Thus, the &lt;strong&gt;Influence Function(IF)&lt;/strong&gt; of $z_i$ is defined as the derivative&lt;span class=&#34;sidenote-number&#34;&gt;
 	&lt;small class=&#34;sidenote&#34;&gt;
 	Gateaux derivative
 	&lt;/small&gt;
-&lt;/span&gt;) of $T(P)$ w.r.t $\epsilon$, evaluate at $\epsilon = 0$:&lt;/p&gt;
+&lt;/span&gt; of $T(P)$ w.r.t $\epsilon$, evaluate at $\epsilon = 0$:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \textbf{IF}(z_i;T,P) = \lim_{\epsilon \to 0} \frac{T(P_{\epsilon}) - T(P)}{\epsilon}
 \end{equation}&lt;/p&gt;

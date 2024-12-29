@@ -34,7 +34,7 @@ The concept of the IF was first introduced by Frank R. Hampel [1] in 1970s , whe
 <meta itemprop="description" content="Instance-Based Interpretability - Influence Function(IF) Brief History of IF The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.
 The concept of the IF was first introduced by Frank R. Hampel [1] in 1970s , where it is used to study how a single data point (or a small pertubation in the data) affects the behaviour of a statistical estimator."><meta itemprop="datePublished" content="2024-12-27T00:15:00+00:00" />
 <meta itemprop="dateModified" content="2024-12-27T00:15:00+00:00" />
-<meta itemprop="wordCount" content="1217">
+<meta itemprop="wordCount" content="1216">
 <meta itemprop="keywords" content="Artificial Intelligence,XAI,interpretability," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -469,11 +469,11 @@ body {
 	<small class="sidenote">
 	where the dirac delta distribution assigns probability $1$ to $z\_i$ while $0$ to all other elements. As the retriction of we only focus on the single datapoint or perturbation
 	</small>
-</span> at $z_i$  and $\epsilon$ si the weight of the pertubation, with $\epsilon \to 0$. Thus, the <strong>Influence Function(IF)</strong> of $z_i$ is defined as the derivative(<span class="sidenote-number">
+</span> at $z_i$  and $\epsilon$ si the weight of the pertubation, with $\epsilon \to 0$. Thus, the <strong>Influence Function(IF)</strong> of $z_i$ is defined as the derivative<span class="sidenote-number">
 	<small class="sidenote">
 	Gateaux derivative
 	</small>
-</span>) of $T(P)$ w.r.t $\epsilon$, evaluate at $\epsilon = 0$:</p>
+</span> of $T(P)$ w.r.t $\epsilon$, evaluate at $\epsilon = 0$:</p>
 <p>\begin{equation}
 \textbf{IF}(z_i;T,P) = \lim_{\epsilon \to 0} \frac{T(P_{\epsilon}) - T(P)}{\epsilon}
 \end{equation}</p>
