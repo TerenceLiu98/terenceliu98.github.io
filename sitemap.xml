@@ -3,7 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.cklau.cc/</loc>
-    <lastmod>2024-09-19T00:11:21+08:00</lastmod>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/artificial-intelligence/</loc>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/interpretability/</loc>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/post/</loc>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/post/scientia/</loc>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/</loc>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/tags/xai/</loc>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.cklau.cc/post/scientia/influence-function/</loc>
+    <lastmod>2024-12-27T00:15:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/authoritative-dns/</loc>
     <lastmod>2024-09-19T00:11:21+08:00</lastmod>
@@ -18,12 +39,6 @@
     <lastmod>2024-09-19T00:11:21+08:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/oauth2-proxy/</loc>
-    <lastmod>2024-09-19T00:11:21+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/post/</loc>
-    <lastmod>2024-09-19T00:11:21+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/tags/</loc>
     <lastmod>2024-09-19T00:11:21+08:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/%E5%AD%98%E5%82%A8/</loc>
@@ -77,16 +92,10 @@
     <loc>https://blog.cklau.cc/tags/self-hosted/</loc>
     <lastmod>2024-04-15T00:12:00+00:00</lastmod>
   </url><url>
-    <loc>https://blog.cklau.cc/tags/artificial-intelligence/</loc>
-    <lastmod>2024-02-08T00:15:00+00:00</lastmod>
-  </url><url>
     <loc>https://blog.cklau.cc/tags/long-read/</loc>
     <lastmod>2024-02-08T00:15:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/multi-modality/</loc>
-    <lastmod>2024-02-08T00:15:00+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.cklau.cc/post/scientia/</loc>
     <lastmod>2024-02-08T00:15:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.cklau.cc/tags/text-image/</loc>

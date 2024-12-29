@@ -1861,5 +1861,99 @@
     "title": "Multimodal Machine Learning: A Survey and Taxonomy",
     "title-short": "Multimodal Machine Learning",
     "type": ""
+  },
+  {
+    "author": [
+      {
+        "family": "Hampel",
+        "given": "Frank R"
+      }
+    ],
+    "container-title": "Journal of the american statistical association",
+    "id": "hampel1974influence",
+    "issue": "346",
+    "issued": {
+      "date-parts": [
+        [
+          1974
+        ]
+      ]
+    },
+    "page": "383-393",
+    "publisher": "Taylor & Francis",
+    "title": "The influence curve and its role in robust estimation",
+    "type": "article-journal",
+    "volume": "69"
+  },
+  {
+    "author": [
+      {
+        "family": "Huber",
+        "given": "Peter J"
+      }
+    ],
+    "container-title": "Journal of the American Statistical Association",
+    "id": "huber1983minimax",
+    "issue": "381",
+    "issued": {
+      "date-parts": [
+        [
+          1983
+        ]
+      ]
+    },
+    "page": "66-72",
+    "publisher": "Taylor & Francis",
+    "title": "Minimax aspects of bounded-influence regression",
+    "type": "article-journal",
+    "volume": "78"
+  },
+  {
+    "author": [
+      {
+        "family": "Efron",
+        "given": "Bradley"
+      },
+      {
+        "family": "Tibshirani",
+        "given": "Robert J"
+      }
+    ],
+    "id": "efron1994introduction",
+    "issued": {
+      "date-parts": [
+        [
+          1994
+        ]
+      ]
+    },
+    "publisher": "Chapman; Hall/CRC",
+    "title": "An introduction to the bootstrap",
+    "type": "book"
+  },
+  {
+    "author": [
+      {
+        "family": "Koh",
+        "given": "Pang Wei"
+      },
+      {
+        "family": "Liang",
+        "given": "Percy"
+      }
+    ],
+    "container-title": "International conference on machine learning",
+    "id": "koh2017understanding",
+    "issued": {
+      "date-parts": [
+        [
+          2017
+        ]
+      ]
+    },
+    "page": "1885-1894",
+    "publisher": "PMLR",
+    "title": "Understanding black-box predictions via influence functions",
+    "type": "paper-conference"
   }
 ]

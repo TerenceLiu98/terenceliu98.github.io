@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>interpretability | 特倫蘇的日與夜</title>
+    <link>https://blog.cklau.cc/tags/interpretability/</link>
+      <atom:link href="https://blog.cklau.cc/tags/interpretability/index.xml" rel="self" type="application/rss+xml" />
+    <description>interpretability</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Fri, 27 Dec 2024 00:15:00 +0000</lastBuildDate>
+    <item>
+      <title>🧮 Interpretability of Machine Learning Algorithm</title>
+      <link>https://blog.cklau.cc/post/scientia/influence-function/</link>
+      <pubDate>Fri, 27 Dec 2024 00:15:00 +0000</pubDate>
+      <guid>https://blog.cklau.cc/post/scientia/influence-function/</guid>
+      <description>&lt;h1 id=&#34;instance-based-interpretability---influence-functionif&#34;&gt;Instance-Based Interpretability - Influence Function(IF)&lt;/h1&gt;
+&lt;h2 id=&#34;brief-history-of-if&#34;&gt;Brief History of IF&lt;/h2&gt;
+&lt;p&gt;The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.&lt;/p&gt;
+&lt;p&gt;The concept of the IF was first introduced by Frank R. Hampel [&lt;a class=&#34;hugo-simplecite-cite-hyperlink&#34; href=&#34;#bibreference-1&#34; title=&#34;F. Hampel, The influence curve and its role in robust estimation, Journal of the american statistical association, vol. 69, no. 346, pp. 383–393, 1974. &#34;&gt;1&lt;/a&gt;] in 1970s , where it is used to study how a single data point (or a small pertubation in the data) affects the behaviour of a statistical estimator. This work became foundational in robust statistics, as it provided a way to analyze the robustness of estimators against outliers or small changes in the dataset. Hampel&amp;rsquo;s influence function provided a systematic way to quantify how an infinitesimal contamination of the data at a single point could impact an estimator. Mathematically, it defined the response of an estimator to a small perturbation in the underlying distribution, laying the groundwork for evaluating and designing robust estimators.&lt;/p&gt;
+&lt;p&gt;During the 1970s and 1980s, the influence function became a critical tool in robust statistics, with contributions from researchers such as Peter J. Huber [&lt;a class=&#34;hugo-simplecite-cite-hyperlink&#34; href=&#34;#bibreference-2&#34; title=&#34;P. Huber, Minimax aspects of bounded-influence regression, Journal of the American Statistical Association, vol. 78, no. 381, pp. 66–72, 1983. &#34;&gt;2&lt;/a&gt;]. It was used extensively to analyze the sensitivity of M-estimators, a class of robust statistical estimators designed to minimize a modified loss function that reduces sensitivity to outliers. These developments allowed statisticians to better understand the trade-offs between robustness and efficiency, leading to practical applications such as outlier detection, data cleaning, and the evaluation of statistical methods&amp;rsquo; stability under small perturbations.&lt;/p&gt;
+&lt;p&gt;In the 1990s and 2000s, the influence function began to find applications in computational statistics and machine learning. It was used to understand the sensitivity of estimators in resampling methods such as cross-validation and bootstrapping [&lt;a class=&#34;hugo-simplecite-cite-hyperlink&#34; href=&#34;#bibreference-3&#34; title=&#34;B. Efron and R. Tibshirani, An introduction to the bootstrap. Chapman; Hall/CRC, 1994. &#34;&gt;3&lt;/a&gt;]. Additionally, it became a theoretical tool for evaluating the robustness of statistical models in applied settings, including regression analysis and model diagnostics. The influence function provided insights into how removing or altering individual data points could impact statistical estimators, enabling practitioners to identify problematic or influential observations.&lt;/p&gt;
+&lt;p&gt;The influence function experienced a resurgence in the 2010s with its adaptation to machine learning and modern computational models. In 2017, Koh and Liang&amp;rsquo;s work [&lt;a class=&#34;hugo-simplecite-cite-hyperlink&#34; href=&#34;#bibreference-4&#34; title=&#34;P. Koh and P. Liang, Understanding black-box predictions via influence functions, In Proc. International conference on machine learning, 2017, pp. 1885–1894. &#34;&gt;4&lt;/a&gt;] extended the classical influence function to modern machine learning, including neural networks. They demonstrated how influence functions could trace predictions of complex models back to individual training points, allowing researchers to debug models, explain predictions, and evaluate the impact of specific training data on the model&amp;rsquo;s behavior. This work made the influence function computationally feasible in large-scale settings by approximating the inverse Hessian matrix, which had previously been a computational bottleneck.&lt;/p&gt;
+&lt;h2 id=&#34;mathematic-foundation&#34;&gt;Mathematic Foundation&lt;/h2&gt;
+&lt;p&gt;In this section, we will introduce the foundation of IF in mathematical aspect. Let $\mathbf{z} = {z_i}_{i=1}^{n}$ represent a set of data point where $z_i \mathop{\sim}\limits^{i.i.d} P$. Let $T(P)$ be the parameter or estimator of interest, defined as a function of the distribution $P$. The influence function quantifies the effect of adding a small perturbation $\epsilon$ to the distribution $P$, where the pertubed distribtuion is defined as:&lt;/p&gt;
+&lt;p&gt;$$P_{\epsilon} = (1 - \epsilon)P + \epsilon \cdot \delta_{z_i}$$&lt;/p&gt;
+&lt;p&gt;where $P$ is the original distribution, $\delta_{z_i}$ is dirac delta distribution &lt;span class=&#34;sidenote-number&#34;&gt;
+	&lt;small class=&#34;sidenote&#34;&gt;
+	where the dirac delta distribution assigns probability $1$ to $z\_i$ while $0$ to all other elements. As the retriction of we only focus on the single datapoint or perturbation
+	&lt;/small&gt;
+&lt;/span&gt; at $z_i$  and $\epsilon$ si the weight of the pertubation, with $\epsilon \to 0$. Thus, the &lt;strong&gt;Influence Function(IF)&lt;/strong&gt; of $z_i$ is defined as the derivative(&lt;span class=&#34;sidenote-number&#34;&gt;
+	&lt;small class=&#34;sidenote&#34;&gt;
+	Gateaux derivative
+	&lt;/small&gt;
+&lt;/span&gt;) of $T(P)$ w.r.t $\epsilon$, evaluate at $\epsilon = 0$:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\textbf{IF}(z_i;T,P) = \lim_{\epsilon \to 0} \frac{T(P_{\epsilon}) - T(P)}{\epsilon}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;The mathematical definitiion of IF is analogous to the derivative of a function, where:&lt;/p&gt;
+&lt;p&gt;$$\frac{df}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}$$&lt;/p&gt;
+&lt;p&gt;where $\epsilon$ plays the role of $h$, reprensenting the tiny change in the distribution. Just as the derivative measures the rate of change of $f(x)$, the IF measures the rate of change of the estimator $T(P)$ w.r.t small pertubations in $P$.&lt;/p&gt;
+&lt;p&gt;To compute the IF, we assume that the parameter $\theta = T(P)$ is defined throught an estimating equation: $\mathbb{E}_P [\psi(z;\theta)] = 0$, where $\psi(z; \theta)$ is the score function or estimatiing function that defines the relation between the data and the parameter. $\mathbb{E}_P$ is the expectation w.r.t the original distribution $P$. Similarly, when the data distribution is pertubed, the expectataion in the estimating equation changes to:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\mathbb{E}_{P_{\epsilon}} [\psi(z;\theta_{\epsilon})] = 0
+\end{equation}&lt;/p&gt;
+&lt;p&gt;To analyze $\theta_{\epsilon}$, we expand the score function $\psi(\cdot)$ with Taylor expansion around $\theta$:&lt;/p&gt;
+&lt;p&gt;$$\psi(z; \theta_{\epsilon}) \approx \psi(z; \theta_{\epsilon}) + \frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)$$&lt;/p&gt;
+&lt;p&gt;By subsitute the taylor expansion form into the pertubed estimating equation, we can get:&lt;/p&gt;
+&lt;p&gt;$$(1 - \epsilon) \mathbb{E}_{P} \left[\psi(z; \theta) + \frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right] + \epsilon \left[\psi(z; \theta) + \frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right] = 0$$&lt;/p&gt;
+&lt;p&gt;thus we can simplify by ignoring higher-order term (proportional to $\epsilon^2$) and using the fact that $\mathbb{E}_P[\psi(z; \theta)] = 0$:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{aligned}
+\epsilon \psi(z; \theta) + \mathbb{E}_{P} \left[\frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right] &amp;amp;= 0 \\
+\theta_{\epsilon} - \theta &amp;amp;= - \left( \mathbb{E}_{P} \left[\frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right]\right)^{-1} \psi(z; \theta)
+\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;This expression represents the change in the parameter due to the perturbation, and the based on the IF&amp;rsquo;s definition, the limiting change in $\theta$ per unit pertubation is:&lt;/p&gt;
+&lt;p&gt;\begin{equation} \label{eq:if-theta}
+\begin{aligned}
+\textbf{IF}(z; \theta, P) &amp;amp;= \lim_{\epsilon \to 0} \frac{\theta_{\epsilon} - \theta}{\epsilon} \\
+&amp;amp;= - \left( \mathbb{E}_{P} \left[\frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right]\right)^{-1} \psi(z; \theta)
+\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;For the Deep learning model, the objective is to minimize the empirical risk(ERM):&lt;/p&gt;
+&lt;p&gt;$$\hat{\theta} = \arg \min_{\theta} \frac{1}{n} \sum_{i=1}^{n} L(z_i, \theta)$$&lt;/p&gt;
+&lt;p&gt;where $\hat{\theta}$ is the optimum, $z_i = (x_i, y_i)$ is the training sample, and $L(\cdot)$ is the loss function. Since $\hat{\theta}$ is the optimum, based on the First-order Optimality Condition, we can get:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\nabla_{\theta} L(\hat{\theta}) =  \frac{1}{n} \sum_{i=1}^{n} \nabla_{\theta} L(z_i, \hat{\theta})  = 0
+\end{equation}&lt;/p&gt;
+&lt;p&gt;The research question is: the how wold the model&amp;rsquo;s prediction change when the perturbation is applied to the training sample $z_i$? To answer this question, let&amp;rsquo;s rewrite the objective function:&lt;/p&gt;
+&lt;p&gt;$$\hat{\theta} = \arg \min_{\theta} \frac{1}{n} \sum_{j=1}^{n} L(z_j, \theta) + \epsilon L(z_i, \theta)$$&lt;/p&gt;
+&lt;p&gt;where $\epsilon$ is a small scalar pertubation. The goal is to analyze how this pertubation impacts the optimal $\hat{\theta}$, leading to pertubed optimal $\hat{\theta}_{\epsilon, i}$:&lt;/p&gt;
+&lt;p&gt;and the pertubed loss function becomes:&lt;/p&gt;
+&lt;p&gt;$$L_{\epsilon}(\theta) = \frac{1}{n} \sum_{i=1}^{n} \mathcal{l}(z_i, \theta) + \epsilon \mathcal{l}(z_i, \theta)$$&lt;/p&gt;
+&lt;p&gt;The goal is to measure how $\theta_{\epsilon}$ changes with respect to $\epsilon$. With the suage of the first-order Taylor expansion, the change in $\theta$ can be approximated as:&lt;/p&gt;
+&lt;p&gt;$$\delta \theta = \theta_{\epsilon} - \theta \approx -\epsilon \mathbf{H}^{-1} \nabla_{\theta} \mathcal{l}(z_j, \theta)$$&lt;/p&gt;
+&lt;p&gt;where $\mathbf{H} = \frac{1}{n} \sum_{i=1}^{n} \nabla^{2}_{\theta}\mathcal{l}(z_i, \theta)$ is the Hessian matrix of the loss function  and $\nabla_{\theta}\mathcal{l}(z_j, \theta)$ is the gradient of the loss for the training sample $z_j$.  Thus, the influence of training sample $z_j$ on the prediction for a test point $z_test$ can be computed as:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\textbf{IF}_{\text{up, loss}}(z_j, z_test) = - \nabla_{\theta} \mathcal{l}(z_test, \theta)^T \mathbf{H}^{-1} \nabla_{\theta}\mathcal{l}(z_j, \theta)
+\end{equation}&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ol class=&#34;hugo-simplecite-reference-list&#34;&gt;&lt;li class=&#34;hugo-simplecite-reference-list-item&#34; id=&#34;bibreference-1&#34;&gt;F. Hampel,&amp;#32;&lt;q&gt;The influence curve and its role in robust estimation,&lt;/q&gt;&amp;#32;&lt;em&gt;Journal of the american statistical association&lt;/em&gt;,&amp;#32;vol. 69,&amp;#32;no. 346,&amp;#32;pp. 383–393,&amp;#32;1974.&amp;#32;&lt;/li&gt;&lt;li class=&#34;hugo-simplecite-reference-list-item&#34; id=&#34;bibreference-2&#34;&gt;P. Huber,&amp;#32;&lt;q&gt;Minimax aspects of bounded-influence regression,&lt;/q&gt;&amp;#32;&lt;em&gt;Journal of the American Statistical Association&lt;/em&gt;,&amp;#32;vol. 78,&amp;#32;no. 381,&amp;#32;pp. 66–72,&amp;#32;1983.&amp;#32;&lt;/li&gt;&lt;li class=&#34;hugo-simplecite-reference-list-item&#34; id=&#34;bibreference-3&#34;&gt;B. Efron and&amp;#32;R. Tibshirani,&amp;#32;&lt;em&gt;An introduction to the bootstrap&lt;/em&gt;.&amp;#32;Chapman; Hall/CRC, 1994.&amp;#32;&lt;/li&gt;&lt;li class=&#34;hugo-simplecite-reference-list-item&#34; id=&#34;bibreference-4&#34;&gt;P. Koh and&amp;#32;P. Liang,&amp;#32;&lt;q&gt;Understanding black-box predictions via influence functions,&lt;/q&gt;&amp;#32;In Proc. International conference on machine learning,&amp;#32;2017, pp. 1885–1894.&amp;#32;&lt;/li&gt;&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

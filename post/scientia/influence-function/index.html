@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
+<title>🧮 Interpretability of Machine Learning Algorithm | 特倫蘇的日與夜</title>
+<meta name="title" content="🧮 Interpretability of Machine Learning Algorithm" />
+<meta name="description" content="Instance-Based Interpretability - Influence Function(IF) Brief History of IF The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.
+The concept of the IF was first introduced by Frank R. Hampel [1] in 1970s , where it is used to study how a single data point (or a small pertubation in the data) affects the behaviour of a statistical estimator." />
+<meta name="keywords" content="Artificial Intelligence,XAI,interpretability," />
+
+
+<meta property="og:title" content="🧮 Interpretability of Machine Learning Algorithm" />
+<meta property="og:description" content="Instance-Based Interpretability - Influence Function(IF) Brief History of IF The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.
+The concept of the IF was first introduced by Frank R. Hampel [1] in 1970s , where it is used to study how a single data point (or a small pertubation in the data) affects the behaviour of a statistical estimator." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.cklau.cc/post/scientia/influence-function/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2024-12-27T00:15:00+00:00" />
+<meta property="article:modified_time" content="2024-12-27T00:15:00+00:00" />
+
+
+
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="🧮 Interpretability of Machine Learning Algorithm"/>
+<meta name="twitter:description" content="Instance-Based Interpretability - Influence Function(IF) Brief History of IF The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.
+The concept of the IF was first introduced by Frank R. Hampel [1] in 1970s , where it is used to study how a single data point (or a small pertubation in the data) affects the behaviour of a statistical estimator."/>
+
+
+
+<meta itemprop="name" content="🧮 Interpretability of Machine Learning Algorithm">
+<meta itemprop="description" content="Instance-Based Interpretability - Influence Function(IF) Brief History of IF The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.
+The concept of the IF was first introduced by Frank R. Hampel [1] in 1970s , where it is used to study how a single data point (or a small pertubation in the data) affects the behaviour of a statistical estimator."><meta itemprop="datePublished" content="2024-12-27T00:15:00+00:00" />
+<meta itemprop="dateModified" content="2024-12-27T00:15:00+00:00" />
+<meta itemprop="wordCount" content="1217">
+<meta itemprop="keywords" content="Artificial Intelligence,XAI,interpretability," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: auto;
+    padding: 20px;
+    max-width: 980px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #444;
+    text-decoration: none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  main content p a {
+    word-wrap: break-word;
+    border: none;
+    box-shadow: inset 0 -2px #444;
+    transition-property: box-shadow;
+    transition-duration: .1s;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+    line-height: 2;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 6.5rem;
+  }
+
+  ul.blog-posts li time {
+    color: #8e8d8d;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+
+   
+
+
+  .bg { background-color: #f0f0f0; }
+  .chroma { background-color: #f0f0f0; }
+  .chroma .x {  }
+  .chroma .err {  }
+  .chroma .cl {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
+  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #ffffcc }
+  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
+  .chroma .k { color: #007020; font-weight: bold }
+  .chroma .kc { color: #007020; font-weight: bold }
+  .chroma .kd { color: #007020; font-weight: bold }
+  .chroma .kn { color: #007020; font-weight: bold }
+  .chroma .kp { color: #007020 }
+  .chroma .kr { color: #007020; font-weight: bold }
+  .chroma .kt { color: #902000 }
+  .chroma .n {  }
+  .chroma .na { color: #4070a0 }
+  .chroma .nb { color: #007020 }
+  .chroma .bp {  }
+  .chroma .nc { color: #0e84b5; font-weight: bold }
+  .chroma .no { color: #60add5 }
+  .chroma .nd { color: #555555; font-weight: bold }
+  .chroma .ni { color: #d55537; font-weight: bold }
+  .chroma .ne { color: #007020 }
+  .chroma .nf { color: #06287e }
+  .chroma .fm {  }
+  .chroma .nl { color: #002070; font-weight: bold }
+  .chroma .nn { color: #0e84b5; font-weight: bold }
+  .chroma .nx {  }
+  .chroma .py {  }
+  .chroma .nt { color: #062873; font-weight: bold }
+  .chroma .nv { color: #bb60d5 }
+  .chroma .vc {  }
+  .chroma .vg {  }
+  .chroma .vi {  }
+  .chroma .vm {  }
+  .chroma .l {  }
+  .chroma .ld {  }
+  .chroma .s { color: #4070a0 }
+  .chroma .sa { color: #4070a0 }
+  .chroma .sb { color: #4070a0 }
+  .chroma .sc { color: #4070a0 }
+  .chroma .dl { color: #4070a0 }
+  .chroma .sd { color: #4070a0; font-style: italic }
+  .chroma .s2 { color: #4070a0 }
+  .chroma .se { color: #4070a0; font-weight: bold }
+  .chroma .sh { color: #4070a0 }
+  .chroma .si { color: #70a0d0 }
+  .chroma .sx { color: #c65d09 }
+  .chroma .sr { color: #235388 }
+  .chroma .s1 { color: #4070a0 }
+  .chroma .ss { color: #517918 }
+  .chroma .m { color: #40a070 }
+  .chroma .mb { color: #40a070 }
+  .chroma .mf { color: #40a070 }
+  .chroma .mh { color: #40a070 }
+  .chroma .mi { color: #40a070 }
+  .chroma .il { color: #40a070 }
+  .chroma .mo { color: #40a070 }
+  .chroma .o { color: #666666 }
+  .chroma .ow { color: #007020; font-weight: bold }
+  .chroma .p {  }
+  .chroma .c { color: #60a0b0; font-style: italic }
+  .chroma .ch { color: #60a0b0; font-style: italic }
+  .chroma .cm { color: #60a0b0; font-style: italic }
+  .chroma .c1 { color: #60a0b0; font-style: italic }
+  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
+  .chroma .cp { color: #007020 }
+  .chroma .cpf { color: #007020 }
+  .chroma .g {  }
+  .chroma .gd { color: #a00000 }
+  .chroma .ge { font-style: italic }
+  .chroma .gr { color: #ff0000 }
+  .chroma .gh { color: #000080; font-weight: bold }
+  .chroma .gi { color: #00a000 }
+  .chroma .go { color: #888888 }
+  .chroma .gp { color: #c65d09; font-weight: bold }
+  .chroma .gs { font-weight: bold }
+  .chroma .gu { color: #800080; font-weight: bold }
+  .chroma .gt { color: #0044dd }
+  .chroma .gl { text-decoration: underline }
+  .chroma .w { color: #bbbbbb }
+
+
+ 
+.sidenote {
+    font-size: 80%;         
+    font-weight: normal;
+    color: var(--theme-hl1-color);
+    position: relative;     
+}
+ 
+@media (min-width: 1400px) {
+    .sidenote {
+        float: right;
+        clear: right;            
+        text-align: left;
+
+         
+            
+        top: -3rem;             
+        width: 20vw;            
+        margin-right: -23vw;     
+        margin-top: 1rem;       
+    }
+}
+ 
+ 
+@media (max-width: 1400px) {
+    .sidenote {
+         
+        float: right;
+        text-align: left;
+
+            
+        width: 100%;  
+        margin: 1rem 0;
+        padding-left: 5%;  
+    }
+}
+ 
+ 
+body {
+    counter-reset: sidenote-counter;
+}
+.sidenote-number {
+    counter-increment: sidenote-counter;
+}
+ 
+.sidenote::before {
+    content: "\2020";
+    position: relative;
+    vertical-align: super;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+ 
+.sidenote-number::after {
+    content: "\2020";
+    position: relative;
+    vertical-align: super;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--theme-body-color);
+    display: inline;
+    margin-right: 0.2rem;
+}
+@media (min-width: 1400px) {
+     
+    .sidenote-number:hover .sidenote {
+        background-color: var(--theme-color-light);
+    }
+}
+
+  
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    gap: 5px;  
+    padding: 5px;
+}
+
+.card {
+    width: 80%;  
+    box-shadow: 0 0px 0px rgba(0,0,0,0.1);  
+    display: flex;
+    align-items: center;  
+    padding: 10px;
+    background: white;  
+    text-decoration: none;  
+    color: inherit;  
+}
+
+.card img {
+    width: 80px;  
+    height: 80px;
+    border-radius: 50%;  
+    margin-right: 20px;  
+}
+
+.card .info h2 {
+    margin: 0;
+    font-size: 1.2em;  
+}
+
+.card .info p {
+    margin: 5px 0 0;  
+    font-size: 0.9em;
+    color: #444;  
+}
+.card .info span{
+    font-size: 0.5em;
+    color: #666;
+}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844674035384472" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://blog.cklau.cc/feed.xml" title="特倫蘇的日與夜">
+
+
+  <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/copy-tex.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script>
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>特倫蘇的日與夜</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/post">[Blog]</a>
+
+<a href="/post/scientia">[Scientia]</a>
+
+<a href="/links">[Links]</a>
+
+</nav>
+</header>
+  <main>
+<h1>🧮 Interpretability of Machine Learning Algorithm</h1>
+<p>
+  <i>
+    <time datetime='2024-12-27' pubdate>
+      27 Dec, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <h1 id="instance-based-interpretability---influence-functionif">Instance-Based Interpretability - Influence Function(IF)</h1>
+<h2 id="brief-history-of-if">Brief History of IF</h2>
+<p>The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.</p>
+<p>The concept of the IF was first introduced by Frank R. Hampel [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-1" title="F. Hampel, The influence curve and its role in robust estimation, Journal of the american statistical association, vol. 69, no. 346, pp. 383–393, 1974. ">1</a>] in 1970s , where it is used to study how a single data point (or a small pertubation in the data) affects the behaviour of a statistical estimator. This work became foundational in robust statistics, as it provided a way to analyze the robustness of estimators against outliers or small changes in the dataset. Hampel&rsquo;s influence function provided a systematic way to quantify how an infinitesimal contamination of the data at a single point could impact an estimator. Mathematically, it defined the response of an estimator to a small perturbation in the underlying distribution, laying the groundwork for evaluating and designing robust estimators.</p>
+<p>During the 1970s and 1980s, the influence function became a critical tool in robust statistics, with contributions from researchers such as Peter J. Huber [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-2" title="P. Huber, Minimax aspects of bounded-influence regression, Journal of the American Statistical Association, vol. 78, no. 381, pp. 66–72, 1983. ">2</a>]. It was used extensively to analyze the sensitivity of M-estimators, a class of robust statistical estimators designed to minimize a modified loss function that reduces sensitivity to outliers. These developments allowed statisticians to better understand the trade-offs between robustness and efficiency, leading to practical applications such as outlier detection, data cleaning, and the evaluation of statistical methods&rsquo; stability under small perturbations.</p>
+<p>In the 1990s and 2000s, the influence function began to find applications in computational statistics and machine learning. It was used to understand the sensitivity of estimators in resampling methods such as cross-validation and bootstrapping [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-3" title="B. Efron and R. Tibshirani, An introduction to the bootstrap. Chapman; Hall/CRC, 1994. ">3</a>]. Additionally, it became a theoretical tool for evaluating the robustness of statistical models in applied settings, including regression analysis and model diagnostics. The influence function provided insights into how removing or altering individual data points could impact statistical estimators, enabling practitioners to identify problematic or influential observations.</p>
+<p>The influence function experienced a resurgence in the 2010s with its adaptation to machine learning and modern computational models. In 2017, Koh and Liang&rsquo;s work [<a class="hugo-simplecite-cite-hyperlink" href="#bibreference-4" title="P. Koh and P. Liang, Understanding black-box predictions via influence functions, In Proc. International conference on machine learning, 2017, pp. 1885–1894. ">4</a>] extended the classical influence function to modern machine learning, including neural networks. They demonstrated how influence functions could trace predictions of complex models back to individual training points, allowing researchers to debug models, explain predictions, and evaluate the impact of specific training data on the model&rsquo;s behavior. This work made the influence function computationally feasible in large-scale settings by approximating the inverse Hessian matrix, which had previously been a computational bottleneck.</p>
+<h2 id="mathematic-foundation">Mathematic Foundation</h2>
+<p>In this section, we will introduce the foundation of IF in mathematical aspect. Let $\mathbf{z} = {z_i}_{i=1}^{n}$ represent a set of data point where $z_i \mathop{\sim}\limits^{i.i.d} P$. Let $T(P)$ be the parameter or estimator of interest, defined as a function of the distribution $P$. The influence function quantifies the effect of adding a small perturbation $\epsilon$ to the distribution $P$, where the pertubed distribtuion is defined as:</p>
+<p>$$P_{\epsilon} = (1 - \epsilon)P + \epsilon \cdot \delta_{z_i}$$</p>
+<p>where $P$ is the original distribution, $\delta_{z_i}$ is dirac delta distribution <span class="sidenote-number">
+	<small class="sidenote">
+	where the dirac delta distribution assigns probability $1$ to $z\_i$ while $0$ to all other elements. As the retriction of we only focus on the single datapoint or perturbation
+	</small>
+</span> at $z_i$  and $\epsilon$ si the weight of the pertubation, with $\epsilon \to 0$. Thus, the <strong>Influence Function(IF)</strong> of $z_i$ is defined as the derivative(<span class="sidenote-number">
+	<small class="sidenote">
+	Gateaux derivative
+	</small>
+</span>) of $T(P)$ w.r.t $\epsilon$, evaluate at $\epsilon = 0$:</p>
+<p>\begin{equation}
+\textbf{IF}(z_i;T,P) = \lim_{\epsilon \to 0} \frac{T(P_{\epsilon}) - T(P)}{\epsilon}
+\end{equation}</p>
+<p>The mathematical definitiion of IF is analogous to the derivative of a function, where:</p>
+<p>$$\frac{df}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}$$</p>
+<p>where $\epsilon$ plays the role of $h$, reprensenting the tiny change in the distribution. Just as the derivative measures the rate of change of $f(x)$, the IF measures the rate of change of the estimator $T(P)$ w.r.t small pertubations in $P$.</p>
+<p>To compute the IF, we assume that the parameter $\theta = T(P)$ is defined throught an estimating equation: $\mathbb{E}_P [\psi(z;\theta)] = 0$, where $\psi(z; \theta)$ is the score function or estimatiing function that defines the relation between the data and the parameter. $\mathbb{E}_P$ is the expectation w.r.t the original distribution $P$. Similarly, when the data distribution is pertubed, the expectataion in the estimating equation changes to:</p>
+<p>\begin{equation}
+\mathbb{E}_{P_{\epsilon}} [\psi(z;\theta_{\epsilon})] = 0
+\end{equation}</p>
+<p>To analyze $\theta_{\epsilon}$, we expand the score function $\psi(\cdot)$ with Taylor expansion around $\theta$:</p>
+<p>$$\psi(z; \theta_{\epsilon}) \approx \psi(z; \theta_{\epsilon}) + \frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)$$</p>
+<p>By subsitute the taylor expansion form into the pertubed estimating equation, we can get:</p>
+<p>$$(1 - \epsilon) \mathbb{E}_{P} \left[\psi(z; \theta) + \frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right] + \epsilon \left[\psi(z; \theta) + \frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right] = 0$$</p>
+<p>thus we can simplify by ignoring higher-order term (proportional to $\epsilon^2$) and using the fact that $\mathbb{E}_P[\psi(z; \theta)] = 0$:</p>
+<p>\begin{equation}
+\begin{aligned}
+\epsilon \psi(z; \theta) + \mathbb{E}_{P} \left[\frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right] &amp;= 0 \\
+\theta_{\epsilon} - \theta &amp;= - \left( \mathbb{E}_{P} \left[\frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right]\right)^{-1} \psi(z; \theta)
+\end{aligned}
+\end{equation}</p>
+<p>This expression represents the change in the parameter due to the perturbation, and the based on the IF&rsquo;s definition, the limiting change in $\theta$ per unit pertubation is:</p>
+<p>\begin{equation} \label{eq:if-theta}
+\begin{aligned}
+\textbf{IF}(z; \theta, P) &amp;= \lim_{\epsilon \to 0} \frac{\theta_{\epsilon} - \theta}{\epsilon} \\
+&amp;= - \left( \mathbb{E}_{P} \left[\frac{\partial \psi(z; \theta_{\epsilon})}{\partial \theta}(\theta_{\epsilon} - \theta)\right]\right)^{-1} \psi(z; \theta)
+\end{aligned}
+\end{equation}</p>
+<p>For the Deep learning model, the objective is to minimize the empirical risk(ERM):</p>
+<p>$$\hat{\theta} = \arg \min_{\theta} \frac{1}{n} \sum_{i=1}^{n} L(z_i, \theta)$$</p>
+<p>where $\hat{\theta}$ is the optimum, $z_i = (x_i, y_i)$ is the training sample, and $L(\cdot)$ is the loss function. Since $\hat{\theta}$ is the optimum, based on the First-order Optimality Condition, we can get:</p>
+<p>\begin{equation}
+\nabla_{\theta} L(\hat{\theta}) =  \frac{1}{n} \sum_{i=1}^{n} \nabla_{\theta} L(z_i, \hat{\theta})  = 0
+\end{equation}</p>
+<p>The research question is: the how wold the model&rsquo;s prediction change when the perturbation is applied to the training sample $z_i$? To answer this question, let&rsquo;s rewrite the objective function:</p>
+<p>$$\hat{\theta} = \arg \min_{\theta} \frac{1}{n} \sum_{j=1}^{n} L(z_j, \theta) + \epsilon L(z_i, \theta)$$</p>
+<p>where $\epsilon$ is a small scalar pertubation. The goal is to analyze how this pertubation impacts the optimal $\hat{\theta}$, leading to pertubed optimal $\hat{\theta}_{\epsilon, i}$:</p>
+<p>and the pertubed loss function becomes:</p>
+<p>$$L_{\epsilon}(\theta) = \frac{1}{n} \sum_{i=1}^{n} \mathcal{l}(z_i, \theta) + \epsilon \mathcal{l}(z_i, \theta)$$</p>
+<p>The goal is to measure how $\theta_{\epsilon}$ changes with respect to $\epsilon$. With the suage of the first-order Taylor expansion, the change in $\theta$ can be approximated as:</p>
+<p>$$\delta \theta = \theta_{\epsilon} - \theta \approx -\epsilon \mathbf{H}^{-1} \nabla_{\theta} \mathcal{l}(z_j, \theta)$$</p>
+<p>where $\mathbf{H} = \frac{1}{n} \sum_{i=1}^{n} \nabla^{2}_{\theta}\mathcal{l}(z_i, \theta)$ is the Hessian matrix of the loss function  and $\nabla_{\theta}\mathcal{l}(z_j, \theta)$ is the gradient of the loss for the training sample $z_j$.  Thus, the influence of training sample $z_j$ on the prediction for a test point $z_test$ can be computed as:</p>
+<p>\begin{equation}
+\textbf{IF}_{\text{up, loss}}(z_j, z_test) = - \nabla_{\theta} \mathcal{l}(z_test, \theta)^T \mathbf{H}^{-1} \nabla_{\theta}\mathcal{l}(z_j, \theta)
+\end{equation}</p>
+<h2 id="reference">Reference</h2>
+<ol class="hugo-simplecite-reference-list"><li class="hugo-simplecite-reference-list-item" id="bibreference-1">F. Hampel,&#32;<q>The influence curve and its role in robust estimation,</q>&#32;<em>Journal of the american statistical association</em>,&#32;vol. 69,&#32;no. 346,&#32;pp. 383–393,&#32;1974.&#32;</li><li class="hugo-simplecite-reference-list-item" id="bibreference-2">P. Huber,&#32;<q>Minimax aspects of bounded-influence regression,</q>&#32;<em>Journal of the American Statistical Association</em>,&#32;vol. 78,&#32;no. 381,&#32;pp. 66–72,&#32;1983.&#32;</li><li class="hugo-simplecite-reference-list-item" id="bibreference-3">B. Efron and&#32;R. Tibshirani,&#32;<em>An introduction to the bootstrap</em>.&#32;Chapman; Hall/CRC, 1994.&#32;</li><li class="hugo-simplecite-reference-list-item" id="bibreference-4">P. Koh and&#32;P. Liang,&#32;<q>Understanding black-box predictions via influence functions,</q>&#32;In Proc. International conference on machine learning,&#32;2017, pp. 1885–1894.&#32;</li></ol>
+
+</content>
+
+<p>
+  
+  <a href="https://blog.cklau.cc/tags/artificial-intelligence/">#Artificial Intelligence</a>
+  
+  <a href="https://blog.cklau.cc/tags/xai/">#XAI</a>
+  
+  <a href="https://blog.cklau.cc/tags/interpretability/">#interpretability</a>
+  
+</p>
+
+  </main>
+  <footer>
+
+
+<p>
+    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
+
+&copy; 2024 <a href="https://blog.cklau.cc">Junjie LIU</a>
+    <a href="https://blog.cklau.cc/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    <br>
+Hosting and images served by <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
+</p>
+
+</footer>
+
+    
+</body>
+
+</html>
