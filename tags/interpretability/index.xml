@@ -8,9 +8,9 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Fri, 27 Dec 2024 00:15:00 +0000</lastBuildDate>
     <item>
       <title>🧮 Interpretability of Machine Learning Algorithm</title>
-      <link>https://blog.cklau.cc/post/scientia/influence-function/</link>
+      <link>https://blog.cklau.cc/scientia/influence-function/</link>
       <pubDate>Fri, 27 Dec 2024 00:15:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/influence-function/</guid>
+      <guid>https://blog.cklau.cc/scientia/influence-function/</guid>
       <description>&lt;h1 id=&#34;instance-based-interpretability---influence-functionif&#34;&gt;Instance-Based Interpretability - Influence Function(IF)&lt;/h1&gt;
 &lt;h2 id=&#34;brief-history-of-if&#34;&gt;Brief History of IF&lt;/h2&gt;
 &lt;p&gt;The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.&lt;/p&gt;

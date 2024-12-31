@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Scientia | 特倫蘇的日與夜</title>
-    <link>https://blog.cklau.cc/post/scientia/</link>
-      <atom:link href="https://blog.cklau.cc/post/scientia/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://blog.cklau.cc/scientia/</link>
+      <atom:link href="https://blog.cklau.cc/scientia/index.xml" rel="self" type="application/rss+xml" />
     <description>Scientia</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Fri, 27 Dec 2024 00:15:00 +0000</lastBuildDate>
     <item>
       <title>🧮 Interpretability of Machine Learning Algorithm</title>
-      <link>https://blog.cklau.cc/post/scientia/influence-function/</link>
+      <link>https://blog.cklau.cc/scientia/influence-function/</link>
       <pubDate>Fri, 27 Dec 2024 00:15:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/influence-function/</guid>
+      <guid>https://blog.cklau.cc/scientia/influence-function/</guid>
       <description>&lt;h1 id=&#34;instance-based-interpretability---influence-functionif&#34;&gt;Instance-Based Interpretability - Influence Function(IF)&lt;/h1&gt;
 &lt;h2 id=&#34;brief-history-of-if&#34;&gt;Brief History of IF&lt;/h2&gt;
 &lt;p&gt;The history of the influence function lies at the intersection of classical statistics and modern machine learning. It originates from the field of robust statistics, where it was developed to study the sensitivity of statistical estimators to small changes in the data.&lt;/p&gt;
@@ -82,9 +82,9 @@
     
     <item>
       <title>🧑🏿‍💻 Multimodal Representation Leraning from both Text and Image</title>
-      <link>https://blog.cklau.cc/post/scientia/multi-modality/</link>
+      <link>https://blog.cklau.cc/scientia/multi-modality/</link>
       <pubDate>Thu, 08 Feb 2024 00:15:00 +0000</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/multi-modality/</guid>
+      <guid>https://blog.cklau.cc/scientia/multi-modality/</guid>
       <description>&lt;h2 id=&#34;before&#34;&gt;Before&lt;/h2&gt;
 &lt;p&gt;For a long time, the machine learning model (deep learning model) cannot understand more than one modality, i.e., whether they knows how to do the text-based task or they know how to play with the image. As artificial intelligence, the researchers would like to the models have the cability of manipulating the multimodal data as the natural intelligence is not limited to just a single modality. Such that the AI shell read and write text while they could also see images and watch videos and hear the audio.&lt;/p&gt;
 &lt;p&gt;However, different data mode has different representation, especially for the machine, i.e., different mode of data has different representation. Some of the modality can be approximated by the others, e.g. audio can be transformed into images via the Fourier Transformation &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
@@ -217,9 +217,9 @@ Feb. 8, 2024].
     
     <item>
       <title>👨‍💻 Style Transfer and Synthesis (1/3): Style Transfer in Image Synthesis</title>
-      <link>https://blog.cklau.cc/post/scientia/dl-gan-1/</link>
+      <link>https://blog.cklau.cc/scientia/dl-gan-1/</link>
       <pubDate>Sat, 17 Jun 2023 00:13:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/dl-gan-1/</guid>
+      <guid>https://blog.cklau.cc/scientia/dl-gan-1/</guid>
       <description>&lt;p&gt;There are multiple papers in the area of style transfer and image inversion or reconstruction. Here are some papers I read and would like to share with you:&lt;/p&gt;
 &lt;h3 id=&#34;progressive-gan&#34;&gt;Progressive GAN&lt;/h3&gt;
 &lt;ul&gt;
@@ -252,9 +252,9 @@ Feb. 8, 2024].
     
     <item>
       <title>🥼 RetiGAN: A GAN-based model on retinal Image synthesis</title>
-      <link>https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/</link>
+      <link>https://blog.cklau.cc/scientia/10.1016-j.bspc.2022.104004/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/</guid>
+      <guid>https://blog.cklau.cc/scientia/10.1016-j.bspc.2022.104004/</guid>
       <description>&lt;h2 id=&#34;before-tldr&#34;&gt;Before (TL;DR)&lt;/h2&gt;
 &lt;p&gt;The field of medical imaging is rapidly adopting artificial intelligence (AI) as a promising technology, with a particular focus on deep learning techniques. These AI methods have the potential to be applied across a range of tasks in medical imaging, from image acquisition and reconstruction to analysis and interpretation. For instance, Computed Tomography(CT), Magnetic Resonance Imaging, Positron Emission Tomography (PET), Mammography, Ultrasound, and X-ray, haved be used for early detection, diagnosis, and treatment of diseases. In the clinic, medical image interpretation in the clinic has relied on human experts, such as radiologists and physicians. However, due to the wide range of pathologies and the risk of human fatigue, researchers and doctors have started to explore the potential of computer-assisted interventions. While progress in computational medical image analysis has not been as rapid as in medical imaging technologies, the situation is improving with the introduction of machine learning techniques.&lt;/p&gt;
 &lt;p&gt;Machine learning techniques, such as deep learning, have shown promise in assisting human experts in medical image interpretation. By training algorithms on large datasets of medical images, these techniques can help identify patterns and features that are difficult for human experts to detect. As a result, they have the potential to improve diagnostic accuracy and reduce the risk of errors.&lt;/p&gt;

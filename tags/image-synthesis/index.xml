@@ -8,9 +8,9 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sat, 17 Jun 2023 00:13:00 +0800</lastBuildDate>
     <item>
       <title>👨‍💻 Style Transfer and Synthesis (1/3): Style Transfer in Image Synthesis</title>
-      <link>https://blog.cklau.cc/post/scientia/dl-gan-1/</link>
+      <link>https://blog.cklau.cc/scientia/dl-gan-1/</link>
       <pubDate>Sat, 17 Jun 2023 00:13:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/dl-gan-1/</guid>
+      <guid>https://blog.cklau.cc/scientia/dl-gan-1/</guid>
       <description>&lt;p&gt;There are multiple papers in the area of style transfer and image inversion or reconstruction. Here are some papers I read and would like to share with you:&lt;/p&gt;
 &lt;h3 id=&#34;progressive-gan&#34;&gt;Progressive GAN&lt;/h3&gt;
 &lt;ul&gt;

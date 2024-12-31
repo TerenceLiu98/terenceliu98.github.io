@@ -8,9 +8,9 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sun, 02 Apr 2023 00:13:00 +0800</lastBuildDate>
     <item>
       <title>🥼 RetiGAN: A GAN-based model on retinal Image synthesis</title>
-      <link>https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/</link>
+      <link>https://blog.cklau.cc/scientia/10.1016-j.bspc.2022.104004/</link>
       <pubDate>Sun, 02 Apr 2023 00:13:00 +0800</pubDate>
-      <guid>https://blog.cklau.cc/post/scientia/10.1016-j.bspc.2022.104004/</guid>
+      <guid>https://blog.cklau.cc/scientia/10.1016-j.bspc.2022.104004/</guid>
       <description>&lt;h2 id=&#34;before-tldr&#34;&gt;Before (TL;DR)&lt;/h2&gt;
 &lt;p&gt;The field of medical imaging is rapidly adopting artificial intelligence (AI) as a promising technology, with a particular focus on deep learning techniques. These AI methods have the potential to be applied across a range of tasks in medical imaging, from image acquisition and reconstruction to analysis and interpretation. For instance, Computed Tomography(CT), Magnetic Resonance Imaging, Positron Emission Tomography (PET), Mammography, Ultrasound, and X-ray, haved be used for early detection, diagnosis, and treatment of diseases. In the clinic, medical image interpretation in the clinic has relied on human experts, such as radiologists and physicians. However, due to the wide range of pathologies and the risk of human fatigue, researchers and doctors have started to explore the potential of computer-assisted interventions. While progress in computational medical image analysis has not been as rapid as in medical imaging technologies, the situation is improving with the introduction of machine learning techniques.&lt;/p&gt;
 &lt;p&gt;Machine learning techniques, such as deep learning, have shown promise in assisting human experts in medical image interpretation. By training algorithms on large datasets of medical images, these techniques can help identify patterns and features that are difficult for human experts to detect. As a result, they have the potential to improve diagnostic accuracy and reduce the risk of errors.&lt;/p&gt;
