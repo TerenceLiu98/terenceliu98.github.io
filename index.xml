@@ -12,8 +12,27 @@
       <pubDate>Tue, 31 Dec 2024 12:00:00 +0000</pubDate>
       <guid>https://blog.cklau.cc/projects/</guid>
       <description>&lt;div class=&#34;research-card&#34;&gt;
+    &lt;h2&gt;Tracing Partisan Bias to Its Emotional Fingerprints: A Computational Approach to Mitigation&lt;/h2&gt;
+    &lt;p class=&#34;subtitle&#34;&gt;IEEE International Conference on Big Data, 2025&lt;/p&gt;
+    &lt;p class=&#34;description&#34;&gt;
+
+This study introduces a novel framework for analyzing and mitigating media bias by tracing partisan stances to their linguistic roots in emotional language. We posit that partisan bias is not merely an abstract stance but materializes as quantifiable &#39;emotional fingerprints&#39; within news texts. These fingerprints are systematically measured using the Valence-Arousal-Dominance (VAD) framework, allowing us to decode the affective strategies behind partisan framing. Our analysis of the Allsides dataset confirms this hypothesis, revealing distinct and statistically significant emotional fingerprints for left, centre, and right-leaning media. Based on this evidence-driven approach, we then propose a computational approach to mitigation through NeutraSum, a model designed to neutralise these identified emotional patterns. By explicitly targeting the VAD characteristics of biased language, NeutraSum generates summaries that are not only coherent but also demonstrably closer to an emotionally neutral baseline. Experimental results validate our framework: NeutraSum successfully erases the partisan emotional fingerprints from its summaries, achieving a demonstrably lower emotional bias score than other models. This work pioneers a new path for bias mitigation, shifting the focus from treating symptoms (political labels) to addressing the cause: the emotional encoding of partisan bias in language. 
+
+&lt;i&gt;&lt;u&gt;We will update the Arxiv version as soon as possible&lt;/u&gt;&lt;/i&gt;
+&lt;/p&gt;
+    &lt;p class=&#34;authors&#34;&gt;unjie Liu, Xi Luo, Sirong Wu, Gengchen Sun, Yuhui Deng&lt;/p&gt;
+    &lt;div class=&#34;buttons&#34;&gt;
+      
+        &lt;a href=&#34;https://arxiv.org/abs/2501.01284&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
+      
+      
+      
+      
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;div class=&#34;research-card&#34;&gt;
     &lt;h2&gt;Knowledge Distillation with Adapted Weight&lt;/h2&gt;
-    &lt;p class=&#34;subtitle&#34;&gt;Statistics(Just Accepted), 2025&lt;/p&gt;
+    &lt;p class=&#34;subtitle&#34;&gt;Statistics, 2025&lt;/p&gt;
     &lt;p class=&#34;description&#34;&gt;
 
 &lt;center&gt;
@@ -109,7 +128,7 @@ The study analyzes stroke risk factors in Shanxi Province using machine learning
 The standard RSA relies on multiple big-number modular exponentiation operations and a longer key-length is required for better protection. This imposes a hefty time penalty for encryption and decryption. In this study, we analysed and developed an improved parallel algorithm (PMKRSA) based on the idea of splitting the plaintext into multiple chunks and encrypt the chunks using multiple key-pairs. The algorithm in our new scheme is so natural for parallelised implementation that we also investigated its parallelisation in a GPU environment. In the following, the structure of our new scheme is outlined and its correctness is proved mathematically. Then, with the algorithm implemented and optimised on both CPU and CPU+GPU platforms, we showed that our algorithm shortens the computational time considerably, and it has a security advantage over the standard RSA as it is invulnerable to the common attacks. Finally, we also proved the feasibility of using our algorithm to encrypt large files through simulation. The results show that over the set of file size: 1 MB, 10 MB, 25 MB, 50 MB, 100 MB, the average encryption and decryption time of the CPU version is 0.2476 and 9.4476 s, and for the CPU+GPU version, it is 0.0009 and 0.0618 s, respectively.
 
 &lt;/p&gt;
-    &lt;p class=&#34;authors&#34;&gt;Junjie Liu, Shixin Xu, Ping He, Sirong Wu, Xi Luo, Yuhui Deng, Huaxiong Huang&lt;/p&gt;
+    &lt;p class=&#34;authors&#34;&gt;Junjie Liu, Kang-Too Tsang, Yuhui Deng&lt;/p&gt;
     &lt;div class=&#34;buttons&#34;&gt;
       
         &lt;a href=&#34;https://arxiv.org/abs/2111.11924&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
@@ -134,6 +153,82 @@ The standard RSA relies on multiple big-number modular exponentiation operations
 &lt;p&gt;曾经的我，对阳光似乎没有那么的珍惜。那时的阳光，好像只是日常的一部分，从不曾深刻思考它的意义。每天醒来，阳光照进窗子，我习惯性地拉开窗帘，带着几分冷漠去迎接新的一天。它或许明亮，或许刺眼，但更多的是一种日复一日的存在，习惯了也就忽略了。直到离开了熟悉的地方，在这个厚云当被盖的地方，日光在冬天，似乎变得更加的珍贵。走在灰蒙蒙的街头，世界似乎失去了色彩，空气中弥漫着湿气和寒意。而在那样的日子里，我突然开始怀念被太阳直射的日子，温暖甚至刺痛着皮肤，仿佛不仅仅是外界的照射，更是对灵魂的刺激。或许，阳光的珍贵正是在它短暂的缺席中显现出来。它让人明白，不是每一段时光都可以轻易地重复，正如生活中的许多美好，往往是在失去后才开始真正感受到它的价值。如今，当我站在这片雨雾弥漫的土地上，偶尔看到一缕阳光穿破云层照射下来，那一瞬间，让我感受到了体内维生素 D 正在飞速的合成，以至于多巴胺直击神经。&lt;/p&gt;
 &lt;p&gt;依稀记得，孔子在与盜跖的辩论之中，虽然“落荒而逃”，固然看遍人生百态，虽知弱肉强食、强权制胜，但也重装上阵，毕竟辩经可能差一点，颜回可是有肌肉的。即便是无力回天，也要留一点点火苗，那便是星光点点。&lt;/p&gt;
 &lt;p&gt;2024 并没有什么轰轰烈烈的大事件，但是每一件都可能是大事。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>🧑🏿‍💻 Train A Language Model From Scratch</title>
+      <link>https://blog.cklau.cc/scientia/llm-from-scratch/</link>
+      <pubDate>Fri, 27 Dec 2024 00:15:00 +0000</pubDate>
+      <guid>https://blog.cklau.cc/scientia/llm-from-scratch/</guid>
+      <description>&lt;h2 id=&#34;beginning&#34;&gt;Beginning&lt;/h2&gt;
+&lt;p&gt;You may think that the training a language model from scratch can seem like a daunting task, but it is a rewarding journey that deepens your understanding of machine learning and natural language processing. In this guide, we will explore the fundamental steps required to build a language model, from data preparation to model training and evaluation. Whether you&amp;rsquo;re a beginner or an experienced practitioner, this process will provide valuable insights into the inner workings of large language models.&lt;/p&gt;
+&lt;h2 id=&#34;starting-from-the-tasks&#34;&gt;Starting from the tasks&lt;/h2&gt;
+&lt;p&gt;When training a language model, various tasks are employed to help the model learn and generalize effectively. These tasks are tailored to different stages of the training process, such as pretraining, supervised fine-tuning (SFT), and reinforcement learning with human feedback (RLHF). Below are some of the most widely used tasks, along with detailed explanations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Masked Language Modeling (MLM):&lt;/strong&gt;&lt;br&gt;
+Starting from the MLM, which is widely used in the word embedding training, proposed by Google in 2017 [&lt;a class=&#34;hugo-simplecite-cite-hyperlink&#34; href=&#34;#bibreference-1&#34; title=&#34;J. Devlin, M. Chang, K. Lee, and K. Toutanova, Bert: Pre-training of deep bidirectional transformers for language understanding, In Proc. Proceedings of the 2019 conference of the north american chapter of the association for computational linguistics: Human language technologies, volume 1 (long and short papers), 2019, pp. 4171–4186. &#34;&gt;1&lt;/a&gt;]. In short, it is a pretraining task where certain tokens in the input sequence are randomly masked, and the model is trained to predict these masked tokens based on their surrounding context. This task enables the model to learn bidirectional representations of text, making it effective for understanding the relationships between words in a sentence. For example, in the sentence &amp;ldquo;The [MASK] is blue,&amp;rdquo; the model learns to predict the masked word &amp;ldquo;sky.&amp;rdquo; Models like BERT and RoBERTa heavily rely on MLM for pretraining. The &lt;code&gt;DataCollatorForLanguageModeling&lt;/code&gt; in the Hugging Face Transformers library is often used to implement this task, where it handles token masking dynamically during training.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Causal Language Modeling (CLM):&lt;/strong&gt;&lt;br&gt;
+CLM, also known as autoregressive modeling, involves predicting the next token in a sequence based on the previous tokens. This task is unidirectional, meaning the model only considers past context when generating the next word. For instance, given the input &amp;ldquo;The cat is,&amp;rdquo; the model predicts the next word, such as &amp;ldquo;sleeping.&amp;rdquo; CLM is the backbone of models like GPT and GPT-2, which are designed for text generation tasks. The &lt;code&gt;DataCollatorForLanguageModeling&lt;/code&gt; can be used for CLM, depending on the implementation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Supervised Fine-Tuning (SFT):&lt;/strong&gt;&lt;br&gt;
+SFT is a critical step after pretraining, where the model is fine-tuned on labeled datasets for specific downstream tasks. These tasks can include text classification, summarization, or question answering. For example, in summarization, the model is trained to generate concise summaries of input documents. During SFT, the model learns to adapt its pretrained knowledge to domain-specific requirements. The &lt;code&gt;DataCollatorForSeq2Seq&lt;/code&gt; is often used for tasks like summarization, as it handles input-output pairs efficiently.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Reinforcement Learning with Human Feedback (RLHF):&lt;/strong&gt;&lt;br&gt;
+RLHF is used to align the model&amp;rsquo;s outputs with human preferences and ethical considerations. This process involves three main steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Supervised Fine-Tuning:&lt;/strong&gt; A base model is fine-tuned on a dataset of human-labeled examples.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reward Model Training:&lt;/strong&gt; A separate reward model is trained to score the quality of the model&amp;rsquo;s outputs based on human feedback.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Policy Optimization:&lt;/strong&gt; The language model is further fine-tuned using reinforcement learning, guided by the reward model.&lt;br&gt;
+RLHF is particularly useful for tasks like conversational AI, where the model needs to generate responses that are both helpful and aligned with user expectations.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By combining these tasks, we can train language models that are not only powerful but also versatile and aligned with human expectations. Each task plays a unique role in shaping the model&amp;rsquo;s capabilities, from understanding context to generating coherent and meaningful text.&lt;/p&gt;
+&lt;h2 id=&#34;what-about-the-data-format&#34;&gt;What about the Data Format&lt;/h2&gt;
+&lt;p&gt;The format of the training data plays a crucial role in determining the effectiveness of the language model. Different formats are used depending on the task and the stage of training, such as pretraining, fine-tuning, or reinforcement learning. Below, we discuss some commonly used data formats, including the Alpaca format and Vicuna&amp;rsquo;s multi-round chat format.&lt;/p&gt;
+&lt;h3 id=&#34;alpaca-format&#34;&gt;Alpaca Format&lt;/h3&gt;
+&lt;p&gt;The Alpaca format is designed for instruction-tuning tasks, where the model is fine-tuned to follow instructions and generate helpful responses. This format typically consists of a JSON structure with fields such as &lt;code&gt;instruction&lt;/code&gt;, &lt;code&gt;input&lt;/code&gt;, and &lt;code&gt;output&lt;/code&gt;. Here&amp;rsquo;s an example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;instruction&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Summarize the following text.&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;input&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Artificial intelligence is a branch of computer science that aims to create machines that can perform tasks that typically require human intelligence.&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;output&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Artificial intelligence is a field focused on creating machines capable of human-like intelligence.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Instruction:&lt;/strong&gt; Specifies the task the model should perform.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Input:&lt;/strong&gt; Provides additional context or data required to complete the task. This field can be empty for tasks that don&amp;rsquo;t require extra input.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Output:&lt;/strong&gt; Contains the expected response or result for the given instruction and input.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This format is widely used in fine-tuning models like Alpaca and other instruction-following models. It ensures that the model learns to handle a variety of tasks in a structured manner.&lt;/p&gt;
+&lt;h3 id=&#34;vicunas-multi-round-chat-format&#34;&gt;Vicuna&amp;rsquo;s Multi-Round Chat Format&lt;/h3&gt;
+&lt;p&gt;Vicuna&amp;rsquo;s multi-round chat format is tailored for conversational AI models, where the goal is to train the model to handle multi-turn dialogues effectively. This format captures the back-and-forth nature of human conversations. An example of this format is as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;conversation&amp;#34;&lt;/span&gt;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;user&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;What is the capital of France?&amp;#34;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;assistant&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;The capital of France is Paris.&amp;#34;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;user&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Can you tell me more about it?&amp;#34;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;assistant&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Paris is known as the City of Light and is famous for its art, culture, and landmarks like the Eiffel Tower.&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Role:&lt;/strong&gt; Indicates whether the message is from the &lt;code&gt;user&lt;/code&gt; or the &lt;code&gt;assistant&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Content:&lt;/strong&gt; Contains the text of the message.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This format is particularly useful for fine-tuning models to generate coherent and contextually relevant responses in multi-turn conversations. It helps the model maintain context across multiple exchanges, making it suitable for chatbots and virtual assistants. However, I don&amp;rsquo;t think the format are most important&lt;/p&gt;
+&lt;p&gt;However, different formats can be leveraged by the &lt;code&gt;process&lt;/code&gt; function, which means the format is not the first priority of in the training process, instead, the data itself is. Below is a example for converting vicuna format to alpaca.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;vicuna_to_alpaca&lt;/span&gt;(conversation):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    user &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [conv&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;user&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;None&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; conv &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; conversation]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    assistant &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [conv&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;assistant&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;None&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; conv &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; conversation]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    instruct &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [conv&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;instruction&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;None&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; conv &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; conversation]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; instruct, user, assistant
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;data-filtering&#34;&gt;Data Filtering&lt;/h2&gt;
+&lt;p&gt;Although format might be important, data quality is much vital for the training. As the raw corpora are riddled with inconsistencies, artifacts, and ethical pitfalls. Depulication, for instance, goes beyond simple substring matching: advanced methods like MinHash or SimHash identify near-duplicates at scale, while fuzzy hashing detects paraphrased or lightly edited repetitions. Similarly, normalization involves granular steps: Unicode normalization (e.g., converting “café” and “café” to a consistent form), stripping non-linguistic markup (e.g., LaTeX, HTML tags), and handling whitespace irregularities (e.g., replacing multiple spaces or tabs with a single space). Tools like ftfy (“fixes text for you”) repair mojibake (garbled text from encoding errors). What&amp;rsquo;s more, corpora can also contains toxicity and bias, to filtering these harmful content requires multi-layered strategies. Model-based methods is now most widely used, like Google&amp;rsquo;s perspective API or Huggingface&amp;rsquo;s detoxify flag can help remove explicit hate speech, but nuanced toxicity (e.g., microaggressions, sarcasm) demands custom fine-tuning.&lt;/p&gt;
+&lt;p&gt;Different steps has different filtering process. For instance, instruct-tuning process&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -1605,7 +1700,7 @@ server {
       <description>&lt;h2 id=&#34;-blogs-that-i-might-read&#34;&gt;🤓 Blogs that I might read&lt;/h2&gt;
 &lt;p&gt;&lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://yhi.moe class=&#34;card&#34;&gt;
-	  &lt;img src=https://avatars-githubusercontent.webp.se/jyhi&gt;
+	  &lt;img src=https://avatars-githubusercontent-webp.webp.se/u/4285573?v&amp;#61;4&gt;
 	  &lt;div class=&#34;info&#34;&gt;
 		  &lt;h2&gt;Junde Yhi &amp;nbsp &lt;span&gt;https://yhi.moe&lt;/span&gt;&lt;/h2&gt;
 		  &lt;p&gt;Proficient in computer tech (specializing in IoT), open source evangelist.&lt;/p&gt;
@@ -1614,7 +1709,7 @@ server {
 &lt;/div&gt;
 &lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://ecwuuuuu.com/ class=&#34;card&#34;&gt;
-	  &lt;img src=https://avatars-githubusercontent.webp.se/ECWU&gt;
+	  &lt;img src=https://avatars-githubusercontent-webp.webp.se/u/21114722?v&amp;#61;4&gt;
 	  &lt;div class=&#34;info&#34;&gt;
 		  &lt;h2&gt;ECWU &amp;nbsp &lt;span&gt;https://ecwuuuuu.com/&lt;/span&gt;&lt;/h2&gt;
 		  &lt;p&gt;Assistant Instructur, PhD student in  🇮🇪 UCD,  focusing on NLP, Medical imaging, &amp;amp; cloud-native&lt;/p&gt;
@@ -1623,7 +1718,7 @@ server {
 &lt;/div&gt;
 &lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://junru.dev/ class=&#34;card&#34;&gt;
-	  &lt;img src=https://avatars-githubusercontent.webp.se/billzhonggz&gt;
+	  &lt;img src=https://avatars-githubusercontent-webp.webp.se/u/13086668?v&amp;#61;4&gt;
 	  &lt;div class=&#34;info&#34;&gt;
 		  &lt;h2&gt;Junru Zhong &amp;nbsp &lt;span&gt;https://junru.dev/&lt;/span&gt;&lt;/h2&gt;
 		  &lt;p&gt;PhD candidate in Chinese University of Hong Kong&lt;/p&gt;
@@ -1632,7 +1727,7 @@ server {
 &lt;/div&gt;
 &lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://yfqiu.netlify.app/ class=&#34;card&#34;&gt;
-	  &lt;img src=https://avatars-githubusercontent.webp.se/yfqiu98&gt;
+	  &lt;img src=https://avatars-githubusercontent-webp.webp.se/u/28985888?v&amp;#61;4&gt;
 	  &lt;div class=&#34;info&#34;&gt;
 		  &lt;h2&gt;Yifu Qiu &amp;nbsp &lt;span&gt;https://yfqiu.netlify.app/&lt;/span&gt;&lt;/h2&gt;
 		  &lt;p&gt;PhD candidate in The University of Edinburgh and Cambridge University, 2023 Apple Scholars&lt;/p&gt;
@@ -1641,7 +1736,7 @@ server {
 &lt;/div&gt;
 &lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://www.drjchn.com/ class=&#34;card&#34;&gt;
-	  &lt;img src=https://avatars-githubusercontent.webp.se/DRJ31&gt;
+	  &lt;img src=https://avatars-githubusercontent-webp.webp.se/u/21972881?v&amp;#61;4&gt;
 	  &lt;div class=&#34;info&#34;&gt;
 		  &lt;h2&gt;Reijie Deng &amp;nbsp &lt;span&gt;https://www.drjchn.com/&lt;/span&gt;&lt;/h2&gt;
 		  &lt;p&gt;Full-stack developer&lt;/p&gt;
@@ -1650,7 +1745,7 @@ server {
 &lt;/div&gt;
 &lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://www.lzc.app/ class=&#34;card&#34;&gt;
-	  &lt;img src=https://avatars-githubusercontent.webp.se/lzcapp&gt;
+	  &lt;img src=https://avatars-githubusercontent-webp.webp.se/u/12462465?v&amp;#61;4&gt;
 	  &lt;div class=&#34;info&#34;&gt;
 		  &lt;h2&gt;Laurence Luo &amp;nbsp &lt;span&gt;https://www.lzc.app/&lt;/span&gt;&lt;/h2&gt;
 		  &lt;p&gt;Developer, geek&lt;/p&gt;
@@ -1659,7 +1754,7 @@ server {
 &lt;/div&gt;
 &lt;div class=&#34;card-container&#34;&gt;
 	&lt;a href=https://9baka.moe/ class=&#34;card&#34;&gt;
-	  &lt;img src=https://avatars-githubusercontent.webp.se/ninekirin&gt;
+	  &lt;img src=https://avatars-githubusercontent-webp.webp.se/u/29482388?v&amp;#61;4&gt;
 	  &lt;div class=&#34;info&#34;&gt;
 		  &lt;h2&gt;Kirin Baka &amp;nbsp &lt;span&gt;https://9baka.moe/&lt;/span&gt;&lt;/h2&gt;
 		  &lt;p&gt;New generation UICHCC bellwether&lt;/p&gt;

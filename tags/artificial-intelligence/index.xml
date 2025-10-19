@@ -7,6 +7,82 @@
     <description>Artificial Intelligence</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Fri, 27 Dec 2024 00:15:00 +0000</lastBuildDate>
     <item>
+      <title>🧑🏿‍💻 Train A Language Model From Scratch</title>
+      <link>https://blog.cklau.cc/scientia/llm-from-scratch/</link>
+      <pubDate>Fri, 27 Dec 2024 00:15:00 +0000</pubDate>
+      <guid>https://blog.cklau.cc/scientia/llm-from-scratch/</guid>
+      <description>&lt;h2 id=&#34;beginning&#34;&gt;Beginning&lt;/h2&gt;
+&lt;p&gt;You may think that the training a language model from scratch can seem like a daunting task, but it is a rewarding journey that deepens your understanding of machine learning and natural language processing. In this guide, we will explore the fundamental steps required to build a language model, from data preparation to model training and evaluation. Whether you&amp;rsquo;re a beginner or an experienced practitioner, this process will provide valuable insights into the inner workings of large language models.&lt;/p&gt;
+&lt;h2 id=&#34;starting-from-the-tasks&#34;&gt;Starting from the tasks&lt;/h2&gt;
+&lt;p&gt;When training a language model, various tasks are employed to help the model learn and generalize effectively. These tasks are tailored to different stages of the training process, such as pretraining, supervised fine-tuning (SFT), and reinforcement learning with human feedback (RLHF). Below are some of the most widely used tasks, along with detailed explanations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Masked Language Modeling (MLM):&lt;/strong&gt;&lt;br&gt;
+Starting from the MLM, which is widely used in the word embedding training, proposed by Google in 2017 [&lt;a class=&#34;hugo-simplecite-cite-hyperlink&#34; href=&#34;#bibreference-1&#34; title=&#34;J. Devlin, M. Chang, K. Lee, and K. Toutanova, Bert: Pre-training of deep bidirectional transformers for language understanding, In Proc. Proceedings of the 2019 conference of the north american chapter of the association for computational linguistics: Human language technologies, volume 1 (long and short papers), 2019, pp. 4171–4186. &#34;&gt;1&lt;/a&gt;]. In short, it is a pretraining task where certain tokens in the input sequence are randomly masked, and the model is trained to predict these masked tokens based on their surrounding context. This task enables the model to learn bidirectional representations of text, making it effective for understanding the relationships between words in a sentence. For example, in the sentence &amp;ldquo;The [MASK] is blue,&amp;rdquo; the model learns to predict the masked word &amp;ldquo;sky.&amp;rdquo; Models like BERT and RoBERTa heavily rely on MLM for pretraining. The &lt;code&gt;DataCollatorForLanguageModeling&lt;/code&gt; in the Hugging Face Transformers library is often used to implement this task, where it handles token masking dynamically during training.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Causal Language Modeling (CLM):&lt;/strong&gt;&lt;br&gt;
+CLM, also known as autoregressive modeling, involves predicting the next token in a sequence based on the previous tokens. This task is unidirectional, meaning the model only considers past context when generating the next word. For instance, given the input &amp;ldquo;The cat is,&amp;rdquo; the model predicts the next word, such as &amp;ldquo;sleeping.&amp;rdquo; CLM is the backbone of models like GPT and GPT-2, which are designed for text generation tasks. The &lt;code&gt;DataCollatorForLanguageModeling&lt;/code&gt; can be used for CLM, depending on the implementation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Supervised Fine-Tuning (SFT):&lt;/strong&gt;&lt;br&gt;
+SFT is a critical step after pretraining, where the model is fine-tuned on labeled datasets for specific downstream tasks. These tasks can include text classification, summarization, or question answering. For example, in summarization, the model is trained to generate concise summaries of input documents. During SFT, the model learns to adapt its pretrained knowledge to domain-specific requirements. The &lt;code&gt;DataCollatorForSeq2Seq&lt;/code&gt; is often used for tasks like summarization, as it handles input-output pairs efficiently.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Reinforcement Learning with Human Feedback (RLHF):&lt;/strong&gt;&lt;br&gt;
+RLHF is used to align the model&amp;rsquo;s outputs with human preferences and ethical considerations. This process involves three main steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Supervised Fine-Tuning:&lt;/strong&gt; A base model is fine-tuned on a dataset of human-labeled examples.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reward Model Training:&lt;/strong&gt; A separate reward model is trained to score the quality of the model&amp;rsquo;s outputs based on human feedback.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Policy Optimization:&lt;/strong&gt; The language model is further fine-tuned using reinforcement learning, guided by the reward model.&lt;br&gt;
+RLHF is particularly useful for tasks like conversational AI, where the model needs to generate responses that are both helpful and aligned with user expectations.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By combining these tasks, we can train language models that are not only powerful but also versatile and aligned with human expectations. Each task plays a unique role in shaping the model&amp;rsquo;s capabilities, from understanding context to generating coherent and meaningful text.&lt;/p&gt;
+&lt;h2 id=&#34;what-about-the-data-format&#34;&gt;What about the Data Format&lt;/h2&gt;
+&lt;p&gt;The format of the training data plays a crucial role in determining the effectiveness of the language model. Different formats are used depending on the task and the stage of training, such as pretraining, fine-tuning, or reinforcement learning. Below, we discuss some commonly used data formats, including the Alpaca format and Vicuna&amp;rsquo;s multi-round chat format.&lt;/p&gt;
+&lt;h3 id=&#34;alpaca-format&#34;&gt;Alpaca Format&lt;/h3&gt;
+&lt;p&gt;The Alpaca format is designed for instruction-tuning tasks, where the model is fine-tuned to follow instructions and generate helpful responses. This format typically consists of a JSON structure with fields such as &lt;code&gt;instruction&lt;/code&gt;, &lt;code&gt;input&lt;/code&gt;, and &lt;code&gt;output&lt;/code&gt;. Here&amp;rsquo;s an example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;instruction&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Summarize the following text.&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;input&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Artificial intelligence is a branch of computer science that aims to create machines that can perform tasks that typically require human intelligence.&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;output&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Artificial intelligence is a field focused on creating machines capable of human-like intelligence.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Instruction:&lt;/strong&gt; Specifies the task the model should perform.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Input:&lt;/strong&gt; Provides additional context or data required to complete the task. This field can be empty for tasks that don&amp;rsquo;t require extra input.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Output:&lt;/strong&gt; Contains the expected response or result for the given instruction and input.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This format is widely used in fine-tuning models like Alpaca and other instruction-following models. It ensures that the model learns to handle a variety of tasks in a structured manner.&lt;/p&gt;
+&lt;h3 id=&#34;vicunas-multi-round-chat-format&#34;&gt;Vicuna&amp;rsquo;s Multi-Round Chat Format&lt;/h3&gt;
+&lt;p&gt;Vicuna&amp;rsquo;s multi-round chat format is tailored for conversational AI models, where the goal is to train the model to handle multi-turn dialogues effectively. This format captures the back-and-forth nature of human conversations. An example of this format is as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;conversation&amp;#34;&lt;/span&gt;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;user&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;What is the capital of France?&amp;#34;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;assistant&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;The capital of France is Paris.&amp;#34;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;user&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Can you tell me more about it?&amp;#34;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;role&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;assistant&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Paris is known as the City of Light and is famous for its art, culture, and landmarks like the Eiffel Tower.&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Role:&lt;/strong&gt; Indicates whether the message is from the &lt;code&gt;user&lt;/code&gt; or the &lt;code&gt;assistant&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Content:&lt;/strong&gt; Contains the text of the message.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This format is particularly useful for fine-tuning models to generate coherent and contextually relevant responses in multi-turn conversations. It helps the model maintain context across multiple exchanges, making it suitable for chatbots and virtual assistants. However, I don&amp;rsquo;t think the format are most important&lt;/p&gt;
+&lt;p&gt;However, different formats can be leveraged by the &lt;code&gt;process&lt;/code&gt; function, which means the format is not the first priority of in the training process, instead, the data itself is. Below is a example for converting vicuna format to alpaca.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;vicuna_to_alpaca&lt;/span&gt;(conversation):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    user &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [conv&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;user&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;None&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; conv &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; conversation]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    assistant &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [conv&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;assistant&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;None&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; conv &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; conversation]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    instruct &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [conv&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;instruction&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;None&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; conv &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; conversation]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; instruct, user, assistant
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;data-filtering&#34;&gt;Data Filtering&lt;/h2&gt;
+&lt;p&gt;Although format might be important, data quality is much vital for the training. As the raw corpora are riddled with inconsistencies, artifacts, and ethical pitfalls. Depulication, for instance, goes beyond simple substring matching: advanced methods like MinHash or SimHash identify near-duplicates at scale, while fuzzy hashing detects paraphrased or lightly edited repetitions. Similarly, normalization involves granular steps: Unicode normalization (e.g., converting “café” and “café” to a consistent form), stripping non-linguistic markup (e.g., LaTeX, HTML tags), and handling whitespace irregularities (e.g., replacing multiple spaces or tabs with a single space). Tools like ftfy (“fixes text for you”) repair mojibake (garbled text from encoding errors). What&amp;rsquo;s more, corpora can also contains toxicity and bias, to filtering these harmful content requires multi-layered strategies. Model-based methods is now most widely used, like Google&amp;rsquo;s perspective API or Huggingface&amp;rsquo;s detoxify flag can help remove explicit hate speech, but nuanced toxicity (e.g., microaggressions, sarcasm) demands custom fine-tuning.&lt;/p&gt;
+&lt;p&gt;Different steps has different filtering process. For instance, instruct-tuning process&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>🧮 Interpretability of Machine Learning Algorithm</title>
       <link>https://blog.cklau.cc/scientia/influence-function/</link>
       <pubDate>Fri, 27 Dec 2024 00:15:00 +0000</pubDate>

@@ -1955,5 +1955,38 @@
     "publisher": "PMLR",
     "title": "Understanding black-box predictions via influence functions",
     "type": "paper-conference"
+  },
+  {
+    "author": [
+      {
+        "family": "Devlin",
+        "given": "Jacob"
+      },
+      {
+        "family": "Chang",
+        "given": "Ming-Wei"
+      },
+      {
+        "family": "Lee",
+        "given": "Kenton"
+      },
+      {
+        "family": "Toutanova",
+        "given": "Kristina"
+      }
+    ],
+    "container-title": "Proceedings of the 2019 conference of the north american chapter of the association for computational linguistics: Human language technologies, volume 1 (long and short papers)",
+    "id": "devlin2019bert",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "4171-4186",
+    "title": "Bert: Pre-training of deep bidirectional transformers for language understanding",
+    "title-short": "Bert",
+    "type": "paper-conference"
   }
 ]
