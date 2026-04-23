@@ -2023,5 +2023,83 @@
     "publisher": "Taylor & Francis",
     "title": "Knowledge distillation with adapted weight",
     "type": "article-journal"
+  },
+  {
+    "author": [
+      {"family": "Vaswani", "given": "Ashish"},
+      {"family": "Shazeer", "given": "Noam"},
+      {"family": "Parmar", "given": "Niki"},
+      {"family": "Uszkoreit", "given": "Jakob"},
+      {"family": "Jones", "given": "Llion"},
+      {"family": "Gomez", "given": "Aidan N."},
+      {"family": "Kaiser", "given": "Łukasz"},
+      {"family": "Polosukhin", "given": "Illia"}
+    ],
+    "container-title": "Advances in Neural Information Processing Systems",
+    "id": "vaswani2017attention",
+    "issued": {"date-parts": [[2017]]},
+    "title": "Attention is all you need",
+    "type": "paper-conference"
+  },
+  {
+    "author": [
+      {"family": "Sennrich", "given": "Rico"},
+      {"family": "Haddow", "given": "Barry"},
+      {"family": "Birch", "given": "Alexandra"}
+    ],
+    "container-title": "Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics",
+    "id": "sennrich2016bpe",
+    "issued": {"date-parts": [[2016]]},
+    "page": "1715-1725",
+    "title": "Neural machine translation of rare words with subword units",
+    "type": "paper-conference"
+  },
+  {
+    "author": [
+      {"family": "Ouyang", "given": "Long"},
+      {"family": "Wu", "given": "Jeffrey"},
+      {"family": "Jiang", "given": "Xu"},
+      {"family": "Almeida", "given": "Diogo"},
+      {"family": "Wainwright", "given": "Carroll L."},
+      {"family": "Mishkin", "given": "Pamela"},
+      {"family": "Zhang", "given": "Chong"},
+      {"family": "Agarwal", "given": "Sandhini"},
+      {"family": "Slama", "given": "Katarina"},
+      {"family": "Ray", "given": "Alex"},
+      {"family": "others", "given": ""}
+    ],
+    "container-title": "Advances in Neural Information Processing Systems",
+    "id": "ouyang2022instructgpt",
+    "issued": {"date-parts": [[2022]]},
+    "title": "Training language models to follow instructions with human feedback",
+    "type": "paper-conference"
+  },
+  {
+    "author": [
+      {"family": "Rafailov", "given": "Rafael"},
+      {"family": "Sharma", "given": "Archit"},
+      {"family": "Mitchell", "given": "Eric"},
+      {"family": "Ermon", "given": "Stefano"},
+      {"family": "Manning", "given": "Christopher D."},
+      {"family": "Finn", "given": "Chelsea"}
+    ],
+    "container-title": "Advances in Neural Information Processing Systems",
+    "id": "rafailov2023dpo",
+    "issued": {"date-parts": [[2023]]},
+    "title": "Direct preference optimization: Your language model is secretly a reward model",
+    "type": "paper-conference"
+  },
+  {
+    "author": [
+      {"family": "Touvron", "given": "Hugo"},
+      {"family": "Martin", "given": "Louis"},
+      {"family": "Stone", "given": "Kevin"},
+      {"family": "others", "given": ""}
+    ],
+    "container-title": "arXiv preprint arXiv:2307.09288",
+    "id": "touvron2023llama2",
+    "issued": {"date-parts": [[2023]]},
+    "title": "Llama 2: Open foundation and fine-tuned chat models",
+    "type": "article-journal"
   }
 ]
