@@ -2101,5 +2101,70 @@
     "issued": {"date-parts": [[2023]]},
     "title": "Llama 2: Open foundation and fine-tuned chat models",
     "type": "article-journal"
+  },
+  {
+    "author": [
+      {"family": "Wang", "given": "Kevin"},
+      {"family": "Variengien", "given": "Alexandre"},
+      {"family": "Conmy", "given": "Arthur"},
+      {"family": "Shlegeris", "given": "Buck"},
+      {"family": "Steinhardt", "given": "Jacob"}
+    ],
+    "container-title": "International Conference on Learning Representations",
+    "id": "wang2023ioi",
+    "issued": {"date-parts": [[2023]]},
+    "title": "Interpretability in the wild: A circuit for indirect object identification in GPT-2 small",
+    "type": "paper-conference"
+  },
+  {
+    "author": [
+      {"family": "Belrose", "given": "Nora"},
+      {"family": "Furman", "given": "Zach"},
+      {"family": "Smith", "given": "Logan"},
+      {"family": "Halawi", "given": "Danny"},
+      {"family": "Ostrovsky", "given": "Igor"},
+      {"family": "McKinney", "given": "Lev"},
+      {"family": "Biderman", "given": "Stella"},
+      {"family": "Steinhardt", "given": "Jacob"}
+    ],
+    "container-title": "arXiv preprint arXiv:2303.08112",
+    "id": "belrose2023tunedlens",
+    "issued": {"date-parts": [[2023]]},
+    "title": "Eliciting latent predictions from transformers with the tuned lens",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {"family": "Conmy", "given": "Arthur"},
+      {"family": "Mavor-Parker", "given": "Augustine N."},
+      {"family": "Lynch", "given": "Aengus"},
+      {"family": "Heimersheim", "given": "Stefan"},
+      {"family": "Garriga-Alonso", "given": "Adrià"}
+    ],
+    "container-title": "Advances in Neural Information Processing Systems",
+    "id": "conmy2023acdc",
+    "issued": {"date-parts": [[2023]]},
+    "title": "Towards automated circuit discovery for mechanistic interpretability",
+    "type": "paper-conference"
+  },
+  {
+    "author": [
+      {"family": "Zou", "given": "Andy"},
+      {"family": "Phan", "given": "Long"},
+      {"family": "Chen", "given": "Sarah"},
+      {"family": "Campbell", "given": "James"},
+      {"family": "Guo", "given": "Phillip"},
+      {"family": "Ren", "given": "Richard"},
+      {"family": "Pan", "given": "Alexander"},
+      {"family": "Yin", "given": "Xuwang"},
+      {"family": "Mazeika", "given": "Mantas"},
+      {"family": "Dombrowski", "given": "Ann-Kathrin"},
+      {"family": "others", "given": ""}
+    ],
+    "container-title": "arXiv preprint arXiv:2310.01405",
+    "id": "zou2023repe",
+    "issued": {"date-parts": [[2023]]},
+    "title": "Representation engineering: A top-down approach to AI transparency",
+    "type": "article-journal"
   }
 ]
