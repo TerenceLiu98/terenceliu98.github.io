@@ -12,104 +12,138 @@
       <pubDate>Tue, 31 Dec 2024 12:00:00 +0000</pubDate>
       <guid>https://blog.cklau.cc/projects/</guid>
       <description>&lt;h2 id=&#34;publications&#34;&gt;Publications&lt;/h2&gt;
-&lt;div class=&#34;research-card&#34;&gt;
-    &lt;h2&gt;🎭 Tracing Partisan Bias to Its Emotional Fingerprints: A Computational Approach to Mitigation&lt;/h2&gt;
-    &lt;p class=&#34;subtitle&#34;&gt;IEEE International Conference on Big Data&lt;/p&gt;
-    &lt;p class=&#34;description&#34;&gt;&lt;/p&gt;
-    &lt;p class=&#34;authors&#34;&gt;Junjie Liu, Xi Luo, Sirong Wu, Gengchen Sun, Yuhui Deng&lt;/p&gt;
-    &lt;div class=&#34;buttons&#34;&gt;
+&lt;div class=&#34;research-card research-card--publication&#34;&gt;
+  &lt;div class=&#34;research-card__index&#34;&gt;1.&lt;/div&gt;
+  &lt;div class=&#34;research-card__body&#34;&gt;
+    &lt;h3 class=&#34;research-card__title&#34;&gt;
+      🎭 Tracing Partisan Bias to Its Emotional Fingerprints: A Computational Approach to Mitigation
       
-        &lt;a href=&#34;https://arxiv.org/abs/2501.01284&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
+    &lt;/h3&gt;
+    &lt;p class=&#34;research-card__authors&#34;&gt;Junjie Liu, Xi Luo, Sirong Wu, Gengchen Sun, Yuhui Deng&lt;/p&gt;
+    &lt;p class=&#34;research-card__venue&#34;&gt;&lt;em&gt;IEEE International Conference on Big Data&lt;/em&gt;, 2025.&lt;/p&gt;
+    &lt;div class=&#34;research-card__links&#34;&gt;
+      &lt;a href=&#34;https://arxiv.org/abs/2501.01284&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PDF&lt;/a&gt;
       
+      
+      
+      
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class=&#34;research-card__image&#34;&gt;
+    &lt;img src=&#34;https://32cf906.webp.li/2025/10/CoT-revise.png&#34; alt=&#34;🎭 Tracing Partisan Bias to Its Emotional Fingerprints: A Computational Approach to Mitigation&#34; loading=&#34;lazy&#34;&gt;
+  &lt;/div&gt;
+  
+&lt;/div&gt;
+
+&lt;div class=&#34;research-card research-card--publication&#34;&gt;
+  &lt;div class=&#34;research-card__index&#34;&gt;2.&lt;/div&gt;
+  &lt;div class=&#34;research-card__body&#34;&gt;
+    &lt;h3 class=&#34;research-card__title&#34;&gt;
+      Knowledge Distillation with Adapted Weight
+      
+    &lt;/h3&gt;
+    &lt;p class=&#34;research-card__authors&#34;&gt;Sirong Wu, Xi Luo, Junjie Liu, Yuhui Deng&lt;/p&gt;
+    &lt;p class=&#34;research-card__venue&#34;&gt;&lt;em&gt;Statistics&lt;/em&gt;, 2025.&lt;/p&gt;
+    &lt;div class=&#34;research-card__links&#34;&gt;
+      &lt;a href=&#34;https://arxiv.org/abs/2501.02705&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PDF&lt;/a&gt;
+      &lt;a href=&#34;https://doi.org/10.1080/02331888.2025.2451944&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DOI&lt;/a&gt;
       
       
       
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;div class=&#34;research-card&#34;&gt;
-    &lt;h2&gt;Knowledge Distillation with Adapted Weight&lt;/h2&gt;
-    &lt;p class=&#34;subtitle&#34;&gt;Statistics&lt;/p&gt;
-    &lt;p class=&#34;description&#34;&gt;&lt;/p&gt;
-    &lt;p class=&#34;authors&#34;&gt;Sirong Wu, Xi Luo, Junjie Liu, Yuhui Deng&lt;/p&gt;
-    &lt;div class=&#34;buttons&#34;&gt;
+  
+  &lt;div class=&#34;research-card__image&#34;&gt;
+    &lt;img src=&#34;https://32cf906.webp.li/2025/01/kd-aif.png&#34; alt=&#34;Knowledge Distillation with Adapted Weight&#34; loading=&#34;lazy&#34;&gt;
+  &lt;/div&gt;
+  
+&lt;/div&gt;
+
+&lt;div class=&#34;research-card research-card--publication&#34;&gt;
+  &lt;div class=&#34;research-card__index&#34;&gt;3.&lt;/div&gt;
+  &lt;div class=&#34;research-card__body&#34;&gt;
+    &lt;h3 class=&#34;research-card__title&#34;&gt;
+      VSG-GAN: A High Fidelity Image Synthesis Method with Semantic Manipulation in Retinal Fundus Image
       
-        &lt;a href=&#34;https://arxiv.org/abs/2501.02705&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
+    &lt;/h3&gt;
+    &lt;p class=&#34;research-card__authors&#34;&gt;Junjie Liu, Shixin Xu, Ping He, Sirong Wu, Xi Luo, Yuhui Deng, Huaxiong Huang&lt;/p&gt;
+    &lt;p class=&#34;research-card__venue&#34;&gt;&lt;em&gt;Biophysical Journal&lt;/em&gt;, 2024.&lt;/p&gt;
+    &lt;div class=&#34;research-card__links&#34;&gt;
+      &lt;a href=&#34;https://www.cell.com/biophysj/abstract/S0006-3495%2824%2900139-5&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PDF&lt;/a&gt;
+      &lt;a href=&#34;https://doi.org/10.1016/j.bpj.2024.02.019&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DOI&lt;/a&gt;
       
+      &lt;a href=&#34;https://github.com/TerenceLiu98/VSG-GAN&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Code&lt;/a&gt;
       
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class=&#34;research-card__image&#34;&gt;
+    &lt;img src=&#34;https://32cf906.webp.li/2025/01/generator-vsggan.png&#34; alt=&#34;VSG-GAN: A High Fidelity Image Synthesis Method with Semantic Manipulation in Retinal Fundus Image&#34; loading=&#34;lazy&#34;&gt;
+  &lt;/div&gt;
+  
+&lt;/div&gt;
+
+&lt;div class=&#34;research-card research-card--publication&#34;&gt;
+  &lt;div class=&#34;research-card__index&#34;&gt;4.&lt;/div&gt;
+  &lt;div class=&#34;research-card__body&#34;&gt;
+    &lt;h3 class=&#34;research-card__title&#34;&gt;
+      Online Statistics Teaching-assisted Platform with Interactive Web Applications using R Shiny
       
-        &lt;a href=&#34;https://doi.org/10.1080/02331888.2025.2451944&#34; class=&#34;btn btn-tertiary&#34; target=&#34;_blank&#34;&gt;DOI&lt;/a&gt;
+    &lt;/h3&gt;
+    &lt;p class=&#34;research-card__authors&#34;&gt;Junjie Liu, Yuhui Deng, Xiaoling Peng&lt;/p&gt;
+    &lt;p class=&#34;research-card__venue&#34;&gt;&lt;em&gt;The 6th International Symposium on Emerging Technologies for Education&lt;/em&gt;, 2021.&lt;/p&gt;
+    &lt;div class=&#34;research-card__links&#34;&gt;
+      &lt;a href=&#34;https://link.springer.com/chapter/10.1007/978-3-030-92836-0_8&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PDF&lt;/a&gt;
+      &lt;a href=&#34;https://doi.org/10.1007/978-3-030-92836-0_8&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DOI&lt;/a&gt;
+      
+      &lt;a href=&#34;https://github.com/Bayes-Cluster/MESOCP&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Code&lt;/a&gt;
+      
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+&lt;/div&gt;
+
+&lt;div class=&#34;research-card research-card--publication&#34;&gt;
+  &lt;div class=&#34;research-card__index&#34;&gt;5.&lt;/div&gt;
+  &lt;div class=&#34;research-card__body&#34;&gt;
+    &lt;h3 class=&#34;research-card__title&#34;&gt;
+      Analysis of main risk factors causing stroke in Shanxi Province based on machine learning models
+      
+    &lt;/h3&gt;
+    &lt;p class=&#34;research-card__authors&#34;&gt;Junjie Liu, Yiyang Sun, Jing Ma, Jiachen Tu, Yuhui Deng, Ping He, Rongshan Li, Fengyun Hu, Huaxiong Huang, Xiaoshuang Zhou, Shixin Xu&lt;/p&gt;
+    &lt;p class=&#34;research-card__venue&#34;&gt;&lt;em&gt;Informatics in Medicine Unlocked&lt;/em&gt;, 2021.&lt;/p&gt;
+    &lt;div class=&#34;research-card__links&#34;&gt;
+      &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S2352914821001933&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PDF&lt;/a&gt;
+      &lt;a href=&#34;https://doi.org/10.1016/j.imu.2021.100712&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DOI&lt;/a&gt;
+      
       
       
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;div class=&#34;research-card&#34;&gt;
-    &lt;h2&gt;VSG-GAN: A High Fidelity Image Synthesis Method with Semantic Manipulation in Retinal Fundus Image&lt;/h2&gt;
-    &lt;p class=&#34;subtitle&#34;&gt;Biophysical Journal&lt;/p&gt;
-    &lt;p class=&#34;description&#34;&gt;&lt;/p&gt;
-    &lt;p class=&#34;authors&#34;&gt;Junjie Liu, Shixin Xu, Ping He, Sirong Wu, Xi Luo, Yuhui Deng, Huaxiong Huang&lt;/p&gt;
-    &lt;div class=&#34;buttons&#34;&gt;
+  
+&lt;/div&gt;
+
+&lt;div class=&#34;research-card research-card--publication&#34;&gt;
+  &lt;div class=&#34;research-card__index&#34;&gt;6.&lt;/div&gt;
+  &lt;div class=&#34;research-card__body&#34;&gt;
+    &lt;h3 class=&#34;research-card__title&#34;&gt;
+      A variant RSA acceleration with parallelisation
       
-        &lt;a href=&#34;https://www.cell.com/biophysj/abstract/S0006-3495%2824%2900139-5&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
+    &lt;/h3&gt;
+    &lt;p class=&#34;research-card__authors&#34;&gt;Junjie Liu, Kang-Too Tsang, Yuhui Deng&lt;/p&gt;
+    &lt;p class=&#34;research-card__venue&#34;&gt;&lt;em&gt;International Journal of Parallel, Emergent and Distributed Systems&lt;/em&gt;, 2021.&lt;/p&gt;
+    &lt;div class=&#34;research-card__links&#34;&gt;
+      &lt;a href=&#34;https://arxiv.org/abs/2111.11924&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PDF&lt;/a&gt;
+      &lt;a href=&#34;https://doi.org/10.1080/17445760.2021.2024535&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DOI&lt;/a&gt;
       
-      
-      
-        &lt;a href=&#34;https://doi.org/10.1016/j.bpj.2024.02.019&#34; class=&#34;btn btn-tertiary&#34; target=&#34;_blank&#34;&gt;DOI&lt;/a&gt;
-      
-      
-        &lt;a href=&#34;https://github.com/TerenceLiu98/VSG-GAN&#34; class=&#34;btn btn-secondary&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;
-      
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;div class=&#34;research-card&#34;&gt;
-    &lt;h2&gt;Online Statistics Teaching-assisted Platform with Interactive Web Applications using R Shiny&lt;/h2&gt;
-    &lt;p class=&#34;subtitle&#34;&gt;The 6th International Symposium on Emerging Technologies for Education&lt;/p&gt;
-    &lt;p class=&#34;description&#34;&gt;&lt;/p&gt;
-    &lt;p class=&#34;authors&#34;&gt;Junjie Liu, Yuhui Deng, Xiaoling Peng&lt;/p&gt;
-    &lt;div class=&#34;buttons&#34;&gt;
-      
-        &lt;a href=&#34;https://link.springer.com/chapter/10.1007/978-3-030-92836-0_8&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
-      
-      
-      
-        &lt;a href=&#34;https://doi.org/10.1007/978-3-030-92836-0_8&#34; class=&#34;btn btn-tertiary&#34; target=&#34;_blank&#34;&gt;DOI&lt;/a&gt;
-      
-      
-        &lt;a href=&#34;https://github.com/Bayes-Cluster/MESOCP&#34; class=&#34;btn btn-secondary&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;
-      
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;div class=&#34;research-card&#34;&gt;
-    &lt;h2&gt;Analysis of main risk factors causing stroke in Shanxi Province based on machine learning models&lt;/h2&gt;
-    &lt;p class=&#34;subtitle&#34;&gt;Informatics in Medicine Unlocked&lt;/p&gt;
-    &lt;p class=&#34;description&#34;&gt;&lt;/p&gt;
-    &lt;p class=&#34;authors&#34;&gt;Junjie Liu, Yiyang Sun, Jing Ma, Jiachen Tu, Yuhui Deng, Ping He, Rongshan Li, Fengyun Hu, Huaxiong Huang, Xiaoshuang Zhou, Shixin Xu&lt;/p&gt;
-    &lt;div class=&#34;buttons&#34;&gt;
-      
-        &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S2352914821001933&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
-      
-      
-      
-        &lt;a href=&#34;https://doi.org/10.1016/j.imu.2021.100712&#34; class=&#34;btn btn-tertiary&#34; target=&#34;_blank&#34;&gt;DOI&lt;/a&gt;
       
       
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;div class=&#34;research-card&#34;&gt;
-    &lt;h2&gt;A variant RSA acceleration with parallelisation&lt;/h2&gt;
-    &lt;p class=&#34;subtitle&#34;&gt;International Journal of Parallel, Emergent and Distributed Systems&lt;/p&gt;
-    &lt;p class=&#34;description&#34;&gt;&lt;/p&gt;
-    &lt;p class=&#34;authors&#34;&gt;Junjie Liu, Kang-Too Tsang, Yuhui Deng&lt;/p&gt;
-    &lt;div class=&#34;buttons&#34;&gt;
-      
-        &lt;a href=&#34;https://arxiv.org/abs/2111.11924&#34; class=&#34;btn btn-primary&#34; target=&#34;_blank&#34;&gt;PDF&lt;/a&gt;
-      
-      
-      
-        &lt;a href=&#34;https://doi.org/10.1080/17445760.2021.2024535&#34; class=&#34;btn btn-tertiary&#34; target=&#34;_blank&#34;&gt;DOI&lt;/a&gt;
-      
-      
-    &lt;/div&gt;
-  &lt;/div&gt;
+  
+&lt;/div&gt;
+
 &lt;h2 id=&#34;working-papers&#34;&gt;Working Papers&lt;/h2&gt;
 &lt;!--
 {{&lt; research_card
