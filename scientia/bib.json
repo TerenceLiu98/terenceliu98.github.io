@@ -1988,5 +1988,40 @@
     "title": "Bert: Pre-training of deep bidirectional transformers for language understanding",
     "title-short": "Bert",
     "type": "paper-conference"
+  },
+  {
+    "author": [
+      {
+        "family": "Wu",
+        "given": "Sirong"
+      },
+      {
+        "family": "Luo",
+        "given": "Xi"
+      },
+      {
+        "family": "Liu",
+        "given": "Junjie"
+      },
+      {
+        "family": "Deng",
+        "given": "Yuhui"
+      }
+    ],
+    "container-title": "Statistics",
+    "id": "wu2025knowledge",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "volume": "59",
+    "issue": "2",
+    "page": "470-497",
+    "publisher": "Taylor & Francis",
+    "title": "Knowledge distillation with adapted weight",
+    "type": "article-journal"
   }
 ]
