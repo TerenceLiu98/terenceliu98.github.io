@@ -1,1140 +1,463 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="https://blog.cklau.cc/images/logo.svg" />
-<title>🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not | 特倫蘇的日與夜</title>
-<meta name="title" content="🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not" />
-<meta name="description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
-在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。" />
-<meta name="keywords" content="homelab,oauth2-proxy,nginx-ingress-controller,GeoDNS,Authoritative DNS,安全,零信任,存储,权威 DNS," />
-
-
-<meta property="og:title" content="🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not" />
-<meta property="og:description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
-在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-8/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2024-09-19T00:11:21+08:00" />
-<meta property="article:modified_time" content="2024-09-19T00:11:21+08:00" />
-
-
-
-
-<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not"/>
-<meta name="twitter:description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
-在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。"/>
-
-
-
-<meta itemprop="name" content="🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not">
-<meta itemprop="description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
-在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。"><meta itemprop="datePublished" content="2024-09-19T00:11:21+08:00" />
-<meta itemprop="dateModified" content="2024-09-19T00:11:21+08:00" />
-<meta itemprop="wordCount" content="1705">
-<meta itemprop="keywords" content="homelab,oauth2-proxy,nginx-ingress-controller,GeoDNS,Authoritative DNS,安全,零信任,存储,权威 DNS," />
-<meta name="referrer" content="no-referrer-when-downgrade" />
-
-  <style>
-  body {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 500;
-    font-style: normal;
-    margin: auto;
-    padding: 20px;
-    max-width: 980px;
-    text-align: left;
-    background-color: #fff;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.5;
-    color: #444;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  strong,
-  b {
-    color: #222;
-  }
-
-  a {
-    color: #444;
-    text-decoration: none;
-     
-  }
-
-  .title {
-    text-decoration: none;
-    border: 0;
-  }
-
-  .title span {
-    font-weight: 400;
-  }
-
-  nav a {
-    margin-right: 10px;
-  }
-
-  textarea {
-    width: 100%;
-    font-size: 16px;
-  }
-
-  input {
-    font-size: 16px;
-  }
-
-  content {
-    line-height: 1.6;
-  }
-
-  main content p a {
-    word-wrap: break-word;
-    border: none;
-    box-shadow: inset 0 -2px #444;
-    transition-property: box-shadow;
-    transition-duration: .1s;
-  }
-
-  table {
-    width: 100%;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  code {
-    padding: 2px 5px;
-    background-color: #f2f2f2;
-  }
-
-  pre code {
-    color: #222;
-    display: block;
-    padding: 20px;
-    white-space: pre-wrap;
-    font-size: 14px;
-    overflow-x: auto;
-  }
-
-  div.highlight pre {
-    background-color: initial;
-    color: initial;
-  }
-
-  div.highlight code {
-    background-color: unset;
-    color: unset;
-  }
-
-  blockquote {
-    border-left: 1px solid #999;
-    color: #222;
-    padding-left: 20px;
-    font-style: italic;
-  }
-
-  footer {
-    padding: 25px;
-    text-align: center;
-  }
-
-  .helptext {
-    color: #777;
-    font-size: small;
-  }
-
-  .errorlist {
-    color: #eba613;
-    font-size: small;
-  }
-
-   
-  ul.blog-posts {
-    list-style-type: none;
-    padding: unset;
-    line-height: 2;
-  }
-
-  ul.blog-posts li {
-    display: flex;
-  }
-
-  ul.blog-posts li span {
-    flex: 0 0 6.5rem;
-  }
-
-  ul.blog-posts li time {
-    color: #8e8d8d;
-  }
-
-  ul.blog-posts li a:visited {
-    color: #8b6fcb;
-  }
-
-
-   
-
-
-  .bg { background-color: #f0f0f0; }
-  .chroma { background-color: #f0f0f0; }
-  .chroma .x {  }
-  .chroma .err {  }
-  .chroma .cl {  }
-  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
-  .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
-  .chroma .hl { background-color: #ffffcc }
-  .chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-  .chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-  .chroma .line { display: flex; }
-  .chroma .k { color: #007020; font-weight: bold }
-  .chroma .kc { color: #007020; font-weight: bold }
-  .chroma .kd { color: #007020; font-weight: bold }
-  .chroma .kn { color: #007020; font-weight: bold }
-  .chroma .kp { color: #007020 }
-  .chroma .kr { color: #007020; font-weight: bold }
-  .chroma .kt { color: #902000 }
-  .chroma .n {  }
-  .chroma .na { color: #4070a0 }
-  .chroma .nb { color: #007020 }
-  .chroma .bp {  }
-  .chroma .nc { color: #0e84b5; font-weight: bold }
-  .chroma .no { color: #60add5 }
-  .chroma .nd { color: #555555; font-weight: bold }
-  .chroma .ni { color: #d55537; font-weight: bold }
-  .chroma .ne { color: #007020 }
-  .chroma .nf { color: #06287e }
-  .chroma .fm {  }
-  .chroma .nl { color: #002070; font-weight: bold }
-  .chroma .nn { color: #0e84b5; font-weight: bold }
-  .chroma .nx {  }
-  .chroma .py {  }
-  .chroma .nt { color: #062873; font-weight: bold }
-  .chroma .nv { color: #bb60d5 }
-  .chroma .vc {  }
-  .chroma .vg {  }
-  .chroma .vi {  }
-  .chroma .vm {  }
-  .chroma .l {  }
-  .chroma .ld {  }
-  .chroma .s { color: #4070a0 }
-  .chroma .sa { color: #4070a0 }
-  .chroma .sb { color: #4070a0 }
-  .chroma .sc { color: #4070a0 }
-  .chroma .dl { color: #4070a0 }
-  .chroma .sd { color: #4070a0; font-style: italic }
-  .chroma .s2 { color: #4070a0 }
-  .chroma .se { color: #4070a0; font-weight: bold }
-  .chroma .sh { color: #4070a0 }
-  .chroma .si { color: #70a0d0 }
-  .chroma .sx { color: #c65d09 }
-  .chroma .sr { color: #235388 }
-  .chroma .s1 { color: #4070a0 }
-  .chroma .ss { color: #517918 }
-  .chroma .m { color: #40a070 }
-  .chroma .mb { color: #40a070 }
-  .chroma .mf { color: #40a070 }
-  .chroma .mh { color: #40a070 }
-  .chroma .mi { color: #40a070 }
-  .chroma .il { color: #40a070 }
-  .chroma .mo { color: #40a070 }
-  .chroma .o { color: #666666 }
-  .chroma .ow { color: #007020; font-weight: bold }
-  .chroma .p {  }
-  .chroma .c { color: #60a0b0; font-style: italic }
-  .chroma .ch { color: #60a0b0; font-style: italic }
-  .chroma .cm { color: #60a0b0; font-style: italic }
-  .chroma .c1 { color: #60a0b0; font-style: italic }
-  .chroma .cs { color: #60a0b0; background-color: #fff0f0 }
-  .chroma .cp { color: #007020 }
-  .chroma .cpf { color: #007020 }
-  .chroma .g {  }
-  .chroma .gd { color: #a00000 }
-  .chroma .ge { font-style: italic }
-  .chroma .gr { color: #ff0000 }
-  .chroma .gh { color: #000080; font-weight: bold }
-  .chroma .gi { color: #00a000 }
-  .chroma .go { color: #888888 }
-  .chroma .gp { color: #c65d09; font-weight: bold }
-  .chroma .gs { font-weight: bold }
-  .chroma .gu { color: #800080; font-weight: bold }
-  .chroma .gt { color: #0044dd }
-  .chroma .gl { text-decoration: underline }
-  .chroma .w { color: #bbbbbb }
-
-
- 
-.sidenote {
-    font-size: 80%;         
-    font-weight: normal;
-    color: var(--theme-hl1-color);
-    position: relative;     
-}
- 
-@media (min-width: 1400px) {
-    .sidenote {
-        float: right;
-        clear: right;            
-        text-align: left;
-
-         
-            
-        top: -3rem;             
-        width: 20vw;            
-        margin-right: -23vw;     
-        margin-top: 1rem;       
-    }
-}
- 
- 
-@media (max-width: 1400px) {
-    .sidenote {
-         
-        float: right;
-        text-align: left;
-
-            
-        width: 100%;  
-        margin: 1rem 0;
-        padding-left: 5%;  
-    }
-}
- 
- 
-body {
-    counter-reset: sidenote-counter;
-}
-.sidenote-number {
-    counter-increment: sidenote-counter;
-}
- 
-.sidenote::before {
-    content: "\2020";
-    position: relative;
-    vertical-align: super;
-    font-size: 0.9em;
-    font-weight: bold;
-}
- 
-.sidenote-number::after {
-    content: "\2020";
-    position: relative;
-    vertical-align: super;
-    font-size: 0.7em;
-    font-weight: bold;
-    color: var(--theme-body-color);
-    display: inline;
-    margin-right: 0.2rem;
-}
-@media (min-width: 1400px) {
-     
-    .sidenote-number:hover .sidenote {
-        background-color: var(--theme-color-light);
-    }
-}
-
-  
-.card-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;  
-    gap: 5px;  
-    padding: 5px;
-}
-
-.card {
-    width: 80%;  
-    box-shadow: 0 0px 0px rgba(0,0,0,0.1);  
-    display: flex;
-    align-items: center;  
-    padding: 10px;
-    background: white;  
-    text-decoration: none;  
-    color: inherit;  
-}
-
-.card img {
-    width: 80px;  
-    height: 80px;
-    border-radius: 50%;  
-    margin-right: 20px;  
-}
-
-.card .info h2 {
-    margin: 0;
-    font-size: 1.2em;  
-}
-
-.card .info p {
-    margin: 5px 0 0;  
-    font-size: 0.9em;
-    color: #444;  
-}
-.card .info span{
-    font-size: 0.5em;
-    color: #666;
-}
-
-
-.research-card {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 10px 14px;
-  margin: 6px 0;
-  border: 1px solid #ececec;
-  border-radius: 8px;
-  background-color: #fff;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
-}
-.research-card:hover {
-  border-color: #d0d0d0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.research-card__index {
-  flex: 0 0 auto;
-  font-size: 13px;
-  color: #aaa;
-  min-width: 18px;
-  text-align: right;
-  align-self: flex-start;
-  padding-top: 2px;
-}
-
-.research-card__body {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.research-card__meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 3px;
-}
-
-.research-card__tag {
-  display: inline-block;
-  padding: 1px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  border-radius: 10px;
-  line-height: 1.6;
-}
-.research-card__tag--publication {
-  color: #0a7a3b;
-  background-color: #e3f7eb;
-}
-.research-card__tag--working {
-  color: #b5560a;
-  background-color: #fff0dc;
-}
-
-.research-card__venue {
-  font-size: 12.5px;
-  color: #777;
-}
-
-.research-card__title {
-  margin: 0 0 3px 0;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.35;
-  color: #222;
-}
-
-.research-card__authors {
-  margin: 0 0 6px 0;
-  font-size: 13px;
-  color: #555;
-}
-
-.research-card__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.research-card__links a {
-  font-size: 11.5px;
-  padding: 1px 9px;
-  color: #555;
-  text-decoration: none;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.research-card__links a:hover {
-  color: #007bff;
-  border-color: #007bff;
-  background-color: #f4f9ff;
-}
-
-.research-card__image {
-  flex: 0 0 auto;
-  width: 120px;
-  height: 80px;
-  overflow: hidden;
-  border-radius: 5px;
-  background: #f5f5f5;
-}
-
-.research-card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-@media (max-width: 640px) {
-  .research-card {
-    align-items: flex-start;
-  }
-  .research-card__image {
-    width: 80px;
-    height: 60px;
-  }
-}
-
-
-</style>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
-<script defer data-domain="nova.moe" src="https://possible.knat.network/js/script.js"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844674035384472" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://blog.cklau.cc/feed.xml" title="特倫蘇的日與夜">
-
-</head>
-
-<body>
-  <header><a href="/" class="title">
-  <h2>特倫蘇的日與夜</h2>
-</a>
-<nav><a href="/">Home</a>
-
-<a href="/post">[Blog]</a>
-
-<a href="/scientia">[Scientia]</a>
-
-<a href="/projects">[Projects]</a>
-
-<a href="/links">[Links]</a>
-
-</nav>
-</header>
-  <main>
-<h1>🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not</h1>
-<p>
-  <i>
-    <time datetime='2024-09-19' pubdate>
-      19 Sep, 2024
-    </time>
-  </i>
-</p>
-
-<content>
-  <p>回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)</p>
-<p>在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。</p>
-<h2 id="自建-geodns-以摆脱-cloudflare-垄断">自建 GeoDNS 以摆脱 Cloudflare 垄断</h2>
-<p>GeoDNS 是一种基于请求位置的流量分配过程，通过判断请求 IP 的地理位置，分配离他最近的出口 IP 以达到基于地理路由的流量优化。说人话就是各个大洲分别一个 IP。但是问题来了，谁会提供这种看起来就很好的服务呢？赛博菩萨表示，我们 Anycast 起家，天然无法提供 GeoDNS。因为对于 Anycast DNS 来说，他们会将一个 IP 通过 BGP 的方式在多地宣告，那么对于用户来说，能否到达离他们最近的 IP 就取决于本地网络提供商的接入情况和介入情况。一个简单的例子：如果当地网络服务商基于一些原因（例如安全和内容合规等原因）将 CDN 提供商的 IP 段进行路由级别的劣化，则无论 CDN 提供商多么的努力，也无法达到加速的目的。从计算机网络来说，Anycast 的实现是在网络层，而 GeoDNS 是在应用层，所以 Anycast 不知道请求者的 IP 位置，所以会出现这样的情况：虽然在 DNS 看来这个请求更加接近某地的服务器，但实际上这个 CDN 站点离原站更远。</p>
-<p>基于以上的几点，我选择搭建 GeoDNS 来替代 Cloudflare 的 Anycast<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
-<h3 id="权威-dns-的安装与配置authoritative-dns">权威 DNS 的安装与配置（Authoritative DNS）</h3>
-<h4 id="前提">前提</h4>
-<p>现存有不少开源权威 DNS 软件可以选择，比如 Bind9/PowerDNS 等等，我这里选择使用 PowerDNS，原因是因为他有 pdns-admin 可以让我进行 web 管理，而不是面对各种配置文件， 同时它是使用数据库进行 DNS 纪录存储，而不是跟 BIND9 一样的文本存储，更加适合高可用。因为涉及到高可用，首先我们需要准备两台 VPS，我选择了一台香港的服务器和一台纽约的服务器作为 ns1 和 ns2。同时，除了需要使用的域名，我们还需要一个额外的域名分配给 DNS 服务器，所以，基础准备如下<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>：</p>
-<table>
-<thead>
-<tr>
-<th>域名</th>
-<th>IPV4</th>
-<th>IPV6</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ns1.example.dns</td>
-<td>191.103.113.114</td>
-<td>79cc:5f8f:47b1:963e:d248:70ea:0186:b842</td>
-</tr>
-<tr>
-<td>ns2.example.dns</td>
-<td>31.84.179.51</td>
-<td>9c7d:f2b6:1777:1904:fcfc:3a24:cccd:c0a6</td>
-</tr>
-<tr>
-<td><a href="https://www.example.com">www.example.com</a></td>
-<td>249.209.110.226,160.38.17.187,66.167.146.39</td>
-<td>NULL</td>
-</tr>
-</tbody>
-</table>
-<p>在搭建权威 DNS 服务器的使用，我们常常听说一个词叫做胶水纪录 - Glue Record，这个纪录也是一种 DNS 纪录，但是保存在域名注册局的 DNS 服务器上，例如查询 <code>www.example.com</code> 的 纪录时，这个请求首先去到递归 DNS 服务器 <code>R</code>， 然后 <code>R</code> 再去询问对应的 DNS 根服务器 <code>A0</code>， 当然，<code>A0</code> 并不存放所有的纪录，他只会告诉 <code>R</code> 对应的域名 <code>example.com</code> 应该去对应的权威服务器 <code>A1</code> 进行查询。 所以，胶水纪录实际上就是 <code>A0</code> 到 <code>A1</code> 的指向。而所有的根服务器都可以到 <a href="https://www.iana.org/domains/root/servers">IANA</a> 查到， 当然，我们也可以直接用 <code>dig</code> 查到：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>base<span style="color:#f92672">)</span> <span style="color:#f92672">{}</span> ~ dig com. NS + short
-</span></span><span style="display:flex;"><span>;; Invalid option
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; com. NS + short
-</span></span><span style="display:flex;"><span>;; global options: +cmd
-</span></span><span style="display:flex;"><span>;; Got answer:
-</span></span><span style="display:flex;"><span>;; -&gt;&gt;HEADER<span style="color:#e6db74">&lt;&lt;- opcode: QUERY, status: NOERROR, id: 25108
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; flags: qr rd ra; QUERY: 1, ANSWER: 13, AUTHORITY: 0, ADDITIONAL: 1
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; OPT PSEUDOSECTION:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">; EDNS: version: 0, flags:; udp: 1220
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; QUESTION SECTION:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;com.				IN	NS
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; ANSWER SECTION:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	h.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	f.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	k.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	b.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	c.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	g.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	d.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	m.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	a.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	j.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	e.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	i.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">com.			35830	IN	NS	l.gtld-servers.net.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; Query time: 15 msec
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; SERVER: 192.168.1.1#53(192.168.1.1)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; WHEN: Thu Sep 26 13:43:28 IST 2024
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; MSG SIZE  rcvd: 256
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; Got answer:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">;; -&gt;&gt;HEADER&lt;&lt;- opcode</span>: QUERY, status: NXDOMAIN, id: <span style="color:#ae81ff">48582</span>
-</span></span><span style="display:flex;"><span>;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>;; OPT PSEUDOSECTION:
-</span></span><span style="display:flex;"><span>; EDNS: version: 0, flags:; udp: <span style="color:#ae81ff">4096</span>
-</span></span><span style="display:flex;"><span>;; QUESTION SECTION:
-</span></span><span style="display:flex;"><span>;short.				IN	A
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>;; Query time: <span style="color:#ae81ff">5</span> msec
-</span></span><span style="display:flex;"><span>;; SERVER: 192.168.1.1#53<span style="color:#f92672">(</span>192.168.1.1<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>;; WHEN: Thu Sep <span style="color:#ae81ff">26</span> 13:43:28 IST <span style="color:#ae81ff">2024</span>
-</span></span><span style="display:flex;"><span>;; MSG SIZE  rcvd: <span style="color:#ae81ff">34</span>
-</span></span></code></pre></div><p>我们可以看到 <code>.com</code>这个域名是在 <code>a.gtld-servers.net.</code> 到 <code>l.gtld-servers.net.</code> 这些 DNS 根服务器进行纪录。当然，这里扯远了，还是回到胶水纪录。一般来说，域名注册商的网站都可以添加胶水纪录，而有的注册商则是需要付费才能添加，这取决于你的服务提供商。同时，有的注册商并没有使用 「胶水纪录」这个词，而是使用 「注册 DNS 服务器」或者 「DNS Host」，例如我使用的<a href="https://cloud.tencent.com/document/product/242/54158">腾讯云</a>就是称作 「DNS Host」如下图：</p>
-<center>
-    <img src="https://32cf906.webp.li/2024/09/dns-dnspod.png" width="70%" alt="DNS 胶水纪录">
-</center>
-<p>在完成以后，我们还需要将 <code>exmaple.dns</code> 的 NS 服务器改为 <code>ns1.example.dns</code> 和 <code>ns2.example.dns</code><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>。</p>
-<h4 id="安装-powerdns-和-mariadb-与-powerdns-初始配置">安装 PowerDNS 和 MariaDB 与 PowerDNS 初始配置</h4>
-<p>我们需要在两台服务器上都安装 PowerDNS 和 MariaDB，这里，我让 NS1 作为主要节点而 NS2 作为备份节点 (两台服务器均使用 Debian 12)：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo su
-</span></span><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get upgrade -y 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 导入 PowerDNS 和 MariaDB 官方源和签名 并 安装</span>
-</span></span><span style="display:flex;"><span>curl -sSL https://repo.powerdns.com/FD380FBB-pub.asc | gpg --dearmor &gt; /usr/share/keyrings/powerdns.gpg
-</span></span><span style="display:flex;"><span>cat &gt; /etc/apt/sources.list.d/pdns.list <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/powerdns.gpg] http://repo.powerdns.com/debian $(lsb_release -sc)-auth-49 main
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/powerdns.gpg] http://repo.powerdns.com/debian $(lsb_release -sc)-rec-50 main
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/powerdns.gpg] http://repo.powerdns.com/debian $(lsb_release -sc)-dnsdist-19 main
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 优先使用 PowerDNS 官方源进行安装</span>
-</span></span><span style="display:flex;"><span>cat &gt;&gt; /etc/apt/preferences.d/pdns <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Package: pdns-*
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Pin: origin repo.powerdns.com
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Pin-Priority: 600
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>curl -sSL https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor &gt; /usr/share/keyrings/mariadb.gpg
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/usr/share/keyrings/mariadb.gpg] https://mirror-cdn.xtom.com/mariadb/repo/11.4/debian </span><span style="color:#66d9ef">$(</span>lsb_release -sc<span style="color:#66d9ef">)</span><span style="color:#e6db74"> main&#34;</span> &gt; /etc/apt/sources.list.d/mariadb.list
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 需要安装 geoip 插件，为后续配置 geodns 做准备</span>
-</span></span><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install pdns-server pdns-backend-mysql pdns-backend-geoip mariadb-server 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 配置数据库同步</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 在 NS1 里执行如下命令：</span>
-</span></span><span style="display:flex;"><span>mkdir /var/lib/mysql-bin
-</span></span><span style="display:flex;"><span>chown mysql:mysql /var/lib/mysql-bin
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cat &gt; /etc/mysql/mariadb.conf.d/61-master.cnf <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[mysqld]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">skip-host-cache
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">skip-name-resolve
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">bind-address = 0.0.0.0 # 也可以修改为其他 NS2 可以访问到的 NS1 的 IP 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">server-id = $SRANDOM
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">log-bin = /var/lib/mysql-bin/binlog
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">expire_logs_days = 7
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 通过 iptables 限制 3306 的访问</span>
-</span></span><span style="display:flex;"><span>iptables -I INPUT -p tcp --dport <span style="color:#ae81ff">3306</span> -j DROP
-</span></span><span style="display:flex;"><span>iptables -I INPUT -s 127.0.0.1 -p tcp --dport <span style="color:#ae81ff">3306</span> -j ACCEPT 
-</span></span><span style="display:flex;"><span>iptables -I INPUT -s &lt;NS2 的 IP 或者其他指定 IP 段&gt; -p tcp --dport <span style="color:#ae81ff">3306</span> -j ACCEPT  
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 新建一个 backup 用户，使得 NS2 可以访问 NS1 所有数据库</span>
-</span></span><span style="display:flex;"><span>mariadb -e <span style="color:#e6db74">&#34;GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* to &#39;backup&#39;@&#39;%&#39; identified by &#39;backup_pass&#39;;&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 重启 MariaDB 并查看运行情况</span>
-</span></span><span style="display:flex;"><span>systemctl restart mariadb
-</span></span><span style="display:flex;"><span>systemctl status mariadb
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 在 NS2 里执行如下命令：</span>
-</span></span><span style="display:flex;"><span>mkdir /var/lib/mysql-bin
-</span></span><span style="display:flex;"><span>chown mysql:mysql /var/lib/mysql-bin
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cat &gt; /etc/mysql/mariadb.conf.d/61-slave.cnf <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[mysqld]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">skip-host-cache
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">skip-name-resolve
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">server-id = $SRANDOM
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">relay-log = /var/lib/mysql-bin/relaylog
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">expire_logs_days = 7
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/expire_logs_days/#expire_logs_days/g&#39;</span> /etc/mysql/mariadb.conf.d/50-server.cnf
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 仅允许本机访问 3306</span>
-</span></span><span style="display:flex;"><span>iptables -I INPUT -p tcp --dport <span style="color:#ae81ff">3306</span> -j DROP
-</span></span><span style="display:flex;"><span>iptables -I INPUT -s 127.0.0.1 -p tcp --dport <span style="color:#ae81ff">3306</span> -j ACCEPT
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 重启 MariaDB 并查看运行情况</span>
-</span></span><span style="display:flex;"><span>systemctl restart mariadb
-</span></span><span style="display:flex;"><span>systemctl status mariadb
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 检查 NS1 和 NS2 两台服务器的数据库</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 在 NS1 中运行</span>
-</span></span><span style="display:flex;"><span>mariadb -e <span style="color:#e6db74">&#34;show binary logs;\G&#34;</span> <span style="color:#75715e"># 如出现 binlog.000001 和 file size 为 325 则正常（新安装的情况下）</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 在 NS2 中运行</span>
-</span></span><span style="display:flex;"><span>mariadb -e <span style="color:#e6db74">&#34;CHANGE MASTER TO MASTER_HOST=&#39;&lt;NS1-IP ADDR&gt;&#39;, MASTER_USER=&#39;backup&#39;, MASTER_PASSWORD=&#39;backup_pass&#39;, MASTER_PORT=3306, MASTER_LOG_FILE=&#39;binlog.000001&#39;, MASTER_LOG_POS=325; START SLAVE; SHOW SLAVE STATUS\G&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 导入 PowerDNS 数据库</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 在 NS1 中运行</span>
-</span></span><span style="display:flex;"><span>mariadb -u root
-</span></span><span style="display:flex;"><span>CREATE DATABASE pdns_database DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
-</span></span><span style="display:flex;"><span>GRANT ALL ON pdns_database.* TO <span style="color:#e6db74">&#39;pdns_user&#39;</span>@<span style="color:#e6db74">&#39;%&#39;</span> IDENTIFIED BY <span style="color:#e6db74">&#39;pdns_password&#39;</span>; <span style="color:#75715e"># pdns_user 和 pdns_password 是 PowerDNS 数据库的用户名和密码</span>
-</span></span><span style="display:flex;"><span>FLUSH PRIVILEGES; 
-</span></span><span style="display:flex;"><span>EXIT;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cd /usr/share/pdns-backend-mysql/schema
-</span></span><span style="display:flex;"><span>mariadb -u pdns_user --default-character-set<span style="color:#f92672">=</span>utf8mb4 -p pdns_database &lt; schema.mysql.sql
-</span></span><span style="display:flex;"><span>mariadb -u pdns_user --default-character-set<span style="color:#f92672">=</span>utf8mb4 -p pdns_database &lt; enable-foreign-keys.mysql.sql
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 在 NS2 中运行</span>
-</span></span><span style="display:flex;"><span>mariadb -e <span style="color:#e6db74">&#34;show databases;\G&#34;</span>  <span style="color:#75715e"># 如已经同步 pdns_database 则为正常</span>
-</span></span></code></pre></div><p>在完成数据库设置后，我们就可以开始对 PowerDNS 进行初始化配置，首先删除默认安装的 <code>/etc/powerdns/pdns.d/bind.conf</code>, 然后添加一个 <code>/etc/powerdns/pdns.d/dns.conf</code> 并输入：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt;&gt; /etc/powerdns/pdns.d/dns.conf <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">launch=gmysql
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gmysql-host=localhost
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gmysql-user=pdns_user # 数据库用户名
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gmysql-dbname=pdns_database # 数据库名
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gmysql-password=pdns_password # 数据库密码
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gmysql-dnssec=yes
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">default-soa-content=ns1.example.dns hostmaster.example.dns 0 3600 14400 604800 3600
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">api=yes
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">api-key=random_api_key # api key 可以随意更换，比如使用 openssl 生成：openssl rand -base64 16
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">local-address=0.0.0.0 ::
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">local-port=53
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">webserver-address=0.0.0.0
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">webserver-allow-from=127.0.0.1, ::1, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">webserver-port=8081
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><p>在完成配置后，需要重启 PowerDNS：<code>systemctl restart pdns</code>，但是在重启之前，我们可以注意到 PowerDNS 占用得是 <code>53</code> 端口，但是默认情况下，Debian/Ubuntu 都会被系统的 <code>systemd-resolved</code> 占用, 所以，我们需要关闭它：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 仅针对 Debian 11/12，其他系统请参考对应系统的教程</span>
-</span></span><span style="display:flex;"><span>sudo su 
-</span></span><span style="display:flex;"><span>systemctl stop systemd-resolved <span style="color:#f92672">&amp;&amp;</span> systemctl disable systemd-resolved
-</span></span><span style="display:flex;"><span>cp /etc/resolv.conf /etc/resolv.conf.bak <span style="color:#f92672">&amp;&amp;</span> rm -rf /etc/resolv.conf
-</span></span><span style="display:flex;"><span>cat &gt;&gt; /etc/resolv.conf <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">nameserver  1.1.1.1
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">nameserver  8.8.8.8
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>systemctl restart networking
-</span></span></code></pre></div><h4 id="powerdns-admin-安装">PowerDNS-Admin 安装</h4>
-<p><a href="https://github.com/PowerDNS-Admin/PowerDNS-Admin">PowerDNS Admin</a> 是一个基于 Django 的 PowerDNS 管理软件，一般来说，我们会单独部署而不是部署在 NS1 或者 NS2 上。GitHub 上有对应的 Docker 和本地安装教程，这里，我已 K3s/K8s 为例：</p>
-<p>首先创建 namespace：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Namespace</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span></code></pre></div><p>然后创建 PV 和 PVC，这是为了持久化存储数据库上的数据，我这里使用的是 <code>local-host</code> 的存储方式，也可以使用其他的存储后端，比如 NFS 或者 Ceph：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
-</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PersistentVolume</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-pv</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">capacity</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">storage</span>: <span style="color:#ae81ff">10Gi</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">accessModes</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ReadWriteMany</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">persistentVolumeReclaimPolicy</span>: <span style="color:#ae81ff">Retain</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storageClassName</span>: <span style="color:#ae81ff">local-storage</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">local</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/data/pdns</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">nodeAffinity</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">required</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">nodeSelectorTerms</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">matchExpressions</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">key</span>: <span style="color:#ae81ff">kubernetes.io/hostname</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">operator</span>: <span style="color:#ae81ff">In</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">values</span>:
-</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">base-server</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>---
-</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PersistentVolume</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-mysql-pv</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">capacity</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">storage</span>: <span style="color:#ae81ff">10Gi</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">accessModes</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ReadWriteMany</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">persistentVolumeReclaimPolicy</span>: <span style="color:#ae81ff">Retain</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storageClassName</span>: <span style="color:#ae81ff">local-storage</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">local</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/data/pdns</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">nodeAffinity</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">required</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">nodeSelectorTerms</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">matchExpressions</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">key</span>: <span style="color:#ae81ff">kubernetes.io/hostname</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">operator</span>: <span style="color:#ae81ff">In</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">values</span>:
-</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">base-server</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>---
-</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PersistentVolumeClaim</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-pvc</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">accessModes</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ReadWriteMany</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">requests</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">storage</span>: <span style="color:#ae81ff">10Gi</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storageClassName</span>: <span style="color:#ae81ff">local-storage</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">volumeName</span>: <span style="color:#ae81ff">pdns-pv</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>---
-</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PersistentVolumeClaim</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-mysql-pvc</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">accessModes</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ReadWriteMany</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">requests</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">storage</span>: <span style="color:#ae81ff">10Gi</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storageClassName</span>: <span style="color:#ae81ff">local-storage</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">volumeName</span>: <span style="color:#ae81ff">pdns-mysql-pv</span>
-</span></span></code></pre></div><p>随后创建 <code>Deployment</code>, <code>Serivce</code> 和 <code>Ingress</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">nodeName</span>: <span style="color:#ae81ff">base-server</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">powerdnsadmin/pda-legacy:latest</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">SECRET_KEY</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;&lt;random-secret-key&gt;&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">SQLALCHEMY_DATABASE_URI</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;mysql://powerdns-admin-user:powerdns-admin-password@127.0.0.1/powerdns-admin-database&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">GUNICORN_TIMEOUT</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;60&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">GUNICORN_WORKERS</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;4&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">GUNICORN_LOGLEVEL</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;DEBUG&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">OFFLINE_MODE</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;False&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumeMounts</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-pvc</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/data</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">powerdns-admin-mariadb</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mariadb:11.4</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">3306</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_ROOT_PASSWORD</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;mysql_root_password&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_DATABASE</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;powerdns-admin-database&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_USER</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;powerdns-admin-user&#34;</span>
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_PASSWORD</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;powerdns-admin-password&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumeMounts</span>:
-</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-mysql-pvc</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/var/lib/mysql</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-pvc</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">persistentVolumeClaim</span>:
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">claimName</span>: <span style="color:#ae81ff">pdns-pvc</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pdns-mysql-pvc</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">persistentVolumeClaim</span>:
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">claimName</span>: <span style="color:#ae81ff">pdns-mysql-pvc</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>---
-</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">80</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">80</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ClusterIP</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>---
-</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.k8s.io/v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ingress-pdns</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">rules</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">host</span>: <span style="color:#ae81ff">pdns.example.com</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">http</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">paths</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">pathType</span>: <span style="color:#ae81ff">Prefix</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">backend</span>:
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">service</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">powerdns</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">port</span>:
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">number</span>: <span style="color:#ae81ff">80</span>
-</span></span></code></pre></div><p>注册的第一个账号就是 Admin 账号，如果没有多人使用的需求即可在 <code>Settings - Authentication</code> 里关闭 <code>Allow users to sign up</code>。在 Server 填入 NS1 或者 NS2 的信息即可。 而后，就可以开始配置 GeoDNS 了。</p>
-<h4 id="geodns-配置">GeoDNS 配置</h4>
-<p>由于 Maxmind GeoIP 开始要求 GeoLite 的用户注册账号并使用密钥才能下载数据库，所以第一步，我们需要去 <a href="https://dev.maxmind.com/geoip/geolite2-free-geolocation-data">GeoLite2</a> 注册账号并创建 License Key。在得到 Key 以后，我们就需要在 NS1 和 NS2 种安装 <code>sudo apt-get install geoipupdate</code>，并将 <code>AccountID</code> 和 <code>License Key</code> 存入服务器中:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo su 
-</span></span><span style="display:flex;"><span>cat &gt; /etc/GeoIP.conf <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">AccountID XXXXXX
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">LicenseKey XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EditionIDs GeoLite2-Country GeoLite2-City GeoLite2-ASN
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sudo geoipupdate -v 
-</span></span></code></pre></div><p>如果一切顺利，所有的 <code>.mmdb</code> 都会存放到 <code>/usr/share/GeoIP</code> 这个路径下面。回到 NS1 和 NS2 的 <code>/etc/powerdns/pdns.d/dns.conf</code> 里，添加如下内容并重新启动 PowerDNS 即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>enable-lua-records<span style="color:#f92672">=</span>yes <span style="color:#75715e"># 启动 lua script </span>
-</span></span><span style="display:flex;"><span>launch<span style="color:#f92672">+=</span>geoip <span style="color:#75715e"># 启动 geoip 插件</span>
-</span></span><span style="display:flex;"><span>geoip-database-files<span style="color:#f92672">=</span>/usr/share/GeoIP/GeoLite2-City.mmdb /usr/share/GeoIP/GeoLite2-Country.mmdb /usr/share/GeoIP/GeoLite2-ASN.mmdb
-</span></span><span style="display:flex;"><span>log-dns-queries<span style="color:#f92672">=</span>yes 
-</span></span></code></pre></div><p>回到 PowerDNS-Admin 里，我们还需要在 <code>Settings - Zone Records</code> 里打开 LUA 才能在解析纪录里使用 lua script。Lua 纪录有很多用法， 详细可以参考<a href="https://doc.powerdns.com/authoritative/lua-records/">官网</a>, 这里，我只介绍 GeoDNS 需要怎么设置：</p>
-<p>我们可以首先设置一条 Lua 纪录给 <code>www.example.com</code>：<code>A    &quot;pickclosest({'249.209.110.226','160.38.17.187','66.167.146.39'})&quot;</code> 然后使用 <a href="https://tools.keycdn.com/ping">Ping Test</a> 进行测试：</p>
-<center>
-    <img src="https://32cf906.webp.li/2024/09/www-example-com-dns.png" width="70%" alt="GeoDNS 测试">
-</center>
-<p>我们可以看到，不同的地方已经可以解析到不同的 IP 了，这里 Loss 100% 是因为测试 IP 都是随机生成的，理论上应该也是 ping 不通才合理，我们这里换成真实的 IP 试试：</p>
-<ol>
-<li>LAX: <code>67.198.150.72</code></li>
-<li>AMS: <code>78.142.195.195</code></li>
-<li>SIN: <code>89.28.239.46</code></li>
-</ol>
-<center>
-    <img src="https://32cf906.webp.li/2024/09/www-example-com-geodns-2.png" width="70%" alt="GeoDNS 测试">
-</center>
-<p>我们可以看到，不同地区已经解析到不同地区的 IP 了，全球 Ping 的延迟也都降到了 100ms 以下(除了印度以外)。</p>
-<h2 id="从接入点到集群">从接入点到集群</h2>
-<p>上一篇文章里也提及了通过 <code>IPTABLES</code> 从接入点到集群的 External IP 的端口转发，但是经过测试发现，<code>IPTABLES</code> 无法利用一些 TCP 拥塞控制算法以提高网络吞吐和延迟，经过激情网络冲浪，发现了如下的一些工具：</p>
-<ol>
-<li><a href="https://github.com/zhboner/realm">realm: A simple, high performance relay server written in rust</a></li>
-<li><a href="https://github.com/go-gost/gost">gost: GO Simple Tunnel</a></li>
-<li><a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html">Nginx - Stream Module</a></li>
-<li><a href="https://www.haproxy.org/">Haproxy</a></li>
-</ol>
-<p>大概不止这几种工具，只是随手举出了这四个。这些对比 <code>IPTABLES</code> 的好处是可以利用 BBR 等算法进一步提高 TCP 的传输。在对比了一番以后，我最终选择了 Nginx。</p>
-<h3 id="安装-nginx">安装 Nginx</h3>
-<p>与平时安装 Nginx 略微不同，我们直接通过 <code>apt</code> 安装的 Nginx 不带 <code>stream</code> 模块，我们可以通过 <code>nginx -V | grep steram</code> 进行查看。这里我选择直接去下载源码编译安装：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt -y install gcc make libssl-dev zlib1g-dev libgd-dev libgeoip-dev libpcre2-dev libpcre3-dev
-</span></span><span style="display:flex;"><span>wget -O nginx.tar.gz https://nginx.org/download/nginx-1.23.1.tar.gz
-</span></span><span style="display:flex;"><span>tar -xvf nginx.tar.gz <span style="color:#f92672">&amp;&amp;</span> cd ./nginx-1.23.1/
-</span></span><span style="display:flex;"><span>sudo mkdir /usr/lib/nginx <span style="color:#f92672">&amp;&amp;</span> sudo mkdir /var/log/nginx <span style="color:#f92672">&amp;&amp;</span> sudo mkdir /etc/nginx <span style="color:#f92672">&amp;&amp;</span> sudo mkdir /var/cache/nginx
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>./configure <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--prefix<span style="color:#f92672">=</span>/etc/nginx <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--user<span style="color:#f92672">=</span>root <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--group<span style="color:#f92672">=</span>root <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--sbin-path<span style="color:#f92672">=</span>/usr/sbin/nginx <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--modules-path<span style="color:#f92672">=</span>/usr/lib/nginx/modules <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--conf-path<span style="color:#f92672">=</span>/etc/nginx/nginx.conf <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--error-log-path<span style="color:#f92672">=</span>/var/log/nginx/error.log <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--http-log-path<span style="color:#f92672">=</span>/var/log/nginx/access.log <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--pid-path<span style="color:#f92672">=</span>/var/run/nginx.pid <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--lock-path<span style="color:#f92672">=</span>/var/run/nginx.lock <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--http-client-body-temp-path<span style="color:#f92672">=</span>/var/cache/nginx/client_temp <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--http-proxy-temp-path<span style="color:#f92672">=</span>/var/cache/nginx/proxy_temp <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--http-fastcgi-temp-path<span style="color:#f92672">=</span>/var/cache/nginx/fastcgi_temp <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--http-uwsgi-temp-path<span style="color:#f92672">=</span>/var/cache/nginx/uwsgi_temp <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--http-scgi-temp-path<span style="color:#f92672">=</span>/var/cache/nginx/scgi_temp <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-file-aio <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-threads <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_addition_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_auth_request_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_dav_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_flv_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_gunzip_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_gzip_static_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_mp4_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_random_index_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_realip_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_secure_link_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_slice_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_ssl_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_stub_status_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_sub_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-http_v2_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-mail <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-mail_ssl_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-stream <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-stream_realip_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-stream_ssl_module <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--with-stream_ssl_preread_module
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sudo make <span style="color:#f92672">&amp;&amp;</span> sudo make install <span style="color:#f92672">&amp;&amp;</span> sudo mkdir /etc/nginx/sites-available <span style="color:#f92672">&amp;&amp;</span> sudo sudo mkdir /etc/nginx/sites-enabled
-</span></span></code></pre></div><p>在完成安装后，我们还需要在 <code>systemd</code> 中加入配置文件对 service 进行控制：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo su 
-</span></span><span style="display:flex;"><span>cat &gt; /etc/systemd/system/nginx.service <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Unit]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Description=The NGINX HTTP and reverse proxy server
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">After=syslog.target network-online.target remote-fs.target nss-lookup.target
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Wants=network-online.target
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Service]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Type=forking
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">PIDFile=/run/nginx.pid
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ExecStartPre=/usr/sbin/nginx -t -c /etc/nginx/nginx.conf
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ExecReload=/usr/sbin/nginx -s reload -c /etc/nginx/nginx.conf
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ExecStop=/bin/kill -s QUIT
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">PrivateTmp=true
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Install]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">WantedBy=multi-user.target
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sudo systemctl daemon-reload
-</span></span><span style="display:flex;"><span>sudo systemctl enable --now nginx
-</span></span></code></pre></div><p>这时，我们在看 <code>nginx -V | grep stream</code> 就能发现模块已经正常安装了。</p>
-<p>通过 stream 模块，我们就可以通过 nginx 对 TCP/UDP 流量进行转发，同时，还可以通过 SNI proxy 来转发 HTTPS 流量到源站，这里我给出一个样例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>stream <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    upstream cluster <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        server 192.168.101.101:443;
-</span></span><span style="display:flex;"><span>        server 192.168.101.102:443;
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    map $ssl_preread_server_name $upstream_server <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        default cluster;
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    server <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        listen 443;
-</span></span><span style="display:flex;"><span>        proxy_pass $upstream_server;
-</span></span><span style="display:flex;"><span>        ssl_preread on;  <span style="color:#75715e"># Enable SNI reading</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div><p>至此，我们已经完成了从 client 到 entrance 再到 source 的两步走流程。当然，选择 nginx 的原因不仅仅是 TCP 加速，更是因为可以根据域名进行不同后端的分流，这些应该是 IPTABLES/REALM 这些工具无法达到的。而至于为什么不用 HAProxy 则是因为本人不善于使用它，是我的错。</p>
-<p>回到集群里，我们这个时候就可以设置 <code>ingress-nginx-a</code> 和 <code>ingress-nginx-b</code> 两个 ingress-controller，分别对应 <code>192.168.101.101</code> 和 <code>192.168.101.102</code> 两个 External IP。做到任意一个宕机都可以随时切换。</p>
-<h2 id="参考">参考</h2>
-<ol>
-<li><a href="https://u.sb/debian-install-powerdns/">Debian12/Ubuntu24.04 安装 PowerDNS 和 PowerDNS-Admin 自建权威 DNS 教程</a></li>
-<li><a href="https://lantian.pub/article/modify-website/powerdns-lua-diy-geodns.lantian/">使用 PowerDNS 的 Lua 功能自建分地区解析 GeoDNS</a></li>
-</ol>
-<div class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1">
-<p>其实也是因为没有 AS 号在手，不然就是「我选择自建 Anycast DNS 服务器」了 ：）&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2">
-<p>本文中所提及的所有 IP 地址（包括 IPV4 和 IPV6）均是通过 <a href="https://www.ipvoid.com/">IPVOID</a> 随机生成&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:3">
-<p>由此可以看出，如果域名本身不需要作为自身的 NS 服务器，则无需设置胶水纪录，即，可以省略这一步&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</div>
-</content>
-
-<p>
-  
-  <a href="https://blog.cklau.cc/tags/homelab/">#homelab</a>
-  
-  <a href="https://blog.cklau.cc/tags/oauth2-proxy/">#oauth2-proxy</a>
-  
-  <a href="https://blog.cklau.cc/tags/nginx-ingress-controller/">#nginx-ingress-controller</a>
-  
-  <a href="https://blog.cklau.cc/tags/geodns/">#GeoDNS</a>
-  
-  <a href="https://blog.cklau.cc/tags/authoritative-dns/">#Authoritative DNS</a>
-  
-  <a href="https://blog.cklau.cc/tags/%E5%AE%89%E5%85%A8/">#安全</a>
-  
-  <a href="https://blog.cklau.cc/tags/%E9%9B%B6%E4%BF%A1%E4%BB%BB/">#零信任</a>
-  
-  <a href="https://blog.cklau.cc/tags/%E5%AD%98%E5%82%A8/">#存储</a>
-  
-  <a href="https://blog.cklau.cc/tags/%E6%9D%83%E5%A8%81-dns/">#权威 DNS</a>
-  
-</p>
-
-  </main>
-  <footer>
-
-
-<p>
-    <span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备2022102668号</a></span>
-
-&copy; 2026 <a href="https://blog.cklau.cc">Junjie LIU</a>
-    <a href="https://blog.cklau.cc/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
-    <br>
-Hosting and images served by <a href="https://cloud.tencent.com/">Tencent Cloud</a> / <a href="https://cloudflare.com/">Cloudflare</a> / <a href="https://webp.se/">WebP Cloud Services</a>
-</p>
-
-</footer>
-
-    
-</body>
-
-</html>
+<!doctype html><html lang=en><head><meta http-equiv=X-Clacks-Overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://blog.cklau.cc/images/logo.svg><title>🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not | 特倫蘇的日與夜</title>
+<meta name=description content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
+在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。…"><meta name=author content="Junjie LIU"><meta name=keywords content="homelab,oauth2-proxy,nginx-ingress-controller,GeoDNS,Authoritative DNS,安全,零信任,存储,权威 DNS"><link rel=canonical href=https://blog.cklau.cc/post/my-homelab-8/><meta name=robots content="index, follow, max-image-preview:large"><meta property="og:title" content="🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not"><meta property="og:description" content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
+在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.cklau.cc/post/my-homelab-8/"><meta property="og:image" content="https://avatars-githubusercontent.webp.se/TerenceLiu98"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-09-19T00:11:21+08:00"><meta property="article:modified_time" content="2024-12-24T09:17:47+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://avatars-githubusercontent.webp.se/TerenceLiu98"><meta name=twitter:title content="🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not"><meta name=twitter:description content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
+在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。"><meta itemprop=name content="🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not"><meta itemprop=description content="回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)
+在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。"><meta itemprop=datePublished content="2024-09-19T00:11:21+08:00"><meta itemprop=dateModified content="2024-12-24T09:17:47+08:00"><meta itemprop=wordCount content="1705"><meta itemprop=image content="https://avatars-githubusercontent.webp.se/TerenceLiu98"><meta itemprop=keywords content="homelab,oauth2-proxy,nginx-ingress-controller,GeoDNS,Authoritative DNS,安全,零信任,存储,权威 DNS,"><meta name=referrer content="no-referrer-when-downgrade"><style>body{font-family:noto serif sc,serif;font-weight:500;font-style:normal;margin:auto;padding:20px;max-width:980px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#444;text-decoration:none}.title{text-decoration:none;border:0}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}content{line-height:1.6}main content p a{word-wrap:break-word;border:none;box-shadow:inset 0 -2px #444;transition-property:box-shadow;transition-duration:.1s}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset;line-height:2}ul.blog-posts li{display:flex}ul.blog-posts li span{flex:0 0 6.5rem}ul.blog-posts li time{color:#8e8d8d}ul.blog-posts li a:visited{color:#8b6fcb}.bg{background-color:#f0f0f0}.chroma{background-color:#f0f0f0}.chroma .x{}.chroma .err{}.chroma .cl{}.chroma .lnlinks{outline:none;text-decoration:none;color:inherit}.chroma .lntd{vertical-align:top;padding:0;margin:0;border:0}.chroma .lntable{border-spacing:0;padding:0;margin:0;border:0}.chroma .hl{background-color:#ffc}.chroma .lnt{white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f}.chroma .ln{white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f}.chroma .line{display:flex}.chroma .k{color:#007020;font-weight:700}.chroma .kc{color:#007020;font-weight:700}.chroma .kd{color:#007020;font-weight:700}.chroma .kn{color:#007020;font-weight:700}.chroma .kp{color:#007020}.chroma .kr{color:#007020;font-weight:700}.chroma .kt{color:#902000}.chroma .n{}.chroma .na{color:#4070a0}.chroma .nb{color:#007020}.chroma .bp{}.chroma .nc{color:#0e84b5;font-weight:700}.chroma .no{color:#60add5}.chroma .nd{color:#555;font-weight:700}.chroma .ni{color:#d55537;font-weight:700}.chroma .ne{color:#007020}.chroma .nf{color:#06287e}.chroma .fm{}.chroma .nl{color:#002070;font-weight:700}.chroma .nn{color:#0e84b5;font-weight:700}.chroma .nx{}.chroma .py{}.chroma .nt{color:#062873;font-weight:700}.chroma .nv{color:#bb60d5}.chroma .vc{}.chroma .vg{}.chroma .vi{}.chroma .vm{}.chroma .l{}.chroma .ld{}.chroma .s{color:#4070a0}.chroma .sa{color:#4070a0}.chroma .sb{color:#4070a0}.chroma .sc{color:#4070a0}.chroma .dl{color:#4070a0}.chroma .sd{color:#4070a0;font-style:italic}.chroma .s2{color:#4070a0}.chroma .se{color:#4070a0;font-weight:700}.chroma .sh{color:#4070a0}.chroma .si{color:#70a0d0}.chroma .sx{color:#c65d09}.chroma .sr{color:#235388}.chroma .s1{color:#4070a0}.chroma .ss{color:#517918}.chroma .m{color:#40a070}.chroma .mb{color:#40a070}.chroma .mf{color:#40a070}.chroma .mh{color:#40a070}.chroma .mi{color:#40a070}.chroma .il{color:#40a070}.chroma .mo{color:#40a070}.chroma .o{color:#666}.chroma .ow{color:#007020;font-weight:700}.chroma .p{}.chroma .c{color:#60a0b0;font-style:italic}.chroma .ch{color:#60a0b0;font-style:italic}.chroma .cm{color:#60a0b0;font-style:italic}.chroma .c1{color:#60a0b0;font-style:italic}.chroma .cs{color:#60a0b0;background-color:#fff0f0}.chroma .cp{color:#007020}.chroma .cpf{color:#007020}.chroma .g{}.chroma .gd{color:#a00000}.chroma .ge{font-style:italic}.chroma .gr{color:red}.chroma .gh{color:navy;font-weight:700}.chroma .gi{color:#00a000}.chroma .go{color:#888}.chroma .gp{color:#c65d09;font-weight:700}.chroma .gs{font-weight:700}.chroma .gu{color:purple;font-weight:700}.chroma .gt{color:#04d}.chroma .gl{text-decoration:underline}.chroma .w{color:#bbb}.sidenote{font-size:80%;font-weight:400;color:var(--theme-hl1-color);position:relative}@media(min-width:1400px){.sidenote{float:right;clear:right;text-align:left;top:-3rem;width:20vw;margin-right:-23vw;margin-top:1rem}}@media(max-width:1400px){.sidenote{float:right;text-align:left;width:100%;margin:1rem 0;padding-left:5%}}body{counter-reset:sidenote-counter}.sidenote-number{counter-increment:sidenote-counter}.sidenote::before{content:"\2020";position:relative;vertical-align:super;font-size:.9em;font-weight:700}.sidenote-number::after{content:"\2020";position:relative;vertical-align:super;font-size:.7em;font-weight:700;color:var(--theme-body-color);display:inline;margin-right:.2rem}@media(min-width:1400px){.sidenote-number:hover .sidenote{background-color:var(--theme-color-light)}}.card-container{display:flex;flex-direction:column;align-items:center;gap:5px;padding:5px}.card{width:80%;box-shadow:0 0 rgba(0,0,0,.1);display:flex;align-items:center;padding:10px;background:#fff;text-decoration:none;color:inherit}.card img{width:80px;height:80px;border-radius:50%;margin-right:20px}.card .info h2{margin:0;font-size:1.2em}.card .info p{margin:5px 0 0;font-size:.9em;color:#444}.card .info span{font-size:.5em;color:#666}.research-card{display:flex;align-items:center;gap:18px;padding:10px 14px;margin:6px 0;border:1px solid #ececec;border-radius:8px;background-color:#fff;transition:box-shadow .2s ease,border-color .2s ease}.research-card:hover{border-color:#d0d0d0;box-shadow:0 2px 8px rgba(0,0,0,4%)}.research-card__index{flex:none;font-size:13px;color:#aaa;min-width:18px;text-align:right;align-self:flex-start;padding-top:2px}.research-card__body{flex:auto;min-width:0}.research-card__meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:3px}.research-card__tag{display:inline-block;padding:1px 8px;font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;border-radius:10px;line-height:1.6}.research-card__tag--publication{color:#0a7a3b;background-color:#e3f7eb}.research-card__tag--working{color:#b5560a;background-color:#fff0dc}.research-card__venue{font-size:13px;color:#777}.research-card__title{margin:0 0 3px;font-size:15px;font-weight:600;line-height:1.4;color:#222}.research-card__authors{margin:0 0 6px;font-size:13px;color:#555}.research-card__links{display:flex;flex-wrap:wrap;gap:5px}.research-card__links a{font-size:12px;padding:1px 9px;color:#555;text-decoration:none;border:1px solid #e0e0e0;border-radius:10px;transition:background-color .15s ease,color .15s ease,border-color .15s ease}.research-card__links a:hover{color:#007bff;border-color:#007bff;background-color:#f4f9ff}.research-card__image{flex:none;width:120px;height:80px;overflow:hidden;border-radius:5px;background:#f5f5f5}.research-card__image img{width:100%;height:100%;object-fit:cover;display:block}@media(max-width:640px){.research-card{align-items:flex-start}.research-card__image{width:80px;height:60px}}</style><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel=stylesheet><script defer data-domain=nova.moe src=https://possible.knat.network/js/script.js></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844674035384472" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=https://blog.cklau.cc/feed.xml title=特倫蘇的日與夜></head><body><header><a href=/ class=title><h2>特倫蘇的日與夜</h2></a><nav><a href=/>Home</a>
+<a href=/post>[Blog]</a>
+<a href=/scientia>[Scientia]</a>
+<a href=/projects>[Projects]</a>
+<a href=/links>[Links]</a></nav></header><main><article itemscope itemtype=https://schema.org/BlogPosting><meta itemprop=mainEntityOfPage content="https://blog.cklau.cc/post/my-homelab-8/"><h1 itemprop=headline>🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not</h1><p><i><time datetime=2024-09-19T00:11:21+08:00 itemprop=datePublished pubdate>19 Sep, 2024
+</time>· <time datetime=2024-12-24T09:17:47+08:00 itemprop=dateModified>Updated 24 Dec, 2024
+</time>· <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=name>Junjie LIU</span></span></i></p><div itemprop=articleBody><p>回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)</p><p>在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。</p><h2 id=自建-geodns-以摆脱-cloudflare-垄断>自建 GeoDNS 以摆脱 Cloudflare 垄断</h2><p>GeoDNS 是一种基于请求位置的流量分配过程，通过判断请求 IP 的地理位置，分配离他最近的出口 IP 以达到基于地理路由的流量优化。说人话就是各个大洲分别一个 IP。但是问题来了，谁会提供这种看起来就很好的服务呢？赛博菩萨表示，我们 Anycast 起家，天然无法提供 GeoDNS。因为对于 Anycast DNS 来说，他们会将一个 IP 通过 BGP 的方式在多地宣告，那么对于用户来说，能否到达离他们最近的 IP 就取决于本地网络提供商的接入情况和介入情况。一个简单的例子：如果当地网络服务商基于一些原因（例如安全和内容合规等原因）将 CDN 提供商的 IP 段进行路由级别的劣化，则无论 CDN 提供商多么的努力，也无法达到加速的目的。从计算机网络来说，Anycast 的实现是在网络层，而 GeoDNS 是在应用层，所以 Anycast 不知道请求者的 IP 位置，所以会出现这样的情况：虽然在 DNS 看来这个请求更加接近某地的服务器，但实际上这个 CDN 站点离原站更远。</p><p>基于以上的几点，我选择搭建 GeoDNS 来替代 Cloudflare 的 Anycast<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>。</p><h3 id=权威-dns-的安装与配置authoritative-dns>权威 DNS 的安装与配置（Authoritative DNS）</h3><h4 id=前提>前提</h4><p>现存有不少开源权威 DNS 软件可以选择，比如 Bind9/PowerDNS 等等，我这里选择使用 PowerDNS，原因是因为他有 pdns-admin 可以让我进行 web 管理，而不是面对各种配置文件， 同时它是使用数据库进行 DNS 纪录存储，而不是跟 BIND9 一样的文本存储，更加适合高可用。因为涉及到高可用，首先我们需要准备两台 VPS，我选择了一台香港的服务器和一台纽约的服务器作为 ns1 和 ns2。同时，除了需要使用的域名，我们还需要一个额外的域名分配给 DNS 服务器，所以，基础准备如下<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>：</p><table><thead><tr><th>域名</th><th>IPV4</th><th>IPV6</th></tr></thead><tbody><tr><td>ns1.example.dns</td><td>191.103.113.114</td><td>79cc:5f8f:47b1:963e:d248:70ea:0186:b842</td></tr><tr><td>ns2.example.dns</td><td>31.84.179.51</td><td>9c7d:f2b6:1777:1904:fcfc:3a24:cccd:c0a6</td></tr><tr><td><a href=https://www.example.com>www.example.com</a></td><td>249.209.110.226,160.38.17.187,66.167.146.39</td><td>NULL</td></tr></tbody></table><p>在搭建权威 DNS 服务器的使用，我们常常听说一个词叫做胶水纪录 - Glue Record，这个纪录也是一种 DNS 纪录，但是保存在域名注册局的 DNS 服务器上，例如查询 <code>www.example.com</code> 的 纪录时，这个请求首先去到递归 DNS 服务器 <code>R</code>， 然后 <code>R</code> 再去询问对应的 DNS 根服务器 <code>A0</code>， 当然，<code>A0</code> 并不存放所有的纪录，他只会告诉 <code>R</code> 对应的域名 <code>example.com</code> 应该去对应的权威服务器 <code>A1</code> 进行查询。 所以，胶水纪录实际上就是 <code>A0</code> 到 <code>A1</code> 的指向。而所有的根服务器都可以到 <a href=https://www.iana.org/domains/root/servers>IANA</a> 查到， 当然，我们也可以直接用 <code>dig</code> 查到：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#f92672>(</span>base<span style=color:#f92672>)</span> <span style=color:#f92672>{}</span> ~ dig com. NS + short
+</span></span><span style=display:flex><span>;; Invalid option
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; com. NS + short
+</span></span><span style=display:flex><span>;; global options: +cmd
+</span></span><span style=display:flex><span>;; Got answer:
+</span></span><span style=display:flex><span>;; -&gt;&gt;HEADER<span style=color:#e6db74>&lt;&lt;- opcode: QUERY, status: NOERROR, id: 25108
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; flags: qr rd ra; QUERY: 1, ANSWER: 13, AUTHORITY: 0, ADDITIONAL: 1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; OPT PSEUDOSECTION:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>; EDNS: version: 0, flags:; udp: 1220
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; QUESTION SECTION:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;com.				IN	NS
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; ANSWER SECTION:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	h.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	f.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	k.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	b.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	c.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	g.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	d.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	m.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	a.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	j.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	e.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	i.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com.			35830	IN	NS	l.gtld-servers.net.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; Query time: 15 msec
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; SERVER: 192.168.1.1#53(192.168.1.1)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; WHEN: Thu Sep 26 13:43:28 IST 2024
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; MSG SIZE  rcvd: 256
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; Got answer:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>;; -&gt;&gt;HEADER&lt;&lt;- opcode</span>: QUERY, status: NXDOMAIN, id: <span style=color:#ae81ff>48582</span>
+</span></span><span style=display:flex><span>;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>;; OPT PSEUDOSECTION:
+</span></span><span style=display:flex><span>; EDNS: version: 0, flags:; udp: <span style=color:#ae81ff>4096</span>
+</span></span><span style=display:flex><span>;; QUESTION SECTION:
+</span></span><span style=display:flex><span>;short.				IN	A
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>;; Query time: <span style=color:#ae81ff>5</span> msec
+</span></span><span style=display:flex><span>;; SERVER: 192.168.1.1#53<span style=color:#f92672>(</span>192.168.1.1<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>;; WHEN: Thu Sep <span style=color:#ae81ff>26</span> 13:43:28 IST <span style=color:#ae81ff>2024</span>
+</span></span><span style=display:flex><span>;; MSG SIZE  rcvd: <span style=color:#ae81ff>34</span>
+</span></span></code></pre></div><p>我们可以看到 <code>.com</code>这个域名是在 <code>a.gtld-servers.net.</code> 到 <code>l.gtld-servers.net.</code> 这些 DNS 根服务器进行纪录。当然，这里扯远了，还是回到胶水纪录。一般来说，域名注册商的网站都可以添加胶水纪录，而有的注册商则是需要付费才能添加，这取决于你的服务提供商。同时，有的注册商并没有使用 「胶水纪录」这个词，而是使用 「注册 DNS 服务器」或者 「DNS Host」，例如我使用的<a href=https://cloud.tencent.com/document/product/242/54158>腾讯云</a>就是称作 「DNS Host」如下图：</p><center><img src=https://32cf906.webp.li/2024/09/dns-dnspod.png width=70% alt="DNS 胶水纪录"></center><p>在完成以后，我们还需要将 <code>exmaple.dns</code> 的 NS 服务器改为 <code>ns1.example.dns</code> 和 <code>ns2.example.dns</code><sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>。</p><h4 id=安装-powerdns-和-mariadb-与-powerdns-初始配置>安装 PowerDNS 和 MariaDB 与 PowerDNS 初始配置</h4><p>我们需要在两台服务器上都安装 PowerDNS 和 MariaDB，这里，我让 NS1 作为主要节点而 NS2 作为备份节点 (两台服务器均使用 Debian 12)：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>sudo su
+</span></span><span style=display:flex><span>apt-get update <span style=color:#f92672>&amp;&amp;</span> apt-get upgrade -y 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 导入 PowerDNS 和 MariaDB 官方源和签名 并 安装</span>
+</span></span><span style=display:flex><span>curl -sSL https://repo.powerdns.com/FD380FBB-pub.asc | gpg --dearmor &gt; /usr/share/keyrings/powerdns.gpg
+</span></span><span style=display:flex><span>cat &gt; /etc/apt/sources.list.d/pdns.list <span style=color:#e6db74>&lt;&lt; EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/powerdns.gpg] http://repo.powerdns.com/debian $(lsb_release -sc)-auth-49 main
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/powerdns.gpg] http://repo.powerdns.com/debian $(lsb_release -sc)-rec-50 main
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/powerdns.gpg] http://repo.powerdns.com/debian $(lsb_release -sc)-dnsdist-19 main
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 优先使用 PowerDNS 官方源进行安装</span>
+</span></span><span style=display:flex><span>cat &gt;&gt; /etc/apt/preferences.d/pdns <span style=color:#e6db74>&lt;&lt; EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Package: pdns-*
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Pin: origin repo.powerdns.com
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Pin-Priority: 600
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>curl -sSL https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor &gt; /usr/share/keyrings/mariadb.gpg
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;deb [arch=</span><span style=color:#66d9ef>$(</span>dpkg --print-architecture<span style=color:#66d9ef>)</span><span style=color:#e6db74> signed-by=/usr/share/keyrings/mariadb.gpg] https://mirror-cdn.xtom.com/mariadb/repo/11.4/debian </span><span style=color:#66d9ef>$(</span>lsb_release -sc<span style=color:#66d9ef>)</span><span style=color:#e6db74> main&#34;</span> &gt; /etc/apt/sources.list.d/mariadb.list
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 需要安装 geoip 插件，为后续配置 geodns 做准备</span>
+</span></span><span style=display:flex><span>apt-get update <span style=color:#f92672>&amp;&amp;</span> apt-get install pdns-server pdns-backend-mysql pdns-backend-geoip mariadb-server 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 配置数据库同步</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### 在 NS1 里执行如下命令：</span>
+</span></span><span style=display:flex><span>mkdir /var/lib/mysql-bin
+</span></span><span style=display:flex><span>chown mysql:mysql /var/lib/mysql-bin
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat &gt; /etc/mysql/mariadb.conf.d/61-master.cnf <span style=color:#e6db74>&lt;&lt;EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>[mysqld]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>skip-host-cache
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>skip-name-resolve
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>bind-address = 0.0.0.0 # 也可以修改为其他 NS2 可以访问到的 NS1 的 IP 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>server-id = $SRANDOM
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>log-bin = /var/lib/mysql-bin/binlog
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>expire_logs_days = 7
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 通过 iptables 限制 3306 的访问</span>
+</span></span><span style=display:flex><span>iptables -I INPUT -p tcp --dport <span style=color:#ae81ff>3306</span> -j DROP
+</span></span><span style=display:flex><span>iptables -I INPUT -s 127.0.0.1 -p tcp --dport <span style=color:#ae81ff>3306</span> -j ACCEPT 
+</span></span><span style=display:flex><span>iptables -I INPUT -s &lt;NS2 的 IP 或者其他指定 IP 段&gt; -p tcp --dport <span style=color:#ae81ff>3306</span> -j ACCEPT  
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 新建一个 backup 用户，使得 NS2 可以访问 NS1 所有数据库</span>
+</span></span><span style=display:flex><span>mariadb -e <span style=color:#e6db74>&#34;GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* to &#39;backup&#39;@&#39;%&#39; identified by &#39;backup_pass&#39;;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 重启 MariaDB 并查看运行情况</span>
+</span></span><span style=display:flex><span>systemctl restart mariadb
+</span></span><span style=display:flex><span>systemctl status mariadb
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### 在 NS2 里执行如下命令：</span>
+</span></span><span style=display:flex><span>mkdir /var/lib/mysql-bin
+</span></span><span style=display:flex><span>chown mysql:mysql /var/lib/mysql-bin
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat &gt; /etc/mysql/mariadb.conf.d/61-slave.cnf <span style=color:#e6db74>&lt;&lt;EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>[mysqld]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>skip-host-cache
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>skip-name-resolve
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>server-id = $SRANDOM
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>relay-log = /var/lib/mysql-bin/relaylog
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>expire_logs_days = 7
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sed -i <span style=color:#e6db74>&#39;s/expire_logs_days/#expire_logs_days/g&#39;</span> /etc/mysql/mariadb.conf.d/50-server.cnf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 仅允许本机访问 3306</span>
+</span></span><span style=display:flex><span>iptables -I INPUT -p tcp --dport <span style=color:#ae81ff>3306</span> -j DROP
+</span></span><span style=display:flex><span>iptables -I INPUT -s 127.0.0.1 -p tcp --dport <span style=color:#ae81ff>3306</span> -j ACCEPT
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 重启 MariaDB 并查看运行情况</span>
+</span></span><span style=display:flex><span>systemctl restart mariadb
+</span></span><span style=display:flex><span>systemctl status mariadb
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### 检查 NS1 和 NS2 两台服务器的数据库</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 在 NS1 中运行</span>
+</span></span><span style=display:flex><span>mariadb -e <span style=color:#e6db74>&#34;show binary logs;\G&#34;</span> <span style=color:#75715e># 如出现 binlog.000001 和 file size 为 325 则正常（新安装的情况下）</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 在 NS2 中运行</span>
+</span></span><span style=display:flex><span>mariadb -e <span style=color:#e6db74>&#34;CHANGE MASTER TO MASTER_HOST=&#39;&lt;NS1-IP ADDR&gt;&#39;, MASTER_USER=&#39;backup&#39;, MASTER_PASSWORD=&#39;backup_pass&#39;, MASTER_PORT=3306, MASTER_LOG_FILE=&#39;binlog.000001&#39;, MASTER_LOG_POS=325; START SLAVE; SHOW SLAVE STATUS\G&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### 导入 PowerDNS 数据库</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 在 NS1 中运行</span>
+</span></span><span style=display:flex><span>mariadb -u root
+</span></span><span style=display:flex><span>CREATE DATABASE pdns_database DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+</span></span><span style=display:flex><span>GRANT ALL ON pdns_database.* TO <span style=color:#e6db74>&#39;pdns_user&#39;</span>@<span style=color:#e6db74>&#39;%&#39;</span> IDENTIFIED BY <span style=color:#e6db74>&#39;pdns_password&#39;</span>; <span style=color:#75715e># pdns_user 和 pdns_password 是 PowerDNS 数据库的用户名和密码</span>
+</span></span><span style=display:flex><span>FLUSH PRIVILEGES; 
+</span></span><span style=display:flex><span>EXIT;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cd /usr/share/pdns-backend-mysql/schema
+</span></span><span style=display:flex><span>mariadb -u pdns_user --default-character-set<span style=color:#f92672>=</span>utf8mb4 -p pdns_database &lt; schema.mysql.sql
+</span></span><span style=display:flex><span>mariadb -u pdns_user --default-character-set<span style=color:#f92672>=</span>utf8mb4 -p pdns_database &lt; enable-foreign-keys.mysql.sql
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#### 在 NS2 中运行</span>
+</span></span><span style=display:flex><span>mariadb -e <span style=color:#e6db74>&#34;show databases;\G&#34;</span>  <span style=color:#75715e># 如已经同步 pdns_database 则为正常</span>
+</span></span></code></pre></div><p>在完成数据库设置后，我们就可以开始对 PowerDNS 进行初始化配置，首先删除默认安装的 <code>/etc/powerdns/pdns.d/bind.conf</code>, 然后添加一个 <code>/etc/powerdns/pdns.d/dns.conf</code> 并输入：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>cat &gt;&gt; /etc/powerdns/pdns.d/dns.conf <span style=color:#e6db74>&lt;&lt; EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>launch=gmysql
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>gmysql-host=localhost
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>gmysql-user=pdns_user # 数据库用户名
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>gmysql-dbname=pdns_database # 数据库名
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>gmysql-password=pdns_password # 数据库密码
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>gmysql-dnssec=yes
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>default-soa-content=ns1.example.dns hostmaster.example.dns 0 3600 14400 604800 3600
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>api=yes
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>api-key=random_api_key # api key 可以随意更换，比如使用 openssl 生成：openssl rand -base64 16
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>local-address=0.0.0.0 ::
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>local-port=53
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>webserver-address=0.0.0.0
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>webserver-allow-from=127.0.0.1, ::1, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>webserver-port=8081
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span></code></pre></div><p>在完成配置后，需要重启 PowerDNS：<code>systemctl restart pdns</code>，但是在重启之前，我们可以注意到 PowerDNS 占用得是 <code>53</code> 端口，但是默认情况下，Debian/Ubuntu 都会被系统的 <code>systemd-resolved</code> 占用, 所以，我们需要关闭它：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#75715e># 仅针对 Debian 11/12，其他系统请参考对应系统的教程</span>
+</span></span><span style=display:flex><span>sudo su 
+</span></span><span style=display:flex><span>systemctl stop systemd-resolved <span style=color:#f92672>&amp;&amp;</span> systemctl disable systemd-resolved
+</span></span><span style=display:flex><span>cp /etc/resolv.conf /etc/resolv.conf.bak <span style=color:#f92672>&amp;&amp;</span> rm -rf /etc/resolv.conf
+</span></span><span style=display:flex><span>cat &gt;&gt; /etc/resolv.conf <span style=color:#e6db74>&lt;&lt; EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>nameserver  1.1.1.1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>nameserver  8.8.8.8
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>systemctl restart networking
+</span></span></code></pre></div><h4 id=powerdns-admin-安装>PowerDNS-Admin 安装</h4><p><a href=https://github.com/PowerDNS-Admin/PowerDNS-Admin>PowerDNS Admin</a> 是一个基于 Django 的 PowerDNS 管理软件，一般来说，我们会单独部署而不是部署在 NS1 或者 NS2 上。GitHub 上有对应的 Docker 和本地安装教程，这里，我已 K3s/K8s 为例：</p><p>首先创建 namespace：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Namespace</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span></code></pre></div><p>然后创建 PV 和 PVC，这是为了持久化存储数据库上的数据，我这里使用的是 <code>local-host</code> 的存储方式，也可以使用其他的存储后端，比如 NFS 或者 Ceph：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>PersistentVolume</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-pv</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>capacity</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>storage</span>: <span style=color:#ae81ff>10Gi</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>accessModes</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>ReadWriteMany</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>persistentVolumeReclaimPolicy</span>: <span style=color:#ae81ff>Retain</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>storageClassName</span>: <span style=color:#ae81ff>local-storage</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>local</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>/data/pdns</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>nodeAffinity</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>required</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>nodeSelectorTerms</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>matchExpressions</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>key</span>: <span style=color:#ae81ff>kubernetes.io/hostname</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>operator</span>: <span style=color:#ae81ff>In</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>values</span>:
+</span></span><span style=display:flex><span>          - <span style=color:#ae81ff>base-server</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>PersistentVolume</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-mysql-pv</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>capacity</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>storage</span>: <span style=color:#ae81ff>10Gi</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>accessModes</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>ReadWriteMany</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>persistentVolumeReclaimPolicy</span>: <span style=color:#ae81ff>Retain</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>storageClassName</span>: <span style=color:#ae81ff>local-storage</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>local</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>/data/pdns</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>nodeAffinity</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>required</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>nodeSelectorTerms</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>matchExpressions</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>key</span>: <span style=color:#ae81ff>kubernetes.io/hostname</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>operator</span>: <span style=color:#ae81ff>In</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>values</span>:
+</span></span><span style=display:flex><span>          - <span style=color:#ae81ff>base-server</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>PersistentVolumeClaim</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-pvc</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>accessModes</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>ReadWriteMany</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>resources</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>requests</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>storage</span>: <span style=color:#ae81ff>10Gi</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>storageClassName</span>: <span style=color:#ae81ff>local-storage</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>volumeName</span>: <span style=color:#ae81ff>pdns-pv</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>PersistentVolumeClaim</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-mysql-pvc</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>accessModes</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>ReadWriteMany</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>resources</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>requests</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>storage</span>: <span style=color:#ae81ff>10Gi</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>storageClassName</span>: <span style=color:#ae81ff>local-storage</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>volumeName</span>: <span style=color:#ae81ff>pdns-mysql-pv</span>
+</span></span></code></pre></div><p>随后创建 <code>Deployment</code>, <code>Serivce</code> 和 <code>Ingress</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>app</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>app</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>nodeName</span>: <span style=color:#ae81ff>base-server</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>image</span>: <span style=color:#ae81ff>powerdnsadmin/pda-legacy:latest</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>SECRET_KEY</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;&lt;random-secret-key&gt;&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>SQLALCHEMY_DATABASE_URI</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;mysql://powerdns-admin-user:powerdns-admin-password@127.0.0.1/powerdns-admin-database&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>GUNICORN_TIMEOUT</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;60&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>GUNICORN_WORKERS</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;4&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>GUNICORN_LOGLEVEL</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;DEBUG&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>OFFLINE_MODE</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;False&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>volumeMounts</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-pvc</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>mountPath</span>: <span style=color:#ae81ff>/data</span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>powerdns-admin-mariadb</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>image</span>: <span style=color:#ae81ff>mariadb:11.4</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>3306</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>MYSQL_ROOT_PASSWORD</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;mysql_root_password&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>MYSQL_DATABASE</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;powerdns-admin-database&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>MYSQL_USER</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;powerdns-admin-user&#34;</span>
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>MYSQL_PASSWORD</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;powerdns-admin-password&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>volumeMounts</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-mysql-pvc</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>mountPath</span>: <span style=color:#ae81ff>/var/lib/mysql</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>volumes</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-pvc</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>persistentVolumeClaim</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>claimName</span>: <span style=color:#ae81ff>pdns-pvc</span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>pdns-mysql-pvc</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>persistentVolumeClaim</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>claimName</span>: <span style=color:#ae81ff>pdns-mysql-pvc</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ClusterIP</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>networking.k8s.io/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Ingress</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ingress-pdns</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>rules</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>host</span>: <span style=color:#ae81ff>pdns.example.com</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>http</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>paths</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>path</span>: <span style=color:#ae81ff>/</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>pathType</span>: <span style=color:#ae81ff>Prefix</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>backend</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>service</span>:
+</span></span><span style=display:flex><span>            <span style=color:#f92672>name</span>: <span style=color:#ae81ff>powerdns</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>port</span>:
+</span></span><span style=display:flex><span>              <span style=color:#f92672>number</span>: <span style=color:#ae81ff>80</span>
+</span></span></code></pre></div><p>注册的第一个账号就是 Admin 账号，如果没有多人使用的需求即可在 <code>Settings - Authentication</code> 里关闭 <code>Allow users to sign up</code>。在 Server 填入 NS1 或者 NS2 的信息即可。 而后，就可以开始配置 GeoDNS 了。</p><h4 id=geodns-配置>GeoDNS 配置</h4><p>由于 Maxmind GeoIP 开始要求 GeoLite 的用户注册账号并使用密钥才能下载数据库，所以第一步，我们需要去 <a href=https://dev.maxmind.com/geoip/geolite2-free-geolocation-data>GeoLite2</a> 注册账号并创建 License Key。在得到 Key 以后，我们就需要在 NS1 和 NS2 种安装 <code>sudo apt-get install geoipupdate</code>，并将 <code>AccountID</code> 和 <code>License Key</code> 存入服务器中:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>sudo su 
+</span></span><span style=display:flex><span>cat &gt; /etc/GeoIP.conf <span style=color:#e6db74>&lt;&lt; EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>AccountID XXXXXX
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>LicenseKey XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EditionIDs GeoLite2-Country GeoLite2-City GeoLite2-ASN
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sudo geoipupdate -v 
+</span></span></code></pre></div><p>如果一切顺利，所有的 <code>.mmdb</code> 都会存放到 <code>/usr/share/GeoIP</code> 这个路径下面。回到 NS1 和 NS2 的 <code>/etc/powerdns/pdns.d/dns.conf</code> 里，添加如下内容并重新启动 PowerDNS 即可：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>enable-lua-records<span style=color:#f92672>=</span>yes <span style=color:#75715e># 启动 lua script </span>
+</span></span><span style=display:flex><span>launch<span style=color:#f92672>+=</span>geoip <span style=color:#75715e># 启动 geoip 插件</span>
+</span></span><span style=display:flex><span>geoip-database-files<span style=color:#f92672>=</span>/usr/share/GeoIP/GeoLite2-City.mmdb /usr/share/GeoIP/GeoLite2-Country.mmdb /usr/share/GeoIP/GeoLite2-ASN.mmdb
+</span></span><span style=display:flex><span>log-dns-queries<span style=color:#f92672>=</span>yes 
+</span></span></code></pre></div><p>回到 PowerDNS-Admin 里，我们还需要在 <code>Settings - Zone Records</code> 里打开 LUA 才能在解析纪录里使用 lua script。Lua 纪录有很多用法， 详细可以参考<a href=https://doc.powerdns.com/authoritative/lua-records/>官网</a>, 这里，我只介绍 GeoDNS 需要怎么设置：</p><p>我们可以首先设置一条 Lua 纪录给 <code>www.example.com</code>：<code>A "pickclosest({'249.209.110.226','160.38.17.187','66.167.146.39'})"</code> 然后使用 <a href=https://tools.keycdn.com/ping>Ping Test</a> 进行测试：</p><center><img src=https://32cf906.webp.li/2024/09/www-example-com-dns.png width=70% alt="GeoDNS 测试"></center><p>我们可以看到，不同的地方已经可以解析到不同的 IP 了，这里 Loss 100% 是因为测试 IP 都是随机生成的，理论上应该也是 ping 不通才合理，我们这里换成真实的 IP 试试：</p><ol><li>LAX: <code>67.198.150.72</code></li><li>AMS: <code>78.142.195.195</code></li><li>SIN: <code>89.28.239.46</code></li></ol><center><img src=https://32cf906.webp.li/2024/09/www-example-com-geodns-2.png width=70% alt="GeoDNS 测试"></center><p>我们可以看到，不同地区已经解析到不同地区的 IP 了，全球 Ping 的延迟也都降到了 100ms 以下(除了印度以外)。</p><h2 id=从接入点到集群>从接入点到集群</h2><p>上一篇文章里也提及了通过 <code>IPTABLES</code> 从接入点到集群的 External IP 的端口转发，但是经过测试发现，<code>IPTABLES</code> 无法利用一些 TCP 拥塞控制算法以提高网络吞吐和延迟，经过激情网络冲浪，发现了如下的一些工具：</p><ol><li><a href=https://github.com/zhboner/realm>realm: A simple, high performance relay server written in rust</a></li><li><a href=https://github.com/go-gost/gost>gost: GO Simple Tunnel</a></li><li><a href=https://nginx.org/en/docs/stream/ngx_stream_core_module.html>Nginx - Stream Module</a></li><li><a href=https://www.haproxy.org/>Haproxy</a></li></ol><p>大概不止这几种工具，只是随手举出了这四个。这些对比 <code>IPTABLES</code> 的好处是可以利用 BBR 等算法进一步提高 TCP 的传输。在对比了一番以后，我最终选择了 Nginx。</p><h3 id=安装-nginx>安装 Nginx</h3><p>与平时安装 Nginx 略微不同，我们直接通过 <code>apt</code> 安装的 Nginx 不带 <code>stream</code> 模块，我们可以通过 <code>nginx -V | grep steram</code> 进行查看。这里我选择直接去下载源码编译安装：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>sudo apt -y install gcc make libssl-dev zlib1g-dev libgd-dev libgeoip-dev libpcre2-dev libpcre3-dev
+</span></span><span style=display:flex><span>wget -O nginx.tar.gz https://nginx.org/download/nginx-1.23.1.tar.gz
+</span></span><span style=display:flex><span>tar -xvf nginx.tar.gz <span style=color:#f92672>&amp;&amp;</span> cd ./nginx-1.23.1/
+</span></span><span style=display:flex><span>sudo mkdir /usr/lib/nginx <span style=color:#f92672>&amp;&amp;</span> sudo mkdir /var/log/nginx <span style=color:#f92672>&amp;&amp;</span> sudo mkdir /etc/nginx <span style=color:#f92672>&amp;&amp;</span> sudo mkdir /var/cache/nginx
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>./configure <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--prefix<span style=color:#f92672>=</span>/etc/nginx <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--user<span style=color:#f92672>=</span>root <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--group<span style=color:#f92672>=</span>root <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--sbin-path<span style=color:#f92672>=</span>/usr/sbin/nginx <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--modules-path<span style=color:#f92672>=</span>/usr/lib/nginx/modules <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--conf-path<span style=color:#f92672>=</span>/etc/nginx/nginx.conf <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--error-log-path<span style=color:#f92672>=</span>/var/log/nginx/error.log <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--http-log-path<span style=color:#f92672>=</span>/var/log/nginx/access.log <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--pid-path<span style=color:#f92672>=</span>/var/run/nginx.pid <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--lock-path<span style=color:#f92672>=</span>/var/run/nginx.lock <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--http-client-body-temp-path<span style=color:#f92672>=</span>/var/cache/nginx/client_temp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--http-proxy-temp-path<span style=color:#f92672>=</span>/var/cache/nginx/proxy_temp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--http-fastcgi-temp-path<span style=color:#f92672>=</span>/var/cache/nginx/fastcgi_temp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--http-uwsgi-temp-path<span style=color:#f92672>=</span>/var/cache/nginx/uwsgi_temp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--http-scgi-temp-path<span style=color:#f92672>=</span>/var/cache/nginx/scgi_temp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-file-aio <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-threads <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_addition_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_auth_request_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_dav_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_flv_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_gunzip_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_gzip_static_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_mp4_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_random_index_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_realip_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_secure_link_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_slice_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_ssl_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_stub_status_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_sub_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-http_v2_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-mail <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-mail_ssl_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-stream <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-stream_realip_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-stream_ssl_module <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--with-stream_ssl_preread_module
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sudo make <span style=color:#f92672>&amp;&amp;</span> sudo make install <span style=color:#f92672>&amp;&amp;</span> sudo mkdir /etc/nginx/sites-available <span style=color:#f92672>&amp;&amp;</span> sudo sudo mkdir /etc/nginx/sites-enabled
+</span></span></code></pre></div><p>在完成安装后，我们还需要在 <code>systemd</code> 中加入配置文件对 service 进行控制：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>sudo su 
+</span></span><span style=display:flex><span>cat &gt; /etc/systemd/system/nginx.service <span style=color:#e6db74>&lt;&lt; EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>[Unit]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Description=The NGINX HTTP and reverse proxy server
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>After=syslog.target network-online.target remote-fs.target nss-lookup.target
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Wants=network-online.target
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>[Service]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Type=forking
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>PIDFile=/run/nginx.pid
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>ExecStartPre=/usr/sbin/nginx -t -c /etc/nginx/nginx.conf
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>ExecReload=/usr/sbin/nginx -s reload -c /etc/nginx/nginx.conf
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>ExecStop=/bin/kill -s QUIT
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>PrivateTmp=true
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>[Install]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>WantedBy=multi-user.target
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sudo systemctl daemon-reload
+</span></span><span style=display:flex><span>sudo systemctl enable --now nginx
+</span></span></code></pre></div><p>这时，我们在看 <code>nginx -V | grep stream</code> 就能发现模块已经正常安装了。</p><p>通过 stream 模块，我们就可以通过 nginx 对 TCP/UDP 流量进行转发，同时，还可以通过 SNI proxy 来转发 HTTPS 流量到源站，这里我给出一个样例：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>stream <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    upstream cluster <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        server 192.168.101.101:443;
+</span></span><span style=display:flex><span>        server 192.168.101.102:443;
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    map $ssl_preread_server_name $upstream_server <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        default cluster;
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    server <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        listen 443;
+</span></span><span style=display:flex><span>        proxy_pass $upstream_server;
+</span></span><span style=display:flex><span>        ssl_preread on;  <span style=color:#75715e># Enable SNI reading</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>至此，我们已经完成了从 client 到 entrance 再到 source 的两步走流程。当然，选择 nginx 的原因不仅仅是 TCP 加速，更是因为可以根据域名进行不同后端的分流，这些应该是 IPTABLES/REALM 这些工具无法达到的。而至于为什么不用 HAProxy 则是因为本人不善于使用它，是我的错。</p><p>回到集群里，我们这个时候就可以设置 <code>ingress-nginx-a</code> 和 <code>ingress-nginx-b</code> 两个 ingress-controller，分别对应 <code>192.168.101.101</code> 和 <code>192.168.101.102</code> 两个 External IP。做到任意一个宕机都可以随时切换。</p><h2 id=参考>参考</h2><ol><li><a href=https://u.sb/debian-install-powerdns/>Debian12/Ubuntu24.04 安装 PowerDNS 和 PowerDNS-Admin 自建权威 DNS 教程</a></li><li><a href=https://lantian.pub/article/modify-website/powerdns-lua-diy-geodns.lantian/>使用 PowerDNS 的 Lua 功能自建分地区解析 GeoDNS</a></li></ol><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>其实也是因为没有 AS 号在手，不然就是「我选择自建 Anycast DNS 服务器」了 ：）&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>本文中所提及的所有 IP 地址（包括 IPV4 和 IPV6）均是通过 <a href=https://www.ipvoid.com/>IPVOID</a> 随机生成&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>由此可以看出，如果域名本身不需要作为自身的 NS 服务器，则无需设置胶水纪录，即，可以省略这一步&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div><p><a href=https://blog.cklau.cc/tags/homelab/ rel=tag>#homelab</a>
+<a href=https://blog.cklau.cc/tags/oauth2-proxy/ rel=tag>#oauth2-proxy</a>
+<a href=https://blog.cklau.cc/tags/nginx-ingress-controller/ rel=tag>#nginx-ingress-controller</a>
+<a href=https://blog.cklau.cc/tags/geodns/ rel=tag>#GeoDNS</a>
+<a href=https://blog.cklau.cc/tags/authoritative-dns/ rel=tag>#Authoritative DNS</a>
+<a href=https://blog.cklau.cc/tags/%E5%AE%89%E5%85%A8/ rel=tag>#安全</a>
+<a href=https://blog.cklau.cc/tags/%E9%9B%B6%E4%BF%A1%E4%BB%BB/ rel=tag>#零信任</a>
+<a href=https://blog.cklau.cc/tags/%E5%AD%98%E5%82%A8/ rel=tag>#存储</a>
+<a href=https://blog.cklau.cc/tags/%E6%9D%83%E5%A8%81-dns/ rel=tag>#权威 DNS</a></p></article><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"\"🧑🏿‍💻 Homelab: Cloudflare is All your Need, or Not\"","description":"\"回到原点，又开始了一年一度的 Homelab 折腾。这一次， 打算整点「起夜」级方案 :)\\n在上一篇文章中提及了一些网络相关的方案，比如如何使用 Cloudflare Tunnel 进行“自建服务全球加速”。其中，也提及了可以自建 GeoDNS 达到类似的效果，在这里，我将详细描述各种方案的实践细节。…\"","datePublished":"2024-09-19T00:11:21\u002b08:00","dateModified":"2024-12-24T09:17:47\u002b08:00","author":{"@type":"Person","name":"\"Junjie LIU\""},"publisher":{"@type":"Organization","name":"\"特倫蘇的日與夜\"","logo":{"@type":"ImageObject","url":"\"https://blog.cklau.cc/images/logo.svg\""}},"image":"\"https://avatars-githubusercontent.webp.se/TerenceLiu98\"","mainEntityOfPage":{"@type":"WebPage","@id":"\"https://blog.cklau.cc/post/my-homelab-8/\""},"url":"\"https://blog.cklau.cc/post/my-homelab-8/\"","wordCount":1705,"keywords":"\"homelab, oauth2-proxy, nginx-ingress-controller, GeoDNS, Authoritative DNS, 安全, 零信任, 存储, 权威 DNS\""}</script></main><footer><p><span><a href=https://beian.miit.gov.cn/ rel=noopener target=_blank>粤ICP备2022102668号</a></span>
+&copy; 2026 <a href=https://blog.cklau.cc>Junjie LIU</a>
+<a href=https://blog.cklau.cc/index.xml target=_blank title=rss><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a><br>Hosting and images served by <a href=https://cloud.tencent.com/>Tencent Cloud</a> / <a href=https://cloudflare.com/>Cloudflare</a> / <a href=https://webp.se/>WebP Cloud Services</a></p></footer></body></html>
