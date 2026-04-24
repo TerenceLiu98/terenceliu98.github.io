@@ -2446,6 +2446,32 @@
   },
   {
     "author": [
+      {"family": "Madaan", "given": "Aman"},
+      {"family": "Tandon", "given": "Niket"},
+      {"family": "Gupta", "given": "Prakhar"},
+      {"family": "Hallinan", "given": "Skyler"},
+      {"family": "Gao", "given": "Luyu"},
+      {"family": "Wiegreffe", "given": "Sarah"},
+      {"family": "Alon", "given": "Uri"},
+      {"family": "Dziri", "given": "Nouha"},
+      {"family": "Prabhumoye", "given": "Shrimai"},
+      {"family": "Yang", "given": "Yiming"},
+      {"family": "Gupta", "given": "Shashank"},
+      {"family": "Majumder", "given": "Bodhisattwa Prasad"},
+      {"family": "Hermann", "given": "Katherine"},
+      {"family": "Welleck", "given": "Sean"},
+      {"family": "Yazdanbakhsh", "given": "Amir"},
+      {"family": "Clark", "given": "Peter"}
+    ],
+    "container-title": "Advances in Neural Information Processing Systems (NeurIPS)",
+    "id": "madaan2023selfrefine",
+    "issued": {"date-parts": [[2023]]},
+    "title": "Self-refine: Iterative refinement with self-feedback",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2303.17651"
+  },
+  {
+    "author": [
       {"family": "Zekri", "given": "Oussama"},
       {"family": "Odonnat", "given": "Ambroise"},
       {"family": "Benechehab", "given": "Abdelhakim"},
