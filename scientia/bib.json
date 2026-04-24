@@ -2179,5 +2179,49 @@
     "page": "57660-57712",
     "title": "Residual alignment: uncovering the mechanisms of residual networks",
     "type": "paper-conference"
+  },
+  {
+    "author": [
+      {"family": "Wang", "given": "Zhilin"},
+      {"family": "Li", "given": "Yafu"},
+      {"family": "Yan", "given": "Jianhao"},
+      {"family": "Cheng", "given": "Yu"},
+      {"family": "Zhang", "given": "Yue"}
+    ],
+    "container-title": "arXiv preprint arXiv:2502.15208",
+    "id": "wang2025attractor",
+    "issued": {"date-parts": [[2025]]},
+    "title": "Unveiling attractor cycles in large language models: A dynamical systems view of successive paraphrasing",
+    "type": "article-journal",
+    "URL": "https://arxiv.org/abs/2502.15208"
+  },
+  {
+    "author": [
+      {"family": "Perez", "given": "Jérémy"},
+      {"family": "Kovač", "given": "Grgur"},
+      {"family": "Léger", "given": "Corentin"},
+      {"family": "Colas", "given": "Cédric"},
+      {"family": "Molinaro", "given": "Gaia"},
+      {"family": "Derex", "given": "Maxime"},
+      {"family": "Oudeyer", "given": "Pierre-Yves"},
+      {"family": "Moulin-Frier", "given": "Clément"}
+    ],
+    "container-title": "International Conference on Learning Representations (ICLR)",
+    "id": "perez2025telephone",
+    "issued": {"date-parts": [[2025]]},
+    "title": "When LLMs play the telephone game: Cultural attractors as conceptual tools to evaluate LLMs in multi-turn settings",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2407.04503"
+  },
+  {
+    "author": [
+      {"family": "Carson", "given": "Jack David"}
+    ],
+    "container-title": "arXiv preprint arXiv:2501.16783",
+    "id": "carson2025severity",
+    "issued": {"date-parts": [[2025]]},
+    "title": "A stochastic dynamical theory of LLM self-adversariality: Modeling severity drift as a critical process",
+    "type": "article-journal",
+    "URL": "https://arxiv.org/abs/2501.16783"
   }
 ]

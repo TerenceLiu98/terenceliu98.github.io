@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" font-family="Georgia, 'Times New Roman', serif">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <style>
+    .title { font-size: 14px; font-weight: 600; fill: #222; }
+    .axis { stroke: #555; stroke-width: 1.2; fill: none; }
+    .tick { font-size: 11px; fill: #555; }
+    .dot { fill: #1a1a1a; }
+    .dot-end { fill: #b22222; }
+    .traj { stroke: #1a1a1a; stroke-width: 1.8; fill: none; }
+    .traj-arrow { stroke: #1a1a1a; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+    .contour { fill: none; stroke: #888; stroke-width: 1; }
+    .contour-deep { fill: none; stroke: #444; stroke-width: 1.2; }
+    .label { font-size: 12.5px; fill: #222; }
+    .sublabel { font-size: 11.5px; fill: #666; font-style: italic; }
+    .caption { font-size: 12.5px; fill: #333; font-style: italic; }
+    .sub { font-size: 0.72em; baseline-shift: sub; }
+    .accent-label { font-size: 12px; fill: #b22222; font-weight: 600; }
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/>
+    </marker>
+  </defs>
+
+  <!-- Panel A: depth axis (residual stream inside one forward pass) -->
+  <text x="210" y="28" text-anchor="middle" class="title">(a) depth axis — one forward pass</text>
+
+  <rect x="45" y="55" width="330" height="195" fill="none" stroke="#888" stroke-width="1"/>
+
+  <!-- potential basin contours -->
+  <g transform="translate(260 160)">
+    <ellipse cx="0" cy="0" rx="75" ry="55" class="contour"/>
+    <ellipse cx="0" cy="0" rx="54" ry="39" class="contour"/>
+    <ellipse cx="0" cy="0" rx="34" ry="24" class="contour"/>
+    <ellipse cx="0" cy="0" rx="17" ry="11" class="contour-deep"/>
+    <circle cx="0" cy="0" r="3" fill="#b22222"/>
+    <text x="0" y="-65" text-anchor="middle" class="accent-label">basin of U(h)</text>
+  </g>
+
+  <!-- trajectory across layers flowing into basin -->
+  <path d="M75,90 C110,110 150,135 190,150 S240,165 255,160" class="traj-arrow"/>
+
+  <!-- layer dots -->
+  <circle cx="75"  cy="90"  r="4" class="dot"/>
+  <text x="70" y="82" text-anchor="end" class="tick">h<tspan class="sub">0</tspan></text>
+  <circle cx="130" cy="118" r="3" class="dot"/>
+  <circle cx="175" cy="138" r="3" class="dot"/>
+  <circle cx="220" cy="155" r="3" class="dot"/>
+  <circle cx="260" cy="160" r="4" class="dot-end"/>
+  <text x="267" y="157" class="tick">h<tspan class="sub">L</tspan></text>
+
+  <text x="210" y="230" text-anchor="middle" class="sublabel">update: h<tspan class="sub">ℓ+1</tspan> = h<tspan class="sub">ℓ</tspan> + f<tspan class="sub">ℓ</tspan>(h<tspan class="sub">ℓ</tspan>)   (one layer = one integration step)</text>
+
+  <!-- Divider -->
+  <line x1="410" y1="20" x2="410" y2="280" stroke="#bbb" stroke-dasharray="3 3"/>
+
+  <!-- Panel B: iteration axis (feeding output back) -->
+  <text x="620" y="28" text-anchor="middle" class="title">(b) iteration axis — feeding output back</text>
+
+  <rect x="445" y="55" width="330" height="195" fill="none" stroke="#888" stroke-width="1"/>
+
+  <!-- Two clusters with 2-cycle arrows -->
+  <g>
+    <!-- cluster A (blue-ish circles) -->
+    <ellipse cx="530" cy="155" rx="40" ry="30" class="contour"/>
+    <circle cx="525" cy="150" r="3" fill="#1a1a1a"/>
+    <circle cx="538" cy="160" r="3" fill="#1a1a1a"/>
+    <circle cx="520" cy="165" r="3" fill="#1a1a1a"/>
+    <circle cx="540" cy="145" r="3" fill="#1a1a1a"/>
+    <text x="530" y="115" text-anchor="middle" class="accent-label" fill="#444">T<tspan class="sub">2n</tspan> cluster</text>
+
+    <!-- cluster B (red-ish circles) -->
+    <ellipse cx="690" cy="155" rx="40" ry="30" class="contour"/>
+    <circle cx="685" cy="150" r="3" fill="#b22222"/>
+    <circle cx="698" cy="160" r="3" fill="#b22222"/>
+    <circle cx="680" cy="165" r="3" fill="#b22222"/>
+    <circle cx="700" cy="145" r="3" fill="#b22222"/>
+    <text x="690" y="115" text-anchor="middle" class="accent-label">T<tspan class="sub">2n+1</tspan> cluster</text>
+
+    <!-- bidirectional arrows between the two clusters -->
+    <path d="M572,148 Q610,128 648,148" class="traj-arrow"/>
+    <path d="M648,168 Q610,188 572,168" class="traj-arrow"/>
+
+    <!-- T_0 starting outside, trajectory into the cycle -->
+    <circle cx="475" cy="90" r="4" class="dot"/>
+    <text x="470" y="82" text-anchor="end" class="tick">T<tspan class="sub">0</tspan></text>
+    <path d="M478,92 C495,115 505,135 520,148" class="traj-arrow"/>
+  </g>
+
+  <text x="620" y="230" text-anchor="middle" class="sublabel">map: T<tspan class="sub">n+1</tspan> = P(T<tspan class="sub">n</tspan>)   (one generation = one iteration step)</text>
+
+  <!-- Caption -->
+  <text x="410" y="300" text-anchor="middle" class="caption">Fig. 1 — Two time axes of an LLM treated as a discrete-time dynamical system.</text>
+  <text x="45" y="328" text-anchor="start" class="caption">(a) Depth: the residual stream flows downhill on U(h) within one forward pass; (b) Iteration: feeding output back produces its</text>
+  <text x="45" y="348" text-anchor="start" class="caption">own attractor structure (shown: a 2-period limit cycle). The shadow hunch: the two attractor pictures are projections of the same underlying operator.</text>
+</svg>

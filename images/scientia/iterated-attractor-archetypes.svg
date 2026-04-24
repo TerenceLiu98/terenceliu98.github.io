@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1170 380" font-family="Georgia, 'Times New Roman', serif">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <style>
+    .title { font-size: 14px; font-weight: 600; fill: #222; }
+    .subtitle { font-size: 11.5px; fill: #666; font-style: italic; }
+    .dot { fill: #1a1a1a; }
+    .dot-accent { fill: #b22222; }
+    .axis { stroke: #555; stroke-width: 1.2; fill: none; }
+    .tick { font-size: 11px; fill: #555; }
+    .traj-arrow { stroke: #1a1a1a; stroke-width: 1.6; fill: none; marker-end: url(#ar2); }
+    .traj-accent { stroke: #b22222; stroke-width: 1.6; fill: none; marker-end: url(#ar2r); }
+    .contour { fill: none; stroke: #aaa; stroke-width: 1; stroke-dasharray: 3 3; }
+    .caption { font-size: 12.5px; fill: #333; font-style: italic; }
+    .sub { font-size: 0.72em; baseline-shift: sub; }
+    .paper-label { font-size: 11.5px; fill: #8b6914; font-style: italic; }
+    .potential-sub { fill: none; stroke: #1a1a1a; stroke-width: 1.6; }
+    .potential-sup { fill: none; stroke: #b22222; stroke-width: 1.6; stroke-dasharray: 5 3; }
+    .noisy { fill: none; stroke: #1a1a1a; stroke-width: 0.9; opacity: 0.55; }
+  </style>
+  <defs>
+    <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/>
+    </marker>
+    <marker id="ar2r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b22222"/>
+    </marker>
+  </defs>
+
+  <!-- (a) limit cycle (Wang) -->
+  <text x="195" y="28" text-anchor="middle" class="title">(a) 2-period limit cycle in text space</text>
+  <text x="195" y="46" text-anchor="middle" class="paper-label">Wang et al. 2025, successive paraphrasing</text>
+
+  <rect x="30" y="60" width="330" height="210" fill="none" stroke="#888" stroke-width="1"/>
+
+  <ellipse cx="130" cy="170" rx="46" ry="34" class="contour"/>
+  <circle cx="120" cy="160" r="3" class="dot"/>
+  <circle cx="135" cy="155" r="3" class="dot"/>
+  <circle cx="125" cy="175" r="3" class="dot"/>
+  <circle cx="140" cy="172" r="3" class="dot"/>
+  <text x="130" y="125" text-anchor="middle" class="tick">T<tspan class="sub">0</tspan>, T<tspan class="sub">2</tspan>, T<tspan class="sub">4</tspan>, ...</text>
+
+  <ellipse cx="280" cy="170" rx="46" ry="34" class="contour"/>
+  <circle cx="270" cy="160" r="3" class="dot-accent"/>
+  <circle cx="285" cy="155" r="3" class="dot-accent"/>
+  <circle cx="275" cy="175" r="3" class="dot-accent"/>
+  <circle cx="290" cy="172" r="3" class="dot-accent"/>
+  <text x="280" y="125" text-anchor="middle" class="tick">T<tspan class="sub">1</tspan>, T<tspan class="sub">3</tspan>, T<tspan class="sub">5</tspan>, ...</text>
+
+  <path d="M178,160 Q205,140 232,160" class="traj-arrow"/>
+  <path d="M232,180 Q205,200 178,180" class="traj-accent"/>
+
+  <text x="195" y="240" text-anchor="middle" class="subtitle">invertibility forces periodic orbits: cycle length 2</text>
+
+  <line x1="390" y1="20" x2="390" y2="295" stroke="#bbb" stroke-dasharray="3 3"/>
+
+  <!-- (b) fixed-point attractor (Perez) -->
+  <text x="585" y="28" text-anchor="middle" class="title">(b) fixed-point attractor in property space</text>
+  <text x="585" y="46" text-anchor="middle" class="paper-label">Perez et al. 2025, telephone-game chains</text>
+
+  <rect x="420" y="60" width="330" height="210" fill="none" stroke="#888" stroke-width="1"/>
+
+  <line x1="445" y1="245" x2="730" y2="245" class="axis"/>
+  <polygon points="730,240 742,245 730,250" fill="#555"/>
+  <text x="745" y="249" class="tick">n</text>
+  <line x1="445" y1="245" x2="445" y2="85" class="axis"/>
+  <polygon points="440,85 445,73 450,85" fill="#555"/>
+  <text x="458" y="82" text-anchor="start" class="tick">property</text>
+
+  <line x1="445" y1="175" x2="725" y2="175" stroke="#b22222" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="720" y="168" text-anchor="end" class="paper-label" fill="#b22222">l = I / (1 − s)</text>
+
+  <path d="M455,105 C485,135 520,155 560,168 S640,175 720,175" fill="none" stroke="#1a1a1a" stroke-width="1.4"/>
+  <circle cx="455" cy="105" r="3" class="dot"/>
+  <path d="M455,235 C490,220 530,200 570,185 S650,177 720,175" fill="none" stroke="#1a1a1a" stroke-width="1.4"/>
+  <circle cx="455" cy="235" r="3" class="dot"/>
+  <path d="M455,140 C490,155 540,165 590,172 S670,175 720,175" fill="none" stroke="#1a1a1a" stroke-width="1.4"/>
+  <circle cx="455" cy="140" r="3" class="dot"/>
+
+  <text x="585" y="295" text-anchor="middle" class="subtitle">strength 1 − |s|; task constraint controls the strength</text>
+
+  <line x1="780" y1="20" x2="780" y2="295" stroke="#bbb" stroke-dasharray="3 3"/>
+
+  <!-- (c) SDE / Fokker–Planck (Carson) -->
+  <text x="975" y="28" text-anchor="middle" class="title">(c) drift + noise in severity space</text>
+  <text x="975" y="46" text-anchor="middle" class="paper-label">Carson 2025, stochastic severity drift</text>
+
+  <rect x="810" y="60" width="330" height="210" fill="none" stroke="#888" stroke-width="1"/>
+
+  <!-- axes: x = severity, y = potential V(x) -->
+  <line x1="835" y1="240" x2="1120" y2="240" class="axis"/>
+  <polygon points="1120,235 1132,240 1120,245" fill="#555"/>
+  <text x="1125" y="255" class="tick">x</text>
+  <line x1="835" y1="240" x2="835" y2="85" class="axis"/>
+  <polygon points="830,85 835,73 840,85" fill="#555"/>
+  <text x="848" y="82" text-anchor="start" class="tick">V(x)</text>
+
+  <!-- x-axis endpoint labels -->
+  <text x="835" y="257" text-anchor="middle" class="tick">0</text>
+  <text x="1110" y="257" text-anchor="middle" class="tick">1</text>
+
+  <!-- subcritical potential: single well near x=0, wall near x=1 -->
+  <path d="M840,130 C870,170 895,210 920,220 S980,215 1020,200 S1080,160 1110,110"
+        class="potential-sub"/>
+  <text x="900" y="155" class="tick" fill="#1a1a1a">α &lt; β  (subcritical)</text>
+
+  <!-- supercritical potential: tilted toward x=1, deep well near 1 -->
+  <path d="M840,130 C870,160 900,180 940,195 S1020,220 1080,225 S1110,215 1110,215"
+        class="potential-sup"/>
+  <text x="1025" y="205" text-anchor="end" class="tick" fill="#b22222">α &gt; β  (supercritical)</text>
+
+  <!-- harmful threshold -->
+  <line x1="1075" y1="85" x2="1075" y2="240" stroke="#b22222" stroke-width="0.9" stroke-dasharray="2 3" opacity="0.8"/>
+  <text x="1075" y="80" text-anchor="middle" class="paper-label" fill="#b22222">x<tspan class="sub">harm</tspan></text>
+
+  <!-- noisy trajectory: walker escapes safe well, crosses, falls into harmful well -->
+  <path d="M860,218 L863,215 L866,219 L870,216 L874,220 L880,215 L886,220 L893,213
+           L900,217 L908,208 L918,202 L926,198 L935,202 L944,195 L955,193 L968,198
+           L982,190 L996,195 L1010,200 L1025,208 L1040,215 L1055,220 L1068,222 L1080,221"
+        class="noisy"/>
+  <circle cx="860" cy="218" r="3" class="dot"/>
+  <circle cx="1080" cy="221" r="3" class="dot-accent"/>
+
+  <text x="975" y="295" text-anchor="middle" class="subtitle">phase transition at α = β; runaway when α &gt; β</text>
+
+  <!-- Caption -->
+  <text x="585" y="335" text-anchor="middle" class="caption">Fig. 2 — Three archetypes of iteration-axis attractors.</text>
+  <text x="585" y="358" text-anchor="middle" class="caption">(a) invertible map on full text → limit cycle. (b) asymmetric map on a scalar property → fixed point. (c) continuous-time SDE on severity → Fokker–Planck with a phase transition.</text>
+</svg>
