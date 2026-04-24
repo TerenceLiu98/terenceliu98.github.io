@@ -2223,5 +2223,241 @@
     "title": "A stochastic dynamical theory of LLM self-adversariality: Modeling severity drift as a critical process",
     "type": "article-journal",
     "URL": "https://arxiv.org/abs/2501.16783"
+  },
+  {
+    "author": [
+      {"family": "Huang", "given": "Jie"},
+      {"family": "Chen", "given": "Xinyun"},
+      {"family": "Mishra", "given": "Swaroop"},
+      {"family": "Zheng", "given": "Huaixiu Steven"},
+      {"family": "Yu", "given": "Adams Wei"},
+      {"family": "Song", "given": "Xinying"},
+      {"family": "Zhou", "given": "Denny"}
+    ],
+    "container-title": "International Conference on Learning Representations (ICLR)",
+    "id": "huang2024selfcorrect",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Large language models cannot self-correct reasoning yet",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2310.01798"
+  },
+  {
+    "author": [
+      {"family": "Kamoi", "given": "Ryo"},
+      {"family": "Zhang", "given": "Yusen"},
+      {"family": "Zhang", "given": "Nan"},
+      {"family": "Han", "given": "Jiawei"},
+      {"family": "Zhang", "given": "Rui"}
+    ],
+    "container-title": "Transactions of the Association for Computational Linguistics",
+    "id": "kamoi2024selfcorrection",
+    "issued": {"date-parts": [[2024]]},
+    "title": "When can LLMs actually correct their own mistakes? A critical survey of self-correction of LLMs",
+    "type": "article-journal",
+    "URL": "https://arxiv.org/abs/2406.01297"
+  },
+  {
+    "author": [
+      {"family": "Wang", "given": "Qineng"},
+      {"family": "Wang", "given": "Zihao"},
+      {"family": "Su", "given": "Ying"},
+      {"family": "Tong", "given": "Hanghang"},
+      {"family": "Song", "given": "Yangqiu"}
+    ],
+    "container-title": "Annual Meeting of the Association for Computational Linguistics (ACL)",
+    "id": "wang2024multiagent",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Rethinking the bounds of LLM reasoning: Are multi-agent discussions the key?",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2402.18272"
+  },
+  {
+    "author": [
+      {"family": "Shumailov", "given": "Ilia"},
+      {"family": "Shumaylov", "given": "Zakhar"},
+      {"family": "Zhao", "given": "Yiren"},
+      {"family": "Papernot", "given": "Nicolas"},
+      {"family": "Anderson", "given": "Ross"},
+      {"family": "Gal", "given": "Yarin"}
+    ],
+    "container-title": "Nature",
+    "id": "shumailov2024collapse",
+    "issued": {"date-parts": [[2024]]},
+    "title": "AI models collapse when trained on recursively generated data",
+    "type": "article-journal",
+    "URL": "https://www.nature.com/articles/s41586-024-07566-y"
+  },
+  {
+    "author": [
+      {"family": "Bertrand", "given": "Quentin"},
+      {"family": "Bose", "given": "Avishek Joey"},
+      {"family": "Duplessis", "given": "Alexandre"},
+      {"family": "Jiralerspong", "given": "Marco"},
+      {"family": "Gidel", "given": "Gauthier"}
+    ],
+    "container-title": "International Conference on Learning Representations (ICLR)",
+    "id": "bertrand2024stability",
+    "issued": {"date-parts": [[2024]]},
+    "title": "On the stability of iterative retraining of generative models",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2310.00429"
+  },
+  {
+    "author": [
+      {"family": "Dohmatob", "given": "Elvis"},
+      {"family": "Feng", "given": "Yunzhen"},
+      {"family": "Yang", "given": "Pu"},
+      {"family": "Charton", "given": "François"},
+      {"family": "Kempe", "given": "Julia"}
+    ],
+    "container-title": "International Conference on Machine Learning (ICML)",
+    "id": "dohmatob2024tale",
+    "issued": {"date-parts": [[2024]]},
+    "title": "A tale of tails: Model collapse as a change of scaling laws",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2402.07043"
+  },
+  {
+    "author": [
+      {"family": "Gerstgrasser", "given": "Matthias"},
+      {"family": "Schaeffer", "given": "Rylan"},
+      {"family": "Dey", "given": "Apratim"},
+      {"family": "Rafailov", "given": "Rafael"},
+      {"family": "Sleight", "given": "Henry"},
+      {"family": "Hughes", "given": "John"},
+      {"family": "Korbak", "given": "Tomasz"},
+      {"family": "Agrawal", "given": "Rajashree"},
+      {"family": "Pai", "given": "Dhruv"},
+      {"family": "Gromov", "given": "Andrey"},
+      {"family": "Roberts", "given": "Daniel A."},
+      {"family": "Yang", "given": "Diyi"},
+      {"family": "Donoho", "given": "David L."},
+      {"family": "Koyejo", "given": "Sanmi"}
+    ],
+    "container-title": "arXiv preprint arXiv:2404.01413",
+    "id": "gerstgrasser2024accumulating",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Is model collapse inevitable? Breaking the curse of recursion by accumulating real and synthetic data",
+    "type": "article-journal",
+    "URL": "https://arxiv.org/abs/2404.01413"
+  },
+  {
+    "author": [
+      {"family": "Kirk", "given": "Robert"},
+      {"family": "Mediratta", "given": "Ishita"},
+      {"family": "Nalmpantis", "given": "Christoforos"},
+      {"family": "Luketina", "given": "Jelena"},
+      {"family": "Hambro", "given": "Eric"},
+      {"family": "Grefenstette", "given": "Edward"},
+      {"family": "Raileanu", "given": "Roberta"}
+    ],
+    "container-title": "International Conference on Learning Representations (ICLR)",
+    "id": "kirk2024rlhfdiversity",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Understanding the effects of RLHF on LLM generalisation and diversity",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2310.06452"
+  },
+  {
+    "author": [
+      {"family": "Padmakumar", "given": "Vishakh"},
+      {"family": "He", "given": "He"}
+    ],
+    "container-title": "International Conference on Learning Representations (ICLR)",
+    "id": "padmakumar2024diversity",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Does writing with language models reduce content diversity?",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2309.05196"
+  },
+  {
+    "author": [
+      {"family": "Doshi", "given": "Anil R."},
+      {"family": "Hauser", "given": "Oliver P."}
+    ],
+    "container-title": "Science Advances",
+    "id": "doshi2024creativity",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Generative AI enhances individual creativity but reduces the collective diversity of novel content",
+    "type": "article-journal",
+    "URL": "https://www.science.org/doi/10.1126/sciadv.adn5290"
+  },
+  {
+    "author": [
+      {"family": "Anil", "given": "Cem"},
+      {"family": "Durmus", "given": "Esin"},
+      {"family": "Sharma", "given": "Mrinank"},
+      {"family": "Benton", "given": "Joe"},
+      {"family": "Kundu", "given": "Sandipan"},
+      {"family": "Batson", "given": "Joshua"}
+    ],
+    "container-title": "Advances in Neural Information Processing Systems (NeurIPS)",
+    "id": "anil2024manyshot",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Many-shot jailbreaking",
+    "type": "paper-conference",
+    "URL": "https://www.anthropic.com/research/many-shot-jailbreaking"
+  },
+  {
+    "author": [
+      {"family": "Russinovich", "given": "Mark"},
+      {"family": "Salem", "given": "Ahmed"},
+      {"family": "Eldan", "given": "Ronen"}
+    ],
+    "container-title": "arXiv preprint arXiv:2404.01833",
+    "id": "russinovich2024crescendo",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Great, now write an article about that: The crescendo multi-turn LLM jailbreak attack",
+    "type": "article-journal",
+    "URL": "https://arxiv.org/abs/2404.01833"
+  },
+  {
+    "author": [
+      {"family": "Wolf", "given": "Yotam"},
+      {"family": "Wies", "given": "Noam"},
+      {"family": "Avnery", "given": "Oshri"},
+      {"family": "Levine", "given": "Yoav"},
+      {"family": "Shashua", "given": "Amnon"}
+    ],
+    "container-title": "International Conference on Machine Learning (ICML)",
+    "id": "wolf2024limitations",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Fundamental limitations of alignment in large language models",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2304.11082"
+  },
+  {
+    "author": [
+      {"family": "Qi", "given": "Xiangyu"},
+      {"family": "Panda", "given": "Ashwinee"},
+      {"family": "Lyu", "given": "Kaifeng"},
+      {"family": "Ma", "given": "Xiao"},
+      {"family": "Roy", "given": "Subhrajit"},
+      {"family": "Beirami", "given": "Ahmad"},
+      {"family": "Mittal", "given": "Prateek"},
+      {"family": "Henderson", "given": "Peter"}
+    ],
+    "container-title": "International Conference on Learning Representations (ICLR)",
+    "id": "qi2025shallow",
+    "issued": {"date-parts": [[2025]]},
+    "title": "Safety alignment should be made more than just a few tokens deep",
+    "type": "paper-conference",
+    "URL": "https://arxiv.org/abs/2406.05946"
+  },
+  {
+    "author": [
+      {"family": "Zekri", "given": "Oussama"},
+      {"family": "Odonnat", "given": "Ambroise"},
+      {"family": "Benechehab", "given": "Abdelhakim"},
+      {"family": "Bleistein", "given": "Linus"},
+      {"family": "Boullé", "given": "Nicolas"},
+      {"family": "Redko", "given": "Ievgen"}
+    ],
+    "container-title": "arXiv preprint arXiv:2410.02724",
+    "id": "zekri2024markov",
+    "issued": {"date-parts": [[2024]]},
+    "title": "Large language models as Markov chains",
+    "type": "article-journal",
+    "URL": "https://arxiv.org/abs/2410.02724"
   }
 ]
