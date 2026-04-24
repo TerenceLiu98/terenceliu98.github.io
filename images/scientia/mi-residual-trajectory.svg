@@ -88,7 +88,7 @@
   <text x="600" y="275" text-anchor="middle" class="sublabel">dh = −∇U(h) dℓ + σ dW<tspan class="sub">ℓ</tspan> ,   p<tspan class="sub">eq</tspan>(h) ∝ e<tspan class="sup">−U(h)/T</tspan></text>
 
   <!-- Caption -->
-  <text x="380" y="315" text-anchor="middle" class="caption">Fig. 3 — (a) The residual stream as a discrete-time trajectory through layers.</text>
+  <text x="380" y="315" text-anchor="middle" class="caption">Fig. 2 — (a) The residual stream as a discrete-time trajectory through layers.</text>
   <text x="380" y="335" text-anchor="middle" class="caption">(b) Under a Langevin / Fokker–Planck fit, depth behaves as integration time and</text>
   <text x="380" y="355" text-anchor="middle" class="caption">the trajectory flows downhill on an effective potential U(h) whose minima are high-confidence answers.</text>
 </svg>

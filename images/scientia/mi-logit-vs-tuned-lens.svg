@@ -65,5 +65,5 @@
   <text x="595" y="140" text-anchor="middle" class="note">A<tspan class="sub">ℓ</tspan> trained per layer to match final distribution.</text>
 
   <!-- Caption -->
-  <text x="410" y="210" text-anchor="middle" class="caption">Fig. 2 — Logit Lens applies W<tspan class="sub">U</tspan> directly to h<tspan class="sub">ℓ</tspan>; Tuned Lens inserts a learned affine probe A<tspan class="sub">ℓ</tspan> per layer.</text>
+  <text x="410" y="210" text-anchor="middle" class="caption">Fig. 1 — Logit Lens applies W<tspan class="sub">U</tspan> directly to h<tspan class="sub">ℓ</tspan>; Tuned Lens inserts a learned affine probe A<tspan class="sub">ℓ</tspan> per layer.</text>
 </svg>

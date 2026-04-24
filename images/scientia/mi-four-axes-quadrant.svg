@@ -68,7 +68,7 @@
 
   <!-- Caption -->
   <text x="340" y="585" text-anchor="middle" class="axis-label" font-style="normal" fill="#333">
-    Fig. 1 — The four eras of transformer interpretability arranged by (object of study × task conditioning).
+    Fig. 3 — The four eras of transformer interpretability arranged by (object of study × task conditioning).
   </text>
   <text x="340" y="602" text-anchor="middle" class="axis-label" font-style="normal" fill="#333">
     The bottom-right cell is empty: a contrastive, operator-level analysis of f<tspan class="sub">ℓ</tspan>.
