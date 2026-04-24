@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 610" font-family="Georgia, 'Times New Roman', serif" font-size="14">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <style>
+    .cell-label { font-size: 15px; font-weight: 600; }
+    .cell-content { font-size: 12.5px; fill: #333; }
+    .axis-label { font-size: 13px; font-style: italic; fill: #555; }
+    .axis-tick { font-size: 12px; fill: #555; }
+    .gap { fill: #fff8dc; stroke: #b8860b; stroke-width: 2; stroke-dasharray: 6 4; }
+    .filled { fill: #f7f7f7; stroke: #333; stroke-width: 1; }
+    .gap-label { font-size: 15px; font-weight: 700; fill: #8b6914; }
+    .gap-q { font-size: 34px; font-weight: 700; fill: #b8860b; }
+    .note-box { fill: #eeeeee; stroke: #888; stroke-width: 1; stroke-dasharray: 3 3; }
+    .note-text { font-size: 11.5px; fill: #444; }
+    .note-label { font-size: 12.5px; font-weight: 600; fill: #444; }
+    .sub { font-size: 0.72em; baseline-shift: sub; }
+  </style>
+
+  <!-- Top axis -->
+  <text x="340" y="28" text-anchor="middle" class="axis-label">object of study</text>
+  <text x="210" y="52" text-anchor="middle" class="axis-tick">state&#160;&#160;h<tspan class="sub">ℓ</tspan></text>
+  <text x="490" y="52" text-anchor="middle" class="axis-tick">transition operator&#160;&#160;f<tspan class="sub">ℓ</tspan></text>
+
+  <!-- Left axis -->
+  <text x="28" y="270" text-anchor="middle" class="axis-label" transform="rotate(-90 28 270)">task conditioning</text>
+  <text x="62" y="175" text-anchor="end" class="axis-tick">unconditional</text>
+  <text x="62" y="375" text-anchor="end" class="axis-tick">conditional</text>
+
+  <!-- UL: State x Unconditional -->
+  <rect x="70" y="75" width="280" height="190" class="filled"/>
+  <text x="210" y="105" text-anchor="middle" class="cell-label">Axis 1 — States</text>
+  <text x="210" y="135" text-anchor="middle" class="cell-content">Logit Lens</text>
+  <text x="210" y="155" text-anchor="middle" class="cell-content">Tuned Lens</text>
+  <text x="210" y="175" text-anchor="middle" class="cell-content">linear probing</text>
+  <text x="210" y="220" text-anchor="middle" class="cell-content" fill="#888" font-style="italic">what is decodable,</text>
+  <text x="210" y="238" text-anchor="middle" class="cell-content" fill="#888" font-style="italic">at what depth</text>
+
+  <!-- UR: Transition x Unconditional -->
+  <rect x="350" y="75" width="280" height="190" class="filled"/>
+  <text x="490" y="105" text-anchor="middle" class="cell-label">Axis 4 — Dynamics</text>
+  <text x="490" y="135" text-anchor="middle" class="cell-content">Jacobian spectra</text>
+  <text x="490" y="155" text-anchor="middle" class="cell-content">Koopman / DMD</text>
+  <text x="490" y="175" text-anchor="middle" class="cell-content">Vlasov / Fokker–Planck</text>
+  <text x="490" y="195" text-anchor="middle" class="cell-content">Liang–Kleeman flow</text>
+  <text x="490" y="238" text-anchor="middle" class="cell-content" fill="#888" font-style="italic">background structure</text>
+
+  <!-- LL: State x Conditional -->
+  <rect x="70" y="265" width="280" height="190" class="filled"/>
+  <text x="210" y="295" text-anchor="middle" class="cell-label">Axis 3 — Contrastive States</text>
+  <text x="210" y="325" text-anchor="middle" class="cell-content">Representation Engineering</text>
+  <text x="210" y="345" text-anchor="middle" class="cell-content">Contrastive Activation Addition</text>
+  <text x="210" y="365" text-anchor="middle" class="cell-content">steering vectors</text>
+  <text x="210" y="410" text-anchor="middle" class="cell-content" fill="#888" font-style="italic">which direction in h-space</text>
+  <text x="210" y="428" text-anchor="middle" class="cell-content" fill="#888" font-style="italic">shifts behavior</text>
+
+  <!-- LR: Transition x Conditional (the gap) -->
+  <rect x="350" y="265" width="280" height="190" class="gap"/>
+  <text x="490" y="308" text-anchor="middle" class="gap-label">differential transition operators</text>
+  <text x="490" y="360" text-anchor="middle" class="gap-q">?</text>
+  <text x="490" y="410" text-anchor="middle" class="cell-content" fill="#8b6914" font-style="italic">how does f<tspan class="sub">ℓ</tspan> change</text>
+  <text x="490" y="428" text-anchor="middle" class="cell-content" fill="#8b6914" font-style="italic">between two task conditions?</text>
+
+  <!-- Axis 2 as a footnote band below the grid -->
+  <rect x="70" y="475" width="560" height="82" class="note-box"/>
+  <text x="85" y="496" class="note-label">Axis 2 — Causality</text>
+  <text x="85" y="516" class="note-text">activation / attribution patching, ACDC, feature circuits.</text>
+  <text x="85" y="533" class="note-text">Per-component granularity (head / MLP / SAE feature) sits between</text>
+  <text x="85" y="550" class="note-text">state h<tspan class="sub">ℓ</tspan> and transition operator f<tspan class="sub">ℓ</tspan>, so it does not fit cleanly in one cell.</text>
+
+  <!-- Caption -->
+  <text x="340" y="585" text-anchor="middle" class="axis-label" font-style="normal" fill="#333">
+    Fig. 1 — The four eras of transformer interpretability arranged by (object of study × task conditioning).
+  </text>
+  <text x="340" y="602" text-anchor="middle" class="axis-label" font-style="normal" fill="#333">
+    The bottom-right cell is empty: a contrastive, operator-level analysis of f<tspan class="sub">ℓ</tspan>.
+  </text>
+</svg>
