@@ -8,8 +8,13 @@
   const giscusTemplate = commentsSection
     ? commentsSection.querySelector('script[src*="giscus.app/client.js"]')
     : null;
+  const utterancesTemplate = commentsSection
+    ? commentsSection.querySelector('script[src*="utteranc.es/client.js"]')
+    : null;
 
-  if (!giscusTemplate) {
+  const provider = giscusTemplate ? 'giscus' : utterancesTemplate ? 'utterances' : null;
+
+  if (!provider) {
     return;
   }
 
@@ -96,15 +101,39 @@
     return script;
   }
 
+  function cloneUtterancesTemplate(term) {
+    const script = document.createElement('script');
+    for (const attribute of utterancesTemplate.attributes) {
+      if (attribute.name === 'src' || attribute.name === 'issue-term') {
+        continue;
+      }
+      script.setAttribute(attribute.name, attribute.value);
+    }
+    script.src = utterancesTemplate.src;
+    script.setAttribute('issue-term', term);
+    return script;
+  }
+
   function openPanel(text) {
     quote.textContent = text;
     thread.innerHTML = '';
 
-    const script = cloneGiscusTemplate();
-    script.setAttribute('data-mapping', 'specific');
-    script.setAttribute('data-term', currentThreadTerm(text));
-    script.setAttribute('data-loading', 'lazy');
-    thread.appendChild(script);
+    const term = currentThreadTerm(text);
+
+    if (provider === 'giscus') {
+      const script = cloneGiscusTemplate();
+      script.setAttribute('data-mapping', 'specific');
+      script.setAttribute('data-term', term);
+      script.setAttribute('data-loading', 'lazy');
+      thread.classList.add('giscus');
+      thread.classList.remove('utterances');
+      thread.appendChild(script);
+    } else if (provider === 'utterances') {
+      const script = cloneUtterancesTemplate(term);
+      thread.classList.add('utterances');
+      thread.classList.remove('giscus');
+      thread.appendChild(script);
+    }
 
     panel.hidden = false;
     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
