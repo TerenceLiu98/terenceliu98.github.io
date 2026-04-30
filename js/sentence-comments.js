@@ -4,6 +4,8 @@
     return;
   }
 
+  const globalConfig = window.__SENTENCE_COMMENTS__ || null;
+
   const commentsSection = document.getElementById('comments');
   const utterancesTemplate = commentsSection
     ? commentsSection.querySelector('script[src*="utteranc.es/client.js"]')
@@ -13,7 +15,12 @@
     : null;
 
   let repoConfig = null;
-  if (utterancesTemplate) {
+  if (globalConfig && globalConfig.repo) {
+    repoConfig = {
+      repo: globalConfig.repo,
+      provider: globalConfig.provider || null,
+    };
+  } else if (utterancesTemplate) {
     repoConfig = {
       repo: utterancesTemplate.getAttribute('repo'),
       provider: 'utterances'
