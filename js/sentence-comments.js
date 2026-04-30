@@ -1,10 +1,17 @@
 (() => {
+  console.log('[sentence-comments] Script loaded');
+  
   const article = document.querySelector('[itemprop="articleBody"]');
+  console.log('[sentence-comments] Article element:', article);
+  
   if (!article) {
+    console.warn('[sentence-comments] No article element found with [itemprop="articleBody"]');
     return;
   }
 
   const commentsSection = document.getElementById('comments');
+  console.log('[sentence-comments] Comments section:', commentsSection);
+  
   const giscusTemplate = commentsSection
     ? commentsSection.querySelector('script[src*="giscus.app/client.js"]')
     : null;
@@ -13,8 +20,12 @@
     : null;
 
   const provider = giscusTemplate ? 'giscus' : utterancesTemplate ? 'utterances' : null;
+  console.log('[sentence-comments] Provider detected:', provider);
+  console.log('[sentence-comments] Giscus template:', giscusTemplate);
+  console.log('[sentence-comments] Utterances template:', utterancesTemplate);
 
   if (!provider) {
+    console.warn('[sentence-comments] No comments provider found (giscus or utterances)');
     return;
   }
 
