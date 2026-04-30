@@ -1,63 +1,33 @@
 (() => {
-  console.log('[sentence-comments] Script loaded');
-  
   const article = document.querySelector('[itemprop="articleBody"]');
-  console.log('[sentence-comments] Article element:', article);
-  
   if (!article) {
-    console.warn('[sentence-comments] No article element found with [itemprop="articleBody"]');
     return;
   }
 
   const commentsSection = document.getElementById('comments');
-  console.log('[sentence-comments] Comments section:', commentsSection);
-  
-  const giscusTemplate = commentsSection
-    ? commentsSection.querySelector('script[src*="giscus.app/client.js"]')
-    : null;
   const utterancesTemplate = commentsSection
     ? commentsSection.querySelector('script[src*="utteranc.es/client.js"]')
     : null;
+  const giscusTemplate = commentsSection
+    ? commentsSection.querySelector('script[src*="giscus.app/client.js"]')
+    : null;
 
-  const provider = giscusTemplate ? 'giscus' : utterancesTemplate ? 'utterances' : null;
-  console.log('[sentence-comments] Provider detected:', provider);
-  console.log('[sentence-comments] Giscus template:', giscusTemplate);
-  console.log('[sentence-comments] Utterances template:', utterancesTemplate);
-
-  if (!provider) {
-    console.warn('[sentence-comments] No comments provider found (giscus or utterances)');
-    return;
+  let repoConfig = null;
+  if (utterancesTemplate) {
+    repoConfig = {
+      repo: utterancesTemplate.getAttribute('repo'),
+      provider: 'utterances'
+    };
+  } else if (giscusTemplate) {
+    repoConfig = {
+      repo: giscusTemplate.getAttribute('data-repo'),
+      provider: 'giscus'
+    };
   }
 
-  const state = {
-    selectionText: '',
-    range: null,
-  };
-
-  const selectionButton = document.createElement('button');
-  selectionButton.type = 'button';
-  selectionButton.className = 'sentence-comment-selection-button';
-  selectionButton.textContent = '评论这句';
-  selectionButton.hidden = true;
-
-  const panel = document.createElement('section');
-  panel.className = 'sentence-comment-panel';
-  panel.hidden = true;
-  panel.innerHTML = `
-    <div class="sentence-comment-panel-header">
-      <p class="sentence-comment-panel-title">对选中的句子发表评论</p>
-      <button type="button" class="sentence-comment-panel-close">关闭</button>
-    </div>
-    <blockquote class="sentence-comment-quote"></blockquote>
-    <div class="sentence-comment-thread"></div>
-  `;
-
-  const closeButton = panel.querySelector('.sentence-comment-panel-close');
-  const quote = panel.querySelector('.sentence-comment-quote');
-  const thread = panel.querySelector('.sentence-comment-thread');
-
-  article.parentNode.insertBefore(panel, commentsSection || null);
-  document.body.appendChild(selectionButton);
+  if (!repoConfig) {
+    return;
+  }
 
   function fnv1a(input) {
     let hash = 0x811c9dc5;
@@ -68,143 +38,201 @@
     return (hash >>> 0).toString(36);
   }
 
-  function normalizeSelection(text) {
+  function normalizeText(text) {
     return text.replace(/\s+/g, ' ').trim();
-  }
-
-  function selectionIsInsideArticle(selection) {
-    if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
-      return false;
-    }
-
-    const range = selection.getRangeAt(0);
-    return article.contains(range.commonAncestorContainer);
-  }
-
-  function hideSelectionButton() {
-    selectionButton.hidden = true;
-    state.range = null;
-    state.selectionText = '';
-  }
-
-  function positionButton(range) {
-    const rect = range.getBoundingClientRect();
-    const viewportX = Math.max(12, Math.min(window.innerWidth - 120, rect.left + rect.width / 2 - 60));
-    const viewportY = Math.max(12, rect.top + window.scrollY - 44);
-    selectionButton.style.left = `${window.scrollX + viewportX}px`;
-    selectionButton.style.top = `${viewportY}px`;
-    selectionButton.hidden = false;
   }
 
   function currentThreadTerm(text) {
     return `sentence:${location.pathname}:${fnv1a(text)}`;
   }
 
-  function cloneGiscusTemplate() {
-    const script = document.createElement('script');
-    for (const attribute of giscusTemplate.attributes) {
-      if (attribute.name === 'src') {
-        continue;
+  async function fetchCommentsCount(term) {
+    try {
+      const searchQuery = `repo:${repoConfig.repo} is:issue "${term}"`;
+      const apiUrl = `https://api.github.com/search/issues?q=${encodeURIComponent(searchQuery)}`;
+      
+      const response = await fetch(apiUrl);
+      if (!response.ok) return 0;
+      
+      const data = await response.json();
+      if (!data.items || data.items.length === 0) return 0;
+      
+      return data.items[0].comments || 0;
+    } catch (e) {
+      console.error('[sentence-comments] Error:', e);
+      return 0;
+    }
+  }
+
+  async function fetchComments(term) {
+    try {
+      const searchQuery = `repo:${repoConfig.repo} is:issue "${term}"`;
+      const apiUrl = `https://api.github.com/search/issues?q=${encodeURIComponent(searchQuery)}`;
+      
+      const response = await fetch(apiUrl);
+      if (!response.ok) return [];
+      
+      const data = await response.json();
+      if (!data.items || data.items.length === 0) return [];
+      
+      const issue = data.items[0];
+      const commentsUrl = `https://api.github.com/repos/${repoConfig.repo}/issues/${issue.number}/comments`;
+      
+      const commentsResponse = await fetch(commentsUrl);
+      if (!commentsResponse.ok) return [];
+      
+      return await commentsResponse.json();
+    } catch (e) {
+      console.error('[sentence-comments] Error:', e);
+      return [];
+    }
+  }
+
+  function createCommentElement(comment) {
+    const div = document.createElement('div');
+    div.className = 'sentence-comment-item';
+    div.innerHTML = `
+      <div class="sentence-comment-avatar">
+        <img src="${comment.user.avatar_url}" alt="${comment.user.login}" />
+      </div>
+      <div class="sentence-comment-body">
+        <div class="sentence-comment-header">
+          <strong>${comment.user.login}</strong>
+        </div>
+        <div class="sentence-comment-content">${comment.body}</div>
+      </div>
+    `;
+    return div;
+  }
+
+  function createCommentMarker(count, term) {
+    const marker = document.createElement('button');
+    marker.type = 'button';
+    marker.className = 'sentence-comment-annotation-marker';
+    marker.textContent = `💬 ${count}`;
+    marker.title = '查看评论';
+    
+    marker.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const comments = await fetchComments(term);
+      
+      if (comments.length === 0) {
+        const popup = document.createElement('div');
+        popup.className = 'sentence-comment-popup';
+        popup.innerHTML = `
+          <div class="sentence-comment-popup-header">暂无评论</div>
+          <div class="sentence-comment-popup-cta">
+            <a href="#comments" class="sentence-comment-link">点击去添加评论 →</a>
+          </div>
+        `;
+        
+        const rect = marker.getBoundingClientRect();
+        popup.style.left = (rect.right + 10) + 'px';
+        popup.style.top = rect.top + 'px';
+        document.body.appendChild(popup);
+        
+        setTimeout(() => {
+          const close = () => {
+            popup.remove();
+            document.removeEventListener('click', close);
+          };
+          document.addEventListener('click', close);
+        }, 0);
+        return;
       }
-      script.setAttribute(attribute.name, attribute.value);
-    }
-    script.src = giscusTemplate.src;
-    return script;
+      
+      const popup = document.createElement('div');
+      popup.className = 'sentence-comment-popup';
+      
+      comments.forEach(comment => {
+        popup.appendChild(createCommentElement(comment));
+      });
+      
+      const rect = marker.getBoundingClientRect();
+      popup.style.left = (rect.right + 10) + 'px';
+      popup.style.top = rect.top + 'px';
+      document.body.appendChild(popup);
+      
+      setTimeout(() => {
+        const close = () => {
+          popup.remove();
+          document.removeEventListener('click', close);
+        };
+        document.addEventListener('click', close);
+      }, 0);
+    });
+    
+    return marker;
   }
 
-  function cloneUtterancesTemplate(term) {
-    const script = document.createElement('script');
-    for (const attribute of utterancesTemplate.attributes) {
-      if (attribute.name === 'src' || attribute.name === 'issue-term') {
-        continue;
-      }
-      script.setAttribute(attribute.name, attribute.value);
-    }
-    script.src = utterancesTemplate.src;
-    script.setAttribute('issue-term', term);
-    return script;
-  }
-
-  function openPanel(text) {
-    quote.textContent = text;
-    thread.innerHTML = '';
-
-    const term = currentThreadTerm(text);
-
-    if (provider === 'giscus') {
-      const script = cloneGiscusTemplate();
-      script.setAttribute('data-mapping', 'specific');
-      script.setAttribute('data-term', term);
-      script.setAttribute('data-loading', 'lazy');
-      thread.classList.add('giscus');
-      thread.classList.remove('utterances');
-      thread.appendChild(script);
-    } else if (provider === 'utterances') {
-      const script = cloneUtterancesTemplate(term);
-      thread.classList.add('utterances');
-      thread.classList.remove('giscus');
-      thread.appendChild(script);
-    }
-
-    panel.hidden = false;
-    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function updateSelection() {
-    const selection = window.getSelection();
-    if (!selectionIsInsideArticle(selection)) {
-      hideSelectionButton();
-      return;
-    }
-
-    const text = normalizeSelection(selection.toString());
-    if (!text) {
-      hideSelectionButton();
-      return;
-    }
-
-    state.selectionText = text;
-    state.range = selection.getRangeAt(0).cloneRange();
-    positionButton(state.range);
-  }
-
-  selectionButton.addEventListener('click', () => {
-    if (!state.selectionText) {
-      return;
-    }
-    openPanel(state.selectionText);
-    hideSelectionButton();
-    window.getSelection()?.removeAllRanges();
-  });
-
-  closeButton.addEventListener('click', () => {
-    panel.hidden = true;
-  });
-
-  document.addEventListener('selectionchange', () => {
-    updateSelection();
-  });
-
-  document.addEventListener('scroll', () => {
-    if (selectionButton.hidden || !state.range) {
-      return;
-    }
-    positionButton(state.range);
-  }, true);
-
-  window.addEventListener('resize', () => {
-    if (selectionButton.hidden || !state.range) {
-      return;
-    }
-    positionButton(state.range);
-  });
-
-  document.addEventListener('mousedown', (event) => {
-    if (!selectionButton.hidden && !selectionButton.contains(event.target)) {
-      const selection = window.getSelection();
-      if (!selection || selection.isCollapsed) {
-        hideSelectionButton();
+  function extractSentences() {
+    const walker = document.createTreeWalker(
+      article,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+    
+    const sentences = [];
+    let currentText = '';
+    let currentNode = null;
+    
+    let node;
+    while ((node = walker.nextNode())) {
+      const text = node.textContent;
+      if (!text.trim()) continue;
+      
+      currentText += text;
+      if (!currentNode) currentNode = node;
+      
+      if (/[。！？!?]/.test(text)) {
+        if (currentText.trim().length > 10) {
+          sentences.push({
+            text: normalizeText(currentText),
+            node: currentNode
+          });
+        }
+        currentText = '';
+        currentNode = null;
       }
     }
+    
+    if (currentText.trim().length > 10) {
+      sentences.push({
+        text: normalizeText(currentText),
+        node: currentNode
+      });
+    }
+    
+    return sentences;
+  }
+
+  async function scanAndMarkComments() {
+    const sentences = extractSentences();
+    
+    for (const sentence of sentences) {
+      const term = currentThreadTerm(sentence.text);
+      const count = await fetchCommentsCount(term);
+      
+      if (count > 0) {
+        const marker = createCommentMarker(count, term);
+        
+        if (sentence.node.parentNode) {
+          sentence.node.parentNode.insertBefore(marker, sentence.node.nextSibling);
+        }
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    scanAndMarkComments();
   });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scanAndMarkComments);
+  } else {
+    scanAndMarkComments();
+  }
 })();
