@@ -1,1 +1,218 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Management | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/management/</link><atom:link href="https://blog.cklau.cc/tags/management/index.xml" rel="self" type="application/rss+xml"/><description>Management</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate><item><title>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</title><link>https://blog.cklau.cc/post/specification/</link><pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate><author>Junjie LIU</author><category>Management</category><category>Deep Learing</category><category>Coding</category><guid>https://blog.cklau.cc/post/specification/</guid><description>There are multiple articles have illustruated that the project(code) management is important:</description><content:encoded>&lt;![CDATA[<p>There are multiple articles have illustruated that the project(code) management is important:</p><ol><li><a href="https://neptune.ai/blog/how-to-organize-deep-learning-projects-best-practices">neptune.ai - how to organize deep learning projects</a></li><li><a href="https://www.zhihu.com/question/269707221/answer/350542551">深度学习科研，如何高效进行代码和实验管理？</a></li></ol><p>In this guideline, I would mainly shows you how I manage my project&rsquo;s code and link the new knowledge to the knowledge base.</p><h2 id="in-general">In General</h2><p>A lifecyle of a project may includes this five points<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>:</p><ol><li>Planning and project setup<ul><li>Define the task and scope out requirements</li><li>Determine project feasibility</li><li>Discuss general model tradeoffs (accuracy vs speed)</li><li>Set up project codebase</li></ul></li><li>Data collection and labelling<ul><li>Define ground truth (create labeling documentation)</li><li>Build data ingestion pipeline</li><li>Validate quality of data</li><li>Label data and ensure ground truth is well-definend</li><li>Revisit Step 1 and ensure data is sufficient for the task</li></ul></li><li>Model exploration<ul><li>Establish baselines for model performance</li><li>Start with a simple model using initial data pipeline</li><li>Overfit simple model to training data</li><li>Stay nimble and try many parallel (isolated) ideas during early stages</li><li>Find SoTA model for your problem domain (if available) and reproduce results, then apply to your dataset as a second baseline</li><li>Revisit Step 1 and ensure feasibility</li><li>Revisit Step 2 and ensure data quality is sufficient</li></ul></li><li>Model refinement<ul><li>Perform model-specific optimizations (ie. hyperparameter tuning)</li><li>Iteratively debug model as complexity is added</li><li>Perform error analysis to uncover common failure modes</li><li>Revisit Step 2 for targeted data collection and labeling of observed failure modes</li></ul></li><li>Testing and evaluation<ul><li>Evaluate model on test distribution; understand differences between train and test set distributions (how is “data in the wild” different than what you trained on)</li><li>Revisit model evaluation metric; ensure that this metric drives desirable downstream user behavior</li><li>Write tests for:<ul><li>Input data pipeline</li><li>Model inference functionality</li><li>Model inference performance on validation data</li><li>Explicit scenarios expected in production (model is evaluated on a curated set of observations)</li></ul></li></ul></li></ol><p>For each part of the project, there are multiple different tools we may use:</p><ol><li>Planning and project step, in specific, it could be treated as the project tracking, thus, all the tracking tools can be used in the step, e.g., Confluence, YouTrack, Jira, Trello, etc..</li><li>Data collection and labelling: If we are using the public dataset, we may ignore the labelling problem; however, if we are collecting and labelling our own dataset, we may consider these<a href="https://github.com/HumanSignal/awesome-data-labeling">awesome-labelling-tools</a>; the next question for the data storage and collection is the versioning problem, we may consider these tools:<ol><li><a href="https://neptune.ai/">Neptune</a></li><li><a href="https://wandb.ai/">WandB</a></li><li><a href="https://dvc.org/">DVC</a></li><li><a href="https://lakefs.io/">LakeFS</a></li><li><a href="https://git-lfs.com/">Git LFS</a></li></ol></li><li>Log tracing<ol><li>We can use<code>loggings</code> or<code>tensorboard</code> to store the log to the local directory</li><li>We can also use<code>wandb</code>,<code>neptune</code> and other tools to store the log to both the local directory or the cloud</li></ol></li></ol><h2 id="project-specification">Project Specification</h2><p>The project specification includes two aspects:</p><ol><li>project files specification</li><li>git branche specification</li></ol><h3 id="project-files-specification">Project files Specification</h3><p>Here is the architecuture of a project<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p><table><thead><tr><th>Files/Catalogue</th><th>Detail</th><th>Required</th></tr></thead><tbody><tr><td>README.md</td><td>Instruction of the project and the folder architecture</td><td>YES</td></tr><tr><td>train.py</td><td>Model Traning and Validation</td><td>YES</td></tr><tr><td>test.py</td><td>Model Testing</td><td>YES</td></tr><tr><td>src/{model-name}.py</td><td>Statement and Source code of the Model (For single model)</td><td>YES</td></tr><tr><td>src/{model-name}.py</td><td>Statement and Source code of the Model (For multiple models)</td><td>YES</td></tr><tr><td>src/{modules-name}/{model-name}}.py</td><td>Statement and Source code of the Model (For multiple submodules &amp; single model)</td><td>YES</td></tr><tr><td>src/{modules-name}/{model-name}.py</td><td>Statement and Source code of the Model (For multiple submodules &amp; multiple models)</td><td>YES</td></tr><tr><td>utils/loss.py</td><td>Implementation of loss function</td><td>NO</td></tr><tr><td>utils/base.py</td><td>utilities file</td><td>NO</td></tr><tr><td>data/data.py</td><td>Dataset and DataLoader Implemenetation</td><td>NO</td></tr><tr><td>data/train.txt</td><td>manifest file of training set</td><td>NO</td></tr><tr><td>data/validate.txt</td><td>manifest of validation set</td><td>NO</td></tr><tr><td>data/test.txt</td><td>manifest of testing set</td><td>NO</td></tr><tr><td>experiment/{exp-name}/params.yaml</td><td>configuration of the experiment</td><td>YES</td></tr><tr><td>experiment/{exp-name}/log/</td><td>folder to store the log file produced by the experiment</td><td>YES</td></tr><tr><td>experiment/{exp-name}/model/</td><td>folder to store the binary file of the trained models</td><td>YES</td></tr><tr><td>experiment/{exp-name}/result/</td><td>folder to store the model output (images, csv, etc.)</td><td>YES</td></tr></tbody></table><h3 id="git-branch-specification">Git Branch Specification</h3><p>Every projects may face a problem: how to perform multiple experiments in parallel? We adopt the solution of git branch:</p><ol><li>Each experiment has a corresponding git branch</li><li>Three kinds of branches:<ol><li>Temporary branches: start with<code>TEMP_</code></li><li>Long-term branches: start with<code>MAIN_</code></li><li>Project Introduction/Demo branch:<code>main</code>: include the basic information of the project in the branch</li></ol></li><li>The branches&rsquo; name should includes:<ol><li>Main purpose of the branch, i.e. model&rsquo;s name</li><li>Dataset it use: i.e., dataset&rsquo;s name</li><li>Others: whether the experiment include augmentation or other configuration</li></ol></li></ol><p>Here are two examples:</p><ol><li><code>TEMP_PIX2PIX_DRIVE_NOAUG</code> represents a temporary branch with<code>pix2pix</code> model using<code>DRIVE</code> dataset with no augmentation in data preprocessing</li><li><code>MAIN_PIX2PIX_MESSIDOR_AUG</code> represents a long-term branch with<code>pix2pix</code> model using<code>MESSIDOR</code> dataset with augmentation in data proprocessing</li></ol><div class="footnotes" role="doc-endnotes"><hr><ol><li id="fn:1"><p>There are some extra steps, you may check them in<a href="https://www.jeremyjordan.me/ml-projects-guide/">Jeremey Jordan&rsquo;s Blog</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#8617;&#xfe0e;</a></p></li><li id="fn:2"><p>For more detail, please check<a href="https://git.cklau.cc/terenceliu/specification/">CKLAU&rsquo;s GitLab - Specification</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#8617;&#xfe0e;</a></p></li></ol></div>]]></content:encoded></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Management | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/management/</link><atom:link href="https://blog.cklau.cc/tags/management/index.xml" rel="self" type="application/rss+xml"/><description>Management</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Fri, 28 Jul 2023 00:15:00 +0800</lastBuildDate><item><title>🤔 A General Introduction of ML/DL Project Management and Knowledge Management - Project Management</title><link>https://blog.cklau.cc/post/specification/</link><pubDate>Fri, 28 Jul 2023 00:15:00 +0800</pubDate><author>Junjie LIU</author><category>Management</category><category>Deep Learing</category><category>Coding</category><guid>https://blog.cklau.cc/post/specification/</guid><description>There are multiple articles have illustruated that the project(code) management is important:</description><content:encoded>&lt;p>There are multiple articles have illustruated that the project(code) management is important:&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="https://neptune.ai/blog/how-to-organize-deep-learning-projects-best-practices">neptune.ai - how to organize deep learning projects&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.zhihu.com/question/269707221/answer/350542551">深度学习科研，如何高效进行代码和实验管理？&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;p>In this guideline, I would mainly shows you how I manage my project&amp;rsquo;s code and link the new knowledge to the knowledge base.&lt;/p>
+&lt;h2 id="in-general">In General&lt;/h2>
+&lt;p>A lifecyle of a project may includes this five points&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>:&lt;/p>
+&lt;ol>
+&lt;li>Planning and project setup
+&lt;ul>
+&lt;li>Define the task and scope out requirements&lt;/li>
+&lt;li>Determine project feasibility&lt;/li>
+&lt;li>Discuss general model tradeoffs (accuracy vs speed)&lt;/li>
+&lt;li>Set up project codebase&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Data collection and labelling
+&lt;ul>
+&lt;li>Define ground truth (create labeling documentation)&lt;/li>
+&lt;li>Build data ingestion pipeline&lt;/li>
+&lt;li>Validate quality of data&lt;/li>
+&lt;li>Label data and ensure ground truth is well-definend&lt;/li>
+&lt;li>Revisit Step 1 and ensure data is sufficient for the task&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Model exploration
+&lt;ul>
+&lt;li>Establish baselines for model performance&lt;/li>
+&lt;li>Start with a simple model using initial data pipeline&lt;/li>
+&lt;li>Overfit simple model to training data&lt;/li>
+&lt;li>Stay nimble and try many parallel (isolated) ideas during early stages&lt;/li>
+&lt;li>Find SoTA model for your problem domain (if available) and reproduce results, then apply to your dataset as a second baseline&lt;/li>
+&lt;li>Revisit Step 1 and ensure feasibility&lt;/li>
+&lt;li>Revisit Step 2 and ensure data quality is sufficient&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Model refinement
+&lt;ul>
+&lt;li>Perform model-specific optimizations (ie. hyperparameter tuning)&lt;/li>
+&lt;li>Iteratively debug model as complexity is added&lt;/li>
+&lt;li>Perform error analysis to uncover common failure modes&lt;/li>
+&lt;li>Revisit Step 2 for targeted data collection and labeling of observed failure modes&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Testing and evaluation
+&lt;ul>
+&lt;li>Evaluate model on test distribution; understand differences between train and test set distributions (how is “data in the wild” different than what you trained on)&lt;/li>
+&lt;li>Revisit model evaluation metric; ensure that this metric drives desirable downstream user behavior&lt;/li>
+&lt;li>Write tests for:
+&lt;ul>
+&lt;li>Input data pipeline&lt;/li>
+&lt;li>Model inference functionality&lt;/li>
+&lt;li>Model inference performance on validation data&lt;/li>
+&lt;li>Explicit scenarios expected in production (model is evaluated on a curated set of observations)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>For each part of the project, there are multiple different tools we may use:&lt;/p>
+&lt;ol>
+&lt;li>Planning and project step, in specific, it could be treated as the project tracking, thus, all the tracking tools can be used in the step, e.g., Confluence, YouTrack, Jira, Trello, etc..&lt;/li>
+&lt;li>Data collection and labelling: If we are using the public dataset, we may ignore the labelling problem; however, if we are collecting and labelling our own dataset, we may consider these &lt;a href="https://github.com/HumanSignal/awesome-data-labeling">awesome-labelling-tools&lt;/a>; the next question for the data storage and collection is the versioning problem, we may consider these tools:
+&lt;ol>
+&lt;li>&lt;a href="https://neptune.ai/">Neptune&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://wandb.ai/">WandB&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://dvc.org/">DVC&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://lakefs.io/">LakeFS&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://git-lfs.com/">Git LFS&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Log tracing
+&lt;ol>
+&lt;li>We can use &lt;code>loggings&lt;/code> or &lt;code>tensorboard&lt;/code> to store the log to the local directory&lt;/li>
+&lt;li>We can also use &lt;code>wandb&lt;/code>, &lt;code>neptune&lt;/code> and other tools to store the log to both the local directory or the cloud&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="project-specification">Project Specification&lt;/h2>
+&lt;p>The project specification includes two aspects:&lt;/p>
+&lt;ol>
+&lt;li>project files specification&lt;/li>
+&lt;li>git branche specification&lt;/li>
+&lt;/ol>
+&lt;h3 id="project-files-specification">Project files Specification&lt;/h3>
+&lt;p>Here is the architecuture of a project&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Files/Catalogue&lt;/th>
+&lt;th>Detail&lt;/th>
+&lt;th>Required&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>README.md&lt;/td>
+&lt;td>Instruction of the project and the folder architecture&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>train.py&lt;/td>
+&lt;td>Model Traning and Validation&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>test.py&lt;/td>
+&lt;td>Model Testing&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>src/{model-name}.py&lt;/td>
+&lt;td>Statement and Source code of the Model (For single model)&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>src/{model-name}.py&lt;/td>
+&lt;td>Statement and Source code of the Model (For multiple models)&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>src/{modules-name}/{model-name}}.py&lt;/td>
+&lt;td>Statement and Source code of the Model (For multiple submodules &amp;amp; single model)&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>src/{modules-name}/{model-name}.py&lt;/td>
+&lt;td>Statement and Source code of the Model (For multiple submodules &amp;amp; multiple models)&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>utils/loss.py&lt;/td>
+&lt;td>Implementation of loss function&lt;/td>
+&lt;td>NO&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>utils/base.py&lt;/td>
+&lt;td>utilities file&lt;/td>
+&lt;td>NO&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>data/data.py&lt;/td>
+&lt;td>Dataset and DataLoader Implemenetation&lt;/td>
+&lt;td>NO&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>data/train.txt&lt;/td>
+&lt;td>manifest file of training set&lt;/td>
+&lt;td>NO&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>data/validate.txt&lt;/td>
+&lt;td>manifest of validation set&lt;/td>
+&lt;td>NO&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>data/test.txt&lt;/td>
+&lt;td>manifest of testing set&lt;/td>
+&lt;td>NO&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>experiment/{exp-name}/params.yaml&lt;/td>
+&lt;td>configuration of the experiment&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>experiment/{exp-name}/log/&lt;/td>
+&lt;td>folder to store the log file produced by the experiment&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>experiment/{exp-name}/model/&lt;/td>
+&lt;td>folder to store the binary file of the trained models&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>experiment/{exp-name}/result/&lt;/td>
+&lt;td>folder to store the model output (images, csv, etc.)&lt;/td>
+&lt;td>YES&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="git-branch-specification">Git Branch Specification&lt;/h3>
+&lt;p>Every projects may face a problem: how to perform multiple experiments in parallel? We adopt the solution of git branch:&lt;/p>
+&lt;ol>
+&lt;li>Each experiment has a corresponding git branch&lt;/li>
+&lt;li>Three kinds of branches:
+&lt;ol>
+&lt;li>Temporary branches: start with &lt;code>TEMP_&lt;/code>&lt;/li>
+&lt;li>Long-term branches: start with &lt;code>MAIN_&lt;/code>&lt;/li>
+&lt;li>Project Introduction/Demo branch: &lt;code>main&lt;/code>: include the basic information of the project in the branch&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>The branches&amp;rsquo; name should includes:
+&lt;ol>
+&lt;li>Main purpose of the branch, i.e. model&amp;rsquo;s name&lt;/li>
+&lt;li>Dataset it use: i.e., dataset&amp;rsquo;s name&lt;/li>
+&lt;li>Others: whether the experiment include augmentation or other configuration&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;p>Here are two examples:&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>TEMP_PIX2PIX_DRIVE_NOAUG&lt;/code> represents a temporary branch with &lt;code>pix2pix&lt;/code> model using &lt;code>DRIVE&lt;/code> dataset with no augmentation in data preprocessing&lt;/li>
+&lt;li>&lt;code>MAIN_PIX2PIX_MESSIDOR_AUG&lt;/code> represents a long-term branch with &lt;code>pix2pix&lt;/code> model using &lt;code>MESSIDOR&lt;/code> dataset with augmentation in data proprocessing&lt;/li>
+&lt;/ol>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>There are some extra steps, you may check them in &lt;a href="https://www.jeremyjordan.me/ml-projects-guide/">Jeremey Jordan&amp;rsquo;s Blog&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>For more detail, please check &lt;a href="https://git.cklau.cc/terenceliu/specification/">CKLAU&amp;rsquo;s GitLab - Specification&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></content:encoded></item></channel></rss>

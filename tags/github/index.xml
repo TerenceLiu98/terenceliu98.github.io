@@ -1,38 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>github | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/github/</link><atom:link href="https://blog.cklau.cc/tags/github/index.xml" rel="self" type="application/rss+xml"/><description>github</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><item><title>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</title><link>https://blog.cklau.cc/post/my-homelab-extra-1/</link><pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>homelab</category><category>proxy</category><category>github</category><guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid><description/><content:encoded>&lt;![CDATA[<p>In general, there are multiple ways for you to accelerate the<code>git pull / git push</code> or download the release/source code from<a href="https://github.com">GitHub</a>:</p><ol><li>You may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal<code>export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port]</code></li><li>You may use a public<code>github-proxy</code>, e.g.<a href="https://ghproxy.com">ghproxy.com</a> or<a href="https://gh-proxy.com">gh-proxy.com</a></li></ol><p>You can also build a self-hosted<code>ghproxy</code>-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:</p><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>:<span style="color:#e6db74">"3"</span></span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:</span></span><span style="display:flex;"><span><span style="color:#f92672">gh-proxy</span>:</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>:<span style="color:#ae81ff">stilleshan/gh-proxy</span></span></span><span style="display:flex;"><span><span style="color:#f92672">container_name</span>:<span style="color:#ae81ff">gh-proxy</span></span></span><span style="display:flex;"><span><span style="color:#f92672">ports</span>:</span></span><span style="display:flex;"><span> -<span style="color:#ae81ff">12345</span>:<span style="color:#ae81ff">80</span></span></span><span style="display:flex;"><span><span style="color:#f92672">restart</span>:<span style="color:#ae81ff">always</span></span></span></code></pre></div><p>With<code>nginx</code> you can proxy the service to a sub-domain:</p><pre tabindex="0"><code># Upstream where your authentik server is hosted.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>github | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/github/</link><atom:link href="https://blog.cklau.cc/tags/github/index.xml" rel="self" type="application/rss+xml"/><description>github</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><item><title>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</title><link>https://blog.cklau.cc/post/my-homelab-extra-1/</link><pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>homelab</category><category>proxy</category><category>github</category><guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid><description/><content:encoded>&lt;p>In general, there are multiple ways for you to accelerate the &lt;code>git pull / git push&lt;/code> or download the release/source code from &lt;a href="https://github.com">GitHub&lt;/a>:&lt;/p>
+&lt;ol>
+&lt;li>You may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal &lt;code>export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port]&lt;/code>&lt;/li>
+&lt;li>You may use a public &lt;code>github-proxy&lt;/code>, e.g. &lt;a href="https://ghproxy.com">ghproxy.com&lt;/a> or &lt;a href="https://gh-proxy.com">gh-proxy.com&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;p>You can also build a self-hosted &lt;code>ghproxy&lt;/code>-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">gh-proxy&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">stilleshan/gh-proxy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">gh-proxy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">12345&lt;/span>:&lt;span style="color:#ae81ff">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With &lt;code>nginx&lt;/code> you can proxy the service to a sub-domain:&lt;/p>
+&lt;pre tabindex="0">&lt;code># Upstream where your authentik server is hosted.
 upstream ghproxy {
-server 127.0.0.1:12345;
-# Improve performance by keeping some connections alive.
-keepalive 10;
+ server 127.0.0.1:12345;
+ # Improve performance by keeping some connections alive.
+ keepalive 10;
 }
+
 # Upgrade WebSocket if requested, otherwise use keepalive
 map $http_upgrade $connection_upgrade_keepalive {
-default upgrade;
-'' '';
+ default upgrade;
+ &amp;#39;&amp;#39; &amp;#39;&amp;#39;;
 }
+
 server {
-# HTTP server config
-listen 80;
-server_name ghproxy.example.com;
-# 301 redirect to HTTPS
-location / {
-return 301 https://$host$request_uri;
+ # HTTP server config
+ listen 80;
+ server_name ghproxy.example.com;
+
+ # 301 redirect to HTTPS
+ location / {
+ return 301 https://$host$request_uri;
+ }
 }
-}
+
 server {
-# HTTPS server config
-listen 443 ssl http2;
-server_name ghproxy.example.com;
-# TLS certificates
-ssl_certificate /var/www/ssl/example.com.crt;
-ssl_certificate_key /var/www/ssl/example.com.key;
-# Proxy site
-location / {
-proxy_pass http://ghproxy;
-proxy_http_version 1.1;
-proxy_set_header X-Forwarded-Proto $scheme;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header Host $host;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection $connection_upgrade_keepalive;
+ # HTTPS server config
+ listen 443 ssl http2;
+ server_name ghproxy.example.com;
+
+ # TLS certificates
+ ssl_certificate /var/www/ssl/example.com.crt;
+ ssl_certificate_key /var/www/ssl/example.com.key;
+
+ # Proxy site
+ location / {
+ proxy_pass http://ghproxy;
+ proxy_http_version 1.1;
+ proxy_set_header X-Forwarded-Proto $scheme;
+ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+ proxy_set_header Host $host;
+ proxy_set_header Upgrade $http_upgrade;
+ proxy_set_header Connection $connection_upgrade_keepalive;
+ }
 }
-}</code></pre>]]></content:encoded></item></channel></rss>
+&lt;/code>&lt;/pre></content:encoded></item></channel></rss>
