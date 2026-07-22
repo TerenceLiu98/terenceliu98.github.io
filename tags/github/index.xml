@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>github | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/github/</link><atom:link href="https://blog.cklau.cc/tags/github/index.xml" rel="self" type="application/rss+xml"/><description>github</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><item><title>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</title><link>https://blog.cklau.cc/post/my-homelab-extra-1/</link><pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>homelab</category><category>proxy</category><category>github</category><guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid><description/><content:encoded>&lt;p>In general, there are multiple ways for you to accelerate the &lt;code>git pull / git push&lt;/code> or download the release/source code from &lt;a href="https://github.com">GitHub&lt;/a>:&lt;/p>
-&lt;ol>
-&lt;li>You may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal &lt;code>export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port]&lt;/code>&lt;/li>
-&lt;li>You may use a public &lt;code>github-proxy&lt;/code>, e.g. &lt;a href="https://ghproxy.com">ghproxy.com&lt;/a> or &lt;a href="https://gh-proxy.com">gh-proxy.com&lt;/a>&lt;/li>
-&lt;/ol>
-&lt;p>You can also build a self-hosted &lt;code>ghproxy&lt;/code>-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">gh-proxy&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">stilleshan/gh-proxy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">gh-proxy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">12345&lt;/span>:&lt;span style="color:#ae81ff">80&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With &lt;code>nginx&lt;/code> you can proxy the service to a sub-domain:&lt;/p>
-&lt;pre tabindex="0">&lt;code># Upstream where your authentik server is hosted.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Github | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/github/</link><atom:link href="https://blog.cklau.cc/tags/github/index.xml" rel="self" type="application/rss+xml"/><description>Github</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Sat, 17 Jun 2023 00:11:21 +0800</lastBuildDate><item><title>🧑🏿‍💻 Homelab: A self-hosted GitHub Accelerator</title><link>https://blog.cklau.cc/post/my-homelab-extra-1/</link><pubDate>Sat, 17 Jun 2023 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>Homelab</category><category>Proxy</category><category>Github</category><guid>https://blog.cklau.cc/post/my-homelab-extra-1/</guid><description/><content:encoded>&lt;p&gt;In general, there are multiple ways for you to accelerate the &lt;code&gt;git pull / git push&lt;/code&gt; or download the release/source code from &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;You may directly use a HTTP/HTTPS/SOCK5 proxy in your terminal &lt;code&gt;export https_proxy=https://[ip]:[port] http_proxy=http://[ip]:[port]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;You may use a public &lt;code&gt;github-proxy&lt;/code&gt;, e.g. &lt;a href="https://ghproxy.com"&gt;ghproxy.com&lt;/a&gt; or &lt;a href="https://gh-proxy.com"&gt;gh-proxy.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You can also build a self-hosted &lt;code&gt;ghproxy&lt;/code&gt;-liked web service to avoid data leakage (if there is). With docker, you can set up the service in one or two minutes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;gh-proxy&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;stilleshan/gh-proxy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;gh-proxy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;12345&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With &lt;code&gt;nginx&lt;/code&gt; you can proxy the service to a sub-domain:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# Upstream where your authentik server is hosted.
 upstream ghproxy {
  server 127.0.0.1:12345;
  # Improve performance by keeping some connections alive.
@@ -57,4 +57,4 @@ server {
  proxy_set_header Connection $connection_upgrade_keepalive;
  }
 }
-&lt;/code>&lt;/pre></content:encoded></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item></channel></rss>

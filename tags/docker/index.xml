@@ -1,591 +1,591 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>docker | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/docker/</link><atom:link href="https://blog.cklau.cc/tags/docker/index.xml" rel="self" type="application/rss+xml"/><description>docker</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Mon, 15 Apr 2024 00:12:00 +0000</lastBuildDate><item><title>🔐 Authentik - An alternative of self-hosted Single-Sign-On Module That you might Need</title><link>https://blog.cklau.cc/post/authentik/</link><pubDate>Mon, 15 Apr 2024 00:12:00 +0000</pubDate><author>Junjie LIU</author><category>k3s</category><category>kubernetes</category><category>container</category><category>docker</category><category>authentik</category><category>self-hosted</category><guid>https://blog.cklau.cc/post/authentik/</guid><description>If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Docker | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/docker/</link><atom:link href="https://blog.cklau.cc/tags/docker/index.xml" rel="self" type="application/rss+xml"/><description>Docker</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Mon, 15 Apr 2024 00:12:00 +0000</lastBuildDate><item><title>🔐 Authentik - An alternative of self-hosted Single-Sign-On Module That you might Need</title><link>https://blog.cklau.cc/post/authentik/</link><pubDate>Mon, 15 Apr 2024 00:12:00 +0000</pubDate><author>Junjie LIU</author><category>K3s</category><category>Kubernetes</category><category>Container</category><category>Docker</category><category>Authentik</category><category>Self-Hosted</category><guid>https://blog.cklau.cc/post/authentik/</guid><description>If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.
 本身 Authentik 的文档和很多资料都是用英文制作的，而中文环境中似乎还没有一个很好的集合。很巧，@ECWU 制作了一系列关于 Authentik 的教程，目前来看，应该是中文互联网的第一套比较完成的教程：
-Series: Authentik Authentik 教程系列 - 部署自己的开源身份验证服务 - 介绍、安装和配置</description><content:encoded>&lt;p>If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.&lt;/p>
-&lt;p>本身 Authentik 的文档和很多资料都是用英文制作的，而中文环境中似乎还没有一个很好的集合。很巧，&lt;a href="https://ecwuuuuu.com">@ECWU&lt;/a> 制作了一系列关于 Authentik 的教程，目前来看，应该是中文互联网的第一套比较完成的教程：&lt;/p>
-&lt;ol>
-&lt;li>&lt;a href="https://ecwuuuuu.com/series/authentik/">Series: Authentik&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://www.bilibili.com/video/BV1pm41167WK/">Authentik 教程系列 - 部署自己的开源身份验证服务 - 介绍、安装和配置&lt;/a>&lt;/li>
-&lt;/ol>
-&lt;center>
- &lt;img src="https://32cf906.webp.li/2024/08/ecwu-authentik.png" width=70%>
-&lt;/center></content:encoded></item><item><title>🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title><link>https://blog.cklau.cc/post/k8s-setup-2/</link><pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate><author>Junjie LIU</author><category>k3s</category><category>kubernetes</category><category>containerd</category><category>docker</category><guid>https://blog.cklau.cc/post/k8s-setup-2/</guid><description/><content:encoded>&lt;p>Why we need a High availability Kubernetes? In production-ready environment, a system hang is not affordable. The Kubernetes can help us handling the containers&amp;rsquo; replica or the pod/service rescheduling. However, If there is only one control node, this may cause a big problem. Thus, when we talking about K8s&amp;rsquo;s HA, usually, we are talking on the control plane&amp;rsquo;s HA. I am not saying that the worker node are not important, or do not need HA, but, more importantly, is the control nodes&amp;rsquo; safety.&lt;/p>
-&lt;h2 id="before">Before,&lt;/h2>
-&lt;p>The prerequisites of build a high availability K8s cluster:&lt;/p>
-&lt;ol>
-&lt;li>Three or more machines that meet K8s&amp;rsquo;s minimum requirements for the control-plane nodes. The quantities of control nodes usually are an odd numbers (to avoid split-brain). Thus, the minimum number is three.&lt;/li>
-&lt;li>Three or more machines that meet K8s&amp;rsquo;s minimum requirements for the worker nodes.&lt;/li>
-&lt;li>Full network connectivity between all machines in the cluster&lt;/li>
-&lt;li>Superuser privileges on all machines&lt;/li>
-&lt;/ol>
-&lt;p>Here is my nodes:&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th style="text-align:center">Hostname&lt;/th>
-&lt;th style="text-align:center">IP address&lt;/th>
-&lt;th style="text-align:center">Usage&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td style="text-align:center">newton&lt;/td>
-&lt;td style="text-align:center">192.168.101.1&lt;/td>
-&lt;td style="text-align:center">load balancer&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align:center">cantor&lt;/td>
-&lt;td style="text-align:center">192.168.102.1&lt;/td>
-&lt;td style="text-align:center">control-plane&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align:center">gauss&lt;/td>
-&lt;td style="text-align:center">192.168.102.2&lt;/td>
-&lt;td style="text-align:center">control-plane&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align:center">freud&lt;/td>
-&lt;td style="text-align:center">192.168.103.1&lt;/td>
-&lt;td style="text-align:center">control-plane&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align:center">hilbert&lt;/td>
-&lt;td style="text-align:center">192.168.102.3&lt;/td>
-&lt;td style="text-align:center">worker&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align:center">einstein&lt;/td>
-&lt;td style="text-align:center">192.168.104.1&lt;/td>
-&lt;td style="text-align:center">worker&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align:center">bohr&lt;/td>
-&lt;td style="text-align:center">192.168.104.2&lt;/td>
-&lt;td style="text-align:center">worker&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>As you can see, there are three control-plane, three worker, and one load-balancer.&lt;/p>
-&lt;h2 id="installation">Installation&lt;/h2>
-&lt;p>First, we need to modify the host &lt;code>/etc/hosts&lt;/code> to map IP address to host names:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>newton 192.168.101.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cantor 192.168.102.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gauss 192.168.102.2
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>freud 192.168.103.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hilbert 192.168.103.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>einstein 192.168.104.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bohr 192.168.104.2
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>This step&lt;/strong> is important, without this step, the &lt;code>etcd&lt;/code> cluster may be failed to establish.&lt;/p>
-&lt;p>Modify the kernel parameters and install the tools we need:&lt;/p>
-&lt;ul>
-&lt;li>ipvsadm&lt;/li>
-&lt;li>netfilter&lt;/li>
-&lt;li>containerd&lt;/li>
-&lt;li>kubeadm&lt;/li>
-&lt;li>kubelet&lt;/li>
-&lt;li>kubectl&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;=== install ipvsadm ===&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install ipvsadm -y 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modprobe -- ip_vs
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modprobe -- ip_vs_rr
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modprobe -- ip_vs_wrr
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modprobe -- ip_vs_sh
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modprobe -- nf_conntrack
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee /etc/modules-load.d/ipvs.conf
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ip_vs
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ip_vs_rr
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ip_vs_wrr
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ip_vs_sh
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">nf_conntrack
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo sysctl --system
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;done&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;=== load overlay &amp;amp; br_netfilter, setup netfilter ===&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo modprobe overlay &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo modprobe br_netfilter
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee /etc/modules-load.d/containerd.conf
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">overlay
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">br_netfilter
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.bridge.bridge-nf-call-iptables = 1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.ipv4.ip_forward = 1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo sysctl --system
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;done&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;=== ip forwarding ===&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee /etc/sysctl.conf
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">kernel.sysrq = 1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.ipv6.conf.all.disable_ipv6=0
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.ipv6.conf.default.disable_ipv6=0
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.ipv6.conf.lo.disable_ipv6=0
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">kernel.printk = 5
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;=== install containerd ===&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mkdir -p /etc/apt/keyrings
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;deb [arch=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>dpkg --print-architecture&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.bfsu.edu.cn/docker-ce/linux/ubuntu &lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>lsb_release -cs&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74"> stable&amp;#34;&lt;/span> | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get update &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo apt-get -y install containerd.io
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mkdir -p /etc/containerd &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo containerd config default | sudo tee /etc/containerd/config.toml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee /etc/crictl.yaml
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">runtime-endpoint: unix:///run/containerd/containerd.sock
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">debug: false
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo sed &lt;span style="color:#e6db74">&amp;#39;s/SystemdCgroup = false/SystemdCgroup = true/&amp;#39;&lt;/span> /etc/containerd/config.toml &amp;gt; .etc.containerd/config.toml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;done&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;=== install kubeadm kubelet kubectl ===&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt install -y apt-transport-https ca-certificates curl
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add - 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#39;deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main&amp;#39;&lt;/span> | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get -y install kubelet kubeadm kubectl
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;install kubelet kubeadm kubectl...done&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;start kubelet&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl enable --now kubelet
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Run the above script on every machines, for the worker nodes, you may not install the &lt;code>kubeadm&lt;/code>, &lt;code>kubelet&lt;/code> and &lt;code>kubectl&lt;/code>.&lt;/p>
-&lt;p>Install the HAproxy in &lt;code>newton - 192.168.101.1&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get install haproxy -y
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">## put this text in /etc/haproxy/haproxy.cfg&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>frontend kube-apiserver
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> bind 192.168.101.1:6443
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mode tcp
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> option tcplog
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> default_backend kube-apiserver
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>backend kube-apiserver
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mode tcp
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> option tcp-check
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> balance source
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server k8s-master1 192.168.102.1:6443 check fall &lt;span style="color:#ae81ff">3&lt;/span> rise &lt;span style="color:#ae81ff">2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server k8s-master2 192.168.102.2:6443 check fall &lt;span style="color:#ae81ff">3&lt;/span> rise &lt;span style="color:#ae81ff">2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server k8s-master2 192.168.103.1:6443 check fall &lt;span style="color:#ae81ff">3&lt;/span> rise &lt;span style="color:#ae81ff">2&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Run the &lt;code>kubeadm init&lt;/code> in the first control node, here is my modified script:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo kubeadm init &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--kubernetes-version 1.26.0 &lt;span style="color:#ae81ff">\ &lt;/span> 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	--control-plane-endpoint 192.168.101.1:6443 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--apiserver-advertise-address 192.168.102.1 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--upload-certs &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--service-cidr&lt;span style="color:#f92672">=&lt;/span>10.96.0.0/12 &lt;span style="color:#ae81ff">\ &lt;/span> &lt;span style="color:#75715e"># (optional)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	--pod-network-cidr&lt;span style="color:#f92672">=&lt;/span>10.244.0.0/16 &lt;span style="color:#ae81ff">\ &lt;/span> &lt;span style="color:#75715e"># (optional)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	--image-repository registry.cn-hangzhou.aliyuncs.com/google_containers &lt;span style="color:#ae81ff">\ &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> --v &lt;span style="color:#ae81ff">5&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>where &lt;code>--control-plane-endpoint&lt;/code> should be the load-balancer&amp;rsquo;s IP, and &lt;code>--apiserver-advertise-address&lt;/code> should be local IP; &lt;code>--image-repository&lt;/code> is specify the repository, which is helpful for the user who cannot access &lt;code>registry.k8s.io&lt;/code>.&lt;/p>
-&lt;p>Wait for a while, if you can see the output like this, it means that you have successfully install the Kubernetes on the first machine:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Your Kubernetes control-plane has initialized successfully!
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>To start using your cluster, you need to run the following as a regular user:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mkdir -p $HOME/.kube
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo chown &lt;span style="color:#66d9ef">$(&lt;/span>id -u&lt;span style="color:#66d9ef">)&lt;/span>:&lt;span style="color:#66d9ef">$(&lt;/span>id -g&lt;span style="color:#66d9ef">)&lt;/span> $HOME/.kube/config
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Alternatively, &lt;span style="color:#66d9ef">if&lt;/span> you are the root user, you can run:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export KUBECONFIG&lt;span style="color:#f92672">=&lt;/span>/etc/kubernetes/admin.conf
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>You should now deploy a pod network to the cluster.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Run &lt;span style="color:#e6db74">&amp;#34;kubectl apply -f [podnetwork].yaml&amp;#34;&lt;/span> with one of the options listed at:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> https://kubernetes.io/docs/concepts/cluster-administration/addons/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>You can now join any number of the control-plane node running the following command on each as root:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kubeadm join 192.168.101.1:6443 --token xxxxxxxxxxxxxxxxxxxxxxxxx &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--control-plane --certificate-key xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;kubeadm init phase upload-certs --upload-certs&amp;#34;&lt;/span> to reload certs afterward.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Then you can join any number of worker nodes by running the following on each as root:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kubeadm join 192.168.101.1:6443 --token xxxxxxxxxxxxxxxxxxxxxx &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This output show three points:&lt;/p>
-&lt;ol>
-&lt;li>How to load the &lt;code>KUBECONFIG&lt;/code> to current user&amp;rsquo;s home directory&lt;/li>
-&lt;li>How to add worker nodes to this cluster&lt;/li>
-&lt;li>How to add other control-plane to this cluster&lt;/li>
-&lt;/ol>
-&lt;p>You can see that the output only give one certificate for worker/control node, however, we have multiple work/control nodes, thus, we need to generate token and certificates for each of them:&lt;/p>
-&lt;ol>
-&lt;li>For the worker node: &lt;code>sudo kubeadm token create --print-join-command&lt;/code>&lt;/li>
-&lt;li>For other control-plane node: &lt;code>echo &amp;quot;$(sudo kubeadm token create --print-join-command) --control-plane --certificate-key $(sudo kubeadm init phase upload-certs --upload-certs | tail -1)&amp;quot;&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;p>Copy the output to each corresponding nodes and run the script, wait for a while and you can see it works.&lt;/p>
-&lt;h2 id="troubleshooting">Troubleshooting&lt;/h2>
-&lt;ol>
-&lt;li>How to Install Helm for the user who cannot access &lt;code>GitHub&lt;/code>: &lt;code>wget https://goodrain-pkg.oss-cn-shanghai.aliyuncs.com/pkg/helm &amp;amp;&amp;amp; chmod +x helm &amp;amp;&amp;amp; sudo mv helm /usr/local/bin/&lt;/code>&lt;/li>
-&lt;li>How to change node&amp;rsquo;s &lt;code>InternalIP&lt;/code>: Go to &lt;code>/var/lib/kubelet/kubeadm-flags.env&lt;/code>, add &lt;code>--node-ip=xxx.xxx.xxx.xxx&lt;/code> at the end of &lt;code>BELET_KUBEADM_ARGS&lt;/code> and &lt;code>sudo systemctl restart kubelet&lt;/code>&lt;/li>
-&lt;/ol></content:encoded></item><item><title>🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</title><link>https://blog.cklau.cc/post/k8s-setup-1/</link><pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>k3s</category><category>kubernetes</category><category>containerd</category><category>docker</category><guid>https://blog.cklau.cc/post/k8s-setup-1/</guid><description/><content:encoded>&lt;h1 id="before">Before&lt;/h1>
-&lt;h2 id="what-is-kuberntes">What is Kuberntes&lt;/h2>
-&lt;p>Kubernetes, is an open-source system for automating deployment, scaling, and management of containerized applications. Usually, we call it &lt;code>K8s&lt;/code> as there are 8 characters between &lt;code>K&lt;/code> and &lt;code>s&lt;/code> :).&lt;/p>
-&lt;p>Basically, all the application are &lt;strong>containerized&lt;/strong>, and we can easily the reason why we use K8s is that the use of microservices increasing, away from traditional monolithic-type applications. As a result, containers provide the perfeet host form these individual microservices as &lt;strong>containers manage dependencies, are indipendent, OS-agnostic and ephemaral, amongst other benefits&lt;/strong>, which is very powerful and suitable for users as we want users to run their application isolated and donot be influenced by others.&lt;/p>
-&lt;p>Here are the benefits of kubernetes:&lt;/p>
-&lt;ul>
-&lt;li>High Availability - this simply means that your application will always up and running, whether you have a new update to roll-out or have some unexpected pods crashing&lt;/li>
-&lt;li>Scalability - K8s supports autoscaling and will automatically scale up your cluster as soon as you need it, and scale it back down to save resources.&lt;/li>
-&lt;li>Disaster Recovery - this can ensures that the application will always have the latest data and states of your applicaions (based on the HA)&lt;/li>
-&lt;/ul>
-&lt;h2 id="the-modules-inside-the-kubernetes">The modules inside the Kubernetes&lt;/h2>
-&lt;p>There are two kinds of node inside a K8s cluster:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>control-plane&lt;/code>: is used for nodes control and applications scheduling
-&lt;ul>
-&lt;li>&lt;code>kube-apiserver&lt;/code>: provide K8s API service, and it validates and configures data for the api objects which include pods, services, replicationcontroller, and others.&lt;/li>
-&lt;li>&lt;code>kube-controller-manager&lt;/code>: is a daemon where we can see it as the HQ of control. It is a control loop taht watches the shared state of the cluster through the api erver and makes changes attempting to move the current state towards the desired state.&lt;/li>
-&lt;li>&lt;code>kube-scheduler&lt;/code>: is a control plane process which assigns Pods to Nodes, where we can see it as the HQ of scheduling. The scheduler determines which Nodes are valid placements for each Pod in the scheduling queue according to constraints and available resources. The scheduler then ranks each valid Node and binds the Pod to a suitable Node.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;code>node&lt;/code>: usually, applications are usally running on these nodes
-&lt;ul>
-&lt;li>&lt;code>kubelet&lt;/code>: is the primary &amp;ldquo;node agent&amp;rdquo; that runs on each node. It can register the node with the apiserver using one of hostname; a flag to override the hostname; or specific logic for a cloud provider&lt;/li>
-&lt;li>&lt;code>kube-proxy&lt;/code>: reflects services as defined in the K8s API on each node and can do simple TCP, UDP, and SCTP stream fowarding on round robin TCP, UDP, and SCTP forwarding across a set of backends.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;h1 id="how-to-install">How to Install&lt;/h1>
-&lt;p>There are multiple different way to install K8s on no matter bare metal or virtual machine. For example:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://minikube.sigs.k8s.io/docs/">Minkube&lt;/a>: for learn and develop&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubeadm">kubeadm&lt;/a>: production-ready&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/kops">kOps&lt;/a>: production-ready&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes-sigs/kubespray">kubespray&lt;/a>: production-redy&lt;/li>
-&lt;/ul>
-&lt;p>In here I choose Kubeadm.&lt;/p>
-&lt;h2 id="preperation">Preperation&lt;/h2>
-&lt;p>Previously, Kubernetes cannot start when the swap on. However, in &lt;a href="https://kubernetes.io/blog/2021/08/09/run-nodes-with-swap-alpha/">Version 1.22&lt;/a> they support for usingthe swap memory, thus, it is not neccessary to turn of the swap, but still, you can turn it off if you want:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo swapoff -a
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then, we may need to specify the ip and hostname on the &lt;code>/etc/hosts&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>cat &amp;gt;&amp;gt; /etc/hosts &amp;lt;&amp;lt; EOF
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>192.168.10.2 cantor
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>192.168.10.3 gauss
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>192.168.10.4 hilbert 
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To install &lt;code>containerd&lt;/code> as the container engine on the system, install some pre-requisite modules:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo modprobe overlay &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo modeprobe br_netfilter
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You can also ensure these are persistent and configure the &lt;code>sysctl parameters&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee /etc/modules-load.d/containerd.conf
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">overlay
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">br_netfilter
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.bridge.bridge-nf-call-iptables = 1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.ipv4.ip_forward = 1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systtl --system
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="install-containerd">Install Containerd&lt;/h2>
-&lt;p>Since Version 1.24 of Kubernetes, &lt;a href="https://kubernetes.io/blog/2022/05/03/kubernetes-1-24-release-announcement/#major-themes">the dockershim is deperated&lt;/a> and move on of using Containerd.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo mkdir -p /etc/apt/keyrings
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;deb [arch=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>dpkg --print-architecture&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.bfsu.edu.cn/docker-ce/linux/ubuntu &lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>lsb_release -cs&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74"> stable&amp;#34;&lt;/span> | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mkdir -p /etc/containerd &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo containerd config default | sudo tee /etc/containerd/config.toml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># You can also try mirrors.bfsu.edu.cn - Docker mirrors &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mkdir -p /etc/apt/keyrings
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> &lt;span style="color:#e6db74">&amp;#34;deb [arch=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>dpkg --print-architecture&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>lsb_release -cs&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74"> stable&amp;#34;&lt;/span> | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mkdir -p /etc/containerd &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo containerd config default | sudo tee /etc/containerd/config.toml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You may wonder why I install the docker as the K8s does not need it anymore, actually, I don&amp;rsquo;t know why, but if I miss this package, the &lt;code>kubeadm init&lt;/code> will fails for some reasons.&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/p>
-&lt;p>We need some modification of &lt;code>/etc/containerd/config.toml&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># set SystemdCgroup as true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>plugins.&lt;span style="color:#e6db74">&amp;#34;io.containerd.grpc.v1.cri&amp;#34;&lt;/span>.containerd.runtimes.runc.options&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> BinaryName &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CriuImagePath &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CriuPath &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CriuWorkPath &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> IoGid &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> IoUid &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> NoNewKeyring &lt;span style="color:#f92672">=&lt;/span> false
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> NoPivotRoot &lt;span style="color:#f92672">=&lt;/span> false
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Root &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ShimCgroup &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SystemdCgroup &lt;span style="color:#f92672">=&lt;/span> true
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># To accelerate the installations, change sand_box mirros to aliyun (optional) &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sandbox_image &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;registry.cn-hangzhou.aliyuncs.com/pause:3.6&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="install-kubernetes">Install Kubernetes&lt;/h2>
-&lt;p>Use &lt;code>aubeadm&lt;/code> to initlization the cluster:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo kubeadm init --pod-network-cidr &amp;lt;pod-cidr&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --service-cidr &amp;lt;service-cidr&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --apiserver-advertise-address &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --control-plane-endpoint &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --v &lt;span style="color:#ae81ff">5&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># To accelerate the installations, change sand_box mirros to aliyun (optional) &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo kubeadm init --pod-network-cidr &amp;lt;pod-cidr&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --service-cidr &amp;lt;service-cidr&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --apiserver-advertise-address &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --control-plane-endpoint &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --v &lt;span style="color:#ae81ff">5&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># after the initlization you need to create the kubeconfig&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mkdir -p $HOME/.kube
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo chown &lt;span style="color:#66d9ef">$(&lt;/span>id -u&lt;span style="color:#66d9ef">)&lt;/span>:&lt;span style="color:#66d9ef">$(&lt;/span>id -g&lt;span style="color:#66d9ef">)&lt;/span> $HOME/.kube/config
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After the intilization, you also need Container Network Interface (CNI), I choose &lt;code>flannel&lt;/code> since I used to use it in my K3s cluster.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Wait for any while and check the whether the kubernetes (pods and nodes) is running properly.&lt;/p>
-&lt;h2 id="install-the-metallb">Install the MetalLB&lt;/h2>
-&lt;p>Unlike the &lt;a href="https://github.com/k3s-io/klipper-lb">K3s&lt;/a>, the Kubernetes does not contain a intergrated LoadBalancer, thus, we need to install it by ourselves. I use &lt;a href="https://metallb.universe.tf/concepts/">MetalLB&lt;/a> in here. There are multiple ways to install the MetalLB, I use the manifest to install it.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># defining the IPs to assign to the loadbalancer ssevices (I choose L2 in here)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF | sudo tee metallb-ips.yaml
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">apiVersion: metallb.io/v1beta1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">kind: IPAddressPool
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">metadata:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> name: ip-pool
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> namespace: metallb-system
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">spec:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> addresses:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> - 10.0.4.4/32 # the external IP of your nodes
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> - 10.0.4.15/32
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">---
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">apiVersion: metallb.io/v1beta1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">kind: L2Advertisement
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">metadata:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> name: metal-l2-advertisement
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> namespace: metallb-system
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">spec:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> ipAddressPools:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> - ip-pool
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>That&amp;rsquo;s it, you can choose a &lt;code>ingress-controller&lt;/code> you like and after install it, a K8s (v1.25.3) cluster is configured :)&lt;/p>
-&lt;div class="footnotes" role="doc-endnotes">
-&lt;hr>
-&lt;ol>
-&lt;li id="fn:1">
-&lt;p>I think the reason is that I missed the &lt;code>runc&lt;/code> package.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;/div></content:encoded></item><item><title>🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title><link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link><pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate><author>Junjie LIU</author><category>k3s</category><category>kubernetes</category><category>docker</category><category>registry</category><guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid><description/><content:encoded>&lt;p>As I have mentioned in &lt;a href="https://blog.cklau.cc/post/k3s-setup-2/" title="K3s Setup 2">K3s Setup 2&lt;/a>, usually, it is not easy for the China&amp;rsquo;s user to access &lt;code>https://gcr.io&lt;/code>, &lt;code>https://k8s.gcr.io&lt;/code> or &lt;code>https://ghcr.io&lt;/code>. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.&lt;/p>
-&lt;h2 id="some-options">Some options&lt;/h2>
-&lt;p>DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called &lt;a href="https://docs.docker.com/registry/">Docker Registry&lt;/a> where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.&lt;/p>
-&lt;p>Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.&lt;/p>
-&lt;p>Harbor, provided by VMWare, is an opensource registry that secure artifacts with policies and role-based access control, ensures images are scanned and free from vulnerabilities, and signs images as trusted.&lt;/p>
-&lt;h2 id="nexus-as-registry-proxy">Nexus as registry proxy&lt;/h2>
-&lt;p>It is easy for us to build the Nexus repositry, simply with the &lt;code>docker-compose.yml&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3.7&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">nexus&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">sonatype/nexus3:latest&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">INSTALL4J_ADD_VM_PARAMS&lt;/span>: -&lt;span style="color:#ae81ff">Xms128m -Xmx512m -XX:MaxDirectMemorySize=512m&lt;/span> &lt;span style="color:#75715e"># decrease the occupancy rate of nexus&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">nexus3&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">8081&lt;/span>:&lt;span style="color:#ae81ff">8081&lt;/span> &lt;span style="color:#75715e"># port of frontend of the nexus repo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">8082&lt;/span>:&lt;span style="color:#ae81ff">8082&lt;/span> &lt;span style="color:#75715e"># port of the docker proxy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data:/nexus-data&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With &lt;code>sudo docker compose up -d&lt;/code>, we can easily run the nexus. &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/p>
-&lt;p>For the reverse proxy, I use nginx and here is the configuration:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>server &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> listen 80;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server_name nexus.exmaple.com;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">301&lt;/span> https://$server_name$request_uri;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>server &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> listen 80;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server_name mirrors.example.com;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">301&lt;/span> https://$server_name$request_uri;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>server &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> listen 80;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server_name registry.example.com;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">301&lt;/span> https://$server_name$request_uri;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>server &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> listen &lt;span style="color:#ae81ff">443&lt;/span> ssl;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server_name nexus.example.com; &lt;span style="color:#75715e"># nexus frontend&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_certificate &amp;lt;path-of-certificate&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_certificate_key &amp;lt;path-of-certificate-key&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_session_timeout 5m;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_ciphers HIGH:!aNULL:!MD5;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_prefer_server_ciphers on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> location / &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_pass http://127.0.0.1:8081;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header Host $host;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header X-Real-IP $remote_addr;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header Via &lt;span style="color:#e6db74">&amp;#34;nginx&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>server &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> listen &lt;span style="color:#ae81ff">443&lt;/span> ssl;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server_name mirrors.exmaple.com; &lt;span style="color:#75715e"># docker proxy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_certificate &amp;lt;path-of-certificate&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_certificate_key &amp;lt;path-of-certificate-key&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_session_timeout 5m;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_ciphers HIGH:!aNULL:!MD5;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_prefer_server_ciphers on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> location / &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_pass http://127.0.0.1:8082;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header Host $host;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header X-Real-IP $remote_addr;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header Via &lt;span style="color:#e6db74">&amp;#34;nginx&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_max_body_size 1024M;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>server &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> listen &lt;span style="color:#ae81ff">443&lt;/span> ssl;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server_name registry.exmaple.com; &lt;span style="color:#75715e"># docker proxy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_certificate &amp;lt;path-of-certificate&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_certificate_key &amp;lt;path-of-certificate-key&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_session_timeout 5m;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_ciphers HIGH:!aNULL:!MD5;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ssl_prefer_server_ciphers on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> location / &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_pass http://127.0.0.1:8083;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header Host $host;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header X-Real-IP $remote_addr;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy_set_header Via &lt;span style="color:#e6db74">&amp;#34;nginx&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_max_body_size 1024M;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After setting up the nexus and nginx, we can go to &lt;code>https://nexus.example.com&lt;/code> to set up the proxy rules.&lt;/p>
-&lt;ol>
-&lt;li>For Docker: &lt;code>Creat Repository&lt;/code> -&amp;gt; Choose &lt;code>docker(proxy)&lt;/code> -&amp;gt; &lt;code>Remote storage = https://registry-1.docker.io&lt;/code> and &lt;code>Docker Index = Use Docker Hub&lt;/code>&lt;/li>
-&lt;li>For &lt;a href="https://ghcr.io">ghcr.io&lt;/a>: Creat Repository&lt;code>-&amp;gt; Choose&lt;/code>docker(proxy)&lt;code>-&amp;gt; &lt;/code>Remote storage = &lt;a href="https://ghcr.io">https://ghcr.io&lt;/a>`&lt;/li>
-&lt;li>For &lt;a href="https://gcr.io">gcr.io&lt;/a>: Creat Repository&lt;code>-&amp;gt; Choose&lt;/code>docker(proxy)&lt;code>-&amp;gt; &lt;/code>Remote storage = &lt;a href="https://gcr.io">https://gcr.io&lt;/a>`&lt;/li>
-&lt;li>For &lt;a href="https://k8s.gcr.io">k8s.gcr.io&lt;/a>: Creat Repository&lt;code>-&amp;gt; Choose&lt;/code>docker(proxy)&lt;code>-&amp;gt; &lt;/code>Remote storage = &lt;a href="https://k8s.gcr.io">https://k8s.gcr.io&lt;/a>`&lt;/li>
-&lt;li>&lt;strong>Create a group&lt;/strong>: Creat Repository&lt;code>-&amp;gt; Choose&lt;/code>docker(group)&lt;code>-&amp;gt; &lt;/code>HTTP: 8082&lt;code>-&amp;gt;&lt;/code>Allow anaymous docker pull&lt;code>(to allow &lt;/code>docker pull` without authentication) -&amp;gt; select members into the group&lt;/li>
-&lt;li>Go to &lt;code>Security-Realms&lt;/code> and activate &lt;code>Docker Bearer Token Realm&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;p>Then, you may try pulling image in you server:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo docker pull mirrors.example.com/library/nginx:alpine &lt;span style="color:#75715e"># from Docker Hub&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo docker pull mirrors.example.com/zvonimirsun/yourls &lt;span style="color:#75715e"># from ghcr.io&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo docker pull mirrors.example.com/google-containers/kubernetes-dashboard-amd64:v1.8.3 &lt;span style="color:#75715e"># from gcr.io&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo docker pull mirrors.example.com/coreos/kube-state-metrics:v1.5.0 &lt;span style="color:#75715e"># from quay.io&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For the system&amp;rsquo;s &lt;code>containerd&lt;/code>, you can simply go to &lt;code>/etc/containerd/containerd/config.toml&lt;/code> and modify the configuration and restart &lt;code>sudo systemctl restart containered&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;docker.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;quay.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;ghcr.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;gcr.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;k8s.gcr.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For the rancher&amp;rsquo;s &lt;code>containerd&lt;/code>, k3s will generate config.toml for containerd in &lt;code>/var/lib/rancher/k3s/agent/etc/containerd/config.toml&lt;/code>, for advanced customization for this file you can create another file called &lt;code>config.toml.tmpl&lt;/code> in the same directory and it will be used instead. Then, modify the configuration into the file and restart the &lt;code>sudo systemctl restart k3s&lt;/code> or &lt;code>sudo systemctl restart k3s-agent&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;docker.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;quay.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;ghcr.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;gcr.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">[&lt;/span>plugins.cri.registry.mirrors.&lt;span style="color:#e6db74">&amp;#34;k8s.gcr.io&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endpoint &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="footnotes" role="doc-endnotes">
-&lt;hr>
-&lt;ol>
-&lt;li id="fn:1">
-&lt;p>Before you up the yaml, create the folder first and give the proper permission, for me: &lt;code>mkdir data &amp;amp;&amp;amp; chmod 777 data&lt;/code> is good enough. The default password is stored in &lt;code>data/admin.password&lt;/code>.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;/div></content:encoded></item><item><title>🧑🏿‍💻 Homelab: Don't Let the Docker escape from the ufw's control</title><link>https://blog.cklau.cc/post/my-homelab-4/</link><pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>homelab</category><category>networking</category><category>docker</category><category>ufw</category><guid>https://blog.cklau.cc/post/my-homelab-4/</guid><description/><content:encoded>&lt;p>&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.&lt;/p>
-&lt;p>Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>ubuntu@myserver:~$ sudo ufw status
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Status: active
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>To Action From
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-- ------ ---- 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">80&lt;/span> ALLOW Anywhere 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">443&lt;/span> ALLOW Anywhere 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">22&lt;/span> ALLOW Anywhere 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">80&lt;/span> &lt;span style="color:#f92672">(&lt;/span>v6&lt;span style="color:#f92672">)&lt;/span> ALLOW Anywhere &lt;span style="color:#f92672">(&lt;/span>v6&lt;span style="color:#f92672">)&lt;/span> 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">443&lt;/span> &lt;span style="color:#f92672">(&lt;/span>v6&lt;span style="color:#f92672">)&lt;/span> ALLOW Anywhere &lt;span style="color:#f92672">(&lt;/span>v6&lt;span style="color:#f92672">)&lt;/span> 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">22&lt;/span> &lt;span style="color:#f92672">(&lt;/span>v6&lt;span style="color:#f92672">)&lt;/span> ALLOW Anywhere &lt;span style="color:#f92672">(&lt;/span>v6&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In ufw list, I only allow the SSH port and HTTP/HTTPS ports. However, in &lt;code>IPTABLES&lt;/code>, we can see that:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>ubuntu@bayes:~$ sudo iptables -L DOCKER
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Chain DOCKER &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#ae81ff">7&lt;/span> references&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>target prot opt source destination 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.21.0.2 tcp dpt:http
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.21.0.2 tcp dpt:3012
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.28.0.2 tcp dpt:9000
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.19.0.3 tcp dpt:postgresql
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.19.0.2 tcp dpt:6379
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.19.0.4 tcp dpt:9001
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.19.0.4 tcp dpt:9000
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.18.0.5 tcp dpt:9443
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.18.0.5 tcp dpt:9000
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.20.0.2 tcp dpt:8082
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ACCEPT tcp -- anywhere 172.20.0.2 tcp dpt:tproxy
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The Docker turn only multiple ports which does not show in the UFW list.&lt;/p>
-&lt;h2 id="how-to-avoid-this">How to avoid this&lt;/h2>
-&lt;p>First, make sure that the SSH port is allowed in UFW, and each container can be reached:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo ufw allow ssh &lt;span style="color:#75715e"># or ssh ufw allow &amp;lt;ssh-port&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ufw allow from 172.17.0.0/16 &lt;span style="color:#75715e"># allow containers communication&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ufw default deny incoming
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ufw default allow outgoing
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ufw default allow routed
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ufw disable &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> ufw enable
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then, we need to go the Docker&amp;rsquo;s daemon to modify the configuration:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo mkdir -p /lib/systemd/system/docker.service.d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt; EOF &amp;gt; /lib/systemd/system/docker.service.d/override.conf
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Service]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ExecStart=
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ExecStart=/usr/bin/dockerd
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt; EOF &amp;gt; /etc/docker/daemon.json
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">{
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#34;hosts&amp;#34;: [&amp;#34;fd://&amp;#34;],
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#34;dns&amp;#34;: [&amp;#34;8.8.8.8&amp;#34;, &amp;#34;8.8.4.4&amp;#34;],
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#34;iptables&amp;#34;: false
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">}
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl daemon-reload &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo systemctl restart docker
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Last, we need to configura the Docker&amp;rsquo;s NAT to make sure that all the containers can route via the &lt;code>docker0&lt;/code> interface:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt; EOF &amp;gt;&amp;gt; /etc/ufw/before.rules
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">*nat
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">:POSTROUTING ACCEPT [0:0]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">-A POSTROUTING ! -o docker0 -s 172.17.0.0/16 -j MASQUERADE
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">COMMIT
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></content:encoded></item></channel></rss>
+Series: Authentik Authentik 教程系列 - 部署自己的开源身份验证服务 - 介绍、安装和配置</description><content:encoded>&lt;p&gt;If you are working on a homelab, you might need a module to use one account to walk around. You might need Authentik. This is not a post for the introduction, but a post for let you need this Authentik, a self-hosted SSO application.&lt;/p&gt;
+&lt;p&gt;本身 Authentik 的文档和很多资料都是用英文制作的，而中文环境中似乎还没有一个很好的集合。很巧，&lt;a href="https://ecwuuuuu.com"&gt;@ECWU&lt;/a&gt; 制作了一系列关于 Authentik 的教程，目前来看，应该是中文互联网的第一套比较完成的教程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://ecwuuuuu.com/series/authentik/"&gt;Series: Authentik&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.bilibili.com/video/BV1pm41167WK/"&gt;Authentik 教程系列 - 部署自己的开源身份验证服务 - 介绍、安装和配置&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;center&gt;
+ &lt;img src="https://32cf906.webp.li/2024/08/ecwu-authentik.png" width=70%&gt;
+&lt;/center&gt;</content:encoded></item><item><title>🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Build a High availability Kubernetes Cluster with Kubeadm</title><link>https://blog.cklau.cc/post/k8s-setup-2/</link><pubDate>Sun, 19 Feb 2023 22:42:17 +0800</pubDate><author>Junjie LIU</author><category>K3s</category><category>Kubernetes</category><category>Containerd</category><category>Docker</category><guid>https://blog.cklau.cc/post/k8s-setup-2/</guid><description/><content:encoded>&lt;p&gt;Why we need a High availability Kubernetes? In production-ready environment, a system hang is not affordable. The Kubernetes can help us handling the containers&amp;rsquo; replica or the pod/service rescheduling. However, If there is only one control node, this may cause a big problem. Thus, when we talking about K8s&amp;rsquo;s HA, usually, we are talking on the control plane&amp;rsquo;s HA. I am not saying that the worker node are not important, or do not need HA, but, more importantly, is the control nodes&amp;rsquo; safety.&lt;/p&gt;
+&lt;h2 id="before"&gt;Before,&lt;/h2&gt;
+&lt;p&gt;The prerequisites of build a high availability K8s cluster:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Three or more machines that meet K8s&amp;rsquo;s minimum requirements for the control-plane nodes. The quantities of control nodes usually are an odd numbers (to avoid split-brain). Thus, the minimum number is three.&lt;/li&gt;
+&lt;li&gt;Three or more machines that meet K8s&amp;rsquo;s minimum requirements for the worker nodes.&lt;/li&gt;
+&lt;li&gt;Full network connectivity between all machines in the cluster&lt;/li&gt;
+&lt;li&gt;Superuser privileges on all machines&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here is my nodes:&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: center"&gt;Hostname&lt;/th&gt;
+ &lt;th style="text-align: center"&gt;IP address&lt;/th&gt;
+ &lt;th style="text-align: center"&gt;Usage&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: center"&gt;newton&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;192.168.101.1&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;load balancer&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: center"&gt;cantor&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;192.168.102.1&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;control-plane&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: center"&gt;gauss&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;192.168.102.2&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;control-plane&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: center"&gt;freud&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;192.168.103.1&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;control-plane&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: center"&gt;hilbert&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;192.168.102.3&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;worker&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: center"&gt;einstein&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;192.168.104.1&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;worker&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: center"&gt;bohr&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;192.168.104.2&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;worker&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;As you can see, there are three control-plane, three worker, and one load-balancer.&lt;/p&gt;
+&lt;h2 id="installation"&gt;Installation&lt;/h2&gt;
+&lt;p&gt;First, we need to modify the host &lt;code&gt;/etc/hosts&lt;/code&gt; to map IP address to host names:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;newton 192.168.101.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cantor 192.168.102.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gauss 192.168.102.2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;freud 192.168.103.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hilbert 192.168.103.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;einstein 192.168.104.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bohr 192.168.104.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;This step&lt;/strong&gt; is important, without this step, the &lt;code&gt;etcd&lt;/code&gt; cluster may be failed to establish.&lt;/p&gt;
+&lt;p&gt;Modify the kernel parameters and install the tools we need:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ipvsadm&lt;/li&gt;
+&lt;li&gt;netfilter&lt;/li&gt;
+&lt;li&gt;containerd&lt;/li&gt;
+&lt;li&gt;kubeadm&lt;/li&gt;
+&lt;li&gt;kubelet&lt;/li&gt;
+&lt;li&gt;kubectl&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;=== install ipvsadm ===&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install ipvsadm -y 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;modprobe -- ip_vs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;modprobe -- ip_vs_rr
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;modprobe -- ip_vs_wrr
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;modprobe -- ip_vs_sh
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;modprobe -- nf_conntrack
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee /etc/modules-load.d/ipvs.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ip_vs
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ip_vs_rr
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ip_vs_wrr
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ip_vs_sh
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;nf_conntrack
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo sysctl --system
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;done&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;=== load overlay &amp;amp; br_netfilter, setup netfilter ===&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo modprobe overlay &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo modprobe br_netfilter
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee /etc/modules-load.d/containerd.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;overlay
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;br_netfilter
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.bridge.bridge-nf-call-iptables = 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.ipv4.ip_forward = 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.bridge.bridge-nf-call-ip6tables = 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo sysctl --system
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;done&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;=== ip forwarding ===&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee /etc/sysctl.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;kernel.sysrq = 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.ipv6.conf.all.disable_ipv6=0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.ipv6.conf.default.disable_ipv6=0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.ipv6.conf.lo.disable_ipv6=0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;kernel.printk = 5
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;=== install containerd ===&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir -p /etc/apt/keyrings
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;deb [arch=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;dpkg --print-architecture&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.bfsu.edu.cn/docker-ce/linux/ubuntu &lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;lsb_release -cs&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; stable&amp;#34;&lt;/span&gt; | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get update &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo apt-get -y install containerd.io
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir -p /etc/containerd &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo containerd config default | sudo tee /etc/containerd/config.toml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee /etc/crictl.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;runtime-endpoint: unix:///run/containerd/containerd.sock
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;debug: false
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo sed &lt;span style="color:#e6db74"&gt;&amp;#39;s/SystemdCgroup = false/SystemdCgroup = true/&amp;#39;&lt;/span&gt; /etc/containerd/config.toml &amp;gt; .etc.containerd/config.toml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;done&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;=== install kubeadm kubelet kubectl ===&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install -y apt-transport-https ca-certificates curl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add - 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#39;deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main&amp;#39;&lt;/span&gt; | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get -y install kubelet kubeadm kubectl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;install kubelet kubeadm kubectl...done&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;start kubelet&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl enable --now kubelet
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Run the above script on every machines, for the worker nodes, you may not install the &lt;code&gt;kubeadm&lt;/code&gt;, &lt;code&gt;kubelet&lt;/code&gt; and &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Install the HAproxy in &lt;code&gt;newton - 192.168.101.1&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install haproxy -y
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## put this text in /etc/haproxy/haproxy.cfg&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;frontend kube-apiserver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bind 192.168.101.1:6443
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mode tcp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; option tcplog
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; default_backend kube-apiserver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;backend kube-apiserver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mode tcp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; option tcp-check
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; balance source
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server k8s-master1 192.168.102.1:6443 check fall &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; rise &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server k8s-master2 192.168.102.2:6443 check fall &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; rise &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server k8s-master2 192.168.103.1:6443 check fall &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; rise &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Run the &lt;code&gt;kubeadm init&lt;/code&gt; in the first control node, here is my modified script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo kubeadm init &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--kubernetes-version 1.26.0 &lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--control-plane-endpoint 192.168.101.1:6443 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--apiserver-advertise-address 192.168.102.1 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--upload-certs &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--service-cidr&lt;span style="color:#f92672"&gt;=&lt;/span&gt;10.96.0.0/12 &lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt; &lt;span style="color:#75715e"&gt;# (optional)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--pod-network-cidr&lt;span style="color:#f92672"&gt;=&lt;/span&gt;10.244.0.0/16 &lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt; &lt;span style="color:#75715e"&gt;# (optional)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--image-repository registry.cn-hangzhou.aliyuncs.com/google_containers &lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --v &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;where &lt;code&gt;--control-plane-endpoint&lt;/code&gt; should be the load-balancer&amp;rsquo;s IP, and &lt;code&gt;--apiserver-advertise-address&lt;/code&gt; should be local IP; &lt;code&gt;--image-repository&lt;/code&gt; is specify the repository, which is helpful for the user who cannot access &lt;code&gt;registry.k8s.io&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Wait for a while, if you can see the output like this, it means that you have successfully install the Kubernetes on the first machine:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Your Kubernetes control-plane has initialized successfully!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;To start using your cluster, you need to run the following as a regular user:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mkdir -p $HOME/.kube
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sudo chown &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;id -u&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;:&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;id -g&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; $HOME/.kube/config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Alternatively, &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; you are the root user, you can run:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export KUBECONFIG&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/etc/kubernetes/admin.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;You should now deploy a pod network to the cluster.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Run &lt;span style="color:#e6db74"&gt;&amp;#34;kubectl apply -f [podnetwork].yaml&amp;#34;&lt;/span&gt; with one of the options listed at:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; https://kubernetes.io/docs/concepts/cluster-administration/addons/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;You can now join any number of the control-plane node running the following command on each as root:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; kubeadm join 192.168.101.1:6443 --token xxxxxxxxxxxxxxxxxxxxxxxxx &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--control-plane --certificate-key xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;kubeadm init phase upload-certs --upload-certs&amp;#34;&lt;/span&gt; to reload certs afterward.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Then you can join any number of worker nodes by running the following on each as root:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubeadm join 192.168.101.1:6443 --token xxxxxxxxxxxxxxxxxxxxxx &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This output show three points:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;How to load the &lt;code&gt;KUBECONFIG&lt;/code&gt; to current user&amp;rsquo;s home directory&lt;/li&gt;
+&lt;li&gt;How to add worker nodes to this cluster&lt;/li&gt;
+&lt;li&gt;How to add other control-plane to this cluster&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You can see that the output only give one certificate for worker/control node, however, we have multiple work/control nodes, thus, we need to generate token and certificates for each of them:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;For the worker node: &lt;code&gt;sudo kubeadm token create --print-join-command&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For other control-plane node: &lt;code&gt;echo &amp;quot;$(sudo kubeadm token create --print-join-command) --control-plane --certificate-key $(sudo kubeadm init phase upload-certs --upload-certs | tail -1)&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Copy the output to each corresponding nodes and run the script, wait for a while and you can see it works.&lt;/p&gt;
+&lt;h2 id="troubleshooting"&gt;Troubleshooting&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;How to Install Helm for the user who cannot access &lt;code&gt;GitHub&lt;/code&gt;: &lt;code&gt;wget https://goodrain-pkg.oss-cn-shanghai.aliyuncs.com/pkg/helm &amp;amp;&amp;amp; chmod +x helm &amp;amp;&amp;amp; sudo mv helm /usr/local/bin/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;How to change node&amp;rsquo;s &lt;code&gt;InternalIP&lt;/code&gt;: Go to &lt;code&gt;/var/lib/kubelet/kubeadm-flags.env&lt;/code&gt;, add &lt;code&gt;--node-ip=xxx.xxx.xxx.xxx&lt;/code&gt; at the end of &lt;code&gt;BELET_KUBEADM_ARGS&lt;/code&gt; and &lt;code&gt;sudo systemctl restart kubelet&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;</content:encoded></item><item><title>🧑🏿‍💻 K3s/Kubernetes - From K3s to Kubernetes: Set up a Kubernetes in a nutshell</title><link>https://blog.cklau.cc/post/k8s-setup-1/</link><pubDate>Sun, 23 Oct 2022 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>K3s</category><category>Kubernetes</category><category>Containerd</category><category>Docker</category><guid>https://blog.cklau.cc/post/k8s-setup-1/</guid><description/><content:encoded>&lt;h1 id="before"&gt;Before&lt;/h1&gt;
+&lt;h2 id="what-is-kuberntes"&gt;What is Kuberntes&lt;/h2&gt;
+&lt;p&gt;Kubernetes, is an open-source system for automating deployment, scaling, and management of containerized applications. Usually, we call it &lt;code&gt;K8s&lt;/code&gt; as there are 8 characters between &lt;code&gt;K&lt;/code&gt; and &lt;code&gt;s&lt;/code&gt; :).&lt;/p&gt;
+&lt;p&gt;Basically, all the application are &lt;strong&gt;containerized&lt;/strong&gt;, and we can easily the reason why we use K8s is that the use of microservices increasing, away from traditional monolithic-type applications. As a result, containers provide the perfeet host form these individual microservices as &lt;strong&gt;containers manage dependencies, are indipendent, OS-agnostic and ephemaral, amongst other benefits&lt;/strong&gt;, which is very powerful and suitable for users as we want users to run their application isolated and donot be influenced by others.&lt;/p&gt;
+&lt;p&gt;Here are the benefits of kubernetes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;High Availability - this simply means that your application will always up and running, whether you have a new update to roll-out or have some unexpected pods crashing&lt;/li&gt;
+&lt;li&gt;Scalability - K8s supports autoscaling and will automatically scale up your cluster as soon as you need it, and scale it back down to save resources.&lt;/li&gt;
+&lt;li&gt;Disaster Recovery - this can ensures that the application will always have the latest data and states of your applicaions (based on the HA)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="the-modules-inside-the-kubernetes"&gt;The modules inside the Kubernetes&lt;/h2&gt;
+&lt;p&gt;There are two kinds of node inside a K8s cluster:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;control-plane&lt;/code&gt;: is used for nodes control and applications scheduling
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;kube-apiserver&lt;/code&gt;: provide K8s API service, and it validates and configures data for the api objects which include pods, services, replicationcontroller, and others.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kube-controller-manager&lt;/code&gt;: is a daemon where we can see it as the HQ of control. It is a control loop taht watches the shared state of the cluster through the api erver and makes changes attempting to move the current state towards the desired state.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kube-scheduler&lt;/code&gt;: is a control plane process which assigns Pods to Nodes, where we can see it as the HQ of scheduling. The scheduler determines which Nodes are valid placements for each Pod in the scheduling queue according to constraints and available resources. The scheduler then ranks each valid Node and binds the Pod to a suitable Node.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node&lt;/code&gt;: usually, applications are usally running on these nodes
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;kubelet&lt;/code&gt;: is the primary &amp;ldquo;node agent&amp;rdquo; that runs on each node. It can register the node with the apiserver using one of hostname; a flag to override the hostname; or specific logic for a cloud provider&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kube-proxy&lt;/code&gt;: reflects services as defined in the K8s API on each node and can do simple TCP, UDP, and SCTP stream fowarding on round robin TCP, UDP, and SCTP forwarding across a set of backends.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="how-to-install"&gt;How to Install&lt;/h1&gt;
+&lt;p&gt;There are multiple different way to install K8s on no matter bare metal or virtual machine. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://minikube.sigs.k8s.io/docs/"&gt;Minkube&lt;/a&gt;: for learn and develop&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/kubernetes/kubeadm"&gt;kubeadm&lt;/a&gt;: production-ready&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/kubernetes/kops"&gt;kOps&lt;/a&gt;: production-ready&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/kubernetes-sigs/kubespray"&gt;kubespray&lt;/a&gt;: production-redy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In here I choose Kubeadm.&lt;/p&gt;
+&lt;h2 id="preperation"&gt;Preperation&lt;/h2&gt;
+&lt;p&gt;Previously, Kubernetes cannot start when the swap on. However, in &lt;a href="https://kubernetes.io/blog/2021/08/09/run-nodes-with-swap-alpha/"&gt;Version 1.22&lt;/a&gt; they support for usingthe swap memory, thus, it is not neccessary to turn of the swap, but still, you can turn it off if you want:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo swapoff -a
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, we may need to specify the ip and hostname on the &lt;code&gt;/etc/hosts&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &amp;gt;&amp;gt; /etc/hosts &amp;lt;&amp;lt; EOF
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;192.168.10.2 cantor
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;192.168.10.3 gauss
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;192.168.10.4 hilbert 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To install &lt;code&gt;containerd&lt;/code&gt; as the container engine on the system, install some pre-requisite modules:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo modprobe overlay &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo modeprobe br_netfilter
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can also ensure these are persistent and configure the &lt;code&gt;sysctl parameters&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee /etc/modules-load.d/containerd.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;overlay
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;br_netfilter
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.bridge.bridge-nf-call-iptables = 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.ipv4.ip_forward = 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;net.bridge.bridge-nf-call-ip6tables = 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systtl --system
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="install-containerd"&gt;Install Containerd&lt;/h2&gt;
+&lt;p&gt;Since Version 1.24 of Kubernetes, &lt;a href="https://kubernetes.io/blog/2022/05/03/kubernetes-1-24-release-announcement/#major-themes"&gt;the dockershim is deperated&lt;/a&gt; and move on of using Containerd.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir -p /etc/apt/keyrings
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;deb [arch=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;dpkg --print-architecture&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.bfsu.edu.cn/docker-ce/linux/ubuntu &lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;lsb_release -cs&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; stable&amp;#34;&lt;/span&gt; | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir -p /etc/containerd &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo containerd config default | sudo tee /etc/containerd/config.toml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# You can also try mirrors.bfsu.edu.cn - Docker mirrors &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir -p /etc/apt/keyrings
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;deb [arch=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;dpkg --print-architecture&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;lsb_release -cs&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; stable&amp;#34;&lt;/span&gt; | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir -p /etc/containerd &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo containerd config default | sudo tee /etc/containerd/config.toml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You may wonder why I install the docker as the K8s does not need it anymore, actually, I don&amp;rsquo;t know why, but if I miss this package, the &lt;code&gt;kubeadm init&lt;/code&gt; will fails for some reasons.&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;We need some modification of &lt;code&gt;/etc/containerd/config.toml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# set SystemdCgroup as true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.&lt;span style="color:#e6db74"&gt;&amp;#34;io.containerd.grpc.v1.cri&amp;#34;&lt;/span&gt;.containerd.runtimes.runc.options&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; BinaryName &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CriuImagePath &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CriuPath &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CriuWorkPath &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; IoGid &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; IoUid &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; NoNewKeyring &lt;span style="color:#f92672"&gt;=&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; NoPivotRoot &lt;span style="color:#f92672"&gt;=&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Root &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ShimCgroup &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; SystemdCgroup &lt;span style="color:#f92672"&gt;=&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# To accelerate the installations, change sand_box mirros to aliyun (optional) &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sandbox_image &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;registry.cn-hangzhou.aliyuncs.com/pause:3.6&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="install-kubernetes"&gt;Install Kubernetes&lt;/h2&gt;
+&lt;p&gt;Use &lt;code&gt;aubeadm&lt;/code&gt; to initlization the cluster:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo kubeadm init --pod-network-cidr &amp;lt;pod-cidr&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --service-cidr &amp;lt;service-cidr&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --apiserver-advertise-address &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --control-plane-endpoint &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --v &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# To accelerate the installations, change sand_box mirros to aliyun (optional) &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo kubeadm init --pod-network-cidr &amp;lt;pod-cidr&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --service-cidr &amp;lt;service-cidr&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --apiserver-advertise-address &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --control-plane-endpoint &amp;lt;your-ip&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --v &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# after the initlization you need to create the kubeconfig&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p $HOME/.kube
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo chown &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;id -u&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;:&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;id -g&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; $HOME/.kube/config
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After the intilization, you also need Container Network Interface (CNI), I choose &lt;code&gt;flannel&lt;/code&gt; since I used to use it in my K3s cluster.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Wait for any while and check the whether the kubernetes (pods and nodes) is running properly.&lt;/p&gt;
+&lt;h2 id="install-the-metallb"&gt;Install the MetalLB&lt;/h2&gt;
+&lt;p&gt;Unlike the &lt;a href="https://github.com/k3s-io/klipper-lb"&gt;K3s&lt;/a&gt;, the Kubernetes does not contain a intergrated LoadBalancer, thus, we need to install it by ourselves. I use &lt;a href="https://metallb.universe.tf/concepts/"&gt;MetalLB&lt;/a&gt; in here. There are multiple ways to install the MetalLB, I use the manifest to install it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# defining the IPs to assign to the loadbalancer ssevices (I choose L2 in here)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOF | sudo tee metallb-ips.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;apiVersion: metallb.io/v1beta1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;kind: IPAddressPool
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;metadata:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; name: ip-pool
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; namespace: metallb-system
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;spec:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; addresses:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - 10.0.4.4/32 # the external IP of your nodes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - 10.0.4.15/32
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;---
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;apiVersion: metallb.io/v1beta1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;kind: L2Advertisement
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;metadata:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; name: metal-l2-advertisement
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; namespace: metallb-system
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;spec:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; ipAddressPools:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - ip-pool
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That&amp;rsquo;s it, you can choose a &lt;code&gt;ingress-controller&lt;/code&gt; you like and after install it, a K8s (v1.25.3) cluster is configured :)&lt;/p&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;I think the reason is that I missed the &lt;code&gt;runc&lt;/code&gt; package.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content:encoded></item><item><title>🧑🏿‍💻 K3s/Kubernetes - Set up a K3s Cluster with your VPS (Extra Story 1)</title><link>https://blog.cklau.cc/post/k3s-setup-extra-1/</link><pubDate>Sun, 02 Oct 2022 10:00:00 +0800</pubDate><author>Junjie LIU</author><category>K3s</category><category>Kubernetes</category><category>Docker</category><category>Registry</category><guid>https://blog.cklau.cc/post/k3s-setup-extra-1/</guid><description/><content:encoded>&lt;p&gt;As I have mentioned in &lt;a href="https://blog.cklau.cc/post/k3s-setup-2/" title="K3s Setup 2"&gt;K3s Setup 2&lt;/a&gt;, usually, it is not easy for the China&amp;rsquo;s user to access &lt;code&gt;https://gcr.io&lt;/code&gt;, &lt;code&gt;https://k8s.gcr.io&lt;/code&gt; or &lt;code&gt;https://ghcr.io&lt;/code&gt;. Thus, under this circumstance, we may set up a server as the registry proxy endpoint.&lt;/p&gt;
+&lt;h2 id="some-options"&gt;Some options&lt;/h2&gt;
+&lt;p&gt;DockerHub provide a &amp;ldquo;offical&amp;rdquo; package called &lt;a href="https://docs.docker.com/registry/"&gt;Docker Registry&lt;/a&gt; where it is a stateless, hightly scalable server side application that stores and lets users distribute Docker images.&lt;/p&gt;
+&lt;p&gt;Nexus Repository OSS, provided by Sonatype, is an open source repository that supports many artifact formats, including Docker, Java™, and npm.&lt;/p&gt;
+&lt;p&gt;Harbor, provided by VMWare, is an opensource registry that secure artifacts with policies and role-based access control, ensures images are scanned and free from vulnerabilities, and signs images as trusted.&lt;/p&gt;
+&lt;h2 id="nexus-as-registry-proxy"&gt;Nexus as registry proxy&lt;/h2&gt;
+&lt;p&gt;It is easy for us to build the Nexus repositry, simply with the &lt;code&gt;docker-compose.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;3.7&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;nexus&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;sonatype/nexus3:latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;INSTALL4J_ADD_VM_PARAMS&lt;/span&gt;: -&lt;span style="color:#ae81ff"&gt;Xms128m -Xmx512m -XX:MaxDirectMemorySize=512m&lt;/span&gt; &lt;span style="color:#75715e"&gt;# decrease the occupancy rate of nexus&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;nexus3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;8081&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;8081&lt;/span&gt; &lt;span style="color:#75715e"&gt;# port of frontend of the nexus repo&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;8082&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;8082&lt;/span&gt; &lt;span style="color:#75715e"&gt;# port of the docker proxy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data:/nexus-data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With &lt;code&gt;sudo docker compose up -d&lt;/code&gt;, we can easily run the nexus. &lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;For the reverse proxy, I use nginx and here is the configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;server &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; listen 80;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server_name nexus.exmaple.com;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;301&lt;/span&gt; https://$server_name$request_uri;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;server &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; listen 80;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server_name mirrors.example.com;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;301&lt;/span&gt; https://$server_name$request_uri;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;server &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; listen 80;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server_name registry.example.com;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;301&lt;/span&gt; https://$server_name$request_uri;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;server &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; listen &lt;span style="color:#ae81ff"&gt;443&lt;/span&gt; ssl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server_name nexus.example.com; &lt;span style="color:#75715e"&gt;# nexus frontend&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_certificate &amp;lt;path-of-certificate&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_certificate_key &amp;lt;path-of-certificate-key&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_session_timeout 5m;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_ciphers HIGH:!aNULL:!MD5;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_prefer_server_ciphers on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; location / &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_pass http://127.0.0.1:8081;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header Host $host;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header X-Real-IP $remote_addr;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header Via &lt;span style="color:#e6db74"&gt;&amp;#34;nginx&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;server &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; listen &lt;span style="color:#ae81ff"&gt;443&lt;/span&gt; ssl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server_name mirrors.exmaple.com; &lt;span style="color:#75715e"&gt;# docker proxy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_certificate &amp;lt;path-of-certificate&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_certificate_key &amp;lt;path-of-certificate-key&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_session_timeout 5m;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_ciphers HIGH:!aNULL:!MD5;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_prefer_server_ciphers on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; location / &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_pass http://127.0.0.1:8082;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header Host $host;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header X-Real-IP $remote_addr;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header Via &lt;span style="color:#e6db74"&gt;&amp;#34;nginx&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; client_max_body_size 1024M;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;server &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; listen &lt;span style="color:#ae81ff"&gt;443&lt;/span&gt; ssl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server_name registry.exmaple.com; &lt;span style="color:#75715e"&gt;# docker proxy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_certificate &amp;lt;path-of-certificate&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_certificate_key &amp;lt;path-of-certificate-key&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_session_timeout 5m;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_ciphers HIGH:!aNULL:!MD5;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ssl_prefer_server_ciphers on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; location / &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_pass http://127.0.0.1:8083;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header Host $host;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header X-Real-IP $remote_addr;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; proxy_set_header Via &lt;span style="color:#e6db74"&gt;&amp;#34;nginx&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; client_max_body_size 1024M;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After setting up the nexus and nginx, we can go to &lt;code&gt;https://nexus.example.com&lt;/code&gt; to set up the proxy rules.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;For Docker: &lt;code&gt;Creat Repository&lt;/code&gt; -&amp;gt; Choose &lt;code&gt;docker(proxy)&lt;/code&gt; -&amp;gt; &lt;code&gt;Remote storage = https://registry-1.docker.io&lt;/code&gt; and &lt;code&gt;Docker Index = Use Docker Hub&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For &lt;a href="https://ghcr.io"&gt;ghcr.io&lt;/a&gt;: Creat Repository&lt;code&gt;-&amp;gt; Choose&lt;/code&gt;docker(proxy)&lt;code&gt;-&amp;gt; &lt;/code&gt;Remote storage = &lt;a href="https://ghcr.io"&gt;https://ghcr.io&lt;/a&gt;`&lt;/li&gt;
+&lt;li&gt;For &lt;a href="https://gcr.io"&gt;gcr.io&lt;/a&gt;: Creat Repository&lt;code&gt;-&amp;gt; Choose&lt;/code&gt;docker(proxy)&lt;code&gt;-&amp;gt; &lt;/code&gt;Remote storage = &lt;a href="https://gcr.io"&gt;https://gcr.io&lt;/a&gt;`&lt;/li&gt;
+&lt;li&gt;For &lt;a href="https://k8s.gcr.io"&gt;k8s.gcr.io&lt;/a&gt;: Creat Repository&lt;code&gt;-&amp;gt; Choose&lt;/code&gt;docker(proxy)&lt;code&gt;-&amp;gt; &lt;/code&gt;Remote storage = &lt;a href="https://k8s.gcr.io"&gt;https://k8s.gcr.io&lt;/a&gt;`&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Create a group&lt;/strong&gt;: Creat Repository&lt;code&gt;-&amp;gt; Choose&lt;/code&gt;docker(group)&lt;code&gt;-&amp;gt; &lt;/code&gt;HTTP: 8082&lt;code&gt;-&amp;gt;&lt;/code&gt;Allow anaymous docker pull&lt;code&gt;(to allow &lt;/code&gt;docker pull` without authentication) -&amp;gt; select members into the group&lt;/li&gt;
+&lt;li&gt;Go to &lt;code&gt;Security-Realms&lt;/code&gt; and activate &lt;code&gt;Docker Bearer Token Realm&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Then, you may try pulling image in you server:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo docker pull mirrors.example.com/library/nginx:alpine &lt;span style="color:#75715e"&gt;# from Docker Hub&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo docker pull mirrors.example.com/zvonimirsun/yourls &lt;span style="color:#75715e"&gt;# from ghcr.io&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo docker pull mirrors.example.com/google-containers/kubernetes-dashboard-amd64:v1.8.3 &lt;span style="color:#75715e"&gt;# from gcr.io&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo docker pull mirrors.example.com/coreos/kube-state-metrics:v1.5.0 &lt;span style="color:#75715e"&gt;# from quay.io&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For the system&amp;rsquo;s &lt;code&gt;containerd&lt;/code&gt;, you can simply go to &lt;code&gt;/etc/containerd/containerd/config.toml&lt;/code&gt; and modify the configuration and restart &lt;code&gt;sudo systemctl restart containered&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;docker.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;quay.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;ghcr.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;gcr.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;k8s.gcr.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For the rancher&amp;rsquo;s &lt;code&gt;containerd&lt;/code&gt;, k3s will generate config.toml for containerd in &lt;code&gt;/var/lib/rancher/k3s/agent/etc/containerd/config.toml&lt;/code&gt;, for advanced customization for this file you can create another file called &lt;code&gt;config.toml.tmpl&lt;/code&gt; in the same directory and it will be used instead. Then, modify the configuration into the file and restart the &lt;code&gt;sudo systemctl restart k3s&lt;/code&gt; or &lt;code&gt;sudo systemctl restart k3s-agent&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;docker.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;quay.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;ghcr.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;gcr.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;plugins.cri.registry.mirrors.&lt;span style="color:#e6db74"&gt;&amp;#34;k8s.gcr.io&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://mirrors.example.com&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Before you up the yaml, create the folder first and give the proper permission, for me: &lt;code&gt;mkdir data &amp;amp;&amp;amp; chmod 777 data&lt;/code&gt; is good enough. The default password is stored in &lt;code&gt;data/admin.password&lt;/code&gt;.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content:encoded></item><item><title>🧑🏿‍💻 Homelab: Don't Let the Docker escape from the ufw's control</title><link>https://blog.cklau.cc/post/my-homelab-4/</link><pubDate>Thu, 21 Jul 2022 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>Homelab</category><category>Networking</category><category>Docker</category><category>Ufw</category><guid>https://blog.cklau.cc/post/my-homelab-4/</guid><description/><content:encoded>&lt;p&gt;&amp;ldquo;Uncomplicated firewall&amp;rdquo;, a.k.a, UFW, is the new/next-generation of firewall of Linux system. As says in its name, &amp;ldquo;uncomplicated&amp;rdquo; is the feature. However, in some situation, it is still complicated, for example, works with Docker.&lt;/p&gt;
+&lt;p&gt;Usually, for the homelab/VPS, we self-host a bunch of services and use them with reverse proxy (like Nginx, Caddy, Traefik) with different subdomain. However, Docker tries to modify the firewall rules without notification, like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ubuntu@myserver:~$ sudo ufw status
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Status: active
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;To Action From
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-- ------ ---- 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;80&lt;/span&gt; ALLOW Anywhere 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;443&lt;/span&gt; ALLOW Anywhere 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;22&lt;/span&gt; ALLOW Anywhere 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;80&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;v6&lt;span style="color:#f92672"&gt;)&lt;/span&gt; ALLOW Anywhere &lt;span style="color:#f92672"&gt;(&lt;/span&gt;v6&lt;span style="color:#f92672"&gt;)&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;443&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;v6&lt;span style="color:#f92672"&gt;)&lt;/span&gt; ALLOW Anywhere &lt;span style="color:#f92672"&gt;(&lt;/span&gt;v6&lt;span style="color:#f92672"&gt;)&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;22&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;v6&lt;span style="color:#f92672"&gt;)&lt;/span&gt; ALLOW Anywhere &lt;span style="color:#f92672"&gt;(&lt;/span&gt;v6&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In ufw list, I only allow the SSH port and HTTP/HTTPS ports. However, in &lt;code&gt;IPTABLES&lt;/code&gt;, we can see that:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ubuntu@bayes:~$ sudo iptables -L DOCKER
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Chain DOCKER &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;7&lt;/span&gt; references&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target prot opt source destination 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.21.0.2 tcp dpt:http
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.21.0.2 tcp dpt:3012
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.28.0.2 tcp dpt:9000
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.19.0.3 tcp dpt:postgresql
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.19.0.2 tcp dpt:6379
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.19.0.4 tcp dpt:9001
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.19.0.4 tcp dpt:9000
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.18.0.5 tcp dpt:9443
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.18.0.5 tcp dpt:9000
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.20.0.2 tcp dpt:8082
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ACCEPT tcp -- anywhere 172.20.0.2 tcp dpt:tproxy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The Docker turn only multiple ports which does not show in the UFW list.&lt;/p&gt;
+&lt;h2 id="how-to-avoid-this"&gt;How to avoid this&lt;/h2&gt;
+&lt;p&gt;First, make sure that the SSH port is allowed in UFW, and each container can be reached:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ufw allow ssh &lt;span style="color:#75715e"&gt;# or ssh ufw allow &amp;lt;ssh-port&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ufw allow from 172.17.0.0/16 &lt;span style="color:#75715e"&gt;# allow containers communication&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ufw default deny incoming
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ufw default allow outgoing
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ufw default allow routed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ufw disable &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ufw enable
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, we need to go the Docker&amp;rsquo;s daemon to modify the configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir -p /lib/systemd/system/docker.service.d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; EOF &amp;gt; /lib/systemd/system/docker.service.d/override.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Service]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ExecStart=
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ExecStart=/usr/bin/dockerd
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; EOF &amp;gt; /etc/docker/daemon.json
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;hosts&amp;#34;: [&amp;#34;fd://&amp;#34;],
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;dns&amp;#34;: [&amp;#34;8.8.8.8&amp;#34;, &amp;#34;8.8.4.4&amp;#34;],
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;iptables&amp;#34;: false
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl daemon-reload &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo systemctl restart docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Last, we need to configura the Docker&amp;rsquo;s NAT to make sure that all the containers can route via the &lt;code&gt;docker0&lt;/code&gt; interface:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; EOF &amp;gt;&amp;gt; /etc/ufw/before.rules
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;*nat
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;:POSTROUTING ACCEPT [0:0]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;-A POSTROUTING ! -o docker0 -s 172.17.0.0/16 -j MASQUERADE
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;COMMIT
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item></channel></rss>

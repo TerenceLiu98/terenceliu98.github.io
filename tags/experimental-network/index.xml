@@ -1,185 +1,185 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>experimental network | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/experimental-network/</link><atom:link href="https://blog.cklau.cc/tags/experimental-network/index.xml" rel="self" type="application/rss+xml"/><description>experimental network</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate><item><title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title><link>https://blog.cklau.cc/post/lnet-3/</link><pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate><author>Junjie LIU</author><category>networking</category><category>wireguard</category><category>BGP</category><category>experimental network</category><guid>https://blog.cklau.cc/post/lnet-3/</guid><description/><content:encoded>&lt;h2 id="before">Before&lt;/h2>
-&lt;p>In the previous project: &lt;a href="https://blog.cklau.cc/post/lnet-2/" title="My Personal Experimental Network">Homelab&lt;/a>, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.&lt;/p>
-&lt;p>However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.&lt;/p>
-&lt;h2 id="vxlan">VXLAN&lt;/h2>
-&lt;blockquote>
-&lt;p>VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments. It uses a VLAN-like encapsulation technique to encapsulate OSI layer 2 Ethernet frames within layer 4 UDP datagrams, using 4789 as the default IANA-assigned destination UDP port number.&lt;/p>
-&lt;/blockquote>
-&lt;p>In short, it is a extension for VLAN where VLAN only use 12 bit and can only cantains 4094 VLANs, however, VXLAN use 24-bit (VNI, vxlan network identfier) which can allows more vlan as it has a large MAC address tables. However, in my scenario, I build vxlan over wireguard just because vxlan interface is on layer 2 where it contains MAC address which provide more flexibility, e.g. multicast, broadcast, and etc..&lt;/p>
-&lt;h3 id="point-to-point-vxlan">Point to Point VXLAN&lt;/h3>
-&lt;p>Assumes that there are two machines: A wth &lt;code>192.168.100.100/32&lt;/code> and B with &lt;code>192.168.100.101/32&lt;/code>, and we want to create a overlay CIDR &lt;code>10.100.0.0/24&lt;/code>. To do so, first we need to create the vxlan interface &lt;code>vxlanAB&lt;/code> in each machine, assign the ip to the interface and set up the interace:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine A&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanAB type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> remote 192.168.100.101 local 192.168.100.100 dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.1/24 dev vxlanAB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanAB up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine B&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanAB type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> remote 192.168.100.100 local 192.168.100.101 dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.2/24 dev vxlanAB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanAB up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># try to ping from A to B &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ping 10.100.0.2
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="multicast-vxlan">Multicast VXLAN&lt;/h3>
-&lt;p>If we have three machines, A wth &lt;code>192.168.100.100/32&lt;/code>, B with &lt;code>192.168.100.101/32&lt;/code> and C with &lt;code>192.168.100.102/32&lt;/code>. We can us VXLAN&amp;rsquo;s multicast for auto dscovery by adding the vtep into the multicast group&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine A&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> group 239.1.1.1 dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.1/24 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanABC up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine B&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> group 239.1.1.1 dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.2/24 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanABC up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine C&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> group 239.1.1.1 dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.3/24 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanABC up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># try to ping from A to B/C&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ping 192.168.0.&lt;span style="color:#f92672">{&lt;/span>2, 3&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Multicast VXLAN has multiple benefits, for example, auto discovery of other VTEPs shareingthe same multicast group, group bandwidth usage (packets are replaced as late as possible). However, since Wireguard is a Layer 3 tunnel, which means we cannot multicast or broadcast via it. With &lt;code>ifconfig&lt;/code>, it shows: &lt;code>wg0: flags=209&amp;lt;UP,POINTOPOINT,RUNNING,NOARP&amp;gt; mtu 1420&lt;/code>. In this way we can only build the tunnel with unicast addresses, which can be easily done by using iproute2. We keep the assumption of machines&amp;rsquo; name and ip, and develop a unicast flooding:&lt;/p>
-&lt;ol>
-&lt;li>Machine A will send a ARP package asking &lt;code>who is 10.100.0.2&lt;/code>&lt;/li>
-&lt;li>this package will send to all machines&amp;rsquo; VTEP&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine A&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.1/24 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanABC up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine B&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.1/24 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanABC up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for machine C&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff">42&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> dev eth0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip addr add 10.100.0.1/24 dev vxlanABC
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip link set vxlanABC up
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In this scheme, we set up a unknown-unicast traffic, where a machine recives unicast traffic intended to be delivered to a destination that is not in its forwarding information base, which means every machine in the network will receive the VXLAN message, we can use &lt;code>tcpdump -vni vxlanABC&lt;/code> to check this message:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>20:19:56.674410 ARP, Ethernet &lt;span style="color:#f92672">(&lt;/span>len 6&lt;span style="color:#f92672">)&lt;/span>, IPv4 &lt;span style="color:#f92672">(&lt;/span>len 4&lt;span style="color:#f92672">)&lt;/span>, Request who-has 10.100.0.1 tell 10.100.0.2, length &lt;span style="color:#ae81ff">28&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>20:19:56.706706 ARP, Ethernet &lt;span style="color:#f92672">(&lt;/span>len 6&lt;span style="color:#f92672">)&lt;/span>, IPv4 &lt;span style="color:#f92672">(&lt;/span>len 4&lt;span style="color:#f92672">)&lt;/span>, Reply 10.100.0.1 is-at 4e:b8:1f:b5:df:6f, length &lt;span style="color:#ae81ff">28&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With this solution, the machine can receives all the MAC-IP to FDB after a while.&lt;/p>
-&lt;h2 id="l-net-12">L-Net 1.2&lt;/h2>
-&lt;p>Previously, I set up multiple wireguard tunnels for establishing the backbone network. However, dozen of interfaces is ok but not elegant. Also, if we want to develop a full-mesh network, we need $2n-2$ tunnels for $n$ nodes. With the implemenetation of VXLAN over Wireguard, the underlay full-mesh network(wireguard) can be easily developed.&lt;/p>
-&lt;p>In wireguard configuration, we can use &lt;code>PreUp/PostUp - PreDown/PostDown&lt;/code> command to set up ip route before/after the wireguard interface up/down. Thus, we can set up the vxlan configuration inside the wireguard configuration. Under this configuration, we no longer care about the wireguard&amp;rsquo;s ip addr, instead, we are using the vxlan&amp;rsquo;s ip addr. Here is an example:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Interface&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Address &lt;span style="color:#f92672">=&lt;/span> 192.168.228.166/24
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ListenPort &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">51820&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PrivateKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;pri-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Table &lt;span style="color:#f92672">=&lt;/span> off
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostUp &lt;span style="color:#f92672">=&lt;/span> ip link add v%i type vxlan id &lt;span style="color:#ae81ff">49371&lt;/span> dstport &lt;span style="color:#ae81ff">4789&lt;/span> ttl &lt;span style="color:#ae81ff">1&lt;/span> dev %i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostUp &lt;span style="color:#f92672">=&lt;/span> bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.128 dev v%i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostUp &lt;span style="color:#f92672">=&lt;/span> bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.60 dev v%i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostUp &lt;span style="color:#f92672">=&lt;/span> ip address add 192.168.102.1/24 dev v%i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostUp &lt;span style="color:#f92672">=&lt;/span> ip address add fde9:632e:2c3f:0:62bb:bbe3:3778:37ad/64 dev v%i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostUp &lt;span style="color:#f92672">=&lt;/span> ip link set v%i up
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PreDown &lt;span style="color:#f92672">=&lt;/span> ip link set v%i down
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PreDown &lt;span style="color:#f92672">=&lt;/span> ip link delete v%i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = gauss&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;pub-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 192.168.228.128/32
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> xxx.xxx.xxx.xxx:51820
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = hilbert&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;pub-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 192.168.228.60/32
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> xxx.xxx.xxx.xxx:51820
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Since, the vxlan&amp;rsquo;s traffic is over wireguard&amp;rsquo;s interface, intuitively, I use &lt;code>PostUp&lt;/code> in the configuration. By following the &lt;em>unicast flooding&lt;/em> configuration, we can set up the vxlan inside the wireguard config file. For the router, we can keep &lt;code>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE&lt;/code> in the &lt;code>PostUp&lt;/code> as we are trying to use it as the gateway for network traffic.&lt;/p>
-&lt;p>Based on the experience above, I modify the &lt;a href="https://github.com/TerenceLiu98/wgtools/tree/vxlan">wgtools&lt;/a> to fit the demands. In the new branch, we did not care about the wireguard&amp;rsquo;s addr, instead, we focus on the vxlan&amp;rsquo;s addr. Thus, I just use &lt;code>192.168.200.0/16&lt;/code> for generate the wg connection. For the rest part are basically the same from the previous.&lt;/p></content:encoded></item><item><title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title><link>https://blog.cklau.cc/post/lnet-2/</link><pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate><author>Junjie LIU</author><category>networking</category><category>wireguard</category><category>BGP</category><category>experimental network</category><guid>https://blog.cklau.cc/post/lnet-2/</guid><description/><content:encoded>&lt;h2 id="before">Before&lt;/h2>
-&lt;p>In the previous project: &lt;a href="https://blog.cklau.cc/post/lnet-1/" title="My Personal Experimental Network">Homelab&lt;/a>, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:&lt;/p>
-&lt;p>Here, as usual, I made three network areas, “East-Asia-CN” is &lt;code>192.168.101.0/24&lt;/code> , “Southeast-Asia-HKSAR“ is &lt;code>192.168.102.0/24&lt;/code>, and “East-Aisa-JP“ is &lt;code>192.168.103.0/24&lt;/code>. As you can see, I draw three routers in the diagram, but it is four, and I will explain why. For the backbone network, For Mainland China $\Leftrightarrow$ HKSAR is &lt;code>10.255.101.0/24&lt;/code>, Mainland China $\Leftrightarrow$ Japan is &lt;code>10.255.102.0/24&lt;/code> and Japan $\Leftrightarrow$ HKSAR is &lt;code>10.255.103.0/24&lt;/code>. One more thing, I combine my Singapore server into the “Southeast-Asia-HK“ network as I only have one server in South Asia, and the combination can reduce multiple configurations.&lt;/p>
-&lt;h2 id="howto">HOWTO&lt;/h2>
-&lt;h2 id="wireguard">Wireguard&lt;/h2>
-&lt;p>Yes, I still use my script &lt;a href="https://github.com/TerenceLiu98/wgtools">wgtools&lt;/a> to generate the Wireguard configuration. However, if we try to use iBGP inside the network area, we need to create a star-shaped network and disable changing the routing table. Here is an example:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#################################&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#### Configuration of router ####&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#################################&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Interface&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Address &lt;span style="color:#f92672">=&lt;/span> 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ListenPort &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">51820&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PrivateKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;router-private-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Table &lt;span style="color:#f92672">=&lt;/span> off
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = node-1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;node-1-public-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 192.168.101.2/32,fd4f:3f1f:d743:0:f8e3:c5be:c0fa:dd2f/128
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> &amp;lt;node-1-ip-address&amp;gt;:51820
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = node-2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;node-3-public-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 192.168.101.3/32,fd4f:3f1f:d743:0:8174:fd0f:3627:4c50/128
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> &amp;lt;node-2-ip-address&amp;gt;:51820
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#################################&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#### Configuration of node-1 ####&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#################################&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Interface&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Address &lt;span style="color:#f92672">=&lt;/span> 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ListenPort &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">51820&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PrivateKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;node-1-private-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Table &lt;span style="color:#f92672">=&lt;/span> off
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = router&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;router-public-key&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 0.0.0.0/0,::/0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> &amp;lt;rnode-1-ip-address&amp;gt;:51820
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>As you can see that we set &lt;code>Table = off&lt;/code> For routers, we need to set the connection to other nodes; for other nodes, we need to set the &lt;code>AllowedIPs = 0.0.0.0/0, ::/0&lt;/code> to allow routing based on the iBGP.&lt;/p>
-&lt;h3 id="ebgp-and-ibgp">eBGP and iBGP&lt;/h3>
-&lt;p>After setting up the Wirewuard, we need to set up the eBGP and iBGP. Let&amp;rsquo;s set up the iBGP first:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get install bird2 &lt;span style="color:#75715e"># install bird2 in both routers and nodes&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Create template &lt;code>sudo vim /etc/bird/template.conf&lt;/code>, by creating a template we can import the template for duplicated setting:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># https://bird.network.cz/?get_doc&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>define LOCAL_ASN &lt;span style="color:#f92672">=&lt;/span> &amp;lt;net-area-ASN&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>define NET &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#75715e"># mark down all the ip in all the net area&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>template bgp tpl_ibgp &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> local as LOCAL_ASN; &lt;span style="color:#75715e"># &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> med metric on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> path metric on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> error wait time 5, 10; &lt;span style="color:#75715e"># Minimum and maximum delay in seconds between a protocol failure (either local or reported by the peer) and automatic restart. Doesn not apply when disable after error is configured. If consecutive errors happen, the delay is increased exponentially until it reaches the maximum. Default: 60, 300.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> error forget time 20; &lt;span style="color:#75715e"># Maximum time in seconds between two protocol failures to treat them as a error sequence which makes error wait time increase exponentially.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> multihop 1;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> graceful restart on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> import filter &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> net ~ NET &lt;span style="color:#66d9ef">then&lt;/span> accept;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> reject;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export filter &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> net ~ NET &lt;span style="color:#66d9ef">then&lt;/span> accept;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> reject;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> next hop self;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> gateway recursive; &lt;span style="color:#75715e"># since we are using multihop we cannot use gateway direct&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Set up the &lt;code>/etc/bird/bird.conf&lt;/code>:&lt;/p>
-&lt;pre tabindex="0">&lt;code>#############
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Experimental Network | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/experimental-network/</link><atom:link href="https://blog.cklau.cc/tags/experimental-network/index.xml" rel="self" type="application/rss+xml"/><description>Experimental Network</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Tue, 03 Jan 2023 00:16:21 +0800</lastBuildDate><item><title>👨‍💻 My Personal Experimental Network: L-Net 1.2</title><link>https://blog.cklau.cc/post/lnet-3/</link><pubDate>Tue, 03 Jan 2023 00:16:21 +0800</pubDate><author>Junjie LIU</author><category>Networking</category><category>Wireguard</category><category>BGP</category><category>Experimental Network</category><guid>https://blog.cklau.cc/post/lnet-3/</guid><description/><content:encoded>&lt;h2 id="before"&gt;Before&lt;/h2&gt;
+&lt;p&gt;In the previous project: &lt;a href="https://blog.cklau.cc/post/lnet-2/" title="My Personal Experimental Network"&gt;Homelab&lt;/a&gt;, I upgraded my configuration on the L-Net, where I tried eBGP and iBGP for the routing exchange between different subnet.&lt;/p&gt;
+&lt;p&gt;However, since, there are too many interface in the backbone device. In this post, I tried to build a overlay network with VXLAN over Wireguard.&lt;/p&gt;
+&lt;h2 id="vxlan"&gt;VXLAN&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;VXLAN, Virtual eXtensible LAN is a network virtualization technology that attempts to address the scalability problems associated with large cloud computing deployments. It uses a VLAN-like encapsulation technique to encapsulate OSI layer 2 Ethernet frames within layer 4 UDP datagrams, using 4789 as the default IANA-assigned destination UDP port number.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In short, it is a extension for VLAN where VLAN only use 12 bit and can only cantains 4094 VLANs, however, VXLAN use 24-bit (VNI, vxlan network identfier) which can allows more vlan as it has a large MAC address tables. However, in my scenario, I build vxlan over wireguard just because vxlan interface is on layer 2 where it contains MAC address which provide more flexibility, e.g. multicast, broadcast, and etc..&lt;/p&gt;
+&lt;h3 id="point-to-point-vxlan"&gt;Point to Point VXLAN&lt;/h3&gt;
+&lt;p&gt;Assumes that there are two machines: A wth &lt;code&gt;192.168.100.100/32&lt;/code&gt; and B with &lt;code&gt;192.168.100.101/32&lt;/code&gt;, and we want to create a overlay CIDR &lt;code&gt;10.100.0.0/24&lt;/code&gt;. To do so, first we need to create the vxlan interface &lt;code&gt;vxlanAB&lt;/code&gt; in each machine, assign the ip to the interface and set up the interace:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine A&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanAB type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; remote 192.168.100.101 local 192.168.100.100 dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.1/24 dev vxlanAB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanAB up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine B&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanAB type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; remote 192.168.100.100 local 192.168.100.101 dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.2/24 dev vxlanAB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanAB up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# try to ping from A to B &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ping 10.100.0.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="multicast-vxlan"&gt;Multicast VXLAN&lt;/h3&gt;
+&lt;p&gt;If we have three machines, A wth &lt;code&gt;192.168.100.100/32&lt;/code&gt;, B with &lt;code&gt;192.168.100.101/32&lt;/code&gt; and C with &lt;code&gt;192.168.100.102/32&lt;/code&gt;. We can us VXLAN&amp;rsquo;s multicast for auto dscovery by adding the vtep into the multicast group&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine A&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; group 239.1.1.1 dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.1/24 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanABC up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine B&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; group 239.1.1.1 dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.2/24 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanABC up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine C&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; group 239.1.1.1 dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.3/24 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanABC up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# try to ping from A to B/C&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ping 192.168.0.&lt;span style="color:#f92672"&gt;{&lt;/span&gt;2, 3&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Multicast VXLAN has multiple benefits, for example, auto discovery of other VTEPs shareingthe same multicast group, group bandwidth usage (packets are replaced as late as possible). However, since Wireguard is a Layer 3 tunnel, which means we cannot multicast or broadcast via it. With &lt;code&gt;ifconfig&lt;/code&gt;, it shows: &lt;code&gt;wg0: flags=209&amp;lt;UP,POINTOPOINT,RUNNING,NOARP&amp;gt; mtu 1420&lt;/code&gt;. In this way we can only build the tunnel with unicast addresses, which can be easily done by using iproute2. We keep the assumption of machines&amp;rsquo; name and ip, and develop a unicast flooding:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Machine A will send a ARP package asking &lt;code&gt;who is 10.100.0.2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;this package will send to all machines&amp;rsquo; VTEP&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine A&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.1/24 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanABC up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine B&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.102 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.1/24 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanABC up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for machine C&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link add vxlanABC type vxlan id &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; dev eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.100 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bridge fdb append to 00:00:00:00:00:00 dst 192.168.100.101 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip addr add 10.100.0.1/24 dev vxlanABC
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ip link set vxlanABC up
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this scheme, we set up a unknown-unicast traffic, where a machine recives unicast traffic intended to be delivered to a destination that is not in its forwarding information base, which means every machine in the network will receive the VXLAN message, we can use &lt;code&gt;tcpdump -vni vxlanABC&lt;/code&gt; to check this message:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;20:19:56.674410 ARP, Ethernet &lt;span style="color:#f92672"&gt;(&lt;/span&gt;len 6&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, IPv4 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;len 4&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, Request who-has 10.100.0.1 tell 10.100.0.2, length &lt;span style="color:#ae81ff"&gt;28&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;20:19:56.706706 ARP, Ethernet &lt;span style="color:#f92672"&gt;(&lt;/span&gt;len 6&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, IPv4 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;len 4&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, Reply 10.100.0.1 is-at 4e:b8:1f:b5:df:6f, length &lt;span style="color:#ae81ff"&gt;28&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With this solution, the machine can receives all the MAC-IP to FDB after a while.&lt;/p&gt;
+&lt;h2 id="l-net-12"&gt;L-Net 1.2&lt;/h2&gt;
+&lt;p&gt;Previously, I set up multiple wireguard tunnels for establishing the backbone network. However, dozen of interfaces is ok but not elegant. Also, if we want to develop a full-mesh network, we need $2n-2$ tunnels for $n$ nodes. With the implemenetation of VXLAN over Wireguard, the underlay full-mesh network(wireguard) can be easily developed.&lt;/p&gt;
+&lt;p&gt;In wireguard configuration, we can use &lt;code&gt;PreUp/PostUp - PreDown/PostDown&lt;/code&gt; command to set up ip route before/after the wireguard interface up/down. Thus, we can set up the vxlan configuration inside the wireguard configuration. Under this configuration, we no longer care about the wireguard&amp;rsquo;s ip addr, instead, we are using the vxlan&amp;rsquo;s ip addr. Here is an example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Interface&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Address &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.228.166/24
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ListenPort &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;51820&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PrivateKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;pri-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; off
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostUp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; ip link add v%i type vxlan id &lt;span style="color:#ae81ff"&gt;49371&lt;/span&gt; dstport &lt;span style="color:#ae81ff"&gt;4789&lt;/span&gt; ttl &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; dev %i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostUp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.128 dev v%i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostUp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; bridge fdb append to 00:00:00:00:00:00 dst 192.168.228.60 dev v%i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostUp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; ip address add 192.168.102.1/24 dev v%i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostUp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; ip address add fde9:632e:2c3f:0:62bb:bbe3:3778:37ad/64 dev v%i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostUp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; ip link set v%i up
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PreDown &lt;span style="color:#f92672"&gt;=&lt;/span&gt; ip link set v%i down
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PreDown &lt;span style="color:#f92672"&gt;=&lt;/span&gt; ip link delete v%i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = gauss&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;pub-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.228.128/32
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; xxx.xxx.xxx.xxx:51820
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = hilbert&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;pub-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.228.60/32
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; xxx.xxx.xxx.xxx:51820
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Since, the vxlan&amp;rsquo;s traffic is over wireguard&amp;rsquo;s interface, intuitively, I use &lt;code&gt;PostUp&lt;/code&gt; in the configuration. By following the &lt;em&gt;unicast flooding&lt;/em&gt; configuration, we can set up the vxlan inside the wireguard config file. For the router, we can keep &lt;code&gt;iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE&lt;/code&gt; in the &lt;code&gt;PostUp&lt;/code&gt; as we are trying to use it as the gateway for network traffic.&lt;/p&gt;
+&lt;p&gt;Based on the experience above, I modify the &lt;a href="https://github.com/TerenceLiu98/wgtools/tree/vxlan"&gt;wgtools&lt;/a&gt; to fit the demands. In the new branch, we did not care about the wireguard&amp;rsquo;s addr, instead, we focus on the vxlan&amp;rsquo;s addr. Thus, I just use &lt;code&gt;192.168.200.0/16&lt;/code&gt; for generate the wg connection. For the rest part are basically the same from the previous.&lt;/p&gt;</content:encoded></item><item><title>👨‍💻 My Personal Experimental Network: L-Net 1.1</title><link>https://blog.cklau.cc/post/lnet-2/</link><pubDate>Mon, 26 Dec 2022 00:16:21 +0800</pubDate><author>Junjie LIU</author><category>Networking</category><category>Wireguard</category><category>BGP</category><category>Experimental Network</category><guid>https://blog.cklau.cc/post/lnet-2/</guid><description/><content:encoded>&lt;h2 id="before"&gt;Before&lt;/h2&gt;
+&lt;p&gt;In the previous project: &lt;a href="https://blog.cklau.cc/post/lnet-1/" title="My Personal Experimental Network"&gt;Homelab&lt;/a&gt;, I create a experimental network and I call it L-Net 1.0. However, I am trying to redesign the network as I am trying to maximize the usage of all the bandwidth, route auto-correction, and manage the resources based on one machine outside the cluster. Here is the diagram:&lt;/p&gt;
+&lt;p&gt;Here, as usual, I made three network areas, “East-Asia-CN” is &lt;code&gt;192.168.101.0/24&lt;/code&gt; , “Southeast-Asia-HKSAR“ is &lt;code&gt;192.168.102.0/24&lt;/code&gt;, and “East-Aisa-JP“ is &lt;code&gt;192.168.103.0/24&lt;/code&gt;. As you can see, I draw three routers in the diagram, but it is four, and I will explain why. For the backbone network, For Mainland China $\Leftrightarrow$ HKSAR is &lt;code&gt;10.255.101.0/24&lt;/code&gt;, Mainland China $\Leftrightarrow$ Japan is &lt;code&gt;10.255.102.0/24&lt;/code&gt; and Japan $\Leftrightarrow$ HKSAR is &lt;code&gt;10.255.103.0/24&lt;/code&gt;. One more thing, I combine my Singapore server into the “Southeast-Asia-HK“ network as I only have one server in South Asia, and the combination can reduce multiple configurations.&lt;/p&gt;
+&lt;h2 id="howto"&gt;HOWTO&lt;/h2&gt;
+&lt;h2 id="wireguard"&gt;Wireguard&lt;/h2&gt;
+&lt;p&gt;Yes, I still use my script &lt;a href="https://github.com/TerenceLiu98/wgtools"&gt;wgtools&lt;/a&gt; to generate the Wireguard configuration. However, if we try to use iBGP inside the network area, we need to create a star-shaped network and disable changing the routing table. Here is an example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#### Configuration of router ####&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Interface&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Address &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ListenPort &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;51820&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PrivateKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;router-private-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; off
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = node-1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;node-1-public-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.101.2/32,fd4f:3f1f:d743:0:f8e3:c5be:c0fa:dd2f/128
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;node-1-ip-address&amp;gt;:51820
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = node-2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;node-3-public-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.101.3/32,fd4f:3f1f:d743:0:8174:fd0f:3627:4c50/128
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;node-2-ip-address&amp;gt;:51820
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#### Configuration of node-1 ####&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Interface&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Address &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.101.1/32,fd4f:3f1f:d743:0:ccce:d274:c262:ff9b/128
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ListenPort &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;51820&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PrivateKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;node-1-private-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; off
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = router&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;router-public-key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 0.0.0.0/0,::/0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;rnode-1-ip-address&amp;gt;:51820
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see that we set &lt;code&gt;Table = off&lt;/code&gt; For routers, we need to set the connection to other nodes; for other nodes, we need to set the &lt;code&gt;AllowedIPs = 0.0.0.0/0, ::/0&lt;/code&gt; to allow routing based on the iBGP.&lt;/p&gt;
+&lt;h3 id="ebgp-and-ibgp"&gt;eBGP and iBGP&lt;/h3&gt;
+&lt;p&gt;After setting up the Wirewuard, we need to set up the eBGP and iBGP. Let&amp;rsquo;s set up the iBGP first:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install bird2 &lt;span style="color:#75715e"&gt;# install bird2 in both routers and nodes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create template &lt;code&gt;sudo vim /etc/bird/template.conf&lt;/code&gt;, by creating a template we can import the template for duplicated setting:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# https://bird.network.cz/?get_doc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;define LOCAL_ASN &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;net-area-ASN&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;define NET &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[]&lt;/span&gt; &lt;span style="color:#75715e"&gt;# mark down all the ip in all the net area&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;template bgp tpl_ibgp &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; local as LOCAL_ASN; &lt;span style="color:#75715e"&gt;# &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; med metric on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; path metric on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; error wait time 5, 10; &lt;span style="color:#75715e"&gt;# Minimum and maximum delay in seconds between a protocol failure (either local or reported by the peer) and automatic restart. Doesn not apply when disable after error is configured. If consecutive errors happen, the delay is increased exponentially until it reaches the maximum. Default: 60, 300.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; error forget time 20; &lt;span style="color:#75715e"&gt;# Maximum time in seconds between two protocol failures to treat them as a error sequence which makes error wait time increase exponentially.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; multihop 1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; graceful restart on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; import filter &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; net ~ NET &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt; accept;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; reject;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export filter &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; net ~ NET &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt; accept;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; reject;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; next hop self;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gateway recursive; &lt;span style="color:#75715e"&gt;# since we are using multihop we cannot use gateway direct&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Set up the &lt;code&gt;/etc/bird/bird.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;#############
 # for router:
 router id &amp;lt;router-id&amp;gt;;
 
@@ -246,497 +246,497 @@ protocol bgp cantor from tpl_ibgp {
  neighbor &amp;lt;router-ip&amp;gt; internal;
  rr client;
 }
-&lt;/code>&lt;/pre>&lt;p>Here you can see that we create a static route between the router and node-1, and this could be seen as the &lt;code>PostUp = ip addr add &amp;lt;local-ip&amp;gt; peer &amp;lt;remote-ip&amp;gt; dev %i&lt;/code> in Wireguard configuration. After the configuration of bird we can simply use &lt;code>sudo birdc c &amp;amp;&amp;amp; sudo birc show protocols&lt;/code> to check whether the iBGP is established.&lt;/p>
-&lt;p>For the eBGP part, it is similar to the iBGP part, we need a template and settings:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">### At Template in Both router-1 and router-2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># https://bird.network.cz/?get_doc&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>define LOCAL_ASN &lt;span style="color:#f92672">=&lt;/span> &amp;lt;net-area-ASN&amp;gt;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>define NET &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#75715e"># mark down all the ip in all the net area&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>template bgp tpl_ebgp &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> local as LOCAL_ASN;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> path metric 1;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> direct;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> graceful restart on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> import filter &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> net ~ NET &lt;span style="color:#66d9ef">then&lt;/span> accept;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> reject;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export filter &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> net ~ NET &lt;span style="color:#66d9ef">then&lt;/span> accept;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> reject;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> next hop self;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> gateway direct;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For the settings:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">############# /etc/bird/bird.conf&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for router-1:&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># ... add a new protocol bgp &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol bgp area1_area_2 from tpl_ebgp &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> neighbor &amp;lt;router2-ip&amp;gt; as router2_ASN;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">############# /etc/bird/bird.conf&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># for router-2:&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># ... add a new protocol bgp &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol bgp area_2_area_1 from tpl_ebgp &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> neighbor &amp;lt;router1-ip&amp;gt; as router1_ASN;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After the configuration, we can easily build a link-local and pseudo-link-global network by using the BGP protocol. In these configurations, I use IP address as the filter, you may try ASN as the filter, here is an example,&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>filter FILTER_ASN
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>int set accept_asn; &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> accept_asn &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>area1_ASN, area2_ASN, area3_ASN&lt;span style="color:#f92672">]&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> bgp_path.last ~ accept_asn &lt;span style="color:#66d9ef">then&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> accept;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> reject;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>template bgp tpl_ebgp &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> local as LOCAL_ASN;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> path metric 1;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> direct;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> graceful restart on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> import filter FILTER_ASN;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export filter FILTER_ASN;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> next hop self;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> gateway direct;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here are some points you may concern about:&lt;/p>
-&lt;ol>
-&lt;li>If your router is needed to be attached, the backbone network’s CIDR needs to be accepted by the BGP, I try multiple times but I did not fix this issue.&lt;/li>
-&lt;li>Inside a network area, all nodes are in a star topology network and the router is the root node. This means if the router is down, the connections between nodes are also down. You may use wgsd to establish a direct connection inside the network area.&lt;/li>
-&lt;/ol>
-&lt;h2 id="wireguard-multiplexing">Wireguard multiplexing?&lt;/h2>
-&lt;p>In the standard Wireguard, each interface corresponds to one port and if we have multiple different settings configuration we may lost in the port selection or just do not remember the which port percisely link to the interface. Under this circumstance, I use &lt;a href="https://github.com/ginuerzh/gost">gost&lt;/a> to aggregate the interfaces&amp;rsquo; ports into one port.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># download the latest version from github&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wget https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gzip -d gost-linux-amd64-2.11.4.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mv gost-linux-amd64-2.11.4 /usr/local/bin/gost &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo chmow +x /usr/local/bin/gost
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo cat &amp;gt; /etc/systemd/system/gost.service &lt;span style="color:#e6db74">&amp;lt;&amp;lt; EOF
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Unit]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Description=Gost Proxy
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">After=network.target
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Wants=network.target
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Service]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Type=simple
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ExecStart=/usr/local/bin/gost -C /etc/gost/config.json
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Restart=always
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Install]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">WantedBy=multi-user.target
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mkdir /etc/gost
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &amp;gt; /etc/gost/config.json &lt;span style="color:#e6db74">&amp;lt;&amp;lt; EOF
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">{
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#34;Debug&amp;#34;: true,
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#34;Retries&amp;#34;: 0,
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#34;ServeNodes&amp;#34;: [
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#34;udp://:51820/127.0.0.1:51821,127.0.0.1:51822,127.0.0.1:21823&amp;#34;
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> ]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">}
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl enable --now gost
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then, we can use &lt;code>51820&lt;/code> for all three interface&amp;rsquo;s connection.&lt;/p></content:encoded></item><item><title>👨‍💻 My Personal Experimental Network: L-Net</title><link>https://blog.cklau.cc/post/lnet-1/</link><pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>networking</category><category>wireguard</category><category>experimental network</category><guid>https://blog.cklau.cc/post/lnet-1/</guid><description/><content:encoded>&lt;h2 id="before">Before&lt;/h2>
-&lt;p>In the previous project: &lt;a href="https://blog.cklau.cc/post/my-homelab-1/" title="My Homelab 2">Homelab&lt;/a>, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.&lt;/p>
-&lt;p>However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters. For instance, I can use a single &lt;a href="https://prometheus.io/">Prometheus&lt;/a> to monitor all the devices and no more millions of virtual interfaces :rofl:&lt;/p>
-&lt;h2 id="design">Design&lt;/h2>
-&lt;p>We are using the &lt;code>Wireguard&lt;/code> to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: &lt;code>a1&lt;/code> is the router of the cluster &lt;code>A&lt;/code> and &lt;code>b&lt;/code> is the central router of the whole L-Net and &lt;code>A&lt;/code>’s IP address is &lt;code>172.12.1.0/24&lt;/code> , then we need an extra IP address(an extra Wireguard tunnel) for &lt;code>a → b&lt;/code>.&lt;/p>
-&lt;p>Under this circumstance, we can connect the nodes inside the &lt;code>A (a2, a3, …)&lt;/code> to &lt;code>b&lt;/code>, and other nodes from &lt;code>C (c1, c2, c3, …)&lt;/code> can also connect to &lt;code>A&lt;/code>.&lt;/p>
-&lt;p>Here is the topology of my design:&lt;/p>
-&lt;p>Those bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.&lt;/p>
-&lt;h2 id="network-configuration">Network Configuration&lt;/h2>
-&lt;h3 id="loc-1---mainland-china">Loc 1 - Mainland, China&lt;/h3>
-&lt;ol>
-&lt;li>
-&lt;p>Network Interface: &lt;code>cn&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.10.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>192.168.141.x/32, 192.168.{20,30}.0/24&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;li>
-&lt;p>Network Interface (Router): &lt;code>sgcn&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.141.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>0.0.0.0/0&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;/ol>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Service Provider&lt;/th>
-&lt;th>Location&lt;/th>
-&lt;th>Name&lt;/th>
-&lt;th>Public IP&lt;/th>
-&lt;th>Private IP&lt;/th>
-&lt;th>Purpose&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Tencent Cloud&lt;/td>
-&lt;td>GZ&lt;/td>
-&lt;td>newton&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.10.1 / 192.168.141.2&lt;/td>
-&lt;td>Router&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Tencent Cloud&lt;/td>
-&lt;td>SH&lt;/td>
-&lt;td>gauss&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.10.2&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Tencent Cloud&lt;/td>
-&lt;td>SH&lt;/td>
-&lt;td>cantor&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.10.3&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Tencent Cloud&lt;/td>
-&lt;td>SH&lt;/td>
-&lt;td>hilbert&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.10.4&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>China Telecom Cloud&lt;/td>
-&lt;td>GZ&lt;/td>
-&lt;td>NA&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.10.5&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="loc-2---japan">Loc 2 - Japan&lt;/h3>
-&lt;ol>
-&lt;li>
-&lt;p>Network Interface: &lt;code>jp&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.20.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>192.168.142.0/32, 192.168.{10, 30}.0/24&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;li>
-&lt;p>Network Interface (Router): &lt;code>sgjp&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.142.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>0.0.0.0/0&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;/ol>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Service Provider&lt;/th>
-&lt;th>Location&lt;/th>
-&lt;th>Name&lt;/th>
-&lt;th>Public IP&lt;/th>
-&lt;th>Private IP&lt;/th>
-&lt;th>Purpose&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Oracle Cloud&lt;/td>
-&lt;td>JP&lt;/td>
-&lt;td>einstein&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.20.1 / 192.168.142.2&lt;/td>
-&lt;td>Router&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Oracle Cloud&lt;/td>
-&lt;td>JP&lt;/td>
-&lt;td>bohr&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.20.2&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="loc-3---hksar-china">Loc 3 - HKSAR, China&lt;/h3>
-&lt;ol>
-&lt;li>
-&lt;p>Network Interface: &lt;code>hk&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.30.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>192.168.143.0/32, 192.168.{20, 30}.0/24&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;li>
-&lt;p>Network Interface (Router): &lt;code>sghk&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.143.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>0.0.0.0/0&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;/ol>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Service Provider&lt;/th>
-&lt;th>Location&lt;/th>
-&lt;th>Name&lt;/th>
-&lt;th>Public IP&lt;/th>
-&lt;th>Private IP&lt;/th>
-&lt;th>Purpose&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Cube Cloud&lt;/td>
-&lt;td>HK&lt;/td>
-&lt;td>turing&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.30.3 / 192.168.143.2&lt;/td>
-&lt;td>Router&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Tencent Cloud&lt;/td>
-&lt;td>HK&lt;/td>
-&lt;td>neumann&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.30.1&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Tencent Cloud&lt;/td>
-&lt;td>HK&lt;/td>
-&lt;td>hinton&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.30.2&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="loc-4---singapore">Loc 4 - Singapore&lt;/h3>
-&lt;ol>
-&lt;li>
-&lt;p>Network Interface: &lt;code>sgcn&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.141.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>0.0.0.0/0&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;li>
-&lt;p>Network Interface: &lt;code>sgjp&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.142.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>0.0.0.0/0&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;li>
-&lt;p>Network Interface: &lt;code>sghk&lt;/code>&lt;/p>
-&lt;ol>
-&lt;li>IP address: &lt;code>192.168.143.0/24&lt;/code>&lt;/li>
-&lt;li>Allowed IP: &lt;code>0.0.0.0/0&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;/li>
-&lt;/ol>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Service Provider&lt;/th>
-&lt;th>Location&lt;/th>
-&lt;th>Name&lt;/th>
-&lt;th>Public IP&lt;/th>
-&lt;th>Private IP&lt;/th>
-&lt;th>Purpose&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Tencent Cloud&lt;/td>
-&lt;td>SG&lt;/td>
-&lt;td>bayes&lt;/td>
-&lt;td>(secret)&lt;/td>
-&lt;td>192.168.141.1 / 192.168.142.1 / 192.168.143.1&lt;/td>
-&lt;td>Central Router&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h2 id="configuration">Configuration&lt;/h2>
-&lt;h3 id="backbone-network">“Backbone Network”&lt;/h3>
-&lt;p>As usual, I use the tool I wrote &lt;a href="https://github.com/TerenceLiu98/wgtools">wgtools&lt;/a> to generate Wireguard configuration. However, the tool is built for the full-mesh configuration, thus, for the “backbone” network, we need to modify the config, here is an example: in the &lt;code>sgcn&lt;/code> interface, I put the following settings in &lt;code>bayes&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Interface&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Address &lt;span style="color:#f92672">=&lt;/span> 192.168.141.1/24
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ListenPort &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">51821&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PrivateKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;interface-prikey&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Table &lt;span style="color:#f92672">=&lt;/span> off
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = cn-router&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;peer-pubkey&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 0.0.0.0/0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> xxx.xxx.xxx.xxx:51821
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The reason why we need to set the Address of the Interface to &lt;code>/24&lt;/code> is that if we want the subnet of &lt;code>newton&lt;/code> are accessible, which means that &lt;code>192.168.141.2/32&lt;/code> need to be accessible from both sides as it is the bridge between &lt;code>sgcn&lt;/code> and &lt;code>cn&lt;/code> as the &lt;code>sgcn&lt;/code> the interface is the bridge between the “external” to the “internal”. Here is the setting in &lt;code>newton&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Interface&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Address &lt;span style="color:#f92672">=&lt;/span> 192.168.141.2/24 &lt;span style="color:#75715e"># the same reason, this interface is the &amp;#34;bridge&amp;#34; &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ListenPort &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">51821&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PrivateKey &lt;span style="color:#f92672">=&lt;/span> cJgoIHnDfCl+p8D7KE0jCBkRipEwe3K6Jq7FG8OTzlo&lt;span style="color:#f92672">=&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Table &lt;span style="color:#f92672">=&lt;/span> off
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = bayes&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> FF85tV+bkTWA3rNHpn+sapA/08JV7HO92y/I1P+xsRE&lt;span style="color:#f92672">=&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 0.0.0.0/0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> xxx.xxx.xxx.xxx:51821
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Similarly, you can modify the Address and Endpoint for &lt;code>sgjp&lt;/code> and &lt;code>sghk&lt;/code> .&lt;/p>
-&lt;h3 id="intranetinternet">“Intranet/Internet”&lt;/h3>
-&lt;p>It is easy to generate the configuration with my tools, or maybe you can generate them manually, which is not the key for the configuration. The important part is that for each node of the “intranet“, you can control which other subnet can access to you. Take &lt;code>gauss&lt;/code> and &lt;code>einstein&lt;/code> as an example, if you want &lt;code>gauss&lt;/code> can access from the &lt;code>einstein&lt;/code> then you need to add the address of &lt;code>einstein&lt;/code> in the &lt;code>newton&lt;/code>’s &lt;code>AllowedIPs&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># configuration of gauss&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Interface&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Address &lt;span style="color:#f92672">=&lt;/span> 192.168.10.2/32,fd0b:76a0:952b:0:afa3:e03c:fe6d:2e55/128
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ListenPort &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">51820&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PrivateKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;gauss-privkey&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostUp &lt;span style="color:#f92672">=&lt;/span> iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PostDown &lt;span style="color:#f92672">=&lt;/span> iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Peer&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Name = newton&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PublicKey &lt;span style="color:#f92672">=&lt;/span> &amp;lt;newton-pubkey&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>AllowedIPs &lt;span style="color:#f92672">=&lt;/span> 192.168.20.1/32,192.168.248.1/32,fd0b:76a0:952b:0:e96f:2dae:80a8:b578/128
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PersistentKeepalive &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Endpoint &lt;span style="color:#f92672">=&lt;/span> xxx.xxx.xxx.xxx:51820
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This is because &lt;code>newton&lt;/code> is the bridge between &lt;code>cn&lt;/code> and &lt;code>jp&lt;/code> , or more specifically, the &lt;code>einstein&lt;/code> ‘s traffic needs to go through the &lt;code>jp → sgjp → sgcn → cn&lt;/code> , and for &lt;code>sgcn → cn&lt;/code> you need to add the &lt;code>192.168.20.1/32&lt;/code> in the &lt;code>AllowedIPs&lt;/code> and &lt;code>cn&lt;/code> will know that this traffic can be accepted by the &lt;code>cn&lt;/code> and it’s routed via the &lt;code>192.168.248.1/32&lt;/code>.&lt;/p>
-&lt;h3 id="wireguard-site-to-site-configuration">Wireguard Site-to-Site Configuration&lt;/h3>
-&lt;p>For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose &lt;code>OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP)&lt;/code> and &lt;code>iBGP(Interior Border Gateway Protocol)&lt;/code> to resolve the routing problem.&lt;/p>
-&lt;p>There are multiple different tools we can use: &lt;code>bird2&lt;/code>, &lt;code>quagga&lt;/code>, and etc.. I use &lt;code>bird2&lt;/code> in here.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get install bird2 &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo systemctl stop bird2
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The reason why I stop the process at first is that I don&amp;rsquo;t want the &amp;ldquo;bad&amp;rdquo; configuration to influence the network.&lt;/p>
-&lt;h4 id="ospf---open-shortest-path-frist">OSPF - Open Shortest Path Frist&lt;/h4>
-&lt;p>OSPF is an interior gateway protocol (IGP) that routes packets within a single autonomous system (AS). OSPF uses link-state information to make routing decisions, making route calculations using the shortest-path-first (SPF) algorithm (also referred to as the Dijkstra algorithm). Each router running OSPF floods link-state advertisements throughout the AS or area that contain information about that router’s attached interfaces and routing metrics. Each router uses the information in these link-state advertisements to calculate the least cost path to each network and create a routing table for the protocol.&lt;/p>
-&lt;p>First, let&amp;rsquo;s try OSPF first.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">## cn-router&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>router id 192.168.199.1;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol device &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol kernel &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export where proto &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;wg&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol ospf v2 sgcn &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> import where net !~ 192.168.141.0/24;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export all;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> area 192.168.141.0 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> interface &lt;span style="color:#e6db74">&amp;#34;sgcn&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol ospf v2 cn &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export all;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> area 192.168.10.0 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> interface &lt;span style="color:#e6db74">&amp;#34;cn&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>where &lt;code>router id&lt;/code> is the specific id for the router, it looks like a IP address, however, it actually just arbitrary 32-bit numbers that are by convection written in dotted-quad notation.&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>protocol deive&lt;/code> help use to get information about netowkr interfaces from the kernel&lt;/li>
-&lt;li>&lt;code>protocol kernel&lt;/code> performs synchronization of BIRD&amp;rsquo;s routing tables with the OS kernel and here we export the &lt;code>wg&lt;/code> protocol&amp;rsquo;s routing&lt;/li>
-&lt;li>&lt;code>protocol ospf v2 sgcn&lt;/code> sets up the the OSPFv2 instance we&amp;rsquo;ll use for the wireguard connection. Note that the &lt;code>sgcn&lt;/code> is the id I give to this instance, it can be arbitrary id; we import all the routes it receives over OSPF into its routing table and &lt;code>export all;&lt;/code>.
-&lt;ul>
-&lt;li>The &lt;code>import where net !~ 192.168.141.0/24;&lt;/code> line configures BIRD to avoid pulling in any routes to the &lt;code>192.168.141.0/24&lt;/code> subnet from OSPF — this is the subnet we’re using for the WireGuard connection between &lt;code>cn-router&lt;/code> and &lt;code>sg-router&lt;/code>. This route is already set up in the &lt;code>/etc/wireguard/sgcn.conf&lt;/code>.&lt;/li>
-&lt;li>The &lt;code>area 192.168.141.0&lt;/code> block configures BIRD to use the area with an ID of &lt;code>192.168.141.0&lt;/code> for OSPF on the specified interface. This ID is also an arbitrary 32-bit number. The &lt;code>interface &amp;quot;sgcn&amp;quot;&lt;/code> specifies that the &lt;code>sgcn&lt;/code> interface we set up is included in the area definition.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>With this setting, the router will listen for and setd out OSPF broadcasts on the &lt;code>sgcn&lt;/code> interface, importing the routes learned from OSPF into the table, and exporting the other routes in its table to share over OSPF. As you can se &lt;code>protocol ospf v2 cn&lt;/code> is the OSPF for the &lt;code>cn&lt;/code> LAN.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># start bird&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl start bird
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># check birdc status&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo birdc 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># reload configuration&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo birdc configurate
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># check ospf &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo birdc show ospf
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># check route table&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo birdc show route
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With the above configuration, &lt;code>cn-router&lt;/code> and &lt;code>sg-router&lt;/code> can communicate and exchange routing table, the next step is to propagate &lt;code>cn&lt;/code> and to &lt;code>sg&lt;/code>&amp;rsquo;s node. We can still use &lt;code>OSPF&lt;/code> for routing.&lt;/p>
-&lt;p>As you can see, two LAN OSPF can sharing the local routing table to each other via the &lt;code>sgcn&lt;/code> and &lt;code>sgjp&lt;/code>.&lt;/p>
-&lt;h4 id="ibgp---interior-border-gateway-protocol">iBGP - Interior Border Gateway Protocol&lt;/h4>
-&lt;p>IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># configuration of cn-router&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>router id 192.168.199.1;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>define LOCAL_ASN &lt;span style="color:#f92672">=&lt;/span> 4242420100;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol device &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol kernel &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export where proto &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;wg&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol ospf v2 wg &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> import where net !~ 192.168.141.0/24;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export all;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> area 192.168.141.0 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> interface &lt;span style="color:#e6db74">&amp;#34;sgcn&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol direct &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> interface &lt;span style="color:#e6db74">&amp;#34;cn&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>protocol bgp lnet_sgcn &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> local 192.168.141.2 as 4242420100;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> neighbor 192.168.141.1 as 4242420100;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> multihop 1;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> graceful restart on;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> rr client;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ipv4 &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> import all;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export all;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>protocal direct&lt;/code> block with the actual name of the roter&amp;rsquo;s LAN interface, for here, my router&amp;rsquo;s LAN interface is &lt;code>cn&lt;/code>. The &lt;code>protocal direct&lt;/code> is required as it is used to import the direct interface routes for the LAN interface into BIRD&amp;rsquo;s routing table, so that it can add the correct next hop to the routes from the other site that it will share via BGP.&lt;/li>
-&lt;li>&lt;code>protocal bgp lnet&lt;/code> is used to define the BGP section, again, the &lt;code>lnet_sgnn&lt;/code> is just arbitrary ID for the protocal, you can use any word/number you want.&lt;/li>
-&lt;li>&lt;code>export all&lt;/code> directs BIRD to share all the rotes in the routing table with the other iBGP server. &lt;code>next hop self&lt;/code> directs it to adjust those roures to make the Wireguard router itself the next hop in all those routes. This will share the rotes the Wireguard roter learned from the other site, using the Wireguard router it elf as the link to the site.&lt;/li>
-&lt;li>&lt;code>local 192.168.141.2 as 424220100&lt;/code> and &lt;code>neighbor 192.168.141.1 as 424220100&lt;/code> is defining the AS number of local machine and the neighbor. If these two ASN are the same, we are defining a &lt;code>iBGP&lt;/code> and if there are different we are defining a &lt;code>eBGP&lt;/code>.&lt;/li>
-&lt;/ul>
-&lt;p>For now, I have tried &lt;code>OSPF&lt;/code> and &lt;code>iBGP&lt;/code>. But I just simply follow the instruction and did not dig into the high-level setting.&lt;/p>
-&lt;p>is supported $\frac{1}{2}$&lt;/p></content:encoded></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here you can see that we create a static route between the router and node-1, and this could be seen as the &lt;code&gt;PostUp = ip addr add &amp;lt;local-ip&amp;gt; peer &amp;lt;remote-ip&amp;gt; dev %i&lt;/code&gt; in Wireguard configuration. After the configuration of bird we can simply use &lt;code&gt;sudo birdc c &amp;amp;&amp;amp; sudo birc show protocols&lt;/code&gt; to check whether the iBGP is established.&lt;/p&gt;
+&lt;p&gt;For the eBGP part, it is similar to the iBGP part, we need a template and settings:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;### At Template in Both router-1 and router-2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# https://bird.network.cz/?get_doc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;define LOCAL_ASN &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;net-area-ASN&amp;gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;define NET &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[]&lt;/span&gt; &lt;span style="color:#75715e"&gt;# mark down all the ip in all the net area&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;template bgp tpl_ebgp &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; local as LOCAL_ASN;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; path metric 1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; direct;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; graceful restart on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; import filter &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; net ~ NET &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt; accept;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; reject;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export filter &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; net ~ NET &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt; accept;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; reject;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; next hop self;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gateway direct;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For the settings:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;############# /etc/bird/bird.conf&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for router-1:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# ... add a new protocol bgp &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol bgp area1_area_2 from tpl_ebgp &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; neighbor &amp;lt;router2-ip&amp;gt; as router2_ASN;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;############# /etc/bird/bird.conf&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for router-2:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# ... add a new protocol bgp &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol bgp area_2_area_1 from tpl_ebgp &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; neighbor &amp;lt;router1-ip&amp;gt; as router1_ASN;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After the configuration, we can easily build a link-local and pseudo-link-global network by using the BGP protocol. In these configurations, I use IP address as the filter, you may try ASN as the filter, here is an example,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;filter FILTER_ASN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;int set accept_asn; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; accept_asn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;area1_ASN, area2_ASN, area3_ASN&lt;span style="color:#f92672"&gt;]&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; bgp_path.last ~ accept_asn &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; accept;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; reject;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;template bgp tpl_ebgp &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; local as LOCAL_ASN;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; path metric 1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; direct;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; graceful restart on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; import filter FILTER_ASN;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export filter FILTER_ASN;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; next hop self;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gateway direct;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here are some points you may concern about:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If your router is needed to be attached, the backbone network’s CIDR needs to be accepted by the BGP, I try multiple times but I did not fix this issue.&lt;/li&gt;
+&lt;li&gt;Inside a network area, all nodes are in a star topology network and the router is the root node. This means if the router is down, the connections between nodes are also down. You may use wgsd to establish a direct connection inside the network area.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="wireguard-multiplexing"&gt;Wireguard multiplexing?&lt;/h2&gt;
+&lt;p&gt;In the standard Wireguard, each interface corresponds to one port and if we have multiple different settings configuration we may lost in the port selection or just do not remember the which port percisely link to the interface. Under this circumstance, I use &lt;a href="https://github.com/ginuerzh/gost"&gt;gost&lt;/a&gt; to aggregate the interfaces&amp;rsquo; ports into one port.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# download the latest version from github&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gzip -d gost-linux-amd64-2.11.4.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mv gost-linux-amd64-2.11.4 /usr/local/bin/gost &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo chmow +x /usr/local/bin/gost
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &amp;gt; /etc/systemd/system/gost.service &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; EOF
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Unit]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Description=Gost Proxy
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;After=network.target
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Wants=network.target
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Service]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Type=simple
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ExecStart=/usr/local/bin/gost -C /etc/gost/config.json
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Restart=always
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Install]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;WantedBy=multi-user.target
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir /etc/gost
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &amp;gt; /etc/gost/config.json &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; EOF
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;Debug&amp;#34;: true,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;Retries&amp;#34;: 0,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;ServeNodes&amp;#34;: [
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;udp://:51820/127.0.0.1:51821,127.0.0.1:51822,127.0.0.1:21823&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; ]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl enable --now gost
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, we can use &lt;code&gt;51820&lt;/code&gt; for all three interface&amp;rsquo;s connection.&lt;/p&gt;</content:encoded></item><item><title>👨‍💻 My Personal Experimental Network: L-Net</title><link>https://blog.cklau.cc/post/lnet-1/</link><pubDate>Tue, 18 Oct 2022 00:11:21 +0800</pubDate><author>Junjie LIU</author><category>Networking</category><category>Wireguard</category><category>Experimental Network</category><guid>https://blog.cklau.cc/post/lnet-1/</guid><description/><content:encoded>&lt;h2 id="before"&gt;Before&lt;/h2&gt;
+&lt;p&gt;In the previous project: &lt;a href="https://blog.cklau.cc/post/my-homelab-1/" title="My Homelab 2"&gt;Homelab&lt;/a&gt;, I listed all my devices and VPS on a table, where all the VPS own a specific public IP, and I tried to use the Wireguard to connect them into a Full-mesh intranet.&lt;/p&gt;
+&lt;p&gt;However, to investigate deeper into the network performance, I started to learn how to federate these clusters while not affecting the current usage. What&amp;rsquo;s more, if I can federate this isolated network, I don&amp;rsquo;t need to build separate services in different clusters. For instance, I can use a single &lt;a href="https://prometheus.io/"&gt;Prometheus&lt;/a&gt; to monitor all the devices and no more millions of virtual interfaces :rofl:&lt;/p&gt;
+&lt;h2 id="design"&gt;Design&lt;/h2&gt;
+&lt;p&gt;We are using the &lt;code&gt;Wireguard&lt;/code&gt; to generate the virtual network interface for each node or each cluster. Between the cluster’s router, we also generate an isolated Wireguard tunnel between two nodes. Here is an example: &lt;code&gt;a1&lt;/code&gt; is the router of the cluster &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; is the central router of the whole L-Net and &lt;code&gt;A&lt;/code&gt;’s IP address is &lt;code&gt;172.12.1.0/24&lt;/code&gt; , then we need an extra IP address(an extra Wireguard tunnel) for &lt;code&gt;a → b&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Under this circumstance, we can connect the nodes inside the &lt;code&gt;A (a2, a3, …)&lt;/code&gt; to &lt;code&gt;b&lt;/code&gt;, and other nodes from &lt;code&gt;C (c1, c2, c3, …)&lt;/code&gt; can also connect to &lt;code&gt;A&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here is the topology of my design:&lt;/p&gt;
+&lt;p&gt;Those bold-colored dotted lines can be seen as the Backbone network, and the slim-colored dotted lines can be seen as the internet/intranet. The slim-black dotted line shows that cross IP range is accessible as long as the client allows the traffic.&lt;/p&gt;
+&lt;h2 id="network-configuration"&gt;Network Configuration&lt;/h2&gt;
+&lt;h3 id="loc-1---mainland-china"&gt;Loc 1 - Mainland, China&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface: &lt;code&gt;cn&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.10.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;192.168.141.x/32, 192.168.{20,30}.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface (Router): &lt;code&gt;sgcn&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.141.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;Service Provider&lt;/th&gt;
+ &lt;th&gt;Location&lt;/th&gt;
+ &lt;th&gt;Name&lt;/th&gt;
+ &lt;th&gt;Public IP&lt;/th&gt;
+ &lt;th&gt;Private IP&lt;/th&gt;
+ &lt;th&gt;Purpose&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Tencent Cloud&lt;/td&gt;
+ &lt;td&gt;GZ&lt;/td&gt;
+ &lt;td&gt;newton&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.10.1 / 192.168.141.2&lt;/td&gt;
+ &lt;td&gt;Router&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Tencent Cloud&lt;/td&gt;
+ &lt;td&gt;SH&lt;/td&gt;
+ &lt;td&gt;gauss&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.10.2&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Tencent Cloud&lt;/td&gt;
+ &lt;td&gt;SH&lt;/td&gt;
+ &lt;td&gt;cantor&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.10.3&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Tencent Cloud&lt;/td&gt;
+ &lt;td&gt;SH&lt;/td&gt;
+ &lt;td&gt;hilbert&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.10.4&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;China Telecom Cloud&lt;/td&gt;
+ &lt;td&gt;GZ&lt;/td&gt;
+ &lt;td&gt;NA&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.10.5&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="loc-2---japan"&gt;Loc 2 - Japan&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface: &lt;code&gt;jp&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.20.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;192.168.142.0/32, 192.168.{10, 30}.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface (Router): &lt;code&gt;sgjp&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.142.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;Service Provider&lt;/th&gt;
+ &lt;th&gt;Location&lt;/th&gt;
+ &lt;th&gt;Name&lt;/th&gt;
+ &lt;th&gt;Public IP&lt;/th&gt;
+ &lt;th&gt;Private IP&lt;/th&gt;
+ &lt;th&gt;Purpose&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Oracle Cloud&lt;/td&gt;
+ &lt;td&gt;JP&lt;/td&gt;
+ &lt;td&gt;einstein&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.20.1 / 192.168.142.2&lt;/td&gt;
+ &lt;td&gt;Router&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Oracle Cloud&lt;/td&gt;
+ &lt;td&gt;JP&lt;/td&gt;
+ &lt;td&gt;bohr&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.20.2&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="loc-3---hksar-china"&gt;Loc 3 - HKSAR, China&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface: &lt;code&gt;hk&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.30.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;192.168.143.0/32, 192.168.{20, 30}.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface (Router): &lt;code&gt;sghk&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.143.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;Service Provider&lt;/th&gt;
+ &lt;th&gt;Location&lt;/th&gt;
+ &lt;th&gt;Name&lt;/th&gt;
+ &lt;th&gt;Public IP&lt;/th&gt;
+ &lt;th&gt;Private IP&lt;/th&gt;
+ &lt;th&gt;Purpose&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Cube Cloud&lt;/td&gt;
+ &lt;td&gt;HK&lt;/td&gt;
+ &lt;td&gt;turing&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.30.3 / 192.168.143.2&lt;/td&gt;
+ &lt;td&gt;Router&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Tencent Cloud&lt;/td&gt;
+ &lt;td&gt;HK&lt;/td&gt;
+ &lt;td&gt;neumann&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.30.1&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Tencent Cloud&lt;/td&gt;
+ &lt;td&gt;HK&lt;/td&gt;
+ &lt;td&gt;hinton&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.30.2&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="loc-4---singapore"&gt;Loc 4 - Singapore&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface: &lt;code&gt;sgcn&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.141.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface: &lt;code&gt;sgjp&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.142.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Network Interface: &lt;code&gt;sghk&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;IP address: &lt;code&gt;192.168.143.0/24&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Allowed IP: &lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;Service Provider&lt;/th&gt;
+ &lt;th&gt;Location&lt;/th&gt;
+ &lt;th&gt;Name&lt;/th&gt;
+ &lt;th&gt;Public IP&lt;/th&gt;
+ &lt;th&gt;Private IP&lt;/th&gt;
+ &lt;th&gt;Purpose&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Tencent Cloud&lt;/td&gt;
+ &lt;td&gt;SG&lt;/td&gt;
+ &lt;td&gt;bayes&lt;/td&gt;
+ &lt;td&gt;(secret)&lt;/td&gt;
+ &lt;td&gt;192.168.141.1 / 192.168.142.1 / 192.168.143.1&lt;/td&gt;
+ &lt;td&gt;Central Router&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="configuration"&gt;Configuration&lt;/h2&gt;
+&lt;h3 id="backbone-network"&gt;“Backbone Network”&lt;/h3&gt;
+&lt;p&gt;As usual, I use the tool I wrote &lt;a href="https://github.com/TerenceLiu98/wgtools"&gt;wgtools&lt;/a&gt; to generate Wireguard configuration. However, the tool is built for the full-mesh configuration, thus, for the “backbone” network, we need to modify the config, here is an example: in the &lt;code&gt;sgcn&lt;/code&gt; interface, I put the following settings in &lt;code&gt;bayes&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Interface&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Address &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.141.1/24
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ListenPort &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;51821&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PrivateKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;interface-prikey&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; off
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = cn-router&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;peer-pubkey&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 0.0.0.0/0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; xxx.xxx.xxx.xxx:51821
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reason why we need to set the Address of the Interface to &lt;code&gt;/24&lt;/code&gt; is that if we want the subnet of &lt;code&gt;newton&lt;/code&gt; are accessible, which means that &lt;code&gt;192.168.141.2/32&lt;/code&gt; need to be accessible from both sides as it is the bridge between &lt;code&gt;sgcn&lt;/code&gt; and &lt;code&gt;cn&lt;/code&gt; as the &lt;code&gt;sgcn&lt;/code&gt; the interface is the bridge between the “external” to the “internal”. Here is the setting in &lt;code&gt;newton&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Interface&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Address &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.141.2/24 &lt;span style="color:#75715e"&gt;# the same reason, this interface is the &amp;#34;bridge&amp;#34; &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ListenPort &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;51821&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PrivateKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cJgoIHnDfCl+p8D7KE0jCBkRipEwe3K6Jq7FG8OTzlo&lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; off
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = bayes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; FF85tV+bkTWA3rNHpn+sapA/08JV7HO92y/I1P+xsRE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 0.0.0.0/0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; xxx.xxx.xxx.xxx:51821
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Similarly, you can modify the Address and Endpoint for &lt;code&gt;sgjp&lt;/code&gt; and &lt;code&gt;sghk&lt;/code&gt; .&lt;/p&gt;
+&lt;h3 id="intranetinternet"&gt;“Intranet/Internet”&lt;/h3&gt;
+&lt;p&gt;It is easy to generate the configuration with my tools, or maybe you can generate them manually, which is not the key for the configuration. The important part is that for each node of the “intranet“, you can control which other subnet can access to you. Take &lt;code&gt;gauss&lt;/code&gt; and &lt;code&gt;einstein&lt;/code&gt; as an example, if you want &lt;code&gt;gauss&lt;/code&gt; can access from the &lt;code&gt;einstein&lt;/code&gt; then you need to add the address of &lt;code&gt;einstein&lt;/code&gt; in the &lt;code&gt;newton&lt;/code&gt;’s &lt;code&gt;AllowedIPs&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# configuration of gauss&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Interface&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Address &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.10.2/32,fd0b:76a0:952b:0:afa3:e03c:fe6d:2e55/128
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ListenPort &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;51820&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PrivateKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;gauss-privkey&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostUp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PostDown &lt;span style="color:#f92672"&gt;=&lt;/span&gt; iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Peer&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Name = newton&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PublicKey &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &amp;lt;newton-pubkey&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;AllowedIPs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 192.168.20.1/32,192.168.248.1/32,fd0b:76a0:952b:0:e96f:2dae:80a8:b578/128
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PersistentKeepalive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; xxx.xxx.xxx.xxx:51820
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is because &lt;code&gt;newton&lt;/code&gt; is the bridge between &lt;code&gt;cn&lt;/code&gt; and &lt;code&gt;jp&lt;/code&gt; , or more specifically, the &lt;code&gt;einstein&lt;/code&gt; ‘s traffic needs to go through the &lt;code&gt;jp → sgjp → sgcn → cn&lt;/code&gt; , and for &lt;code&gt;sgcn → cn&lt;/code&gt; you need to add the &lt;code&gt;192.168.20.1/32&lt;/code&gt; in the &lt;code&gt;AllowedIPs&lt;/code&gt; and &lt;code&gt;cn&lt;/code&gt; will know that this traffic can be accepted by the &lt;code&gt;cn&lt;/code&gt; and it’s routed via the &lt;code&gt;192.168.248.1/32&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="wireguard-site-to-site-configuration"&gt;Wireguard Site-to-Site Configuration&lt;/h3&gt;
+&lt;p&gt;For intuitive thinking, we need to connect cn-router, hksar-router, jp-router, with three different tunnel, however, from here I choose &lt;code&gt;OSPF(Open Shortest Path First, an Internal Gateway Protocol, or IGP)&lt;/code&gt; and &lt;code&gt;iBGP(Interior Border Gateway Protocol)&lt;/code&gt; to resolve the routing problem.&lt;/p&gt;
+&lt;p&gt;There are multiple different tools we can use: &lt;code&gt;bird2&lt;/code&gt;, &lt;code&gt;quagga&lt;/code&gt;, and etc.. I use &lt;code&gt;bird2&lt;/code&gt; in here.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install bird2 &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo systemctl stop bird2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reason why I stop the process at first is that I don&amp;rsquo;t want the &amp;ldquo;bad&amp;rdquo; configuration to influence the network.&lt;/p&gt;
+&lt;h4 id="ospf---open-shortest-path-frist"&gt;OSPF - Open Shortest Path Frist&lt;/h4&gt;
+&lt;p&gt;OSPF is an interior gateway protocol (IGP) that routes packets within a single autonomous system (AS). OSPF uses link-state information to make routing decisions, making route calculations using the shortest-path-first (SPF) algorithm (also referred to as the Dijkstra algorithm). Each router running OSPF floods link-state advertisements throughout the AS or area that contain information about that router’s attached interfaces and routing metrics. Each router uses the information in these link-state advertisements to calculate the least cost path to each network and create a routing table for the protocol.&lt;/p&gt;
+&lt;p&gt;First, let&amp;rsquo;s try OSPF first.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## cn-router&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;router id 192.168.199.1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol device &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol kernel &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export where proto &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;wg&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol ospf v2 sgcn &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; import where net !~ 192.168.141.0/24;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export all;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; area 192.168.141.0 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; interface &lt;span style="color:#e6db74"&gt;&amp;#34;sgcn&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol ospf v2 cn &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export all;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; area 192.168.10.0 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; interface &lt;span style="color:#e6db74"&gt;&amp;#34;cn&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;where &lt;code&gt;router id&lt;/code&gt; is the specific id for the router, it looks like a IP address, however, it actually just arbitrary 32-bit numbers that are by convection written in dotted-quad notation.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;protocol deive&lt;/code&gt; help use to get information about netowkr interfaces from the kernel&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protocol kernel&lt;/code&gt; performs synchronization of BIRD&amp;rsquo;s routing tables with the OS kernel and here we export the &lt;code&gt;wg&lt;/code&gt; protocol&amp;rsquo;s routing&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protocol ospf v2 sgcn&lt;/code&gt; sets up the the OSPFv2 instance we&amp;rsquo;ll use for the wireguard connection. Note that the &lt;code&gt;sgcn&lt;/code&gt; is the id I give to this instance, it can be arbitrary id; we import all the routes it receives over OSPF into its routing table and &lt;code&gt;export all;&lt;/code&gt;.
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;import where net !~ 192.168.141.0/24;&lt;/code&gt; line configures BIRD to avoid pulling in any routes to the &lt;code&gt;192.168.141.0/24&lt;/code&gt; subnet from OSPF — this is the subnet we’re using for the WireGuard connection between &lt;code&gt;cn-router&lt;/code&gt; and &lt;code&gt;sg-router&lt;/code&gt;. This route is already set up in the &lt;code&gt;/etc/wireguard/sgcn.conf&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;area 192.168.141.0&lt;/code&gt; block configures BIRD to use the area with an ID of &lt;code&gt;192.168.141.0&lt;/code&gt; for OSPF on the specified interface. This ID is also an arbitrary 32-bit number. The &lt;code&gt;interface &amp;quot;sgcn&amp;quot;&lt;/code&gt; specifies that the &lt;code&gt;sgcn&lt;/code&gt; interface we set up is included in the area definition.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With this setting, the router will listen for and setd out OSPF broadcasts on the &lt;code&gt;sgcn&lt;/code&gt; interface, importing the routes learned from OSPF into the table, and exporting the other routes in its table to share over OSPF. As you can se &lt;code&gt;protocol ospf v2 cn&lt;/code&gt; is the OSPF for the &lt;code&gt;cn&lt;/code&gt; LAN.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# start bird&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl start bird
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# check birdc status&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo birdc 
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# reload configuration&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo birdc configurate
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# check ospf &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo birdc show ospf
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# check route table&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo birdc show route
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With the above configuration, &lt;code&gt;cn-router&lt;/code&gt; and &lt;code&gt;sg-router&lt;/code&gt; can communicate and exchange routing table, the next step is to propagate &lt;code&gt;cn&lt;/code&gt; and to &lt;code&gt;sg&lt;/code&gt;&amp;rsquo;s node. We can still use &lt;code&gt;OSPF&lt;/code&gt; for routing.&lt;/p&gt;
+&lt;p&gt;As you can see, two LAN OSPF can sharing the local routing table to each other via the &lt;code&gt;sgcn&lt;/code&gt; and &lt;code&gt;sgjp&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id="ibgp---interior-border-gateway-protocol"&gt;iBGP - Interior Border Gateway Protocol&lt;/h4&gt;
+&lt;p&gt;IBGP is used inside the autonomous systems. It is used to provide information to your internal routers. It requires all the devices in same autonomous systems to form full mesh topology or either of Route reflectors and Confederation for prefix learning.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# configuration of cn-router&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;router id 192.168.199.1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;define LOCAL_ASN &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 4242420100;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol device &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol kernel &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export where proto &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;wg&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol ospf v2 wg &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; import where net !~ 192.168.141.0/24;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export all;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; area 192.168.141.0 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; interface &lt;span style="color:#e6db74"&gt;&amp;#34;sgcn&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol direct &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; interface &lt;span style="color:#e6db74"&gt;&amp;#34;cn&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;protocol bgp lnet_sgcn &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; local 192.168.141.2 as 4242420100;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; neighbor 192.168.141.1 as 4242420100;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; multihop 1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; graceful restart on;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rr client;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ipv4 &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; import all;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; export all;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;protocal direct&lt;/code&gt; block with the actual name of the roter&amp;rsquo;s LAN interface, for here, my router&amp;rsquo;s LAN interface is &lt;code&gt;cn&lt;/code&gt;. The &lt;code&gt;protocal direct&lt;/code&gt; is required as it is used to import the direct interface routes for the LAN interface into BIRD&amp;rsquo;s routing table, so that it can add the correct next hop to the routes from the other site that it will share via BGP.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protocal bgp lnet&lt;/code&gt; is used to define the BGP section, again, the &lt;code&gt;lnet_sgnn&lt;/code&gt; is just arbitrary ID for the protocal, you can use any word/number you want.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;export all&lt;/code&gt; directs BIRD to share all the rotes in the routing table with the other iBGP server. &lt;code&gt;next hop self&lt;/code&gt; directs it to adjust those roures to make the Wireguard router itself the next hop in all those routes. This will share the rotes the Wireguard roter learned from the other site, using the Wireguard router it elf as the link to the site.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;local 192.168.141.2 as 424220100&lt;/code&gt; and &lt;code&gt;neighbor 192.168.141.1 as 424220100&lt;/code&gt; is defining the AS number of local machine and the neighbor. If these two ASN are the same, we are defining a &lt;code&gt;iBGP&lt;/code&gt; and if there are different we are defining a &lt;code&gt;eBGP&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For now, I have tried &lt;code&gt;OSPF&lt;/code&gt; and &lt;code&gt;iBGP&lt;/code&gt;. But I just simply follow the instruction and did not dig into the high-level setting.&lt;/p&gt;
+&lt;p&gt;is supported $\frac{1}{2}$&lt;/p&gt;</content:encoded></item></channel></rss>
