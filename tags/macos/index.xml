@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Agentic-Coding | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/agentic-coding/</link><atom:link href="https://blog.cklau.cc/tags/agentic-coding/index.xml" rel="self" type="application/rss+xml"/><description>Agentic-Coding</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Thu, 30 Jul 2026 00:12:00 +0800</lastBuildDate><item><title>🤓 Project Managers Don't Read Every Diff - 用 Kubecode Desktop 自举 Kubecode</title><link>https://blog.cklau.cc/post/kubecode-2/</link><pubDate>Thu, 30 Jul 2026 00:12:00 +0800</pubDate><author>Junjie LIU</author><category>Vibe-Coding</category><category>开发日记</category><category>Agentic-Coding</category><category>MacOS</category><category>Swift</category><guid>https://blog.cklau.cc/post/kubecode-2/</guid><description>Before 在上一篇文章里，我把 Kubecode 描述成一个 Agent Control Plane：用户不再坐在 editor 前面逐行写代码，而是定义目标、阅读 plan、验收结果，再把中间的 implementation 和 debugging 交给一支 agent team。那篇文章发出去的时候，Kubecode 仍然是一套 React frontend 加 Rust server，主要运行在 Linux、Kubeflow 或其他远端环境里。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>MacOS | 特倫蘇的日與夜</title><link>https://blog.cklau.cc/tags/macos/</link><atom:link href="https://blog.cklau.cc/tags/macos/index.xml" rel="self" type="application/rss+xml"/><description>MacOS</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Thu, 30 Jul 2026 00:12:00 +0800</lastBuildDate><item><title>🤓 Project Managers Don't Read Every Diff - 用 Kubecode Desktop 自举 Kubecode</title><link>https://blog.cklau.cc/post/kubecode-2/</link><pubDate>Thu, 30 Jul 2026 00:12:00 +0800</pubDate><author>Junjie LIU</author><category>Vibe-Coding</category><category>开发日记</category><category>Agentic-Coding</category><category>MacOS</category><category>Swift</category><guid>https://blog.cklau.cc/post/kubecode-2/</guid><description>Before 在上一篇文章里，我把 Kubecode 描述成一个 Agent Control Plane：用户不再坐在 editor 前面逐行写代码，而是定义目标、阅读 plan、验收结果，再把中间的 implementation 和 debugging 交给一支 agent team。那篇文章发出去的时候，Kubecode 仍然是一套 React frontend 加 Rust server，主要运行在 Linux、Kubeflow 或其他远端环境里。
 后来我又新开了一个 repository：kubecode-desktop。
 最省事的做法其实十分明显。Kubecode 已经有 React 和 Rust，只需要套一个 Tauri，理论上很快就能得到一个可以分发的 desktop application。但笔者恰好是 Mac、iPhone 和 iPad 用户，于是很自然地想试试：如果不用 WebView，而是认真做一个原生 Apple client，Kubecode 会长成什么样？
 这不是一个完全理性的产品决策，更像是一次夹带私货的技术选择。结果也确实证明，夹带私货通常需要付出代价。
@@ -95,75 +95,4 @@
 &lt;li&gt;&lt;code&gt;kubecode&lt;/code&gt; 要解决的是本地 Agent 如何通过 MCP 无感操作远端 workspace。MCP 可以把远端能力暴露出来，但怎样确保 agent 不会误用本地工具，仍然没有答案。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;kubecode-desktop&lt;/code&gt; 要解决的是 streaming Markdown。当前 turn 结束后再完整渲染的妥协不可接受，滚动错位也没有消失；下一步需要重新评估 renderer，而不是继续在现有方案上无限补丁。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;至于异构 Team 是否真的更便宜、Leader 的 review 能否长期挡住便宜模型的错误、这套流程能否完整推进一个 research project，都还需要真实使用和数据。现在唯一已经发生的，是我打开 Kubecode Desktop，定义一个问题，然后看着 Leader 带着 teammate 把它变成 Issues、commits、tests 和 merged PR， 等等。 Project manager 不需要知道工程师之间说过的每一句话，也不需要阅读每一个 diff。他需要定义问题，判断方案，并对最后的效果负责。给科研民工配一支工程团队，大概就是先从允许他少管一点工程开始。&lt;/p&gt;</content:encoded></item><item><title>🤓 Research Is Always a Startup - 用 Kubecode 给科研民工配一支工程团队</title><link>https://blog.cklau.cc/post/kubecode-1/</link><pubDate>Wed, 22 Jul 2026 00:12:00 +0800</pubDate><author>Junjie LIU</author><category>Vibe-Coding</category><category>开发日记</category><category>Agentic-Coding</category><category>Scientific-Computing</category><category>Kubernetes</category><guid>https://blog.cklau.cc/post/kubecode-1/</guid><description>Before 笔者一直是 web-based IDE 的长期用户。最初搭建 Kubeflow，就是希望用户不需要关心手上那台电脑究竟有几颗核心、多少内存，只要打开浏览器，就可以在云端的 Jupyter 或 VS Code 里使用实验室的计算资源。本地机器负责显示网页，真正的工作留给服务器，听上去十分合理，实际用起来也确实如此。
-但是 AI agent 出现以后，事情开始有些不对劲了。
-过去 IDE 的中心是 editor，人坐在 CodeMirror 或 Monaco 前面写代码，服务器只负责把代码跑起来；现在 Codex、Claude Code、OpenCode 已经可以自己读项目、改代码、跑测试和调 bug，人反而逐渐不再亲手写每一行。与此同时，一旦同时跑几个 agent，context、进程、terminal 和各种工具调用又开始吃掉本地机器的性能。好不容易通过 cloud 把计算从笔记本搬走，agent 又把一部分压力搬了回来。
-所以我开始想：有没有可能做一个新的 application，替掉原来跑在 Kubeflow 上的 Jupyter / VS Code？用户打开浏览器之后，看到的中心不再是 code editor，而是 Agent Session、任务看板和一支可以被调度的 agent team。
-说人话就是：让大家都过过 project manager 的生活。</description><content:encoded>&lt;h2 id="before"&gt;Before&lt;/h2&gt;
-&lt;p&gt;笔者一直是 web-based IDE 的长期用户。最初搭建 Kubeflow，就是希望用户不需要关心手上那台电脑究竟有几颗核心、多少内存，只要打开浏览器，就可以在云端的 Jupyter 或 VS Code 里使用实验室的计算资源。本地机器负责显示网页，真正的工作留给服务器，听上去十分合理，实际用起来也确实如此。&lt;/p&gt;
-&lt;p&gt;但是 AI agent 出现以后，事情开始有些不对劲了。&lt;/p&gt;
-&lt;p&gt;过去 IDE 的中心是 editor，人坐在 CodeMirror 或 Monaco 前面写代码，服务器只负责把代码跑起来；现在 Codex、Claude Code、OpenCode 已经可以自己读项目、改代码、跑测试和调 bug，人反而逐渐不再亲手写每一行。与此同时，一旦同时跑几个 agent，context、进程、terminal 和各种工具调用又开始吃掉本地机器的性能。好不容易通过 cloud 把计算从笔记本搬走，agent 又把一部分压力搬了回来。&lt;/p&gt;
-&lt;p&gt;所以我开始想：有没有可能做一个新的 application，替掉原来跑在 Kubeflow 上的 Jupyter / VS Code？用户打开浏览器之后，看到的中心不再是 code editor，而是 Agent Session、任务看板和一支可以被调度的 agent team。&lt;/p&gt;
-&lt;p&gt;说人话就是：&lt;strong&gt;让大家都过过 project manager 的生活。&lt;/strong&gt;&lt;/p&gt;
-&lt;center&gt;
- &lt;figure&gt;
- &lt;img src="https://raw.githubusercontent.com/Bayes-Cluster/kubecode/main/docs/assets/brand/kubecode-social-preview.png" width="100%" alt="Kubecode, a project-oriented AI coding workspace"&gt;
- &lt;figcaption&gt;Kubecode 目前支持 Claude Code、Codex 和 OpenCode&lt;/figcaption&gt;
- &lt;/figure&gt;
-&lt;/center&gt;
-&lt;h2 id="从-web-ide-到-agent-control-plane"&gt;从 Web IDE 到 Agent Control Plane&lt;/h2&gt;
-&lt;p&gt;有了这个想法以后，我先找了一圈现成的 agent workspace。最早试的是 OpenCode 的 Web 模式，我还给它做过一个适合 Kubeflow 的&lt;a href="https://github.com/TerenceLiu98/staging-containers/tree/master/kubeflow/opencode"&gt;镜像&lt;/a&gt;。OpenCode Web 已经很接近“把 agent 放进浏览器”这件事，但我平时真正愿意使用的仍然是 Codex 和 Claude Code。原因不神秘：它们各自的 harness 更成熟。既然 agent 的能力不只来自 model，也来自权限、工具、上下文管理、plan mode、session resume 等一整套 harness，那么重新调用模型 API，自己仿一个 agent，实际上是在把最难的部分再做一遍。&lt;/p&gt;
-&lt;p&gt;我想保留各家的 harness，只在它们上面放一个统一的工作台。&lt;/p&gt;
-&lt;p&gt;这也是为什么 Kubecode 最终选择了 &lt;a href="https://agentclientprotocol.com/"&gt;Agent Client Protocol&lt;/a&gt;（ACP）。ACP 给我的第一印象很简单：一套 API，可以调用不同的本地 agent 产品。Kubecode 不需要代理模型请求，也不替用户管理 API key；Claude Code、Codex、OpenCode 仍然拥有自己的认证、模型选择和 provider 配置，Kubecode 只负责把它们组织成 Project 和 Session。&lt;/p&gt;
-&lt;p&gt;项目一开始导入了 &lt;a href="https://github.com/refactoringhq/tolaria"&gt;Tolaria&lt;/a&gt; 作为 baseline。这里需要特别澄清一下：Tolaria 当时并没有使用 ACP。它是一个 note-taking app，通过分别维护 Claude Code、Codex、OpenCode、Pi 的 CLI adapter，启动各自的子进程并读取不同的 JSON event。比如 Codex 走的是 &lt;code&gt;codex exec --json&lt;/code&gt;，然后由 Tolaria 自己把各家的事件归一化。我最初看中的是它“可以直接调用本地 agent”这件事，后来发现 ACP，便把这一层换成了 ACP。&lt;/p&gt;
-&lt;p&gt;Tolaria 留下的另一个影响反而延续了下来：ADR。Kubecode 从 2026 年 7 月 14 日导入 baseline，到 7 月 19 日发布 &lt;code&gt;v0.1.1&lt;/code&gt;，六天里留下了 62 个 commits 和 35 份新的 Architecture Decision Records。很有趣的是，这些 ADR 我基本不看。每次开一个新的 Session，我会让 agent 先读完项目文档和 ADR；我真正仔细看的，是它在 plan mode 里给我的计划。换言之，ADR 不是 agent 写给我的汇报，而是这一个 agent 留给下一个 agent 的工程记忆。&lt;/p&gt;
-&lt;h2 id="research-is-always-a-startup"&gt;Research Is Always a Startup&lt;/h2&gt;
-&lt;p&gt;Kubecode 想解决的不是“研究者不会写代码”，而是一个我很久以前就有的感受：&lt;strong&gt;差一个程序员。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;研究团队实际上很像一间小型 startup。公司如果活得足够久，不可能永远只有几个人，它会从 10 个人长到 20 个、100 个，产品、工程、测试、运维会慢慢出现。但科研团队似乎永远停留在 startup 的最早阶段：一个 PI 带几个学生，而对于学生来说，很多时候就是一间 OPC（One Person Company）。选题、读论文、找数据、写代码、调环境、跑实验、画图、写文章，全都由一个人完成。&lt;/p&gt;
-&lt;p&gt;笔者又恰好是一个十分虎头蛇尾的人，想法不少，真要落地的时候却很懒。科研里的 idea 尤其如此：在脑子里听起来都很美好，只有真的搭起模型、跑过 baseline、换过几组参数，才知道它究竟是一个 research idea，还是一段洗澡时产生的幻觉。搭一个 Transformer、补几组实验、调一个反复报错的 training script，这些工作不一定消耗多少脑力，但很消耗体力，也很容易把一个本来值得试试的 idea 拖死。&lt;/p&gt;
-&lt;p&gt;所以我对 Kubecode 的核心判断是：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;AI 不应该替研究者提出问题，但可以补上研究者一直缺少的那支工程团队。&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;人仍然要负责 idea、taste 和研究框架。这些东西来自亲自读论文、试用竞品、理解领域里真正的问题，以及判断一个结果是否值得相信。Agent 负责的是写实验代码、调试、补测试和完成那些已经定义清楚的工程工作。它降低的不是提出 idea 的成本，而是“认真试一次”的成本。&lt;/p&gt;
-&lt;p&gt;这也是 Kubecode 和我上一个 vibe-coding 项目 Sapientia 最大的区别。Sapientia 想解决 note-taking，但我在现实中并不是一个会记笔记的人。我曾经以为，做一个 note-taking app 就会让我开始记笔记，事实证明并不会。连开发者自己都不用，继续开发的动力自然很快消失。Kubecode 接在我已经每天进行的工作后面：读论文、做科研、写 proposal，然后想办法把 idea 做出来。还是要做自己真正想做、也真正会用的东西。&lt;/p&gt;
-&lt;h2 id="solo-session-如何长成一支-team"&gt;Solo Session 如何长成一支 Team&lt;/h2&gt;
-&lt;p&gt;Kubecode 现在把 Solo Session 和 Team 做成两个平行的入口，但一个 Solo Session 可以升级成 Team Leader。这恰好对应了我自己开发项目的方式：先在一个 Session 里把 &lt;code&gt;goal.md&lt;/code&gt; 和 &lt;code&gt;plan.md&lt;/code&gt; 敲定，等到目标和验收条件差不多清楚以后，再让它带 Team 去做实现。&lt;/p&gt;
-&lt;p&gt;一个比较理想的科研流程大概是：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;论文 / 数据集 / 外部代码
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ↓
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Solo Session 理解研究者的 idea
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ↓
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;固化 goal.md、plan.md 与验收条件
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ↓
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;升级为 Team，Leader 拆解任务
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ↓
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;异构 Teammates 执行
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ↓
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;独立验证工程结果
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ↓
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;研究者验收证据，并决定下一个问题
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Leader 应该是团队里最强、通常也最贵的 agent。它负责理解目标、规划、选择 teammate、分配任务和审查结果，不应该亲自去下载数据或者修一个简单 bug。具体任务可以交给不同 provider、不同 model、不同 system prompt 的 agent：一个 agent 下载和清洗数据，一个 agent 实现模型，另一个负责调试。如果任务边界很清楚，甚至可以交给 OpenCode 里的免费 agent，而不必消耗 Codex 或 Claude Code 的 token。&lt;/p&gt;
-&lt;p&gt;这正是 provider-native subagents 不完全够用的地方。Codex 或 Claude Code 内置的 subagent 是各自 harness 的一部分，通常由同一套 provider 和能力体系派生；Kubecode 的 Team 想做的是跨 agent 产品的异构调度。任务不同，难度不同，自然不需要每一个 teammate 都使用相同能力、相同价格的 model。&lt;/p&gt;
-&lt;p&gt;当然，怎样在质量、速度与 token 成本之间自动分配任务，目前并没有解决。把它写成一个动态规划问题很容易，真正估计每项任务的难度、成功率和协调成本却没那么容易，甚至会迅速长成一个 NP-hard 的新坑。现在仍然是 Leader 根据任务难度决定创建怎样的 teammate，预算路由以后再说。&lt;/p&gt;
-&lt;p&gt;这套设计也改变了 IDE 的视觉中心。最初的 Kubecode 原型仍然把 CodeMirror 放在中间，Agent 只是右侧的一块 panel；很快我就觉得不对。既然用户关心的是 Leader 怎样拆解任务、哪一个 teammate 正在工作、哪些结果等待验收，那么主界面就应该是 Agent timeline 和 Team board。Code editor、Git diff 和 terminal 依旧需要，但它们是 context，不再是舞台中央的主角。&lt;/p&gt;
-&lt;h2 id="vibe-coding-的工作发生了什么变化"&gt;Vibe Coding 的工作发生了什么变化&lt;/h2&gt;
-&lt;p&gt;Kubecode 主要是 vibe coding 出来的。我负责提出设想，agent 在 plan mode 里不断问我问题；我阅读 plan，再上网搜索它提出的技术路线。在搜索的过程中，我常常又会发现类似产品，于是把源码、GitHub 链接和截图丢回去，让 agent 看看别人怎么做。计划完善以后，再由 agent 执行、补测试和更新 ADR。&lt;/p&gt;
-&lt;p&gt;这并不是“一句话生成一个产品”，只是人的工作从写代码变成了定义问题、调研和反复判断。尤其 UI/UX 仍然是 agent 最欠缺的部分。我的办法也十分 naive：告诉它“这里要像某某产品”，发源码和截图；跑起来以后再描述差异，比如“这些元素应该放在一起”“这里不应该堆叠，应该展开”。Agent 对可验证的功能通常完成得很好，对 taste 则需要一轮轮拿具体参照物校准。&lt;/p&gt;
-&lt;p&gt;笔者没有接受过 software engineering 的系统训练，所以我对 agent 产出的最终验收标准也很朴素：产品实际能够运行，并且符合我的要求。我不会逐行审查 Rust 后端，更不会假装自己可以人工证明每个 SQLite 状态转换都没有问题。目前的信任来自自动化测试、Codex / Claude Code 等底层工具本身的成熟度，以及开源以后可能到来的公开处刑。这个标准当然不完美，但人写的软件也从来没有因为作者是人就自动正确。&lt;/p&gt;
-&lt;p&gt;真正让我兴奋的是开发瓶颈已经发生了变化。从 inline prediction 帮人补下一行代码，到 agent 可以读完文档、维护 ADR、制定 plan，再连续推进整个项目，coding 本身已经不再是最困难的部分。Kubecode 不是我第一个 vibe coding 出来的项目，却是第一个让我觉得“它也许可以作为产品推出”的项目。&lt;/p&gt;
-&lt;h2 id="一个科研-loop-为什么不能自己转下去"&gt;一个科研 Loop 为什么不能自己转下去&lt;/h2&gt;
-&lt;p&gt;我正在思考的 YOLO / Ralph loop 还没有完成。理想状态下，它应该让用户提出 idea，Leader 规划，teammates 执行，独立 verifier 检查代码，然后将证据交还给研究者。若结果支持原来的假设，可以进入写作；若结果不支持，应该由人决定下一个研究问题，而不是让 Leader 自己偷偷换一个 hypothesis，继续跑到出现好看的数字为止。&lt;/p&gt;
-&lt;p&gt;这里不只是为了保留人类的尊严。我在另一篇关于 &lt;a href="https://blog.cklau.cc/scientia/dynamic-in-llm/"&gt;LLM iteration dynamics&lt;/a&gt; 的小文章里讨论过一个问题：如果 LLM loop 没有新的外部输入，只是在同一份初始信息上反复生成、批评和改写，它最终很容易收敛到某个 attractor，甚至 collapse。多几个 persona、让它们多辩论几轮，并不会凭空产生新的 information。大家越来越一致，不代表它们越来越接近真相。&lt;/p&gt;
-&lt;p&gt;科研 loop 因此不能是一个封闭圆环。Literature、dataset、external code repository、工具反馈和真实实验结果都在向系统注入新信息；当这些信息被消化完，控制权就应该回到研究者手里。Kubecode 的作用不是让 agents 原地“多想几轮”，而是让它们接触外部环境、产出新的 evidence，然后停在下一个 research frontier 前面。&lt;/p&gt;
-&lt;p&gt;Pre-registration 在这里也会重新变得重要。实验越便宜，换一个指标、模型、prompt 或 seed 再来一次就越容易，p-hacking 只会更加方便。ICML 2026 有一篇 position paper 叫 &lt;a href="https://icml.cc/virtual/2026/poster/67108"&gt;&lt;em&gt;Preregister Experiments with AI Agents&lt;/em&gt;&lt;/a&gt;，讨论的主要是把 AI agent 作为实验对象时，model selection、prompt wording 和 outcome-contingent redesign 带来的 researcher degrees of freedom。它与“让 agent 替研究者写实验代码”不是同一个问题，但风险很相似：低成本迭代会让中途选择越来越多，也越来越难以被外界看见。&lt;/p&gt;
-&lt;p&gt;Git 和时间戳是一种好文明。&lt;code&gt;goal.md&lt;/code&gt;、&lt;code&gt;plan.md&lt;/code&gt;、commit history 和 Session event 至少可以留下“看到结果之前承诺了什么，看到结果以后又改了什么”。Kubecode 目前没有专门的 pre-registration 功能，我也暂时不打算为了科研场景破坏它的通用性；但这套机制应该建立在现有 workflow 上，而不是另外发明一套与代码分离的表格。&lt;/p&gt;
-&lt;h2 id="kube-in-kubecode"&gt;Kube in Kubecode&lt;/h2&gt;
-&lt;p&gt;Kubecode 最早明确为单用户 Kubeflow Notebook Pod 设计，但 Kubeflow 这个范围很快显得太窄。一个研究者如果买了一台很强的 local server，应该可以直接运行 Kubecode；他也应该可以在 macOS / Windows 笔记本打开前端，再通过 remote SSH 连接计算节点。对于更完整的训练平台，Kubecode 未来可以作为一个独立 Pod，通过 kubeconfig 或 Kubeflow SDK 提交 &lt;code&gt;TrainJob&lt;/code&gt;，真正的 GPU workload 交给 Kubernetes，或者交给基于 Kubernetes 的 &lt;a href="https://volcano.sh/"&gt;Volcano&lt;/a&gt; 调度。&lt;/p&gt;
-&lt;p&gt;所以这里的 “Kube” 不再只是 Kubeflow 的缩写。Kubernetes 是 container orchestration，Kubecode 想做 agent orchestration。这个 control plane 的核心对象是 Agent Session：Project、Session、Team、任务状态和事件由 Kubecode 管理；算力配额与认证由底层系统管理；最后的 artifact 由用户验收。Slurm 可以继续使用 SSH，Kubeflow 可以继续使用 OAuth，Kubernetes 可以继续使用 kubeconfig / RBAC，Kubecode 没必要在每个平台之上再造一套 authentication。&lt;/p&gt;
-&lt;p&gt;目前的开发目标仍然是单用户。这里的 Team 是“一个用户管理多个 AI agents”，不是多人协作 SaaS。人类团队之间已经有 Git，也有自己的组织流程；至少现在，我并不打算把它做成另一个 Linear 或 Jira。&lt;/p&gt;
-&lt;h2 id="下一步是什么"&gt;下一步是什么？&lt;/h2&gt;
-&lt;p&gt;写到这里，需要泼一盆冷水。Kubecode 仍然处于非常初期的阶段，还没有完整推进过我自己的科研项目，也没有资格与各种 autoresearch 工具比较。当前版本本质上仍然是在解决“怎样先在 Kubeflow / Linux 环境里跑起来”；Kubernetes &lt;code&gt;TrainJob&lt;/code&gt;、remote SSH、Slurm、基于预算的 agent routing 都还是未来设计。&lt;/p&gt;
-&lt;p&gt;Team 是现在最能代表 Kubecode 的功能，但 YOLO mode、Discriminator 和 Ralph loop 仍在试验。独立 verifier 能否可靠判断科研代码，异构 agents 是否真的比一个强 agent 更划算，Leader 的协调成本会不会吃掉并行带来的收益，这些都没有答案。甚至连 UI，也仍然需要我拿着别人的产品截图一点点教 agent 什么叫“别把所有东西堆成一样大的卡片”。&lt;/p&gt;
-&lt;p&gt;因此，Kubecode 目前押的只有一注：&lt;strong&gt;AI 不替研究者提出问题，但可以成为研究者一直缺少的那支工程团队。&lt;/strong&gt; 研究者仍然需要读论文、提出 idea、写 proposal、判断证据；Kubecode 尝试把中间那段最消耗体力的 implementation 和 debugging 交给 agents。&lt;/p&gt;
-&lt;p&gt;研究团队永远像一间 startup，研究生也常常永远是一间 OPC。至少现在，我们终于可以试着给这间只有一个人的公司，配上一支临时的工程团队了。&lt;/p&gt;</content:encoded></item></channel></rss>
+&lt;p&gt;至于异构 Team 是否真的更便宜、Leader 的 review 能否长期挡住便宜模型的错误、这套流程能否完整推进一个 research project，都还需要真实使用和数据。现在唯一已经发生的，是我打开 Kubecode Desktop，定义一个问题，然后看着 Leader 带着 teammate 把它变成 Issues、commits、tests 和 merged PR， 等等。 Project manager 不需要知道工程师之间说过的每一句话，也不需要阅读每一个 diff。他需要定义问题，判断方案，并对最后的效果负责。给科研民工配一支工程团队，大概就是先从允许他少管一点工程开始。&lt;/p&gt;</content:encoded></item></channel></rss>
