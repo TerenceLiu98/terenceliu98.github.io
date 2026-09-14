@@ -2485,5 +2485,1000 @@
     "title": "Large language models as Markov chains",
     "type": "article-journal",
     "URL": "https://arxiv.org/abs/2410.02724"
+  },
+  {
+    "id": "hotelling1929stability",
+    "type": "article-journal",
+    "title": "Stability in Competition",
+    "author": [
+      {
+        "family": "Hotelling",
+        "given": "Harold"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1929
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.2307/2224214",
+    "DOI": "10.2307/2224214",
+    "container-title": "The Economic Journal"
+  },
+  {
+    "id": "downs1957democracy",
+    "type": "book",
+    "title": "An Economic Theory of Democracy",
+    "author": [
+      {
+        "family": "Downs",
+        "given": "Anthony"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1957
+        ]
+      ]
+    },
+    "URL": "https://search.worldcat.org/title/An-economic-theory-of-democracy/oclc/186557900",
+    "publisher": "Harper"
+  },
+  {
+    "id": "stokes1963spatial",
+    "type": "article-journal",
+    "title": "Spatial Models of Party Competition",
+    "author": [
+      {
+        "family": "Stokes",
+        "given": "Donald E."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1963
+        ]
+      ]
+    },
+    "URL": "https://www.cambridge.org/core/product/identifier/S0003055400240495/type/journal_article",
+    "container-title": "American Political Science Review",
+    "volume": "57",
+    "issue": "2",
+    "page": "368-377"
+  },
+  {
+    "id": "mckelvey1976intransitivities",
+    "type": "article-journal",
+    "title": "Intransitivities in Multidimensional Voting Models and Some Implications for Agenda Control",
+    "author": [
+      {
+        "family": "McKelvey",
+        "given": "Richard D."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1976
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1016/0022-0531%2876%2990040-5",
+    "DOI": "10.1016/0022-0531(76)90040-5",
+    "container-title": "Journal of Economic Theory",
+    "volume": "12",
+    "issue": "3",
+    "page": "472-482"
+  },
+  {
+    "id": "laver2005dynamics",
+    "type": "article-journal",
+    "title": "Policy and the Dynamics of Political Competition",
+    "author": [
+      {
+        "family": "Laver",
+        "given": "Michael"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2005
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1017/S0003055405051646",
+    "DOI": "10.1017/S0003055405051646",
+    "container-title": "American Political Science Review",
+    "volume": "99",
+    "issue": "2",
+    "page": "263-281"
+  },
+  {
+    "id": "laver2007endogenous",
+    "type": "article-journal",
+    "title": "Spatial Models of Political Competition with Endogenous Political Parties",
+    "author": [
+      {
+        "family": "Laver",
+        "given": "Michael"
+      },
+      {
+        "family": "Schilperoord",
+        "given": "Michel"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2007
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1098/rstb.2007.2062",
+    "DOI": "10.1098/rstb.2007.2062",
+    "container-title": "Philosophical Transactions of the Royal Society B",
+    "volume": "362",
+    "page": "1711-1721"
+  },
+  {
+    "id": "adams2009adjustment",
+    "type": "article-journal",
+    "title": "Policy Adjustment by Parties in Response to Rival Parties' Policy Shifts: Spatial Theory and the Dynamics of Party Competition in Twenty-Five Post-War Democracies",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "James"
+      },
+      {
+        "family": "Somer-Topcu",
+        "given": "Zeynep"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2009
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1017/S0007123409000635",
+    "DOI": "10.1017/S0007123409000635",
+    "container-title": "British Journal of Political Science",
+    "volume": "39",
+    "issue": "4",
+    "page": "825-846"
+  },
+  {
+    "id": "laver2011competition",
+    "type": "book",
+    "title": "Party Competition: An Agent-Based Model",
+    "author": [
+      {
+        "family": "Laver",
+        "given": "Michael"
+      },
+      {
+        "family": "Sergenti",
+        "given": "Ernest"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2011
+        ]
+      ]
+    },
+    "URL": "https://academic.oup.com/princeton-scholarship-online/book/16259",
+    "publisher": "Princeton University Press"
+  },
+  {
+    "id": "adams2011listening",
+    "type": "article-journal",
+    "title": "Is Anybody Listening? Evidence That Voters Do Not Respond to European Parties' Policy Statements During Elections",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "James"
+      },
+      {
+        "family": "Ezrow",
+        "given": "Lawrence"
+      },
+      {
+        "family": "Somer-Topcu",
+        "given": "Zeynep"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2011
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1111/j.1540-5907.2010.00489.x",
+    "DOI": "10.1111/j.1540-5907.2010.00489.x",
+    "container-title": "American Journal of Political Science"
+  },
+  {
+    "id": "bawn2012parties",
+    "type": "article-journal",
+    "title": "A Theory of Political Parties: Groups, Policy Demands and Nominations in American Politics",
+    "author": [
+      {
+        "family": "Bawn",
+        "given": "Kathleen"
+      },
+      {
+        "family": "Cohen",
+        "given": "Martin"
+      },
+      {
+        "family": "Karol",
+        "given": "David"
+      },
+      {
+        "family": "Masket",
+        "given": "Seth"
+      },
+      {
+        "family": "Noel",
+        "given": "Hans"
+      },
+      {
+        "family": "Zaller",
+        "given": "John"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2012
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1017/S1537592712001624",
+    "DOI": "10.1017/S1537592712001624",
+    "container-title": "Perspectives on Politics",
+    "volume": "10",
+    "issue": "3",
+    "page": "571-597"
+  },
+  {
+    "id": "schumacher2013position",
+    "type": "article-journal",
+    "title": "Why Do Parties Change Position? Party Organization and Environmental Incentives",
+    "author": [
+      {
+        "family": "Schumacher",
+        "given": "Gijs"
+      },
+      {
+        "family": "de Vries",
+        "given": "Catherine E."
+      },
+      {
+        "family": "Vis",
+        "given": "Barbara"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1017/S0022381613000145",
+    "DOI": "10.1017/S0022381613000145",
+    "container-title": "The Journal of Politics",
+    "volume": "75",
+    "issue": "2"
+  },
+  {
+    "id": "kurella2025salience",
+    "type": "article-journal",
+    "title": "A Formal Model of Party Competition with Salience",
+    "author": [
+      {
+        "family": "Kurella",
+        "given": "Anna-Sophie"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1177/09516298241312345",
+    "DOI": "10.1177/09516298241312345",
+    "container-title": "Journal of Theoretical Politics"
+  },
+  {
+    "id": "poole1985spatial",
+    "type": "article-journal",
+    "title": "A Spatial Model for Legislative Roll Call Analysis",
+    "author": [
+      {
+        "family": "Poole",
+        "given": "Keith T."
+      },
+      {
+        "family": "Rosenthal",
+        "given": "Howard"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1985
+        ]
+      ]
+    },
+    "URL": "https://authors.library.caltech.edu/records/bf60d-20s91",
+    "container-title": "American Journal of Political Science",
+    "volume": "29",
+    "issue": "2",
+    "page": "357-384"
+  },
+  {
+    "id": "martin2002dynamic",
+    "type": "article-journal",
+    "title": "Dynamic Ideal Point Estimation via Markov Chain Monte Carlo for the U.S. Supreme Court, 1953-1999",
+    "author": [
+      {
+        "family": "Martin",
+        "given": "Andrew D."
+      },
+      {
+        "family": "Quinn",
+        "given": "Kevin M."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2002
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1093/pan/10.2.134",
+    "DOI": "10.1093/pan/10.2.134",
+    "container-title": "Political Analysis",
+    "volume": "10",
+    "issue": "2",
+    "page": "134-153"
+  },
+  {
+    "id": "laver2003wordscores",
+    "type": "article-journal",
+    "title": "Extracting Policy Positions from Political Texts Using Words as Data",
+    "author": [
+      {
+        "family": "Laver",
+        "given": "Michael"
+      },
+      {
+        "family": "Benoit",
+        "given": "Kenneth"
+      },
+      {
+        "family": "Garry",
+        "given": "John"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2003
+        ]
+      ]
+    },
+    "URL": "https://kenbenoit.net/pdfs/WORDSCORESAPSR.pdf",
+    "container-title": "American Political Science Review",
+    "volume": "97",
+    "issue": "2",
+    "page": "311-331"
+  },
+  {
+    "id": "clinton2004rollcall",
+    "type": "article-journal",
+    "title": "The Statistical Analysis of Roll Call Data",
+    "author": [
+      {
+        "family": "Clinton",
+        "given": "Joshua"
+      },
+      {
+        "family": "Jackman",
+        "given": "Simon"
+      },
+      {
+        "family": "Rivers",
+        "given": "Douglas"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2004
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1017/S0003055404001194",
+    "DOI": "10.1017/S0003055404001194",
+    "container-title": "American Political Science Review",
+    "volume": "98",
+    "issue": "2",
+    "page": "355-370"
+  },
+  {
+    "id": "nokken2004defection",
+    "type": "article-journal",
+    "title": "Congressional Party Defection in American History",
+    "author": [
+      {
+        "family": "Nokken",
+        "given": "Timothy P."
+      },
+      {
+        "family": "Poole",
+        "given": "Keith T."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2004
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.3162/036298004X201294",
+    "DOI": "10.3162/036298004X201294",
+    "container-title": "Legislative Studies Quarterly",
+    "volume": "29",
+    "issue": "4",
+    "page": "545-568"
+  },
+  {
+    "id": "slapin2008wordfish",
+    "type": "article-journal",
+    "title": "A Scaling Model for Estimating Time-Series Party Positions from Texts",
+    "author": [
+      {
+        "family": "Slapin",
+        "given": "Jonathan B."
+      },
+      {
+        "family": "Proksch",
+        "given": "Sven-Oliver"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2008
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1111/j.1540-5907.2008.00338.x",
+    "DOI": "10.1111/j.1540-5907.2008.00338.x",
+    "container-title": "American Journal of Political Science",
+    "volume": "52",
+    "issue": "3",
+    "page": "705-722"
+  },
+  {
+    "id": "lo2014common",
+    "type": "article-journal",
+    "title": "A Common Left-Right Scale for Voters and Parties in Europe",
+    "author": [
+      {
+        "family": "Lo",
+        "given": "James"
+      },
+      {
+        "family": "Proksch",
+        "given": "Sven-Oliver"
+      },
+      {
+        "family": "Gschwend",
+        "given": "Thomas"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1093/pan/mpt028",
+    "DOI": "10.1093/pan/mpt028",
+    "container-title": "Political Analysis",
+    "volume": "22",
+    "issue": "2",
+    "page": "205-223"
+  },
+  {
+    "id": "caughey2015dynamic",
+    "type": "article-journal",
+    "title": "Dynamic Estimation of Latent Opinion Using a Hierarchical Group-Level IRT Model",
+    "author": [
+      {
+        "family": "Caughey",
+        "given": "Devin"
+      },
+      {
+        "family": "Warshaw",
+        "given": "Christopher"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "URL": "https://devincaughey.github.io/files/caughey_warshaw_2015_dynamic_opinion_irt/caughey_warshaw_2015_dynamic_opinion_irt.pdf",
+    "container-title": "Political Analysis",
+    "volume": "23",
+    "issue": "2",
+    "page": "197-211"
+  },
+  {
+    "id": "bailey2017dynamic",
+    "type": "article-journal",
+    "title": "Estimating Dynamic State Preferences from United Nations Voting Data",
+    "author": [
+      {
+        "family": "Bailey",
+        "given": "Michael A."
+      },
+      {
+        "family": "Strezhnev",
+        "given": "Anton"
+      },
+      {
+        "family": "Voeten",
+        "given": "Erik"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2017
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1177/0022002715595700",
+    "DOI": "10.1177/0022002715595700",
+    "container-title": "Journal of Conflict Resolution",
+    "volume": "61",
+    "issue": "2",
+    "page": "430-456"
+  },
+  {
+    "id": "kim2018preferences",
+    "type": "article-journal",
+    "title": "Estimating Spatial Preferences from Votes and Text",
+    "author": [
+      {
+        "family": "Kim",
+        "given": "In Song"
+      },
+      {
+        "family": "Londregan",
+        "given": "John"
+      },
+      {
+        "family": "Ratkovic",
+        "given": "Marc"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1017/pan.2018.7",
+    "DOI": "10.1017/pan.2018.7",
+    "container-title": "Political Analysis",
+    "volume": "26",
+    "issue": "2",
+    "page": "210-229"
+  },
+  {
+    "id": "vavra2024structural",
+    "type": "article-journal",
+    "title": "A Structural Text-Based Scaling Model for Analyzing Political Discourse",
+    "author": [
+      {
+        "family": "Vavra",
+        "given": "Jan"
+      },
+      {
+        "family": "Prostmaier",
+        "given": "Bernd Hans-Konrad"
+      },
+      {
+        "family": "Grun",
+        "given": "Bettina"
+      },
+      {
+        "family": "Hofmarcher",
+        "given": "Paul"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    },
+    "URL": "https://arxiv.org/abs/2410.11897v1",
+    "container-title": "arXiv preprint",
+    "note": "Version 1"
+  },
+  {
+    "id": "degroot1974consensus",
+    "type": "article-journal",
+    "title": "Reaching a Consensus",
+    "author": [
+      {
+        "family": "DeGroot",
+        "given": "Morris H."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1974
+        ]
+      ]
+    },
+    "URL": "https://www.cse.cuhk.edu.hk/~cslui/CMSC5734/DeGroot-Reaching_a_consensus.pdf",
+    "container-title": "Journal of the American Statistical Association",
+    "volume": "69",
+    "issue": "345",
+    "page": "118-121"
+  },
+  {
+    "id": "deffuant2000mixing",
+    "type": "article-journal",
+    "title": "Mixing Beliefs among Interacting Agents",
+    "author": [
+      {
+        "family": "Deffuant",
+        "given": "Guillaume"
+      },
+      {
+        "family": "Neau",
+        "given": "David"
+      },
+      {
+        "family": "Amblard",
+        "given": "Frederic"
+      },
+      {
+        "family": "Weisbuch",
+        "given": "Gerard"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2000
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1142/S0219525900000078",
+    "DOI": "10.1142/S0219525900000078",
+    "container-title": "Advances in Complex Systems",
+    "volume": "3",
+    "page": "87-98"
+  },
+  {
+    "id": "hegselmann2002opinion",
+    "type": "article-journal",
+    "title": "Opinion Dynamics and Bounded Confidence: Models, Analysis and Simulation",
+    "author": [
+      {
+        "family": "Hegselmann",
+        "given": "Rainer"
+      },
+      {
+        "family": "Krause",
+        "given": "Ulrich"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2002
+        ]
+      ]
+    },
+    "URL": "https://www.jasss.org/5/3/2.html",
+    "container-title": "Journal of Artificial Societies and Social Simulation",
+    "volume": "5",
+    "issue": "3"
+  },
+  {
+    "id": "castellano2009social",
+    "type": "article-journal",
+    "title": "Statistical Physics of Social Dynamics",
+    "author": [
+      {
+        "family": "Castellano",
+        "given": "Claudio"
+      },
+      {
+        "family": "Fortunato",
+        "given": "Santo"
+      },
+      {
+        "family": "Loreto",
+        "given": "Vittorio"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2009
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1103/RevModPhys.81.591",
+    "DOI": "10.1103/RevModPhys.81.591",
+    "container-title": "Reviews of Modern Physics",
+    "volume": "81",
+    "page": "591-646"
+  },
+  {
+    "id": "dandekar2013biased",
+    "type": "article-journal",
+    "title": "Biased Assimilation, Homophily, and the Dynamics of Polarization",
+    "author": [
+      {
+        "family": "Dandekar",
+        "given": "Pranav"
+      },
+      {
+        "family": "Goel",
+        "given": "Ashish"
+      },
+      {
+        "family": "Lee",
+        "given": "David T."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1073/pnas.1217220110",
+    "DOI": "10.1073/pnas.1217220110",
+    "container-title": "Proceedings of the National Academy of Sciences"
+  },
+  {
+    "id": "baumann2020echo",
+    "type": "article-journal",
+    "title": "Modeling Echo Chambers and Polarization Dynamics in Social Networks",
+    "author": [
+      {
+        "family": "Baumann",
+        "given": "Fabian"
+      },
+      {
+        "family": "Lorenz-Spreen",
+        "given": "Philipp"
+      },
+      {
+        "family": "Sokolov",
+        "given": "Igor M."
+      },
+      {
+        "family": "Starnini",
+        "given": "Michele"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1103/PhysRevLett.124.048301",
+    "DOI": "10.1103/PhysRevLett.124.048301",
+    "container-title": "Physical Review Letters",
+    "volume": "124",
+    "page": "048301"
+  },
+  {
+    "id": "yang2020satisficing",
+    "type": "article-journal",
+    "title": "Why Are U.S. Parties So Polarized? A \"Satisficing\" Dynamical Model",
+    "author": [
+      {
+        "family": "Yang",
+        "given": "Vicky Chuqiao"
+      },
+      {
+        "family": "Abrams",
+        "given": "Daniel M."
+      },
+      {
+        "family": "Kernell",
+        "given": "Georgia"
+      },
+      {
+        "family": "Motter",
+        "given": "Adilson E."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1137/19M1254246",
+    "DOI": "10.1137/19M1254246",
+    "container-title": "SIAM Review",
+    "volume": "62",
+    "issue": "3",
+    "page": "646-657"
+  },
+  {
+    "id": "baumann2021ideological",
+    "type": "article-journal",
+    "title": "Emergence of Polarized Ideological Opinions in Multidimensional Topic Spaces",
+    "author": [
+      {
+        "family": "Baumann",
+        "given": "Fabian"
+      },
+      {
+        "family": "Lorenz-Spreen",
+        "given": "Philipp"
+      },
+      {
+        "family": "Sokolov",
+        "given": "Igor M."
+      },
+      {
+        "family": "Starnini",
+        "given": "Michele"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1103/PhysRevX.11.011012",
+    "DOI": "10.1103/PhysRevX.11.011012",
+    "container-title": "Physical Review X",
+    "volume": "11",
+    "page": "011012"
+  },
+  {
+    "id": "venegeroles2025median",
+    "type": "article-journal",
+    "title": "Beyond the Median Voter: A Model of How the Ideological Dimension Shapes Party Polarization",
+    "author": [
+      {
+        "family": "Venegeroles",
+        "given": "Roberto"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1103/PhysRevE.111.054316",
+    "DOI": "10.1103/PhysRevE.111.054316",
+    "container-title": "Physical Review E",
+    "volume": "111",
+    "page": "054316"
+  },
+  {
+    "id": "mirandamachado2026symmetry",
+    "type": "article-journal",
+    "title": "Symmetry Breaking, Hysteresis, and Convergence to the Mean Voter in Two-Party Spatial Competition",
+    "author": [
+      {
+        "family": "Miranda Machado",
+        "given": "Daniel"
+      },
+      {
+        "family": "Venegeroles",
+        "given": "Roberto"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    },
+    "URL": "https://arxiv.org/abs/2601.07108v1",
+    "container-title": "arXiv preprint",
+    "note": "Version 1"
+  },
+  {
+    "id": "rovny2025ches",
+    "type": "article-journal",
+    "title": "The 2024 Chapel Hill Expert Survey on Political Party Positioning in Europe: Twenty-Five Years of Party Positional Data",
+    "author": [
+      {
+        "family": "Rovny",
+        "given": "Jan"
+      },
+      {
+        "family": "Polk",
+        "given": "Jonathan"
+      },
+      {
+        "family": "Bakker",
+        "given": "Ryan"
+      },
+      {
+        "family": "Hooghe",
+        "given": "Liesbet"
+      },
+      {
+        "family": "Jolly",
+        "given": "Seth"
+      },
+      {
+        "family": "Marks",
+        "given": "Gary"
+      },
+      {
+        "family": "Steenbergen",
+        "given": "Marco"
+      },
+      {
+        "family": "Vachudova",
+        "given": "Milada Anna"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1016/j.electstud.2025.102981",
+    "DOI": "10.1016/j.electstud.2025.102981",
+    "container-title": "Electoral Studies",
+    "volume": "97",
+    "page": "102981"
   }
 ]
